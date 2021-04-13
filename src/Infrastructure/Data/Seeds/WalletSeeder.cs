@@ -12,7 +12,7 @@ namespace Data.Seeds
         {
             var walletTypes = new List<Wallet>();
 
-            walletTypes.Add(CreateWallet("Inter", "Main Account", 500, new Guid()));
+            walletTypes.Add(CreateWallet("Inter", "Main Account", 500, Guid.Parse("AD4AC47F-0888-4D60-81F9-964153B13E37")));
             //walletTypes.Add(CreateWallet("Credit"));
             //walletTypes.Add(CreateWallet("Saving"));
             //walletTypes.Add(CreateWallet("Investiments"));
@@ -25,7 +25,7 @@ namespace Data.Seeds
         {
             return new Wallet()
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 Name = name,
                 Description = description,
                 CurrentValue = currentValue,

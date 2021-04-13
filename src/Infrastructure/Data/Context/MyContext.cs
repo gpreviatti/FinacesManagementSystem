@@ -27,7 +27,11 @@ namespace Data.Context
             modelBuilder.Entity<Entrace>(new EntraceMap().Configure);
 
             // Add your seeders below
-            WalletTypeSeeder.Users(modelBuilder);
+            UserSeeder.Users(modelBuilder);
+            WalletTypeSeeder.WalletTypes(modelBuilder);
+            WalletSeeder.Wallet(modelBuilder);
+            CategorySeeder.Categories(modelBuilder);
+
         }
     }
 }

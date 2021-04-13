@@ -8,7 +8,7 @@ namespace Data.Mapping
     {
         public void Configure(EntityTypeBuilder<Entrace> builder)
         {
-            builder.ToTable("Entraces");
+            builder.ToTable("Entrace");
 
             builder.HasKey(e => e.Id);
 

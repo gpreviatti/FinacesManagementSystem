@@ -9,5 +9,7 @@ namespace Domain.Entities
         public string Password { get; set; }
 
         public IEnumerable<Wallet> Wallets { get; set; }
+
+        public IEnumerable<Category> Categories { get; set; }
     }
 }

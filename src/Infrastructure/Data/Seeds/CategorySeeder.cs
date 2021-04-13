@@ -43,14 +43,14 @@ namespace Data.Seeds
             categories.Add(CreateCategory("Utilities"));
             #endregion
 
-            modelBuilder.Entity<User>().HasData(categories);
+            modelBuilder.Entity<Category>().HasData(categories);
         }
 
         public static Category CreateCategory(string name)
         {
             return new Category()
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 Name = name,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now

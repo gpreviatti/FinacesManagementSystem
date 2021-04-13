@@ -8,7 +8,7 @@ namespace Data.Mapping
     {
         public void Configure(EntityTypeBuilder<WalletType> builder)
         {
-            builder.ToTable("WalletTypes");
+            builder.ToTable("WalletType");
 
             builder.HasKey(w => w.Id);
 
