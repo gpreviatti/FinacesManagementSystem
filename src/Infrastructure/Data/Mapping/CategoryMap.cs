@@ -19,8 +19,6 @@ namespace Data.Mapping
                 .IsRequired()
                 .HasMaxLength(60);
 
-            builder.Property(c => c.UserId)
-                .IsRequired();
             builder.HasOne(c => c.User);
         }
     }

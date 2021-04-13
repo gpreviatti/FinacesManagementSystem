@@ -9,7 +9,6 @@ namespace Domain.Dtos.Category
         [StringLength(60, ErrorMessage = "Name should have {1} caracters")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "User Id is required")]
         public Guid UserId { get; set; }
 
         public Guid CategoryId { get; set; }
