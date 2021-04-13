@@ -1,12 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Domain.Dtos.Wallet;
 
 namespace Domain.Interfaces.Services
 {
     public interface IWalletService : IBaseService
     {
-        Task<IEnumerable<Wallet>> FindAllAsync();
-        Task<Wallet> CreateAsync(Wallet wallet);
-        Task<Wallet> UpdateAsync(Wallet wallet);
+        Task<IEnumerable<WalletResultDto>> FindAllAsync();
+        Task<WalletResultDto> CreateAsync(WalletCreateDto wallet);
+        Task<WalletResultDto> UpdateAsync(WalletUpdateDto wallet);
+        Task<bool> DeleteAsync(Guid id);
     }
 }

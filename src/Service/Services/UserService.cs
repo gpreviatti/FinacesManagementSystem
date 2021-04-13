@@ -13,7 +13,6 @@ namespace Service.Services
     public class UserService : BaseService, IUserService
     {
         private readonly IUserRepository _repository;
-        private readonly IMapper _mapper;
 
         public UserService(IUserRepository repository, IMapper mapper)
         {

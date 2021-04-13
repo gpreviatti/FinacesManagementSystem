@@ -7,9 +7,10 @@ namespace Domain.Interfaces.Services
 {
     public interface IUserService : IBaseService
     {
-        Task<WalletResultDto> FindByIdAsync(Guid id);
-        Task<IEnumerable<WalletResultDto>> FindAllAsync();
-        Task<WalletResultDto> CreateAsync(WalletCreateDto entity);
-        Task<WalletResultDto> UpdateAsync(WalletUpdateDto user);
+        Task<UserResultDto> FindByIdAsync(Guid id);
+        Task<IEnumerable<UserResultDto>> FindAllAsync();
+        Task<UserResultDto> CreateAsync(UserCreateDto entity);
+        Task<UserResultDto> UpdateAsync(UserUpdateDto user);
+        Task<bool> DeleteAsync(Guid id);
     }
 }
