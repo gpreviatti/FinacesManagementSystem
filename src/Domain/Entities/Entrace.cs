@@ -1,7 +1,6 @@
-﻿using Domain.Entities;
-using System;
+﻿using System;
 
-namespace Domain
+namespace Domain.Entities
 {
     public class Entrace : Entity
     {
