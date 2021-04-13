@@ -9,10 +9,7 @@ namespace Data.Context
         public MyContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<MyContext>();
-            var dbConnection = "Persist Security Info=True;Server=DESKTOP-CJHGFFK;Database=BaseApi;User Id=application;Password=application";
-
-            //MySql
-            // optionsBuilder.UseMySql(dbConnection, ServerVersion.AutoDetect(dbConnection));
+            var dbConnection = "Persist Security Info=True;Server=DESKTOP-CJHGFFK;Database=FmsDB;User Id=application;Password=application";
 
             //SQLServer
             optionsBuilder.UseSqlServer(dbConnection);

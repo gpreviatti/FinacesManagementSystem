@@ -28,6 +28,8 @@ namespace Data.Mapping
 
             builder.Property(u => u.Password)
                 .IsRequired();
+
+            builder.HasMany(u => u.Wallets);
         }
     }
 }

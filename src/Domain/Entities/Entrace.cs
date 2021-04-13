@@ -12,6 +12,7 @@ namespace Domain
         public string Value { get; set; }
 
         public Guid WalletId { get; set; }
+        public Wallet Wallet { get; set; }
 
         public Guid CategoryId { get; set; }
         public Category Category { get; set; }

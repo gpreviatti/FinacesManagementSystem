@@ -8,6 +8,8 @@ namespace Domain
         public string Name { get; set; }
 
         public Guid UserId { get; set; }
-        public Category CategoryId { get; set; }
+        public User User { get; set; }
+
+        public Guid CategoryId { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 using Data.Mapping;
 using Data.Seeds;
+using Domain;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,10 @@ namespace Data.Context
 
             // Add your entities below
             modelBuilder.Entity<User>(new UserMap().Configure);
+            modelBuilder.Entity<WalletType>(new WalletTypeMap().Configure);
+            modelBuilder.Entity<Wallet>(new WalletMap().Configure);
+            modelBuilder.Entity<Category>(new CategoryMap().Configure);
+            modelBuilder.Entity<Entrace>(new EntraceMap().Configure);
 
             // Add your seeders below
             UserSeeder.Users(modelBuilder);
