@@ -11,6 +11,9 @@ namespace Domain.Entities
         public DateTime DueDate { get; set; }
         public DateTime CloseDate { get; set; }
 
+        public Guid UserId { get; set; }
+        public IEnumerable<User> Users { get; set; }
+
         public Guid WalletTypeId { get; set; }
         public WalletType WalletType { get; set; }
 
