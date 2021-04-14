@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Domain.Entities;
-using Helpers;
+using Helpers.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Seeds
@@ -12,20 +12,20 @@ namespace Data.Seeds
         {
             var walletTypes = new List<WalletType>();
 
-            walletTypes.Add(CreateWalletType("Checking Account", "AD4AC47F-0888-4D60-81F9-964153B13E37"));
-            walletTypes.Add(CreateWalletType("Credit", "AD4AC47F-0888-4D60-81F9-964153B13E38"));
-            walletTypes.Add(CreateWalletType("Saving", "AD4AC47F-0888-4D60-81F9-964153B13E39"));
-            walletTypes.Add(CreateWalletType("Investiments", "AD4AC47F-0888-4D60-81F9-964153B13E40"));
-            walletTypes.Add(CreateWalletType("Stocks", "AD4AC47F-0888-4D60-81F9-964153B13E41"));
+            walletTypes.Add(CreateWalletType("Checking Account", EWalletType.CheckingAccount.Guid()));
+            walletTypes.Add(CreateWalletType("Credit", EWalletType.Credit.Guid()));
+            walletTypes.Add(CreateWalletType("Saving", EWalletType.Saving.Guid()));
+            walletTypes.Add(CreateWalletType("Investiments", EWalletType.Investiments.Guid()));
+            walletTypes.Add(CreateWalletType("Stocks", EWalletType.Stocks.Guid()));
 
             modelBuilder.Entity<WalletType>().HasData(walletTypes);
         }
 
-        public static WalletType CreateWalletType(string name, string guid)
+        public static WalletType CreateWalletType(string name, Guid guid)
         {
             return new WalletType()
             {
-                Id = Guid.Parse(guid),
+                Id = guid,
                 Name = name,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
