@@ -12,7 +12,7 @@ namespace Domain.Dtos.Entrace
         public string Ticker { get; set; }
 
         [Required(ErrorMessage = "Type is required, you should choose to income or expanse")]
-        public string Type { get; set; }
+        public int Type { get; set; }
 
         public string Observation { get; set; }
 

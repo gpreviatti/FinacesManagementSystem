@@ -22,6 +22,9 @@ namespace Data.Mapping
             builder.Property(e => e.Observation)
                 .HasMaxLength(255);
 
+            builder.Property(e => e.Type)
+                .IsRequired();
+
             builder.Property(e => e.Ticker)
                 .HasMaxLength(20);
 

@@ -6,7 +6,7 @@ namespace Domain.Entities
     {
         public string Description { get; set; }
         public string Ticker { get; set; }
-        public string Type { get; set; }
+        public int Type { get; set; }
         public string Observation { get; set; }
         public string Value { get; set; }
 
