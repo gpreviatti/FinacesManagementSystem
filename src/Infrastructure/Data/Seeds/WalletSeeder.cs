@@ -11,9 +11,8 @@ namespace Data.Seeds
         public static void Wallet(ModelBuilder modelBuilder)
         {
             var walletTypes = new List<Wallet>();
-
-            walletTypes.Add(CreateWallet("Inter", "Main Account", 500, Guid.Parse("AD4AC47F-0888-4D60-81F9-964153B13E37")));
-            //walletTypes.Add(CreateWallet("Credit"));
+            walletTypes.Add(CreateWallet("Inter", "Main Account", 500, WalletTypeHelper.CheckingAccount));
+            walletTypes.Add(CreateWallet("Credit", "Credit Card Account", 500, WalletTypeHelper.Credit));
             //walletTypes.Add(CreateWallet("Saving"));
             //walletTypes.Add(CreateWallet("Investiments"));
             //walletTypes.Add(CreateWallet("Stocks"));
