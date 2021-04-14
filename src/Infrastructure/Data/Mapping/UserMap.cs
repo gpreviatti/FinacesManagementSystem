@@ -8,7 +8,7 @@ namespace Data.Mapping
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("Users");
+            builder.ToTable("User");
 
             builder.HasKey(u => u.Id);
 
@@ -28,6 +28,10 @@ namespace Data.Mapping
 
             builder.Property(u => u.Password)
                 .IsRequired();
+
+            builder.HasMany(u => u.Wallets);
+
+            builder.HasMany(u => u.Categories);
         }
     }
 }

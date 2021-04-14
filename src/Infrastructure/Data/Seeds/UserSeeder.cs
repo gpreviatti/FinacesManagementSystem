@@ -14,7 +14,7 @@ namespace Data.Seeds
                 new List<User>()
                 {
                     new User() {
-                        Id = new Guid("37e4f662-1987-4b9d-b245-ad6014f3217a"),
+                        Id = Guid.Parse("430E0144-289F-4A95-8F14-BACFABB3FE8A"),
                         Name = "Admin",
                         Email = "admin@admin.com",
                         Password = EncryptHelper.HashField("mudar@123"),
@@ -22,7 +22,7 @@ namespace Data.Seeds
                         UpdatedAt = DateTime.Now
                     },
                     new User() {
-                        Id = new Guid("6823c5ae-ca43-4287-82e1-10d5fca46a2e"),
+                        Id = Guid.Parse("CB43D078-87F1-4864-853A-E626922B8109"),
                         Name = "Test-User-01",
                         Email = "testUser01@email.com",
                         Password = EncryptHelper.HashField("mudar@123"),

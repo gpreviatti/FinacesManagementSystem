@@ -2,30 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using Domain.Dtos.User;
+using Domain.Dtos.Category;
+using Domain.Dtos.Wallet;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
-using Helpers;
 
 namespace Service.Services
 {
-    public class UserService : BaseService, IUserService
+    public class WalletService : BaseService, IWalletService
     {
-        private readonly IUserRepository _repository;
+        private readonly IWalletRepository _repository;
 
-        public UserService(IUserRepository repository, IMapper mapper)
+        public WalletService(IWalletRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
 
-        public async Task<UserResultDto> FindByIdAsync(Guid Id)
+        public async Task<WalletResultDto> FindByIdAsync(Guid Id)
         {
             try
             {
                 var result = await _repository.FindByIdAsync(Id);
-                return _mapper.Map<UserResultDto>(result);
+                return _mapper.Map<WalletResultDto>(result);
             }
             catch (Exception exception)
             {
@@ -34,12 +34,12 @@ namespace Service.Services
             }
         }
 
-        public async Task<IEnumerable<UserResultDto>> FindAllAsync()
+        public async Task<IEnumerable<WalletResultDto>> FindAllAsync()
         {
             try
             {
                 var result = await _repository.FindAllAsync();
-                return _mapper.Map<IEnumerable<UserResultDto>>(result);
+                return _mapper.Map<IEnumerable<WalletResultDto>>(result);
             }
             catch (Exception exception)
             {
@@ -48,15 +48,14 @@ namespace Service.Services
             }
         }
 
-        public async Task<UserResultDto> CreateAsync(UserCreateDto userDto)
+        public async Task<WalletResultDto> CreateAsync(WalletCreateDto entityCreateDto)
         {
             try
             {
-                var user = _mapper.Map<User>(userDto);
-                user.Password = EncryptHelper.HashField(user.Password);
+                var entity = _mapper.Map<Wallet>(entityCreateDto);
 
-                var result = await _repository.CreateAsync(user);
-                return _mapper.Map<UserResultDto>(user);
+                var result = await _repository.CreateAsync(entity);
+                return _mapper.Map<WalletResultDto>(entity);
             }
             catch (Exception exception)
             {
@@ -65,29 +64,24 @@ namespace Service.Services
             }
         }
 
-        public async Task<UserResultDto> UpdateAsync(UserUpdateDto userUpdateDto)
+        public async Task<WalletResultDto> UpdateAsync(WalletUpdateDto entityUpdateDto)
         {
             try
             {
-                if (userUpdateDto.Password != null)
-                {
-                    userUpdateDto.Password = EncryptHelper.HashField(userUpdateDto.Password);
-                }
-
-                var result = await _repository.FindByIdAsync(userUpdateDto.Id);
+                var result = await _repository.FindByIdAsync(entityUpdateDto.Id);
 
                 if (result == null)
                 {
                     return null;
                 }
 
-                var user = _mapper.Map(userUpdateDto, result);
+                var entity = _mapper.Map(entityUpdateDto, result);
 
                 var savedChanges = await _repository.SaveChangesAsync();
 
                 if (savedChanges > 0)
                 {
-                    return _mapper.Map<UserResultDto>(user);
+                    return _mapper.Map<WalletResultDto>(entity);
                 }
                 return null;
 

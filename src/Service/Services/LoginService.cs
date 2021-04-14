@@ -22,7 +22,6 @@ namespace Service.Services
         private readonly IUserRepository _repository;
         private readonly SigningConfigurations _signingConfigurations;
         private IConfiguration _configuration { get; }
-        private readonly IMapper _mapper;
 
         public LoginService(
             IUserRepository repository,

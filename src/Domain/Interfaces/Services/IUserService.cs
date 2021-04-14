@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Dtos.User;
-using Domain.Entities;
 
 namespace Domain.Interfaces.Services
 {
