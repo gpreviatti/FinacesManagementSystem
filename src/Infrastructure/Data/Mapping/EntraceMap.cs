@@ -26,10 +26,18 @@ namespace Data.Mapping
                 .IsRequired();
 
             builder.Property(e => e.Ticker)
-                .HasMaxLength(20);
+                .HasMaxLength(10);
 
             builder.Property(e => e.Value)
                 .IsRequired();
+
+            builder.HasOne(e => e.Wallet)
+                .WithMany(w => w.Entraces)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasOne(e => e.Category)
+                .WithMany(c => c.Entraces);
         }
     }
 }

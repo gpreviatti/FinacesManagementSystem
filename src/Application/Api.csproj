@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure\CrossCutting\CrossCutting.csproj" />
+    <ProjectReference Include="..\Infrastructure\CrossCutting\Infrastructure.CrossCutting.csproj" />
     <ProjectReference Include="..\Service\Service.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>

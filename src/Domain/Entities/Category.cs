@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Domain.Entities
 {
@@ -7,8 +6,8 @@ namespace Domain.Entities
     {
         public string Name { get; set; }
 
-        public IEnumerable<Entrace> Entraces { get; set; }
+        public User User { get; set; }
 
-        public Guid UserId { get; set; }
+        public IEnumerable<Entrace> Entraces { get; set; }
     }
 }

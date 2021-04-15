@@ -28,10 +28,8 @@ namespace Tests.AutoMapper
             Assert.NotNull(entity);
             Assert.Equal(entity.Description, entityCreateDto.Description);
             Assert.Equal(entity.Observation, entityCreateDto.Observation);
-            Assert.Equal(entity.CategoryId, entityCreateDto.CategoryId);
             Assert.Equal(entity.Ticker, entityCreateDto.Ticker);
             Assert.Equal(entity.Value, entityCreateDto.Value);
-            Assert.Equal(entity.WalletId, entityCreateDto.WalletId);
         }
 
         [Fact(DisplayName = "Should transform EntraceUpdateDto to Entrace")]
@@ -40,7 +38,7 @@ namespace Tests.AutoMapper
         {
             var entityUpdateDto = new EntraceUpdateDto()
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 Description = Faker.Lorem.Sentence(100),
                 Observation = Faker.Lorem.Sentence(100),
                 CategoryId = Guid.NewGuid(),
@@ -56,10 +54,8 @@ namespace Tests.AutoMapper
             Assert.Equal(entity.Id, entityUpdateDto.Id);
             Assert.Equal(entity.Description, entityUpdateDto.Description);
             Assert.Equal(entity.Observation, entityUpdateDto.Observation);
-            Assert.Equal(entity.CategoryId, entityUpdateDto.CategoryId);
             Assert.Equal(entity.Ticker, entityUpdateDto.Ticker);
             Assert.Equal(entity.Value, entityUpdateDto.Value);
-            Assert.Equal(entity.WalletId, entityUpdateDto.WalletId);
         }
 
         [Fact(DisplayName = "Should transform Entrace to EntraceResultDto")]
@@ -68,14 +64,16 @@ namespace Tests.AutoMapper
         {
             var entity = new Entrace()
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 Description = Faker.Lorem.Sentence(100),
                 Observation = Faker.Lorem.Sentence(100),
-                CategoryId = Guid.NewGuid(),
                 Ticker = "BIDI4",
                 Type = (int)EEntraceType.expanse,
                 Value = 100,
-                WalletId = Guid.NewGuid()
+                Wallet = new Wallet(),
+                Category = new Category(),
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             };
 
             var entityResultDto = _mapper.Map<EntraceResultDto>(entity);
@@ -83,10 +81,10 @@ namespace Tests.AutoMapper
             Assert.Equal(entity.Id, entityResultDto.Id);
             Assert.Equal(entity.Description, entityResultDto.Description);
             Assert.Equal(entity.Observation, entityResultDto.Observation);
-            Assert.Equal(entity.CategoryId, entityResultDto.CategoryId);
             Assert.Equal(entity.Ticker, entityResultDto.Ticker);
             Assert.Equal(entity.Value, entityResultDto.Value);
-            Assert.Equal(entity.WalletId, entityResultDto.WalletId);
+            Assert.Equal(entity.CreatedAt, entityResultDto.CreatedAt);
+            Assert.Equal(entity.UpdatedAt, entityResultDto.UpdatedAt);
         }
     }
 }

@@ -29,9 +29,11 @@ namespace Data.Mapping
             builder.Property(u => u.Password)
                 .IsRequired();
 
-            builder.HasMany(u => u.Wallets);
+            builder.HasMany(u => u.Wallets)
+                .WithOne(w => w.User);
 
-            builder.HasMany(u => u.Categories);
+            builder.HasMany(u => u.Categories)
+                .WithOne(c => c.User);
         }
     }
 }

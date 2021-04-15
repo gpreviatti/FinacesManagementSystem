@@ -25,14 +25,14 @@ namespace Data.Mapping
             builder.Property(w => w.CurrentValue)
                 .HasDefaultValue(0);
 
-            builder.Property(w => w.UserId)
-                .IsRequired();
+            builder.HasOne(w => w.User)
+                .WithMany(u => u.Wallets);
 
-            builder.Property(w => w.WalletTypeId)
-                .IsRequired();
-            builder.HasOne(w => w.WalletType);
+            builder.HasOne(w => w.WalletType)
+                .WithMany(wt => wt.Wallets);
 
-            builder.HasMany(w => w.Entraces);
+            builder.HasMany(w => w.Entraces)
+                .WithOne(e => e.Wallet);
         }
     }
 }

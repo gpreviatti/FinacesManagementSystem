@@ -22,7 +22,8 @@ namespace Tests.AutoMapper
                 DueDate = DateTime.Now,
                 CloseDate = DateTime.Now.AddDays(15),
                 CurrentValue = 100,
-                WalletTypeId = Guid.NewGuid()
+                WalletTypeId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
                 
             };
 
@@ -33,7 +34,6 @@ namespace Tests.AutoMapper
             Assert.Equal(entity.DueDate, entityCreateDto.DueDate);
             Assert.Equal(entity.CloseDate, entityCreateDto.CloseDate);
             Assert.Equal(entity.CurrentValue, entityCreateDto.CurrentValue);
-            Assert.Equal(entity.WalletTypeId, entityCreateDto.WalletTypeId);
         }
 
         [Fact(DisplayName = "Should transform WalletUpdateDto to Wallet")]
@@ -42,7 +42,7 @@ namespace Tests.AutoMapper
         {
             var entityUpdateDto = new WalletUpdateDto()
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 Name = Faker.Name.First(),
                 Description = Faker.Lorem.Sentence(100),
                 DueDate = DateTime.Now,
@@ -58,7 +58,6 @@ namespace Tests.AutoMapper
             Assert.Equal(entity.DueDate, entityUpdateDto.DueDate);
             Assert.Equal(entity.CloseDate, entityUpdateDto.CloseDate);
             Assert.Equal(entity.CurrentValue, entityUpdateDto.CurrentValue);
-            Assert.Equal(entity.WalletTypeId, entityUpdateDto.WalletTypeId);
         }
 
         [Fact(DisplayName = "Should transform Wallet to WalletResultDto")]
@@ -87,8 +86,8 @@ namespace Tests.AutoMapper
             Assert.Equal(entity.DueDate, entityResultDto.DueDate);
             Assert.Equal(entity.CloseDate, entityResultDto.CloseDate);
             Assert.Equal(entity.CurrentValue, entityResultDto.CurrentValue);
-            //Assert.Equal(entityWalletTypeMapper, entityResultDto.WalletType);
-            Assert.Equal(entityEntraceMapper, entityResultDto.Entraces);
+            Assert.Equal(entityResultDto.Entraces, entityEntraceMapper);
+            //Assert.Equal(entityResultDto.WalletType, entityWalletTypeMapper);
         }
     }
 }

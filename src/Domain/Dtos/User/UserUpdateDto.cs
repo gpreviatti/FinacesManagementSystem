@@ -1,14 +1,13 @@
-using System;
-using System.ComponentModel.DataAnnotations;
+using Domain.Dtos.Entity;
 
 namespace Domain.Dtos.User
 {
-    public class UserUpdateDto
+    public class UserUpdateDto : EntityUpdateDto
     {
-        [Required(ErrorMessage = "Id is required to update")]
-        public Guid Id { get; set; }
         public string Name { get; set; }
+        
         public string Email { get; set; }
+        
         public string Password { get; set; }
     }
 }

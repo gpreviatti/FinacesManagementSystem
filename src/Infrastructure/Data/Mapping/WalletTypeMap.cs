@@ -10,14 +10,17 @@ namespace Data.Mapping
         {
             builder.ToTable("WalletType");
 
-            builder.HasKey(w => w.Id);
+            builder.HasKey(wt => wt.Id);
 
-            builder.Property(w => w.Id)
+            builder.Property(wt => wt.Id)
                 .HasMaxLength(36);
 
-            builder.Property(w => w.Name)
+            builder.Property(wt => wt.Name)
                 .IsRequired()
                 .HasMaxLength(60);
+
+            builder.HasMany(wt => wt.Wallets)
+                .WithOne(w => w.WalletType);
         }
     }
 }

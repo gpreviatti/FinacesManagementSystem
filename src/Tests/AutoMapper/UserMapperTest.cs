@@ -35,7 +35,7 @@ namespace Tests.AutoMapper
         {
             var userUpdateDto = new UserUpdateDto()
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 Name = Faker.Name.FullName(),
                 Email = Faker.Internet.Email(),
                 Password = EncryptHelper.HashField("mudar@123")
@@ -55,14 +55,14 @@ namespace Tests.AutoMapper
         {
             var entity = new User()
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 Email = Faker.Internet.Email(),
                 Name = Faker.Name.FullName(),
                 Password = EncryptHelper.HashField("mudar@123"),
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
-                Wallets = new List<Wallet>() { new Wallet() { Id = Guid.NewGuid(), Description = Faker.Name.First(), CurrentValue = 100}  },
-                Categories = new List<Category>() { new Category() { Id = Guid.NewGuid(), Name = "Health Food"} }
+                Wallets = new List<Wallet>(),
+                Categories = new List<Category>()
             };
 
             var walletResultDto = _mapper.Map<IEnumerable<WalletResultDto>>(entity.Wallets);
@@ -75,8 +75,8 @@ namespace Tests.AutoMapper
             Assert.Equal(entity.Name, userResultDto.Name);
             Assert.Equal(entity.Email, userResultDto.Email);
             Assert.Equal(entity.Name, userResultDto.Name);
-            Assert.Equal(walletResultDto, userResultDto.Wallets);
-            Assert.Equal(categoryResultDto, userResultDto.Categories);
+            Assert.Equal(userResultDto.Wallets, walletResultDto);
+            Assert.Equal(userResultDto.Categories, categoryResultDto);
         }
     }
 }

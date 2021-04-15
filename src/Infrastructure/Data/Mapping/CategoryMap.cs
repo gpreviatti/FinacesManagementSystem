@@ -19,7 +19,11 @@ namespace Data.Mapping
                 .IsRequired()
                 .HasMaxLength(60);
 
-            builder.HasMany(c => c.Entraces);
+            builder.HasMany(c => c.Entraces)
+                .WithOne(e => e.Category);
+
+            builder.HasOne(c => c.User)
+                .WithMany(u => u.Categories);
         }
     }
 }

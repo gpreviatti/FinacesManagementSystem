@@ -1,13 +1,12 @@
 using System;
 using Domain.Dtos.Category;
+using Domain.Dtos.Entity;
 using Domain.Dtos.Wallet;
 
 namespace Domain.Dtos.Entrace
 {
-    public class EntraceResultDto
+    public class EntraceResultDto : EntityResultDto
     {
-        public Guid Id { get; set; }
-
         public string Description { get; set; }
 
         public string Ticker { get; set; }

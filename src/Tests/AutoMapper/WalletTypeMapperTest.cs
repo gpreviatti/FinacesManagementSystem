@@ -27,7 +27,7 @@ namespace Tests.AutoMapper
         {
             var entityUpdateDto = new WalletTypeUpdateDto()
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 Name = Faker.Name.First()
             };
 
@@ -43,7 +43,7 @@ namespace Tests.AutoMapper
         {
             var entity = new WalletType()
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 Name = Faker.Name.First(),
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
