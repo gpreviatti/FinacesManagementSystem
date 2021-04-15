@@ -44,7 +44,9 @@ namespace Tests.Data
                 Email = Faker.Internet.Email(),
                 Password = "12345678",
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                Categories = new List<Category>() { new Category() { Name = "Test category" } },
+                Wallets = new List<Wallet>() { new Wallet() { Name = "Test Wallet" } }
             };
 
             var result = await _repository.CreateAsync(userTest);
