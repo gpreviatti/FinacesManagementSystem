@@ -16,10 +16,10 @@ namespace Domain.Dtos.Entrace
 
         public string Observation { get; set; }
 
-        public string Value { get; set; }
+        public double Value { get; set; }
 
-        public WalletResultDto Wallet { get; set; }
+        public Guid WalletId { get; set; }
 
-        public CategoryResultDto Category { get; set; }
+        public Guid CategoryId { get; set; }
     }
 }

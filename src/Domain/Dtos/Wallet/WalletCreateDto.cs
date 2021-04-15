@@ -20,5 +20,8 @@ namespace Domain.Dtos.Wallet
 
         [Required(ErrorMessage = "Wallet type id is required")]
         public Guid WalletTypeId { get; set; }
+
+        [Required(ErrorMessage = "User id is required")]
+        public Guid UserId { get; set; }
     }
 }

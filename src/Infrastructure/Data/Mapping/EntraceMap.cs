@@ -30,16 +30,6 @@ namespace Data.Mapping
 
             builder.Property(e => e.Value)
                 .IsRequired();
-
-            builder.Property(e => e.WalletId)
-                .IsRequired();
-
-            builder.HasOne(e => e.Wallet);
-
-            builder.Property(e => e.CategoryId)
-                .IsRequired();
-
-            builder.HasOne(e => e.Category);
         }
     }
 }

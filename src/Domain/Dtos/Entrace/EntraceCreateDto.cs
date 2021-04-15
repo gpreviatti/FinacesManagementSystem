@@ -17,7 +17,7 @@ namespace Domain.Dtos.Entrace
         public string Observation { get; set; }
 
         [Required(ErrorMessage = "Value is required")]
-        public string Value { get; set; }
+        public double Value { get; set; }
 
         [Required(ErrorMessage = "Wallet Id is required")]
         public Guid WalletId { get; set; }

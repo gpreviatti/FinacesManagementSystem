@@ -18,6 +18,8 @@ namespace Data.Mapping
             builder.Property(c => c.Name)
                 .IsRequired()
                 .HasMaxLength(60);
+
+            builder.HasMany(c => c.Entraces);
         }
     }
 }

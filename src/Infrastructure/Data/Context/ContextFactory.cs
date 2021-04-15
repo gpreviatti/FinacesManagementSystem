@@ -10,7 +10,7 @@ namespace Data.Context
         {
             var optionsBuilder = new DbContextOptionsBuilder<MyContext>();
             //var dbConnection = "Persist Security Info=True;Server=DESKTOP-CJHGFFK;Database=FmsDB;User Id=application;Password=application";
-            var dbConnection = "Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=FmdDB";
+            var dbConnection = "Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=FmsDB";
 
             //SQLServer
             optionsBuilder.UseSqlServer(dbConnection);

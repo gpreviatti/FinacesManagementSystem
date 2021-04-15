@@ -25,8 +25,11 @@ namespace Data.Mapping
             builder.Property(w => w.CurrentValue)
                 .HasDefaultValue(0);
 
-            builder.HasMany(w => w.Users);
+            builder.Property(w => w.UserId)
+                .IsRequired();
 
+            builder.Property(w => w.WalletTypeId)
+                .IsRequired();
             builder.HasOne(w => w.WalletType);
 
             builder.HasMany(w => w.Entraces);

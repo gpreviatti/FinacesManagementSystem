@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using Domain.Dtos.Category;
 using Domain.Dtos.User;
+using Domain.Dtos.Wallet;
 using Domain.Entities;
 using Helpers;
 using Xunit;
@@ -50,21 +53,30 @@ namespace Tests.AutoMapper
         [Trait("AutoMapper", "UserCreateDtoToUser")]
         public void UserToUserResultDto()
         {
-            var user = new User()
+            var entity = new User()
             {
                 Id = new Guid(),
                 Email = Faker.Internet.Email(),
                 Name = Faker.Name.FullName(),
                 Password = EncryptHelper.HashField("mudar@123"),
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                Wallets = new List<Wallet>() { new Wallet() { Id = Guid.NewGuid(), Description = Faker.Name.First(), CurrentValue = 100}  },
+                Categories = new List<Category>() { new Category() { Id = Guid.NewGuid(), Name = "Health Food"} }
             };
 
-            var userResultDto = _mapper.Map<UserResultDto>(user);
+            var walletResultDto = _mapper.Map<IEnumerable<WalletResultDto>>(entity.Wallets);
+            var categoryResultDto = _mapper.Map<IEnumerable<CategoryResultDto>>(entity.Categories);
+
+            var userResultDto = _mapper.Map<UserResultDto>(entity);
             Assert.NotNull(userResultDto);
-            Assert.Equal(user.Id, userResultDto.Id);
-            Assert.Equal(user.Email, userResultDto.Email);
-            Assert.Equal(user.Name, userResultDto.Name);
+            Assert.Equal(entity.Id, userResultDto.Id);
+            Assert.Equal(entity.Email, userResultDto.Email);
+            Assert.Equal(entity.Name, userResultDto.Name);
+            Assert.Equal(entity.Email, userResultDto.Email);
+            Assert.Equal(entity.Name, userResultDto.Name);
+            Assert.Equal(walletResultDto, userResultDto.Wallets);
+            Assert.Equal(categoryResultDto, userResultDto.Categories);
         }
     }
 }
