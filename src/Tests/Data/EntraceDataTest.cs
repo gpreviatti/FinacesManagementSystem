@@ -9,20 +9,10 @@ namespace Tests.Data
 {
     public class EntraceDataTest : BaseDataTest
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IWalletTypeRepository _walletTypeRepository;
-        private readonly IWalletRepository _walletRepository;
-        private readonly ICategoryRepository _categoryRepository;
         private readonly IEntraceRepository _repository;
-
         public EntraceDataTest()
         {
-            _userRepository = new UserRepository(_context);
-            _walletTypeRepository = new WalletTypeRepository(_context);
-            _walletRepository = new WalletRepository(_context);
-            _categoryRepository = new CategoryRepository(_context);
             _repository = new EntraceRepository(_context);
-
         }
 
         private async Task<Entrace> CreateEntrace()
@@ -37,61 +27,26 @@ namespace Tests.Data
                 Value = 100,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
-                Category = new Category() { Name = "Test Category" },
-                Wallet = new Wallet() { Name = "Test Wallet" },
+                Category = new CategoryDataTest().CreateCategory().Result,
+                Wallet = new WalletDataTest().CreateWallet().Result,
             };
-            return await _repository.CreateAsync(entityTest);
+            var result = await _repository.CreateAsync(entityTest);
+
+            return result;
         }
 
         [Fact(DisplayName = "Create Entrace")]
         [Trait("Crud", "ShouldCreateEntrace")]
         public async void ShouldCreateEntrace()
         {
-            var userTest = _userRepository.CreateAsync(new User() { 
-                Name = Faker.Name.FullName(),
-                Email = Faker.Internet.Email(),
-                Password = "mudar@1234"
-            }).Result;
-            Assert.NotNull(userTest);
-
-            var walletTypeTest = _walletTypeRepository.CreateAsync(new WalletType()
+            try
             {
-                Name = "Test WalletType"
-            }).Result;
-            Assert.NotNull(walletTypeTest);
-
-            var walletTest = _walletRepository.CreateAsync(new Wallet() {
-                Name = Faker.Name.FullName(),
-                CloseDate = DateTime.Now,
-                DueDate = DateTime.Now.AddDays(15),
-                Description = Faker.Lorem.Sentence(100),
-                CurrentValue = 1000,
-                WalletType = walletTypeTest,
-                User = userTest
-            }).Result;
-            Assert.NotNull(walletTest);
-
-            var categoryTest  = _categoryRepository.CreateAsync(new Category()
+                await CreateEntrace();
+            }
+            catch (Exception e)
             {
-                Name = Faker.Name.FullName()
-            }).Result;
-            Assert.NotNull(categoryTest);
-
-            var entityTest = new Entrace()
-            {
-                Description = Faker.Lorem.Sentence(200),
-                Observation = Faker.Lorem.Sentence(200),
-                Ticker = "TEST",
-                Type = 1,
-                Value = 100,
-                Category = categoryTest,
-                Wallet = walletTest,
-            };
-
-            var result = await _repository.CreateAsync(entityTest);
-
-            Assert.NotNull(result);
-            Assert.False(result.Id == Guid.Empty);
+                Console.WriteLine(e);
+            }
         }
 
         [Fact(DisplayName = "List Entraces")]

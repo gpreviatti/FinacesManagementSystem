@@ -19,49 +19,37 @@ namespace Tests.Data
             _repository = new UserRepository(_context);
         }
 
-        private async Task<User> createUser()
+        public async Task<User> CreateUser()
         {
             var userTest = new User()
             {
-                Id = new Guid(),
                 Name = Faker.Name.FullName(),
                 Email = Faker.Internet.Email(),
-                Password = "12345678",
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                Password = "12345678"
             };
-            return await _repository.CreateAsync(userTest);
+            var result = await _repository.CreateAsync(userTest);
+
+            Assert.NotNull(result);
+            Assert.False(result.Id == Guid.Empty);
+            Assert.Equal(userTest.Name, result.Name);
+            Assert.Equal(userTest.Email, result.Email);
+            Assert.Equal(userTest.Password, result.Password);
+
+            return result;
         }
 
         [Fact(DisplayName = "Create User")]
         [Trait("Crud", "ShouldCreateUser")]
         public async void ShouldCreateUser()
         {
-            var userTest = new User()
-            {
-                Id = new Guid(),
-                Name = Faker.Name.FullName(),
-                Email = Faker.Internet.Email(),
-                Password = "12345678",
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
-                Categories = new List<Category>() { new Category() { Name = "Test category" } },
-                Wallets = new List<Wallet>() { new Wallet() { Name = "Test Wallet" } }
-            };
-
-            var result = await _repository.CreateAsync(userTest);
-
-            Assert.NotNull(result);
-            Assert.Equal(userTest.Email, result.Email);
-            Assert.Equal(userTest.Name, result.Name);
-            Assert.False(result.Id == Guid.Empty);
+            await CreateUser();
         }
 
         [Fact(DisplayName = "List Users")]
         [Trait("Crud", "ShouldListUser")]
         public async void ShouldListUser()
         {
-            await createUser();
+            await CreateUser();
             var result = _repository.FindAllAsync().Result;
 
             Assert.NotNull(result);
@@ -71,7 +59,7 @@ namespace Tests.Data
         [Trait("Crud", "ShouldListUserById")]
         public async void ShouldListUserById()
         {
-            var userTest = await createUser();
+            var userTest = await CreateUser();
             var result = _repository.FindByIdAsync(userTest.Id).Result;
 
             Assert.NotNull(result);
@@ -85,7 +73,7 @@ namespace Tests.Data
         [Trait("Crud", "ShouldUpdateUser")]
         public async void ShouldUpdateUser()
         {
-            var userTest = await createUser();
+            var userTest = await CreateUser();
             userTest.Name = Faker.Name.FullName();
             userTest.Email = Faker.Internet.Email();
             var result = await _repository.SaveChangesAsync();
@@ -97,7 +85,7 @@ namespace Tests.Data
         [Trait("Crud", "ShouldDeleteUser")]
         public async void ShouldDeleteUser()
         {
-            var userTest = await createUser();
+            var userTest = await CreateUser();
             var result = await _repository.DeleteAsync(userTest.Id);
 
             Assert.True(result);

@@ -8,7 +8,7 @@ namespace Data.Mapping
     {
         public void Configure(EntityTypeBuilder<Entrace> builder)
         {
-            builder.ToTable("Entrace");
+            builder.ToTable("Entraces");
 
             builder.HasKey(e => e.Id);
 
@@ -17,10 +17,10 @@ namespace Data.Mapping
 
             builder.Property(e => e.Description)
                 .IsRequired()
-                .HasMaxLength(255);
+                .HasMaxLength(500);
 
             builder.Property(e => e.Observation)
-                .HasMaxLength(255);
+                .HasMaxLength(500);
 
             builder.Property(e => e.Type)
                 .IsRequired();

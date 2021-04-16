@@ -8,7 +8,7 @@ namespace Data.Mapping
     {
         public void Configure(EntityTypeBuilder<WalletType> builder)
         {
-            builder.ToTable("WalletType");
+            builder.ToTable("WalletTypes");
 
             builder.HasKey(wt => wt.Id);
 
@@ -17,7 +17,7 @@ namespace Data.Mapping
 
             builder.Property(wt => wt.Name)
                 .IsRequired()
-                .HasMaxLength(60);
+                .HasMaxLength(255);
 
             builder.HasMany(wt => wt.Wallets)
                 .WithOne(w => w.WalletType);

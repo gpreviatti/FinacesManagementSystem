@@ -17,33 +17,33 @@ namespace Tests.Data
             _repository = new CategoryRepository(_context);
         }
 
-        private async Task<Category> createCategory()
+        public async Task<Category> CreateCategory()
         {
-            var entityTest = new Category() {Name = Faker.Name.FullName()};
-            return await _repository.CreateAsync(entityTest);
+            var categoryTest = new Category()
+            {
+                Name = Faker.Name.FullName()
+            };
+
+            var result = await _repository.CreateAsync(categoryTest);
+            Assert.NotNull(result);
+            Assert.Equal(categoryTest.Name, result.Name);
+            Assert.False(result.Id == Guid.Empty);
+
+            return result;
         }
 
         [Fact(DisplayName = "Create Category")]
         [Trait("Crud", "ShouldCreateCategory")]
         public async void ShouldCreateCategory()
         {
-            var entityTest = new Category()
-            {
-                Name = Faker.Name.FullName()
-            };
-
-            var result = await _repository.CreateAsync(entityTest);
-
-            Assert.NotNull(result);
-            Assert.Equal(entityTest.Name, result.Name);
-            Assert.False(result.Id == Guid.Empty);
+            await CreateCategory();
         }
 
         [Fact(DisplayName = "List Categorys")]
         [Trait("Crud", "ShouldListCategory")]
         public async void ShouldListCategory()
         {
-            await createCategory();
+            await CreateCategory();
             var result = _repository.FindAllAsync().Result;
 
             Assert.NotNull(result);
@@ -53,7 +53,7 @@ namespace Tests.Data
         [Trait("Crud", "ShouldListCategoryById")]
         public async void ShouldListCategoryById()
         {
-            var entityTest = await createCategory();
+            var entityTest = await CreateCategory();
             var result = _repository.FindByIdAsync(entityTest.Id).Result;
 
             Assert.NotNull(result);
@@ -66,7 +66,7 @@ namespace Tests.Data
         [Trait("Crud", "ShouldUpdateCategory")]
         public async void ShouldUpdateCategory()
         {
-            var entityTest = await createCategory();
+            var entityTest = await CreateCategory();
             entityTest.Name = Faker.Name.FullName();
             var result = await _repository.SaveChangesAsync();
 
@@ -77,7 +77,7 @@ namespace Tests.Data
         [Trait("Crud", "ShouldDeleteCategory")]
         public async void ShouldDeleteCategory()
         {
-            var entityTest = await createCategory();
+            var entityTest = await CreateCategory();
             var result = await _repository.DeleteAsync(entityTest.Id);
 
             Assert.True(result);

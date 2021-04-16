@@ -8,7 +8,7 @@ namespace Data.Mapping
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("User");
+            builder.ToTable("Users");
 
             builder.HasKey(u => u.Id);
 
@@ -17,7 +17,7 @@ namespace Data.Mapping
 
             builder.Property(u => u.Name)
                 .IsRequired()
-                .HasMaxLength(60);
+                .HasMaxLength(255);
 
             builder.HasIndex(u => u.Email)
                 .IsUnique();

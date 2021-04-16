@@ -17,45 +17,43 @@ namespace Tests.Data
             _repository = new WalletRepository(_context);
         }
 
-        private async Task<Wallet> createWallet()
+        public  async Task<Wallet> CreateWallet()
         {
-            var entityTest = new Wallet()
+            var walletTest = new Wallet()
             {
-                Id = Guid.NewGuid(),
-                Name = Faker.Name.FullName(),
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                Name = Faker.Name.First(),
+                CloseDate = DateTime.Now,
+                DueDate = DateTime.Now.AddDays(15),
+                Description = Faker.Name.First(),
+                CurrentValue = 1000,
+                WalletType = new WalletTypeDataTest().CreateWalletType().Result,
+                User = new UserDataTest().CreateUser().Result
             };
-            return await _repository.CreateAsync(entityTest);
+            var result = await _repository.CreateAsync(walletTest);
+            Assert.NotNull(result);
+            Assert.False(result.Id == Guid.Empty);
+            Assert.Equal(walletTest.Name, result.Name);
+            Assert.Equal(walletTest.CloseDate, result.CloseDate);
+            Assert.Equal(walletTest.DueDate, result.DueDate);
+            Assert.Equal(walletTest.Description, result.Description);
+            Assert.Equal(walletTest.CurrentValue, result.CurrentValue);
+            Assert.Equal(walletTest.WalletType, result.WalletType);
+            Assert.Equal(walletTest.User, result.User);
+            return result;
         }
 
         [Fact(DisplayName = "Create Wallet")]
         [Trait("Crud", "ShouldCreateWallet")]
         public async void ShouldCreateWallet()
         {
-            var entityTest = new Wallet()
-            {
-                Name = Faker.Name.FullName(),
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
-                CloseDate = DateTime.Now,
-                DueDate = DateTime.Now.AddDays(15),
-                Description = Faker.Lorem.Sentence(100),
-                CurrentValue = 10000
-            };
-
-            var result = await _repository.CreateAsync(entityTest);
-
-            Assert.NotNull(result);
-            Assert.Equal(entityTest.Name, result.Name);
-            Assert.False(result.Id == Guid.Empty);
+            await CreateWallet();
         }
 
         [Fact(DisplayName = "List Wallets")]
         [Trait("Crud", "ShouldListWallet")]
         public async void ShouldListWallet()
         {
-            await createWallet();
+            await CreateWallet();
             var result = _repository.FindAllAsync().Result;
 
             Assert.NotNull(result);
@@ -65,7 +63,7 @@ namespace Tests.Data
         [Trait("Crud", "ShouldListWalletById")]
         public async void ShouldListWalletById()
         {
-            var entityTest = await createWallet();
+            var entityTest = await CreateWallet();
             var result = _repository.FindByIdAsync(entityTest.Id).Result;
 
             Assert.NotNull(result);
@@ -78,7 +76,7 @@ namespace Tests.Data
         [Trait("Crud", "ShouldUpdateWallet")]
         public async void ShouldUpdateWallet()
         {
-            var entityTest = await createWallet();
+            var entityTest = await CreateWallet();
             entityTest.Name = Faker.Name.FullName();
             var result = await _repository.SaveChangesAsync();
 
@@ -89,7 +87,7 @@ namespace Tests.Data
         [Trait("Crud", "ShouldDeleteWallet")]
         public async void ShouldDeleteWallet()
         {
-            var entityTest = await createWallet();
+            var entityTest = await CreateWallet();
             var result = await _repository.DeleteAsync(entityTest.Id);
 
             Assert.True(result);
