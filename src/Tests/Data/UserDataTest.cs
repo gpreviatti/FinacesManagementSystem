@@ -19,37 +19,45 @@ namespace Tests.Data
             _repository = new UserRepository(_context);
         }
 
-        public async Task<User> CreateUser()
+        public User CreateUserEntity()
         {
-            var userTest = new User()
+            return new User()
             {
                 Name = Faker.Name.FullName(),
                 Email = Faker.Internet.Email(),
                 Password = "12345678"
             };
-            var result = await _repository.CreateAsync(userTest);
-
-            Assert.NotNull(result);
-            Assert.False(result.Id == Guid.Empty);
-            Assert.Equal(userTest.Name, result.Name);
-            Assert.Equal(userTest.Email, result.Email);
-            Assert.Equal(userTest.Password, result.Password);
-
-            return result;
         }
 
         [Fact(DisplayName = "Create User")]
         [Trait("Crud", "ShouldCreateUser")]
         public async void ShouldCreateUser()
         {
-            await CreateUser();
+            try
+            {
+                var userEntity = CreateUserEntity();
+                var result = await _repository.CreateAsync(userEntity);
+
+                Assert.NotNull(result);
+                Assert.False(result.Id == Guid.Empty);
+                Assert.Equal(userEntity.Name, result.Name);
+                Assert.Equal(userEntity.Email, result.Email);
+                Assert.Equal(userEntity.Password, result.Password);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            
         }
 
         [Fact(DisplayName = "List Users")]
         [Trait("Crud", "ShouldListUser")]
         public async void ShouldListUser()
         {
-            await CreateUser();
+            var userEntity = CreateUserEntity();
+            await _repository.CreateAsync(userEntity);
+
             var result = _repository.FindAllAsync().Result;
 
             Assert.NotNull(result);
@@ -59,36 +67,64 @@ namespace Tests.Data
         [Trait("Crud", "ShouldListUserById")]
         public async void ShouldListUserById()
         {
-            var userTest = await CreateUser();
-            var result = _repository.FindByIdAsync(userTest.Id).Result;
+            try
+            {
+                var userEntity = CreateUserEntity();
+                await _repository.CreateAsync(userEntity);
 
-            Assert.NotNull(result);
-            Assert.IsType<User>(result);
-            Assert.Equal(userTest.Id, result.Id);
-            Assert.Equal(userTest.Name, result.Name);
-            Assert.Equal(userTest.Email, result.Email);
+                var result = _repository.FindByIdAsync(userEntity.Id).Result;
+
+                Assert.NotNull(result);
+                Assert.IsType<User>(result);
+                Assert.Equal(userEntity.Id, result.Id);
+                Assert.Equal(userEntity.Name, result.Name);
+                Assert.Equal(userEntity.Email, result.Email);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         [Fact(DisplayName = "Update User")]
         [Trait("Crud", "ShouldUpdateUser")]
         public async void ShouldUpdateUser()
         {
-            var userTest = await CreateUser();
-            userTest.Name = Faker.Name.FullName();
-            userTest.Email = Faker.Internet.Email();
-            var result = await _repository.SaveChangesAsync();
+            try
+            {
+                var userEntity = CreateUserEntity();
+                await _repository.CreateAsync(userEntity);
 
-            Assert.Equal(1, result);
+                userEntity.Name = Faker.Name.FullName();
+                userEntity.Email = Faker.Internet.Email();
+
+                var result = await _repository.SaveChangesAsync();
+
+                Assert.Equal(1, result);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         [Fact(DisplayName = "Delete User")]
         [Trait("Crud", "ShouldDeleteUser")]
         public async void ShouldDeleteUser()
         {
-            var userTest = await CreateUser();
-            var result = await _repository.DeleteAsync(userTest.Id);
+            try
+            {
+                var userEntity = CreateUserEntity();
+                await _repository.CreateAsync(userEntity);
 
-            Assert.True(result);
+                var result = await _repository.DeleteAsync(userEntity.Id);
+
+                Assert.True(result);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }

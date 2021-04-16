@@ -15,24 +15,18 @@ namespace Tests.Data
             _repository = new EntraceRepository(_context);
         }
 
-        private async Task<Entrace> CreateEntrace()
+        private Entrace CreateEntraceEntity()
         {
-            var entityTest = new Entrace()
+            return new Entrace()
             {
-                Id = Guid.NewGuid(),
-                Description = Faker.Lorem.Sentence(200),
-                Observation = Faker.Lorem.Sentence(200),
+                Description = Faker.Lorem.Sentence(10),
+                Observation = Faker.Lorem.Sentence(10),
                 Ticker = "TEST",
                 Type = 1,
                 Value = 100,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
-                Category = new CategoryDataTest().CreateCategory().Result,
-                Wallet = new WalletDataTest().CreateWallet().Result,
-            };
-            var result = await _repository.CreateAsync(entityTest);
-
-            return result;
+                Category = new CategoryDataTest().CreateCategoryEntity(),
+                Wallet = new WalletDataTest().CreateWalletEntity(),
+            };   
         }
 
         [Fact(DisplayName = "Create Entrace")]
@@ -41,7 +35,19 @@ namespace Tests.Data
         {
             try
             {
-                await CreateEntrace();
+                var entraceEntity = CreateEntraceEntity();
+                var result = await _repository.CreateAsync(entraceEntity);
+                Assert.NotNull(result);
+                Assert.False(result.Id == Guid.Empty);
+                Assert.Equal(entraceEntity.Description, result.Description);
+                Assert.Equal(entraceEntity.Observation, result.Observation);
+                Assert.Equal(entraceEntity.Ticker, result.Ticker);
+                Assert.Equal(entraceEntity.Type, result.Type);
+                Assert.Equal(entraceEntity.Value, result.Value);
+                Assert.Equal(entraceEntity.CreatedAt, result.CreatedAt);
+                Assert.Equal(entraceEntity.UpdatedAt, result.UpdatedAt);
+                Assert.Equal(entraceEntity.Category, result.Category);
+                Assert.Equal(entraceEntity.Wallet, result.Wallet);
             }
             catch (Exception e)
             {
@@ -53,42 +59,78 @@ namespace Tests.Data
         [Trait("Crud", "ShouldListEntrace")]
         public async void ShouldListEntrace()
         {
-            await CreateEntrace();
-            var result = _repository.FindAllAsync().Result;
+            try
+            {
+                var entraceEntity = CreateEntraceEntity(); ;
+                await _repository.CreateAsync(entraceEntity);
 
-            Assert.NotNull(result);
+                var result = await _repository.FindAllAsync();
+
+                Assert.NotNull(result);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         [Fact(DisplayName = "List Entrace by Id")]
         [Trait("Crud", "ShouldListEntraceById")]
         public async void ShouldListEntraceById()
         {
-            var entityTest = await CreateEntrace();
-            var result = _repository.FindByIdAsync(entityTest.Id).Result;
+            try
+            {
+                var enntraceEntity = CreateEntraceEntity();
+                await _repository.CreateAsync(enntraceEntity);
 
-            Assert.NotNull(result);
-            Assert.IsType<Entrace>(result);
-            Assert.Equal(entityTest.Id, result.Id);
+                var result = _repository.FindByIdAsync(enntraceEntity.Id).Result;
+
+                Assert.NotNull(result);
+                Assert.IsType<Entrace>(result);
+                Assert.Equal(enntraceEntity.Id, result.Id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         [Fact(DisplayName = "Update Entrace")]
         [Trait("Crud", "ShouldUpdateEntrace")]
         public async void ShouldUpdateEntrace()
         {
-            var entityTest = await CreateEntrace();
-            var result = await _repository.SaveChangesAsync();
+            try
+            {
+                var enntraceEntity = CreateEntraceEntity();
+                await _repository.CreateAsync(enntraceEntity);
 
-            Assert.Equal(1, result);
+                var result = await _repository.SaveChangesAsync();
+
+                Assert.Equal(1, result);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         [Fact(DisplayName = "Delete Entrace")]
         [Trait("Crud", "ShouldDeleteEntrace")]
         public async void ShouldDeleteEntrace()
         {
-            var entityTest = await CreateEntrace();
-            var result = await _repository.DeleteAsync(entityTest.Id);
+            try
+            {
+                var enntraceEntity = CreateEntraceEntity();
+                await _repository.CreateAsync(enntraceEntity);
 
-            Assert.True(result);
+                var result = await _repository.DeleteAsync(enntraceEntity.Id);
+
+                Assert.True(result);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }

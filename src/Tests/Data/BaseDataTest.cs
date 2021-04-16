@@ -21,7 +21,6 @@ namespace Tests.Data
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
             _context = _serviceProvider.GetService<MyContext>();
-            _context.Database.EnsureCreated();
         }
     }
 }

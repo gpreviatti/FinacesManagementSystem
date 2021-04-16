@@ -17,70 +17,111 @@ namespace Tests.Data
             _repository = new WalletTypeRepository(_context);
         }
 
-        public async Task<WalletType> CreateWalletType()
+        public WalletType CreateWalletTypeEntity()
         {
-            var walletTypeTest = new WalletType()
+            return new WalletType()
             {
                 Name = Faker.Name.First()
             };
-
-            var result = await _repository.CreateAsync(walletTypeTest);
-            Assert.NotNull(result);
-            Assert.False(result.Id == Guid.Empty);
-            Assert.Equal(walletTypeTest.Name, result.Name);
-
-            return result;
         }
 
         [Fact(DisplayName = "Create WalletType")]
         [Trait("Crud", "ShouldCreateWalletType")]
         public async void ShouldCreateWalletType()
         {
-            await CreateWalletType();
+            try
+            {
+                var walletTypeEntity = CreateWalletTypeEntity();
+                var result = await _repository.CreateAsync(walletTypeEntity);
+
+                Assert.NotNull(result);
+                Assert.False(result.Id == Guid.Empty);
+                Assert.Equal(walletTypeEntity.Name, result.Name);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         [Fact(DisplayName = "List WalletTypes")]
         [Trait("Crud", "ShouldListWalletType")]
         public async void ShouldListWalletType()
         {
-            await CreateWalletType();
-            var result = _repository.FindAllAsync().Result;
+            try
+            {
+                var walletTypeEntity = CreateWalletTypeEntity();
+                await _repository.CreateAsync(walletTypeEntity);
 
-            Assert.NotNull(result);
+                var result = await _repository.FindAllAsync();
+
+                Assert.NotNull(result);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         [Fact(DisplayName = "List WalletType by Id")]
         [Trait("Crud", "ShouldListWalletTypeById")]
         public async void ShouldListWalletTypeById()
         {
-            var entityTest = await CreateWalletType();
-            var result = _repository.FindByIdAsync(entityTest.Id).Result;
+            try
+            {
+                var walletTypeEntity = CreateWalletTypeEntity();
+                await _repository.CreateAsync(walletTypeEntity);
 
-            Assert.NotNull(result);
-            Assert.IsType<WalletType>(result);
-            Assert.Equal(entityTest.Id, result.Id);
-            Assert.Equal(entityTest.Name, result.Name);
+                var result = await _repository.FindByIdAsync(walletTypeEntity.Id);
+
+                Assert.NotNull(result);
+                Assert.IsType<WalletType>(result);
+                Assert.Equal(walletTypeEntity.Id, result.Id);
+                Assert.Equal(walletTypeEntity.Name, result.Name);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         [Fact(DisplayName = "Update WalletType")]
         [Trait("Crud", "ShouldUpdateWalletType")]
         public async void ShouldUpdateWalletType()
         {
-            var entityTest = await CreateWalletType();
-            entityTest.Name = Faker.Name.FullName();
-            var result = await _repository.SaveChangesAsync();
+            try
+            {
+                var walletTypeEntity = CreateWalletTypeEntity();
+                await _repository.CreateAsync(walletTypeEntity);
 
-            Assert.Equal(1, result);
+                walletTypeEntity.Name = Faker.Name.FullName();
+                var result = await _repository.SaveChangesAsync();
+
+                Assert.Equal(1, result);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         [Fact(DisplayName = "Delete WalletType")]
         [Trait("Crud", "ShouldDeleteWalletType")]
         public async void ShouldDeleteWalletType()
         {
-            var entityTest = await CreateWalletType();
-            var result = await _repository.DeleteAsync(entityTest.Id);
+            try
+            {
+                var walletTypeEntity = CreateWalletTypeEntity();
+                await _repository.CreateAsync(walletTypeEntity);
 
-            Assert.True(result);
+                var result = await _repository.DeleteAsync(walletTypeEntity.Id);
+
+                Assert.True(result);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }
