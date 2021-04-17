@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Tests.Data
 {
-    public abstract class BaseDataTest
+    public abstract class BaseDataTest : IDisposable
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly MyContext _context;
@@ -16,11 +16,17 @@ namespace Tests.Data
 
             // In Memory
             serviceCollection.AddDbContext<MyContext>(
-                options => options.UseSqlServer($"Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=FmsTestDB")
+                options => options.UseSqlServer($"Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=FmsDBDataTests")
             );
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
             _context = _serviceProvider.GetService<MyContext>();
+            _context.Database.EnsureCreated();
+        }
+
+        public void Dispose()
+        {
+            _context.Database.EnsureDeleted();
         }
     }
 }
