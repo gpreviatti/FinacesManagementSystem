@@ -51,6 +51,7 @@ namespace Tests.Data
             }
             catch (Exception e)
             {
+                Assert.True(false);
                 Console.WriteLine(e);
             }
         }
@@ -70,6 +71,7 @@ namespace Tests.Data
             }
             catch (Exception e)
             {
+                Assert.True(false);
                 Console.WriteLine(e);
             }
         }
@@ -91,6 +93,7 @@ namespace Tests.Data
             }
             catch (Exception e)
             {
+                Assert.True(false);
                 Console.WriteLine(e);
             }
         }
@@ -103,6 +106,7 @@ namespace Tests.Data
             {
                 var enntraceEntity = CreateEntraceEntity();
                 await _repository.CreateAsync(enntraceEntity);
+                enntraceEntity.Description = Faker.Name.First();
 
                 var result = await _repository.SaveChangesAsync();
 
@@ -110,6 +114,7 @@ namespace Tests.Data
             }
             catch (Exception e)
             {
+                Assert.True(false);
                 Console.WriteLine(e);
             }
         }
@@ -129,6 +134,7 @@ namespace Tests.Data
             }
             catch (Exception e)
             {
+                Assert.True(false);
                 Console.WriteLine(e);
             }
         }

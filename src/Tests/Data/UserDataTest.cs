@@ -46,6 +46,7 @@ namespace Tests.Data
             }
             catch (Exception e)
             {
+                Assert.True(false);
                 Console.WriteLine(e);
             }
             
@@ -55,12 +56,21 @@ namespace Tests.Data
         [Trait("Crud", "ShouldListUser")]
         public async void ShouldListUser()
         {
-            var userEntity = CreateUserEntity();
-            await _repository.CreateAsync(userEntity);
+            try
+            {
+                var userEntity = CreateUserEntity();
+                await _repository.CreateAsync(userEntity);
 
-            var result = _repository.FindAllAsync().Result;
+                var result = _repository.FindAllAsync().Result;
 
-            Assert.NotNull(result);
+                Assert.NotNull(result);
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e);
+                Assert.True(false);
+            }
         }
 
         [Fact(DisplayName = "List User by Id")]
@@ -82,6 +92,50 @@ namespace Tests.Data
             }
             catch (Exception e)
             {
+                Assert.True(false);
+                Console.WriteLine(e);
+            }
+        }
+
+        [Fact(DisplayName = "Find User By Login")]
+        [Trait("Login", "ShouldFindUserByLogin")]
+        public async void ShouldFindUserByLogin()
+        {
+            try
+            {
+                var userEntity = CreateUserEntity();
+
+                await _repository.CreateAsync(userEntity);
+
+                var result = await _repository.FindByLogin(userEntity.Email);
+
+                Assert.True(result != null);
+                Assert.Equal(userEntity.Email, result.Email);
+            }
+            catch (Exception e)
+            {
+                Assert.True(false);
+                Console.WriteLine(e);
+            }
+        }
+
+        [Fact(DisplayName = "Not Find User By Login")]
+        [Trait("Login", "ShouldNotFindUserByLogin")]
+        public async void ShouldNotFindUserByLogin()
+        {
+            try
+            {
+                var userEntity = CreateUserEntity();
+
+                await _repository.CreateAsync(userEntity);
+
+                var result = await _repository.FindByLogin(Faker.Internet.Email());
+
+                Assert.True(result == null);
+            }
+            catch (Exception e)
+            {
+                Assert.True(false);
                 Console.WriteLine(e);
             }
         }
@@ -104,6 +158,7 @@ namespace Tests.Data
             }
             catch (Exception e)
             {
+                Assert.True(false);
                 Console.WriteLine(e);
             }
         }
@@ -123,6 +178,7 @@ namespace Tests.Data
             }
             catch (Exception e)
             {
+                Assert.True(false);
                 Console.WriteLine(e);
             }
         }

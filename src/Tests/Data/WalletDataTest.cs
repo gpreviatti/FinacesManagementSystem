@@ -52,6 +52,7 @@ namespace Tests.Data
             }
             catch (Exception e)
             {
+                Assert.True(false);
                 Console.WriteLine(e);
             }
         }
@@ -71,6 +72,7 @@ namespace Tests.Data
             }
             catch (Exception e)
             {
+                Assert.True(false);
                 Console.WriteLine(e);
             }
         }
@@ -93,6 +95,7 @@ namespace Tests.Data
             }
             catch (Exception e)
             {
+                Assert.True(false);
                 Console.WriteLine(e);
             }
         }
@@ -113,6 +116,7 @@ namespace Tests.Data
             }
             catch (Exception e)
             {
+                Assert.True(false);
                 Console.WriteLine(e);
             }
         }
@@ -132,6 +136,7 @@ namespace Tests.Data
             }
             catch (Exception e)
             {
+                Assert.True(false);
                 Console.WriteLine(e);
             }
         }
