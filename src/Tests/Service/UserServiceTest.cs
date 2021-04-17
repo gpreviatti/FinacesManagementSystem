@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Dtos.Category;
 using Domain.Dtos.User;
+using Domain.Dtos.Wallet;
+using Domain.Entities;
 using Domain.Interfaces.Services;
 using Moq;
 using Xunit;
@@ -34,17 +37,24 @@ namespace Tests.Service
                 Password = password
             };
 
-            UserResultDto userResultDto = new UserResultDto()
+            UserResultDto loginResultDto = new UserResultDto()
             {
+                Id = Guid.NewGuid(),
                 Email = email,
                 Name = name,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Categories = new List<CategoryResultDto>(),
+                Wallets = new List<WalletResultDto>()
             };
             _serviceMock = new Mock<IUserService>();
-            _serviceMock.Setup(m => m.CreateAsync(userCreateDto)).ReturnsAsync(userResultDto);
+            _serviceMock.Setup(m => m.CreateAsync(userCreateDto)).ReturnsAsync(loginResultDto);
             _service = _serviceMock.Object;
 
             var result = await _service.CreateAsync(userCreateDto);
+
             Assert.NotNull(result);
+            Assert.False(result.Id.Equals(Guid.Empty));
             Assert.Equal(name, result.Name);
             Assert.Equal(email, result.Email);
         }
@@ -71,6 +81,7 @@ namespace Tests.Service
             _service = _serviceMock.Object;
 
             var result = await _service.FindAllAsync();
+
             Assert.NotNull(result);
             Assert.True(result.Count() == 10);
         }
@@ -92,6 +103,7 @@ namespace Tests.Service
             _service = _serviceMock.Object;
 
             var result = await _service.FindByIdAsync(It.IsAny<Guid>());
+
             Assert.NotNull(result);
             Assert.Equal(userResultDto.Id, result.Id);
             Assert.Equal(userResultDto.Email, result.Email);
@@ -124,6 +136,7 @@ namespace Tests.Service
             _service = _serviceMock.Object;
 
             var result = await _service.UpdateAsync(userUpdateDto);
+
             Assert.NotNull(result);
             Assert.Equal(name, result.Name);
             Assert.Equal(email, result.Email);
@@ -134,10 +147,24 @@ namespace Tests.Service
         public async void ShouldDeleteUser()
         {
             _serviceMock = new Mock<IUserService>();
+            _serviceMock.Setup(m => m.DeleteAsync(It.IsAny<Guid>())).ReturnsAsync(true);
+            _service = _serviceMock.Object;
+
+            var result = await _service.DeleteAsync(Guid.NewGuid());
+
+            Assert.True(result);
+        }
+
+        [Fact(DisplayName = "Not Delete user")]
+        [Trait("Crud", "ShouldNotDeleteUser")]
+        public async void ShouldNotDeleteUser()
+        {
+            _serviceMock = new Mock<IUserService>();
             _serviceMock.Setup(m => m.DeleteAsync(It.IsAny<Guid>())).ReturnsAsync(false);
             _service = _serviceMock.Object;
 
             var result = await _service.DeleteAsync(Guid.NewGuid());
+
             Assert.False(result);
         }
     }

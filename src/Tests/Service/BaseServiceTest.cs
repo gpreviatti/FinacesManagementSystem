@@ -13,6 +13,10 @@ namespace Tests.Service
     {
         protected readonly IMapper _mapper;
 
+        public string FakerName { get; set; }
+
+        public DateTime FakerDate { get; set; } = DateTime.Now;
+
         public BaseServiceTest()
         {
             _mapper = GetMapper();
