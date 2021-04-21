@@ -10,8 +10,8 @@ namespace Domain.Entities
         public string Observation { get; set; }
         public double Value { get; set; }
         
-        public Wallet Wallet { get; set; }
+        public virtual Wallet Wallet { get; set; }
 
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
     }
 }

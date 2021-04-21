@@ -50,7 +50,7 @@ namespace Web.Controllers
             return View(entrace);
         }
 
-        [HttpPut]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(EntraceUpdateDto entraceUpdateDto)
         {

@@ -6,6 +6,6 @@ namespace Domain.Entities
     {
         public string Name { get; set; }
 
-        public IEnumerable<Wallet> Wallets { get; set; }
+        public virtual IEnumerable<Wallet> Wallets { get; set; }
     }
 }

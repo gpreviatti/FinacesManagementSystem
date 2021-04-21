@@ -6,8 +6,8 @@ namespace Domain.Entities
     {
         public string Name { get; set; }
 
-        public User User { get; set; }
+        public virtual User User { get; set; }
 
-        public IEnumerable<Entrace> Entraces { get; set; }
+        public virtual IEnumerable<Entrace> Entraces { get; set; }
     }
 }

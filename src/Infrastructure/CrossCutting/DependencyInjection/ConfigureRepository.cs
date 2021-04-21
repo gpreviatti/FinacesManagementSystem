@@ -3,8 +3,6 @@ using Data.Repositories;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Pomelo.EntityFrameworkCore.MySql.Storage;
-using System;
 
 namespace CrossCutting.DependencyInjection
 {
@@ -24,7 +22,9 @@ namespace CrossCutting.DependencyInjection
             //serviceCollection.AddDbContext<MyContext>(options => options.UseSqlServer(dbConnection));
 
             serviceCollection.AddDbContext<MyContext>(
-                options => options.UseSqlServer($"Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=FmsDB")
+                options => options
+                .UseLazyLoadingProxies()
+                .UseSqlServer($"Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=FmsDB")
             );
         }
     }

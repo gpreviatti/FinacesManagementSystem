@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using System;
 
 namespace Data.Context
 {
@@ -13,7 +12,7 @@ namespace Data.Context
             var dbConnection = "Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=FmsDB";
 
             //SQLServer
-            optionsBuilder.UseSqlServer(dbConnection);
+            optionsBuilder.UseSqlServer(dbConnection).UseLazyLoadingProxies();
 
             return new MyContext(optionsBuilder.Options);
         }
