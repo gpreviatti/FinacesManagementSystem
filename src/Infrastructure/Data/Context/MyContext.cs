@@ -1,6 +1,5 @@
 using Data.Mapping;
 using Data.Seeds;
-using Domain;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,13 +1,10 @@
 using System;
-using System.ComponentModel.DataAnnotations;
+using Domain.Dtos.Entity;
 
 namespace Domain.Dtos.Wallet
 {
-    public class WalletUpdateDto
+    public class WalletUpdateDto : EntityUpdateDto
     {
-        [Required(ErrorMessage = "Id is required to update")]
-        public Guid Id { get; set; }
-
         public string Name { get; set; }
         
         public string Description { get; set; }

@@ -8,7 +8,7 @@ namespace Data.Mapping
     {
         public void Configure(EntityTypeBuilder<Wallet> builder)
         {
-            builder.ToTable("Wallet");
+            builder.ToTable("Wallets");
 
             builder.HasKey(w => w.Id);
 
@@ -17,19 +17,22 @@ namespace Data.Mapping
 
             builder.Property(w => w.Name)
                 .IsRequired()
-                .HasMaxLength(60);
+                .HasMaxLength(255);
 
             builder.Property(w => w.Description)
-                .HasMaxLength(255);
+                .HasMaxLength(500);
 
             builder.Property(w => w.CurrentValue)
                 .HasDefaultValue(0);
 
-            builder.HasMany(w => w.Users);
+            builder.HasOne(w => w.User)
+                .WithMany(u => u.Wallets);
 
-            builder.HasOne(w => w.WalletType);
+            builder.HasOne(w => w.WalletType)
+                .WithMany(wt => wt.Wallets);
 
-            builder.HasMany(w => w.Entraces);
+            builder.HasMany(w => w.Entraces)
+                .WithOne(e => e.Wallet);
         }
     }
 }

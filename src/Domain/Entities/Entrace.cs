@@ -8,12 +8,10 @@ namespace Domain.Entities
         public string Ticker { get; set; }
         public int Type { get; set; }
         public string Observation { get; set; }
-        public string Value { get; set; }
-
-        public Guid WalletId { get; set; }
+        public double Value { get; set; }
+        
         public Wallet Wallet { get; set; }
 
-        public Guid CategoryId { get; set; }
         public Category Category { get; set; }
     }
 }

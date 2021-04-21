@@ -1,13 +1,9 @@
-using System;
-using System.ComponentModel.DataAnnotations;
+using Domain.Dtos.Entity;
 
 namespace Domain.Dtos.Category
 {
-    public class CategoryUpdateDto
+    public class CategoryUpdateDto : EntityUpdateDto
     {
-        [Required(ErrorMessage = "Id is required to update")]
-        public Guid Id { get; set; }
-
         public string Name { get; set; }
     }
 }

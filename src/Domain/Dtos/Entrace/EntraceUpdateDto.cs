@@ -1,13 +1,10 @@
 using System;
-using System.ComponentModel.DataAnnotations;
+using Domain.Dtos.Entity;
 
 namespace Domain.Dtos.Entrace
 {
-    public class EntraceUpdateDto
-    {
-        [Required(ErrorMessage = "Id is required to update")]
-        public Guid Id { get; set; }
-        
+    public class EntraceUpdateDto : EntityUpdateDto
+    {   
         public string Description { get; set; }
         
         public string Ticker { get; set; }
@@ -16,7 +13,7 @@ namespace Domain.Dtos.Entrace
         
         public string Observation { get; set; }
         
-        public string Value { get; set; }
+        public double Value { get; set; }
 
         public Guid WalletId { get; set; }
 

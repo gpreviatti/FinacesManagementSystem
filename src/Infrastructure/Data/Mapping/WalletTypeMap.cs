@@ -8,16 +8,19 @@ namespace Data.Mapping
     {
         public void Configure(EntityTypeBuilder<WalletType> builder)
         {
-            builder.ToTable("WalletType");
+            builder.ToTable("WalletTypes");
 
-            builder.HasKey(w => w.Id);
+            builder.HasKey(wt => wt.Id);
 
-            builder.Property(w => w.Id)
+            builder.Property(wt => wt.Id)
                 .HasMaxLength(36);
 
-            builder.Property(w => w.Name)
+            builder.Property(wt => wt.Name)
                 .IsRequired()
-                .HasMaxLength(60);
+                .HasMaxLength(255);
+
+            builder.HasMany(wt => wt.Wallets)
+                .WithOne(w => w.WalletType);
         }
     }
 }

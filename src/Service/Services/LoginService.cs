@@ -40,10 +40,9 @@ namespace Service.Services
         {
             try
             {
-                var user = new User();
-
                 if (loginDto != null && !string.IsNullOrWhiteSpace(loginDto.Email) && !string.IsNullOrWhiteSpace(loginDto.Password))
                 {
+                    var user = new User();
                     user = await _repository.FindByLogin(loginDto.Email);
 
                     if (user == null)

@@ -16,7 +16,7 @@ namespace Tests.Data
 
             // In Memory
             serviceCollection.AddDbContext<MyContext>(
-                options => options.UseSqlServer($"Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=testDB")
+                options => options.UseSqlServer($"Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=FmsDBDataTests")
             );
 
             _serviceProvider = serviceCollection.BuildServiceProvider();

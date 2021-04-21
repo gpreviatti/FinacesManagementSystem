@@ -30,7 +30,6 @@ namespace Data.Seeds
                 CurrentValue = currentValue,
                 CloseDate = DateTime.Now,
                 DueDate = DateTime.Now.AddDays(15),
-                WalletTypeId = walletTypeId,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
             };

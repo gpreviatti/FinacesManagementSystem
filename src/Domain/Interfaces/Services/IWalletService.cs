@@ -7,6 +7,7 @@ namespace Domain.Interfaces.Services
 {
     public interface IWalletService : IBaseService
     {
+        Task<WalletResultDto> FindByIdAsync(Guid id);
         Task<IEnumerable<WalletResultDto>> FindAllAsync();
         Task<WalletResultDto> CreateAsync(WalletCreateDto wallet);
         Task<WalletResultDto> UpdateAsync(WalletUpdateDto wallet);

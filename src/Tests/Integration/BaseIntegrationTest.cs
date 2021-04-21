@@ -18,7 +18,7 @@ using Newtonsoft.Json;
 
 namespace Tests.Integration
 {
-    public abstract class BaseIntegrationTest
+    public abstract class BaseIntegrationTest : IDisposable
     {
         protected readonly IMapper _mapper;
         private static HttpClient _client;
@@ -37,6 +37,7 @@ namespace Tests.Integration
 
             _myContext = (MyContext) server.Host.Services.GetService(typeof(MyContext));
             _myContext.Database.Migrate();
+            _myContext.Database.EnsureCreated();
 
             _mapper = GetMapper();
 
@@ -92,7 +93,11 @@ namespace Tests.Integration
         }
 
         public static async Task<HttpResponseMessage> DeleteAsync(string url) => await _client.DeleteAsync(_hostApi + url);
-
         #endregion
+
+        public void Dispose()
+        {
+            _myContext.Database.EnsureDeleted();
+        }
     }
 }

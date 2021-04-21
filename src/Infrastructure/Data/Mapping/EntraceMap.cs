@@ -8,7 +8,7 @@ namespace Data.Mapping
     {
         public void Configure(EntityTypeBuilder<Entrace> builder)
         {
-            builder.ToTable("Entrace");
+            builder.ToTable("Entraces");
 
             builder.HasKey(e => e.Id);
 
@@ -17,29 +17,27 @@ namespace Data.Mapping
 
             builder.Property(e => e.Description)
                 .IsRequired()
-                .HasMaxLength(255);
+                .HasMaxLength(500);
 
             builder.Property(e => e.Observation)
-                .HasMaxLength(255);
+                .HasMaxLength(500);
 
             builder.Property(e => e.Type)
                 .IsRequired();
 
             builder.Property(e => e.Ticker)
-                .HasMaxLength(20);
+                .HasMaxLength(10);
 
             builder.Property(e => e.Value)
                 .IsRequired();
 
-            builder.Property(e => e.WalletId)
-                .IsRequired();
+            builder.HasOne(e => e.Wallet)
+                .WithMany(w => w.Entraces)
+                .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasOne(e => e.Wallet);
-
-            builder.Property(e => e.CategoryId)
-                .IsRequired();
-
-            builder.HasOne(e => e.Category);
+            builder
+                .HasOne(e => e.Category)
+                .WithMany(c => c.Entraces);
         }
     }
 }

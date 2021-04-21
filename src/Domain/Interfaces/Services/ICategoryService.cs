@@ -7,6 +7,7 @@ namespace Domain.Interfaces.Services
 {
     public interface ICategoryService : IBaseService
     {
+        Task<CategoryResultDto> FindByIdAsync(Guid id);
         Task<IEnumerable<CategoryResultDto>> FindAllAsync();
         Task<CategoryResultDto> CreateAsync(CategoryCreateDto category);
         Task<CategoryResultDto> UpdateAsync(CategoryUpdateDto category);
