@@ -50,9 +50,9 @@ namespace Web.Controllers
             return View(entrace);
         }
 
-        [HttpPost]
+        [HttpPost("Edit/{Id}")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(EntraceUpdateDto entraceUpdateDto)
+        public IActionResult Edit(Guid id, EntraceUpdateDto entraceUpdateDto)
         {
             if (!ModelState.IsValid)
             {
@@ -68,7 +68,7 @@ namespace Web.Controllers
         }
 
 
-        [HttpDelete("{Id}")]
+        [HttpGet("Entrace/Delete/{Id}")]
         public IActionResult Delete(Guid id)
         {
             if (!ModelState.IsValid)
@@ -76,7 +76,7 @@ namespace Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = _service.DeleteAsync(id);
+            var result = _service.DeleteAsync(id).Result;
             if (result.Equals(null))
             {
                 return BadRequest(ModelState);

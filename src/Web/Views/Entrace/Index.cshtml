@@ -6,9 +6,10 @@
 
 <h1> @ViewData["Title"]</h1>
 
-<p>
-    <a asp-action="Create">Create New Entrace</a>
-</p>
+@Html.ActionLink("Create New Entrace", "Create", null, htmlAttributes: new { @class = "btn btn-success btn-sm btn-block" })
+
+<br />
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -46,7 +47,7 @@
                         @Html.DisplayFor(modelItem => item.CreatedAt)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
                     </td>
                 </tr>
             }

@@ -138,7 +138,7 @@ namespace Service.Services
                     return null;
                 }
 
-                var category = _categoryRepository.FindByIdAsync(entraceUpdateDto.WalletId).Result;
+                var category = _categoryRepository.FindByIdAsync(entraceUpdateDto.CategoryId).Result;
                 if (category.Equals(null))
                 {
                     return null;
