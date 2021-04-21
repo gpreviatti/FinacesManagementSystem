@@ -6,17 +6,27 @@ using Domain.Dtos.Entrace;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
+using Helpers.Enuns;
 
 namespace Service.Services
 {
     public class EntraceService : BaseService, IEntraceService
     {
         private readonly IEntraceRepository _repository;
+        private readonly IWalletRepository _walletRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public EntraceService(IEntraceRepository repository, IMapper mapper)
+        public EntraceService(
+            IMapper mapper,
+            IEntraceRepository repository,
+            IWalletRepository walletRepository,
+            ICategoryRepository categoryRepository
+        ) 
         {
-            _repository = repository;
             _mapper = mapper;
+            _repository = repository;
+            _walletRepository = walletRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<EntraceResultDto> FindByIdAsync(Guid Id)
@@ -28,7 +38,7 @@ namespace Service.Services
             }
             catch (Exception exception)
             {
-                System.Console.WriteLine(exception);
+                Console.WriteLine(exception);
                 return null;
             }
         }
@@ -42,7 +52,7 @@ namespace Service.Services
             }
             catch (Exception exception)
             {
-                System.Console.WriteLine(exception);
+                Console.WriteLine(exception);
                 return null;
             }
         }
@@ -51,14 +61,54 @@ namespace Service.Services
         {
             try
             {
+                var wallet = _walletRepository.FindByIdAsync(entraceCreateDto.WalletId).Result;
+                if (wallet.Equals(null))
+                {
+                    return null;
+                }
+
+                switch (entraceCreateDto.Type)
+                {
+                    case (int) EEntraceType.income:
+                        wallet.CurrentValue = wallet.CurrentValue + entraceCreateDto.Value;
+                        break;
+                    case (int) EEntraceType.expanse:
+                        wallet.CurrentValue = wallet.CurrentValue - entraceCreateDto.Value;
+                        break;
+                    default:
+                        wallet.CurrentValue = wallet.CurrentValue;
+                        break;
+                }
+                if (_walletRepository.SaveChangesAsync().Result.Equals(0))
+                {
+                    return null;
+                }
+
+                var category = _categoryRepository.FindByIdAsync(entraceCreateDto.WalletId).Result;
+                if (category.Equals(null))
+                {
+                    return null;
+                }
+
+                if (entraceCreateDto.Type.Equals(1))
+                {
+                    wallet.CurrentValue = wallet.CurrentValue + entraceCreateDto.Value;
+                }
+                if (entraceCreateDto.Type.Equals(2))
+                {
+                    wallet.CurrentValue = wallet.CurrentValue - entraceCreateDto.Value;
+                }
+
                 var entrace = _mapper.Map<Entrace>(entraceCreateDto);
+                entrace.Wallet = wallet;
+                entrace.Category = category;
 
                 var result = await _repository.CreateAsync(entrace);
                 return _mapper.Map<EntraceResultDto>(entrace);
             }
             catch (Exception exception)
             {
-                System.Console.WriteLine(exception);
+                Console.WriteLine(exception);
                 return null;
             }
         }
@@ -72,6 +122,44 @@ namespace Service.Services
                 if (result == null)
                 {
                     return null;
+                }
+
+                var wallet = _walletRepository.FindByIdAsync(entraceUpdateDto.WalletId).Result;
+                if (wallet.Equals(null))
+                {
+                    return null;
+                }
+
+                switch (entraceUpdateDto.Type)
+                {
+                    case (int)EEntraceType.income:
+                        wallet.CurrentValue = wallet.CurrentValue + entraceUpdateDto.Value;
+                        break;
+                    case (int)EEntraceType.expanse:
+                        wallet.CurrentValue = wallet.CurrentValue - entraceUpdateDto.Value;
+                        break;
+                    default:
+                        wallet.CurrentValue = wallet.CurrentValue;
+                        break;
+                }
+                if (_walletRepository.SaveChangesAsync().Result.Equals(0))
+                {
+                    return null;
+                }
+
+                var category = _categoryRepository.FindByIdAsync(entraceUpdateDto.WalletId).Result;
+                if (category.Equals(null))
+                {
+                    return null;
+                }
+
+                if (entraceUpdateDto.Type.Equals(1))
+                {
+                    wallet.CurrentValue = wallet.CurrentValue + entraceUpdateDto.Value;
+                }
+                if (entraceUpdateDto.Type.Equals(2))
+                {
+                    wallet.CurrentValue = wallet.CurrentValue - entraceUpdateDto.Value;
                 }
 
                 var entrace = _mapper.Map(entraceUpdateDto, result);
@@ -100,7 +188,7 @@ namespace Service.Services
             }
             catch (Exception exception)
             {
-                System.Console.WriteLine(exception);
+                Console.WriteLine(exception);
                 return false;
             }
         }

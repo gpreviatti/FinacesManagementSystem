@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Tests.Data
 {
-    public abstract class BaseDataTest : IDisposable
+    public abstract class BaseDataTest
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly MyContext _context;
@@ -22,11 +22,6 @@ namespace Tests.Data
             _serviceProvider = serviceCollection.BuildServiceProvider();
             _context = _serviceProvider.GetService<MyContext>();
             _context.Database.EnsureCreated();
-        }
-
-        public void Dispose()
-        {
-            _context.Database.EnsureDeleted();
         }
     }
 }
