@@ -8,9 +8,8 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-light">
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                 <span class="navbar-toggler-icon"></span>
@@ -19,10 +18,13 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Dashboard</a>
+                        <a class="nav-link" asp-area="" asp-controller="Entrace" asp-action="Index">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Category" asp-action="Index">Categories</a>
                     </li>
                 </ul>
             </div>
@@ -30,14 +32,14 @@
     </header>
 
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3 mt-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="footer text-muted mt-3">
+    <footer class="footer text-muted mt-3 mb-3">
         <div class="container">
-            &copy; 2021 - Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - Powered by Giovanni Brunno Previatti</a>
         </div>
     </footer>
 

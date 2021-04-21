@@ -84,19 +84,10 @@ namespace Service.Services
                     return null;
                 }
 
-                var category = _categoryRepository.FindByIdAsync(entraceCreateDto.WalletId).Result;
+                var category = _categoryRepository.FindByIdAsync(entraceCreateDto.CategoryId).Result;
                 if (category.Equals(null))
                 {
                     return null;
-                }
-
-                if (entraceCreateDto.Type.Equals(1))
-                {
-                    wallet.CurrentValue = wallet.CurrentValue + entraceCreateDto.Value;
-                }
-                if (entraceCreateDto.Type.Equals(2))
-                {
-                    wallet.CurrentValue = wallet.CurrentValue - entraceCreateDto.Value;
                 }
 
                 var entrace = _mapper.Map<Entrace>(entraceCreateDto);
