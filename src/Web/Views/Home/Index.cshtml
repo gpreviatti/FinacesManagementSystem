@@ -1,5 +1,81 @@
-﻿@{
+﻿@model Web.ViewModels.Home.HomeIndexViewModel
+
+@{
     ViewData["Title"] = "Finnaces Management System";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <h1> @ViewData["Title"]</h1>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <h5 class="card-header">Current Values</h5>
+            <div class="card-body">
+                <h5 class="card-title">Total Income</h5> 
+                <p class="card-text">@Model.TotalIncome</p>
+
+                <h5 class="card-title">Total Expanse</h5>
+                <p class="card-text">@Model.TotalExpanse</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        @Html.ActionLink("Create New Entrace", "Create", "Entrace", null, new { @class = "btn btn-primary btn-sm btn-block" })
+
+        <br />
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Value</th>
+                    <th>Created At</th>
+                    <th></th>
+                </tr>
+            </thead>
+            @if (Model.Entraces.Count() > 0 && Model.Entraces.Any())
+            {
+                <tbody>
+                    @foreach (var item in Model.Entraces)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @{
+                                    if (Model.EntraceType.Where(e => e.Value.Equals(item.Type)).FirstOrDefault().Name.Equals("Income"))
+                                    {
+                                        @Html.Label("", "Income", htmlAttributes: new { @class = "badge badge-pill badge-success" });
+                                    }
+                                    if (Model.EntraceType.Where(e => e.Value.Equals(item.Type)).FirstOrDefault().Name.Equals("Expanse"))
+                                    {
+                                        @Html.Label("", "Expanse", htmlAttributes: new { @class = "badge badge-pill badge-danger" });
+                                    }
+                                    else
+                                    {
+                                        @Html.Label(Model.EntraceType.Where(e => e.Value.Equals(item.Type)).FirstOrDefault().Name)
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Value)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedAt)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", "Entrace", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            }
+        </table>
+    </div>
+</div>
