@@ -13,9 +13,7 @@
         <form asp-action="Edit" asp-antiforgery="true" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="@Model.Entrace.Id" class="control-label"></label>
-                <input asp-for="@Model.Entrace.Id" class="form-control" readonly="readonly" />
-                <span asp-validation-for="@Model.Entrace.Id" class="text-danger"></span>
+                <input asp-for="@Model.Entrace.Id" class="form-control" readonly="readonly" hidden="hidden" />
             </div>
             <div class="form-group">
                 <label asp-for="@Model.Entrace.Description" class="control-label"></label>
@@ -23,14 +21,8 @@
                 <span asp-validation-for="@Model.Entrace.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.Entrace.Type" class="control-label"></label>
-                <input asp-for="@Model.Entrace.Type" class="form-control" />
+                @Html.DropDownListFor(Model => Model.Entrace.Type, new SelectList(Model.EntraceTypes, "Value", "Name"), new { @class = "form-control" })
                 <span asp-validation-for="@Model.Entrace.Type" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.Entrace.Observation" class="control-label"></label>
-                <textarea asp-for="@Model.Entrace.Observation" class="form-control"></textarea>
-                <span asp-validation-for="@Model.Entrace.Observation" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.Entrace.Value" class="control-label"></label>
@@ -46,9 +38,14 @@
                 <span asp-validation-for="@Model.Entrace.WalletId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Update" class="btn default-button btn-sm" />
-                @Html.ActionLink("Delete", "Delete", new { id = @Model.Entrace.Id }, htmlAttributes: new { @class = "btn default-button btn-sm" })
-                @Html.ActionLink("Back to List", "Index", null, htmlAttributes: new { @class = "btn default-button btn-sm" })
+                <label asp-for="@Model.Entrace.Observation" class="control-label"></label>
+                <textarea asp-for="@Model.Entrace.Observation" class="form-control"></textarea>
+                <span asp-validation-for="@Model.Entrace.Observation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-success btn-sm" />
+                @Html.ActionLink("Delete", "Delete", new { id = @Model.Entrace.Id }, htmlAttributes: new { @class = "btn btn-danger btn-sm" })
+                @Html.ActionLink("Back to List", "Index", "Home", null, new { @class = "btn btn-secondary btn-sm" })
             </div>
         </form>
     </div>
