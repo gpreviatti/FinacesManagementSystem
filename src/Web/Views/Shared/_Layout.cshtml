@@ -7,9 +7,24 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
+<body class="dark-theme">
+    <style>
+        .dark-theme 
+        {
+            background-color: black;
+            color: white;
+        }
+        .container-theme {
+            color: #fff;
+            background-color: #343a40;
+        }
+        .default-button {
+            background-color: black;
+            color: #fff;
+        }
+    </style>
     <header>
-        <nav class="navbar navbar-light">
+        <nav class="navbar navbar-dark">
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                 <span class="navbar-toggler-icon"></span>
@@ -31,7 +46,7 @@
         </nav>
     </header>
 
-    <div class="container">
+    <div class="container container-theme">
         <main role="main" class="pb-3 mt-3">
             @RenderBody()
         </main>

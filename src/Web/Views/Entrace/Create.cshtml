@@ -1,4 +1,4 @@
-﻿@model Domain.Dtos.Entrace.EntraceCreateDto
+﻿@model Web.ViewModels.Entrace.EntraceCreateViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,41 +13,39 @@
         <form asp-action="Create" method="post" asp-antiforgery="true">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <label asp-for="@Model.Entrace.Description" class="control-label"></label>
+                <textarea asp-for="@Model.Entrace.Description" class="form-control"></textarea>
+                <span asp-validation-for="@Model.Entrace.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <select asp-for="Type" class="form-control">
+                <label asp-for="@Model.Entrace.Type" class="control-label"></label>
+                <select asp-for="@Model.Entrace.Type" class="form-control">
                     <option value="1">Income</option>
                     <option value="2">Expanse</option>
                 </select>
-                <span asp-validation-for="Type" class="text-danger"></span>
+                <span asp-validation-for="@Model.Entrace.Type" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Observation" class="control-label"></label>
-                <textarea asp-for="Observation" class="form-control"></textarea>
-                <span asp-validation-for="Observation" class="text-danger"></span>
+                <label asp-for="@Model.Entrace.Observation" class="control-label"></label>
+                <textarea asp-for="@Model.Entrace.Observation" class="form-control"></textarea>
+                <span asp-validation-for="@Model.Entrace.Observation" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Value" class="control-label"></label>
-                <input asp-for="Value" class="form-control" type="number"/>
-                <span asp-validation-for="Value" class="text-danger"></span>
+                <label asp-for="@Model.Entrace.Value" class="control-label"></label>
+                <input asp-for="@Model.Entrace.Value" class="form-control" type="number" />
+                <span asp-validation-for="@Model.Entrace.Value" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="WalletId" class="control-label"></label>
-                <input asp-for="WalletId" class="form-control" />
-                <span asp-validation-for="WalletId" class="text-danger"></span>
+                @Html.DropDownListFor(Model => Model.Entrace.WalletId, new SelectList(@Model.Wallets, "Id", "Name"), new { @class = "form-control" })
+                <span asp-validation-for="@Model.Entrace.WalletId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <input asp-for="CategoryId" class="form-control" />
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                @Html.DropDownListFor(Model => Model.Entrace.CategoryId, new SelectList(Model.Categories, "Id", "Name"), new { @class = "form-control" })
+                <span asp-validation-for="@Model.Entrace.CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary btn-sm" />
-                @Html.ActionLink("Back to List", "Index", null, htmlAttributes: new { @class = "btn btn-success btn-sm" })
+                <input type="submit" value="Create" class="btn default-button btn-sm" />
+                @Html.ActionLink("Back to List", "Index", null, htmlAttributes: new { @class = "btn default-button btn-sm" })
             </div>
         </form>
     </div>

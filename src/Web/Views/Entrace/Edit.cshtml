@@ -1,4 +1,4 @@
-﻿@model Domain.Dtos.Entrace.EntraceResultDto
+﻿@model Web.ViewModels.Entrace.EntraceUpdateViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -13,44 +13,42 @@
         <form asp-action="Edit" asp-antiforgery="true" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" readonly="readonly" />
-                <span asp-validation-for="Id" class="text-danger"></span>
+                <label asp-for="@Model.Entrace.Id" class="control-label"></label>
+                <input asp-for="@Model.Entrace.Id" class="form-control" readonly="readonly" />
+                <span asp-validation-for="@Model.Entrace.Id" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <label asp-for="@Model.Entrace.Description" class="control-label"></label>
+                <textarea asp-for="@Model.Entrace.Description" class="form-control"></textarea>
+                <span asp-validation-for="@Model.Entrace.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
-                <span asp-validation-for="Type" class="text-danger"></span>
+                <label asp-for="@Model.Entrace.Type" class="control-label"></label>
+                <input asp-for="@Model.Entrace.Type" class="form-control" />
+                <span asp-validation-for="@Model.Entrace.Type" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Observation" class="control-label"></label>
-                <textarea asp-for="Observation" class="form-control"></textarea>
-                <span asp-validation-for="Observation" class="text-danger"></span>
+                <label asp-for="@Model.Entrace.Observation" class="control-label"></label>
+                <textarea asp-for="@Model.Entrace.Observation" class="form-control"></textarea>
+                <span asp-validation-for="@Model.Entrace.Observation" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Value" class="control-label"></label>
-                <input asp-for="Value" class="form-control" />
-                <span asp-validation-for="Value" class="text-danger"></span>
+                <label asp-for="@Model.Entrace.Value" class="control-label"></label>
+                <input asp-for="@Model.Entrace.Value" class="form-control" />
+                <span asp-validation-for="@Model.Entrace.Value" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <input asp-for="CategoryId" class="form-control" />
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                @Html.DropDownListFor(Model => @Model.Entrace.CategoryId, new SelectList(Model.Categories, "Id", "Name"), new { @class = "form-control" })
+                <span asp-validation-for="@Model.Entrace.CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="WalletId" class="control-label"></label>
-                <input asp-for="WalletId" class="form-control" />
-                <span asp-validation-for="WalletId" class="text-danger"></span>
+                @Html.DropDownListFor(Model => @Model.Entrace.WalletId, new SelectList(@Model.Wallets, "Id", "Name"), new { @class = "form-control" })
+                <span asp-validation-for="@Model.Entrace.WalletId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-primary  btn-sm" />
-                @Html.ActionLink("Delete", "Delete", new { id = @Model.Id }, htmlAttributes: new { @class = "btn btn-danger btn-sm" })
-                @Html.ActionLink("Back to List", "Index", null, htmlAttributes: new { @class = "btn btn-success btn-sm" })
+                <input type="submit" value="Update" class="btn default-button btn-sm" />
+                @Html.ActionLink("Delete", "Delete", new { id = @Model.Entrace.Id }, htmlAttributes: new { @class = "btn default-button btn-sm" })
+                @Html.ActionLink("Back to List", "Index", null, htmlAttributes: new { @class = "btn default-button btn-sm" })
             </div>
         </form>
     </div>
