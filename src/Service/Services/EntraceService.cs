@@ -62,7 +62,7 @@ namespace Service.Services
             try
             {
                 var wallet = _walletRepository.FindByIdAsync(entraceCreateDto.WalletId).Result;
-                if (wallet.Equals(null))
+                if (wallet == null)
                 {
                     return null;
                 }
@@ -85,7 +85,7 @@ namespace Service.Services
                 }
 
                 var category = _categoryRepository.FindByIdAsync(entraceCreateDto.CategoryId).Result;
-                if (category.Equals(null))
+                if (category == null)
                 {
                     return null;
                 }
@@ -104,30 +104,30 @@ namespace Service.Services
             }
         }
 
-        public async Task<EntraceResultDto> UpdateAsync(EntraceUpdateDto entraceUpdateDto)
+        public async Task<EntraceResultDto> UpdateAsync(EntraceResultDto entraceResultDto)
         {
             try
             {
-                var result = await _repository.FindByIdAsync(entraceUpdateDto.Id);
+                var result = await _repository.FindByIdAsync(entraceResultDto.Id);
 
                 if (result == null)
                 {
                     return null;
                 }
 
-                var wallet = _walletRepository.FindByIdAsync(entraceUpdateDto.WalletId).Result;
-                if (wallet.Equals(null))
+                var wallet = _walletRepository.FindByIdAsync(entraceResultDto.WalletId).Result;
+                if (wallet == null)
                 {
                     return null;
                 }
 
-                switch (entraceUpdateDto.Type)
+                switch (entraceResultDto.Type)
                 {
                     case (int)EEntraceType.income:
-                        wallet.CurrentValue = wallet.CurrentValue + entraceUpdateDto.Value;
+                        wallet.CurrentValue = wallet.CurrentValue + entraceResultDto.Value;
                         break;
                     case (int)EEntraceType.expanse:
-                        wallet.CurrentValue = wallet.CurrentValue - entraceUpdateDto.Value;
+                        wallet.CurrentValue = wallet.CurrentValue - entraceResultDto.Value;
                         break;
                     default:
                         wallet.CurrentValue = wallet.CurrentValue;
@@ -138,31 +138,20 @@ namespace Service.Services
                     return null;
                 }
 
-                var category = _categoryRepository.FindByIdAsync(entraceUpdateDto.CategoryId).Result;
-                if (category.Equals(null))
+                if (_categoryRepository.FindByIdAsync(entraceResultDto.CategoryId).Result == null)
                 {
                     return null;
                 }
 
-                if (entraceUpdateDto.Type.Equals(1))
-                {
-                    wallet.CurrentValue = wallet.CurrentValue + entraceUpdateDto.Value;
-                }
-                if (entraceUpdateDto.Type.Equals(2))
-                {
-                    wallet.CurrentValue = wallet.CurrentValue - entraceUpdateDto.Value;
-                }
-
-                var entrace = _mapper.Map(entraceUpdateDto, result);
+                var entrace = _mapper.Map(entraceResultDto, result);
 
                 var savedChanges = await _repository.SaveChangesAsync();
 
                 if (savedChanges > 0)
                 {
-                    return _mapper.Map<EntraceResultDto>(entrace);
+                    return entraceResultDto;
                 }
                 return null;
-
             }
             catch (Exception exception)
             {
