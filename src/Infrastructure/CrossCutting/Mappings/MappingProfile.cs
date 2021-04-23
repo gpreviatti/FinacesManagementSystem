@@ -16,6 +16,7 @@ namespace CrossCutting.Mappings
             CreateMap<UserCreateDto, User>();
             // This option will prevent AutoMapper to replace fields that not will be updated to null
             CreateMap<UserUpdateDto, User>()
+                .ReverseMap()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<User, UserResultDto>().ReverseMap();
 
@@ -23,6 +24,7 @@ namespace CrossCutting.Mappings
             CreateMap<WalletCreateDto, Wallet>();
             // This option will prevent AutoMapper to replace fields that not will be updated to null
             CreateMap<WalletUpdateDto, Wallet>()
+                .ReverseMap()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<Wallet, WalletResultDto>().ReverseMap();
 
@@ -30,6 +32,7 @@ namespace CrossCutting.Mappings
             CreateMap<WalletTypeCreateDto, WalletType>();
             // This option will prevent AutoMapper to replace fields that not will be updated to null
             CreateMap<WalletTypeUpdateDto, WalletType>()
+                .ReverseMap()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<WalletType, WalletTypeResultDto>().ReverseMap();
 
@@ -37,6 +40,7 @@ namespace CrossCutting.Mappings
             CreateMap<CategoryCreateDto, Category>();
             // This option will prevent AutoMapper to replace fields that not will be updated to null
             CreateMap<CategoryUpdateDto, Category>()
+                .ReverseMap()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<Category, CategoryResultDto>().ReverseMap();
 
@@ -44,6 +48,7 @@ namespace CrossCutting.Mappings
             CreateMap<EntraceCreateDto, Entrace>();
             // This option will prevent AutoMapper to replace fields that not will be updated to null
             CreateMap<EntraceUpdateDto, Entrace>()
+                .ReverseMap()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<Entrace, EntraceResultDto>().ReverseMap();
         }

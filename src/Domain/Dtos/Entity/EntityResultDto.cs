@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Domain.Dtos.Entity
 {
     public class EntityResultDto
-    { 
-        [Required(ErrorMessage = "Id is required")]
+    {
         public Guid Id { get; set; }
 
         [DataType(DataType.DateTime)]

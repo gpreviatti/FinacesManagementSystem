@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Domain.Dtos.Category;
 using Domain.Dtos.Entity;
-using Domain.Dtos.Wallet;
 
 namespace Domain.Dtos.Entrace
 {

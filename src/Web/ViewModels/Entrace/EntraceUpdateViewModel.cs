@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
 using Domain.Dtos.Category;
 using Domain.Dtos.Entrace;
+using Domain.Dtos.EntraceTypeDto;
 using Domain.Dtos.Wallet;
 
 namespace Web.ViewModels.Entrace
 {
     public class EntraceUpdateViewModel
     {
-        public EntraceResultDto Entrace { get; set; }
+        public EntraceUpdateDto Entrace { get; set; }
+
+        public IEnumerable<EntraceTypeResultDto> EntraceTypes { get; set; }
 
         public IEnumerable<CategoryResultDto> Categories { get; set; }
 
