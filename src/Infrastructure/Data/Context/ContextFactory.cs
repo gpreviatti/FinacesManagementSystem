@@ -12,7 +12,7 @@ namespace Data.Context
             var dbConnection = "Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=FmsDB";
 
             //SQLServer
-            optionsBuilder.UseSqlServer(dbConnection).UseLazyLoadingProxies();
+            optionsBuilder.UseSqlServer(dbConnection);
 
             return new MyContext(optionsBuilder.Options);
         }

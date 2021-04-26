@@ -9,9 +9,11 @@ namespace Domain.Entities
         public int Type { get; set; }
         public string Observation { get; set; }
         public double Value { get; set; }
-        
-        public virtual Wallet Wallet { get; set; }
 
-        public virtual Category Category { get; set; }
+        public Guid WalletId { get; set; }
+        public Wallet Wallet { get; set; }
+
+        public Guid CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }

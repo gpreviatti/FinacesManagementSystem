@@ -11,10 +11,12 @@ namespace Domain.Entities
         public DateTime DueDate { get; set; }
         public DateTime CloseDate { get; set; }
 
-        public virtual User User { get; set; }
+        public Guid UserId { get; set; }
+        public User User { get; set; }
 
-        public virtual WalletType WalletType { get; set; }
+        public WalletType WalletType { get; set; }
+        public Guid WalletTypeId { get; set; }
 
-        public virtual IEnumerable<Entrace> Entraces { get; set; }
+        public IEnumerable<Entrace> Entraces { get; set; }
     }
 }

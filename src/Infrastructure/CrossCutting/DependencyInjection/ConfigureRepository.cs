@@ -23,7 +23,6 @@ namespace CrossCutting.DependencyInjection
 
             serviceCollection.AddDbContext<MyContext>(
                 options => options
-                .UseLazyLoadingProxies()
                 .UseSqlServer($"Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=FmsDB")
             );
         }
