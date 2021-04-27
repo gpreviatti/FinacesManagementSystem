@@ -1,6 +1,8 @@
-﻿using Domain.Dtos.Category;
+﻿using System;
+using Domain.Dtos.Category;
 using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
+using Web.ViewModels.Category;
 
 namespace Web.Controllers
 {
@@ -15,50 +17,73 @@ namespace Web.Controllers
 
         public IActionResult Index()
         {
-            var categories = _service.FindAllAsync().Result;
+            var categories = _service.FindAsyncAllCommonAndUserCategories().Result;
             return View(categories);
-        }
-
-        public ActionResult Details(int id)
-        {
-            return View();
         }
 
         public ActionResult Create()
         {
-            return View();
+            var categoryCreateViewModel = new CategoryCreateViewModel();
+            categoryCreateViewModel.Category = new CategoryCreateDto();
+            categoryCreateViewModel.Categories = _service.FindAsyncAllCommonAndUserCategories().Result;
+            return View(categoryCreateViewModel);
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public ActionResult Create(CategoryCreateDto categoryCreateDto)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(CategoryCreateViewModel categoryCreateViewModel)
         {
-            
-            return RedirectToAction(nameof(Index));
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = _service.CreateAsync(categoryCreateViewModel.Category).Result;
+            if (result == null)
+            {
+                return BadRequest(ModelState);
+            }
+            return RedirectToAction("Index", "Category");
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(Guid id)
         {
-            return View();
+            var categoryUpdateViewModel = new CategoryUpdateViewModel();
+            categoryUpdateViewModel.Category = _service.FindByIdUpdateAsync(id).Result;
+            categoryUpdateViewModel.Categories = _service.FindAsyncAllCommonAndUserCategories().Result;
+            return View(categoryUpdateViewModel);
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, CategoryUpdateDto categoryUpdate)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, CategoryUpdateViewModel categoryUpdateView)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                return BadRequest(ModelState);
             }
-            catch
+
+            var result = _service.UpdateAsync(categoryUpdateView.Category).Result;
+            if (result == null)
             {
-                return View();
+                return BadRequest(ModelState);
             }
+            return RedirectToAction("Index", "Category");
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(Guid id)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = _service.DeleteAsync(id).Result;
+            if (result.Equals(null))
+            {
+                return BadRequest(ModelState);
+            }
+            return RedirectToAction("Index", "Category");
         }
     }
 }

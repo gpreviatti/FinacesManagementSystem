@@ -19,6 +19,7 @@ namespace Service.Services
             _mapper = mapper;
         }
 
+        #region Find
         public async Task<CategoryResultDto> FindByIdAsync(Guid Id)
         {
             try
@@ -32,6 +33,20 @@ namespace Service.Services
                 return null;
             }
         }
+        public async Task<CategoryUpdateDto> FindByIdUpdateAsync(Guid Id)
+        {
+            try
+            {
+                var result = await _repository.FindByIdAsync(Id);
+                return _mapper.Map<CategoryUpdateDto>(result);
+            }
+            catch (Exception exception)
+            {
+                System.Console.WriteLine(exception);
+                return null;
+            }
+        }
+
 
         public async Task<IEnumerable<CategoryResultDto>> FindAllAsync()
         {
@@ -47,10 +62,35 @@ namespace Service.Services
             }
         }
 
+        /// <summary>
+        /// Return all user and common categories
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<CategoryResultDto>> FindAsyncAllCommonAndUserCategories()
+        {
+            try
+            {
+                var result = await _repository.FindAsyncAllCommonAndUserCategories(UserId);
+                return _mapper.Map<IEnumerable<CategoryResultDto>>(result);
+            }
+            catch (Exception exception)
+            {
+                System.Console.WriteLine(exception);
+                return null;
+            }
+        }
+        #endregion
+
         public async Task<CategoryResultDto> CreateAsync(CategoryCreateDto entityCreateDto)
         {
             try
             {
+                if (entityCreateDto.CategoryId == Guid.Empty)
+                {
+                    return null;
+                }
+
+                entityCreateDto.UserId = UserId;
                 var entity = _mapper.Map<Category>(entityCreateDto);
 
                 var result = await _repository.CreateAsync(entity);
