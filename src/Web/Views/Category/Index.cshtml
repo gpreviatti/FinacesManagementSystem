@@ -17,9 +17,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.CreatedAt)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedAt)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -36,10 +33,10 @@
                         @Html.DisplayFor(modelItem => item.CreatedAt)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.UpdatedAt)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", "Category", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
+                        @if (item.UserId != Guid.Empty)
+                        {
+                            @Html.ActionLink("Edit", "Edit", "Category", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
+                        }
                     </td>
                 </tr>
             }
