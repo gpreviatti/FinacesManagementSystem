@@ -29,6 +29,7 @@ namespace Service.Services
             _categoryRepository = categoryRepository;
         }
 
+        #region "Find"
         public async Task<EntraceResultDto> FindByIdAsync(Guid Id)
         {
             try
@@ -70,6 +71,67 @@ namespace Service.Services
                 return null;
             }
         }
+
+        public async Task<IEnumerable<EntraceResultDto>> FindAllAsyncWithWallet()
+        {
+            try
+            {
+                var result = await _repository.FindAllAsyncWithWallet();
+                return _mapper.Map<IEnumerable<EntraceResultDto>>(result);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                return null;
+            }
+        }
+
+        public async Task<IEnumerable<EntraceResultDto>> FindAllAsyncWithCategory()
+        {
+            try
+            {
+                var result = await _repository.FindAllAsyncWithCategory();
+                return _mapper.Map<IEnumerable<EntraceResultDto>>(result);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Take last ten entraces ordered by CreatedAt field
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<EntraceResultDto>> FindAsyncLastTenEntracesWithCategories()
+        {
+            try
+            {
+                var result = await _repository.FindAllAsyncWithCategory();
+                return _mapper.Map<IEnumerable<EntraceResultDto>>(result);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                return null;
+            }
+        }
+
+        public async Task<IEnumerable<EntraceResultDto>> FindAllAsyncWithWalletAndCategory()
+        {
+            try
+            {
+                var result = await _repository.FindAllAsyncWithWalletAndCategory();
+                return _mapper.Map<IEnumerable<EntraceResultDto>>(result);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                return null;
+            }
+        }
+        #endregion
 
         public async Task<EntraceResultDto> CreateAsync(EntraceCreateDto entraceCreateDto)
         {

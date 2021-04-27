@@ -16,8 +16,6 @@ namespace Web.ViewModels.Home
 
         public IEnumerable<EntraceResultDto> Entraces { get; set; }
 
-        public IEnumerable<EntraceTypeResultDto> EntraceType { get; set; }
-
         public IEnumerable<WalletResultDto> Wallets { get; set; }
     }
 }

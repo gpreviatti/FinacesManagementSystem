@@ -30,7 +30,7 @@ namespace Web.Controllers
 
         public IActionResult Index()
         {
-            var entraces = _service.FindAllAsync().Result;
+            var entraces = _service.FindAllAsyncWithCategory().Result;
             return View(entraces);
         }
 
