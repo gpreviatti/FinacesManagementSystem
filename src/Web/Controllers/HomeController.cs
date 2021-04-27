@@ -13,22 +13,12 @@ namespace Web.Controllers
     {
         private readonly IEntraceService _entraceService;
         private readonly IWalletService _walletService;
-        private readonly ICategoryService _categoryService;
-        private readonly IEnumerable<EntraceTypeResultDto> _entraceTypesResultDto;
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(IEntraceService entraceService, IWalletService walletService, ICategoryService categoryService)
         {
             _entraceService = entraceService;
             _walletService = walletService;
-            _categoryService = categoryService;
-
-            _entraceTypesResultDto = new List<EntraceTypeResultDto>()
-            {
-                new EntraceTypeResultDto() { Value = 1, Name = "Income"},
-                new EntraceTypeResultDto() { Value = 2, Name = "Expanse"},
-                new EntraceTypeResultDto() { Value = 3, Name = "Transferance"},
-            };
         }
 
         //public HomeController(ILogger<HomeController> logger)
@@ -39,9 +29,8 @@ namespace Web.Controllers
         public IActionResult Index()
         {
             var homeIndexViewModel = new HomeIndexViewModel();
-            homeIndexViewModel.Entraces = _entraceService.FindAllAsync().Result;
+            homeIndexViewModel.Entraces = _entraceService.FindAsyncLastTenEntracesWithCategories().Result;
             homeIndexViewModel.Wallets = _walletService.FindAllAsync().Result;
-            homeIndexViewModel.EntraceType = _entraceTypesResultDto;
             homeIndexViewModel.TotalExpanse = 1000;
             homeIndexViewModel.TotalIncome = 5000;
 
