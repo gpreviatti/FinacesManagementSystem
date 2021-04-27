@@ -3,19 +3,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"]</title>
+    <title>FMS - @ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body class="dark-theme">
-    <style>
-        .dark-theme {
-            background-color: black;
-            color: #fff
-        }
-    </style>
+<body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-light">
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                 <span class="navbar-toggler-icon"></span>
@@ -27,10 +21,13 @@
                         <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="Privacy">Reports</a>
+                        <a class="nav-link" asp-controller="Category" asp-action="Index">Categories</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Category" asp-action="Index">Categories</a>
+                        <a class="nav-link" asp-controller="Entrace" asp-action="Index">Entraces</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Wallet" asp-action="Index">Wallets</a>
                     </li>
                 </ul>
             </div>
@@ -40,12 +37,18 @@
     <div class="container">
         <main role="main" class="pb-3 mt-3">
             <div class="col-lg-12">
-                @RenderBody()
+                <div class="row">
+                    <h1>@ViewData["Title"]</h1>
+                    <hr />
+                </div>
+                <div class="row">
+                    @RenderBody()
+                </div>
             </div>
         </main>
     </div>
 
-    <footer class="footer text-muted mt-3 bg-dark">
+    <footer class="footer text-muted mt-3">
         <div class="container">
             &copy; 2021 - Powered by Giovanni Brunno Previatti</a>
         </div>
