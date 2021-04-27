@@ -4,15 +4,26 @@
     ViewData["Title"] = "Finnaces Management System";
 }
 
+<style>
+    .card {
+        box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
 <div class="col-lg-6 mb-4">
     <div class="card bg-light">
         <h5 class="card-header">Current Values</h5>
         <div class="card-body">
-            <h5 class="card-title">Total Income</h5> 
-            <p class="card-text">@Model.TotalIncome</p>
-
-            <h5 class="card-title">Total Expanse</h5>
-            <p class="card-text">@Model.TotalExpanse</p>
+            <div class="row">
+                <div class="col-lg-6">
+                    <h4 class="card-title">Total Income</h4> 
+                    <p class="card-text">@Model.TotalIncome</p>
+                </div>
+                <div class="col-lg-6">
+                    <h4 class="card-title">Total Expanse</h4>
+                    <p class="card-text">@Model.TotalExpanse</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

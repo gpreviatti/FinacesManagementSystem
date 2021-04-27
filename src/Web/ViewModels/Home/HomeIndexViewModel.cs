@@ -9,10 +9,10 @@ namespace Web.ViewModels.Home
     public class HomeIndexViewModel
     {
         [DataType(DataType.Currency)]
-        public double? TotalIncome { get; set; }
+        public double TotalIncome { get; set; }
 
         [DataType(DataType.Currency)]
-        public double? TotalExpanse { get; set; }
+        public double TotalExpanse { get; set; }
 
         public IEnumerable<EntraceResultDto> Entraces { get; set; }
 
