@@ -19,12 +19,41 @@ namespace Service.Services
             _mapper = mapper;
         }
 
+        #region Find
         public async Task<WalletResultDto> FindByIdAsync(Guid Id)
         {
             try
             {
                 var result = await _repository.FindByIdAsync(Id);
                 return _mapper.Map<WalletResultDto>(result);
+            }
+            catch (Exception exception)
+            {
+                System.Console.WriteLine(exception);
+                return null;
+            }
+        }
+
+        public async Task<WalletUpdateDto> FindByIdUpdateAsync(Guid id)
+        {
+            try
+            {
+                var result = await _repository.FindByIdAsync(id);
+                return _mapper.Map<WalletUpdateDto>(result);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                return null;
+            }
+        }
+
+        public async Task<IEnumerable<WalletResultDto>> FindAsyncWalletsUser()
+        {
+            try
+            {
+                var result = await _repository.FindAsyncWalletsUser(UserId);
+                return _mapper.Map<IEnumerable<WalletResultDto>>(result);
             }
             catch (Exception exception)
             {
@@ -46,11 +75,18 @@ namespace Service.Services
                 return null;
             }
         }
+        #endregion
 
         public async Task<WalletResultDto> CreateAsync(WalletCreateDto entityCreateDto)
         {
             try
             {
+                if (entityCreateDto.WalletTypeId == Guid.Empty)
+                {
+                    return null;
+                }
+
+                entityCreateDto.UserId = UserId;
                 var entity = _mapper.Map<Wallet>(entityCreateDto);
 
                 var result = await _repository.CreateAsync(entity);

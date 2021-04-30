@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Domain.Dtos.Entrace.EntraceResultDto>
+
+@{
+    ViewData["Title"] = "Entrances";
+}
+
+@Html.ActionLink("Create Entrance", "Create", null, htmlAttributes: new { @class = "btn btn-secondary bg-black btn-sm btn-block mb-3" })
+
+<br />
+
+<table class="table bg-dark text-light">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Value)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    @if (Model != null && Model.Any())
+    {
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @{
+                        switch (item.Type)
+                        {
+                            case 1:
+                                @Html.Label("", "Income", htmlAttributes: new { @class = "badge badge-pill badge-success" });
+                                break;
+                            case 2:
+                                @Html.Label("", "Expanse", htmlAttributes: new { @class = "badge badge-pill badge-danger" });
+                                break;
+                            default:
+                                @Html.Label("", "Unknown", htmlAttributes: new { @class = "badge badge-pill badge-secondary" });
+                                break;
+                        }
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+                <td>
+                    @Html.Label("", item.Category.Name, htmlAttributes: new { @class = "badge badge-pill badge-primary" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Entrace", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-secondary bg-black btn-sm" })
+                </td>
+            </tr>
+            }
+        </tbody>
+    }
+</table>

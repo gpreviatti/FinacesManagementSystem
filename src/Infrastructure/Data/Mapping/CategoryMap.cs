@@ -24,6 +24,9 @@ namespace Data.Mapping
 
             builder.HasOne(c => c.User)
                 .WithMany(u => u.Categories);
+
+            builder.HasOne(c => c.CustomCategory)
+                .WithMany();
         }
     }
 }

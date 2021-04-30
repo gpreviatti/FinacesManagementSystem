@@ -1,4 +1,4 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -12,17 +12,18 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
+        "DB_CONNECTION": "Server=(localdb)\\\\mssqllocaldb;Integrated Security=true;Initial Catalog=FmsDB",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "Web": {
       "commandName": "Project",
-      "dotnetRunMessages": "true",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "dotnetRunMessages": "true",
+      "applicationUrl": "http://localhost:5000"
     }
   }
 }

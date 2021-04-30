@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Domain.Entities
 {
@@ -6,7 +7,11 @@ namespace Domain.Entities
     {
         public string Name { get; set; }
 
+        public Guid? UserId { get; set; }
         public User User { get; set; }
+
+        public Guid? CategoryId { get; set; }
+        public Category CustomCategory { get; set; }
 
         public IEnumerable<Entrace> Entraces { get; set; }
     }

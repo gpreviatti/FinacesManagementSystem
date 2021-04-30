@@ -29,6 +29,7 @@ namespace Service.Services
             _categoryRepository = categoryRepository;
         }
 
+        #region "Find"
         public async Task<EntraceResultDto> FindByIdAsync(Guid Id)
         {
             try
@@ -43,11 +44,25 @@ namespace Service.Services
             }
         }
 
-        public async Task<IEnumerable<EntraceResultDto>> FindAllAsync()
+        public async Task<EntraceUpdateDto> FindByIdUpdateAsync(Guid id)
         {
             try
             {
-                var result = await _repository.FindAllAsync();
+                var result = await _repository.FindByIdAsync(id);
+                return _mapper.Map<EntraceUpdateDto>(result);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                return null;
+            }
+        }
+
+        public async Task<IEnumerable<EntraceResultDto>> FindAllAsyncWithCategory()
+        {
+            try
+            {
+                var result = await _repository.FindAllAsyncWithCategory();
                 return _mapper.Map<IEnumerable<EntraceResultDto>>(result);
             }
             catch (Exception exception)
@@ -57,12 +72,31 @@ namespace Service.Services
             }
         }
 
+        /// <summary>
+        /// Take last ten entraces ordered by CreatedAt field
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<EntraceResultDto>> FindAsyncLastTenEntracesWithCategories()
+        {
+            try
+            {
+                var result = await _repository.FindAllAsyncWithCategory();
+                return _mapper.Map<IEnumerable<EntraceResultDto>>(result);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                return null;
+            }
+        }
+        #endregion
+
         public async Task<EntraceResultDto> CreateAsync(EntraceCreateDto entraceCreateDto)
         {
             try
             {
                 var wallet = _walletRepository.FindByIdAsync(entraceCreateDto.WalletId).Result;
-                if (wallet.Equals(null))
+                if (wallet == null)
                 {
                     return null;
                 }
@@ -84,19 +118,10 @@ namespace Service.Services
                     return null;
                 }
 
-                var category = _categoryRepository.FindByIdAsync(entraceCreateDto.WalletId).Result;
-                if (category.Equals(null))
+                var category = _categoryRepository.FindByIdAsync(entraceCreateDto.CategoryId).Result;
+                if (category == null)
                 {
                     return null;
-                }
-
-                if (entraceCreateDto.Type.Equals(1))
-                {
-                    wallet.CurrentValue = wallet.CurrentValue + entraceCreateDto.Value;
-                }
-                if (entraceCreateDto.Type.Equals(2))
-                {
-                    wallet.CurrentValue = wallet.CurrentValue - entraceCreateDto.Value;
                 }
 
                 var entrace = _mapper.Map<Entrace>(entraceCreateDto);
@@ -125,7 +150,7 @@ namespace Service.Services
                 }
 
                 var wallet = _walletRepository.FindByIdAsync(entraceUpdateDto.WalletId).Result;
-                if (wallet.Equals(null))
+                if (wallet == null)
                 {
                     return null;
                 }
@@ -147,19 +172,9 @@ namespace Service.Services
                     return null;
                 }
 
-                var category = _categoryRepository.FindByIdAsync(entraceUpdateDto.WalletId).Result;
-                if (category.Equals(null))
+                if (_categoryRepository.FindByIdAsync(entraceUpdateDto.CategoryId).Result == null)
                 {
                     return null;
-                }
-
-                if (entraceUpdateDto.Type.Equals(1))
-                {
-                    wallet.CurrentValue = wallet.CurrentValue + entraceUpdateDto.Value;
-                }
-                if (entraceUpdateDto.Type.Equals(2))
-                {
-                    wallet.CurrentValue = wallet.CurrentValue - entraceUpdateDto.Value;
                 }
 
                 var entrace = _mapper.Map(entraceUpdateDto, result);
@@ -171,7 +186,6 @@ namespace Service.Services
                     return _mapper.Map<EntraceResultDto>(entrace);
                 }
                 return null;
-
             }
             catch (Exception exception)
             {
