@@ -6,14 +6,16 @@
 
 <style>
     .card {
-        box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+        -webkit-box-shadow: 0 4px 60px rgb(0 0 0 / 50%);
+        box-shadow: 0 4px 60px rgb(0 0 0 / 50%);
+        /*box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);*/
     }
 </style>
 
 <div class="col-lg-6 mb-4">
-    <div class="card bg-light">
-        <h5 class="card-header">Current Values</h5>
-        <div class="card-body">
+    <div class="card bg-dark">
+        <h5 class="card-header bg-black text-light">Current Values</h5>
+        <div class="card-body bg-dark text-light">
             <div class="row">
                 <div class="col-lg-6">
                     <h4 class="card-title">Total Income</h4> 
@@ -26,14 +28,40 @@
             </div>
         </div>
     </div>
+
+    <h2 class="row text-light mt-3 mb-3">Wallets</h2>
+    <div class="row">
+        @foreach (var item in Model.Wallets)
+        {
+
+            <div class="col-lg-6">
+                <div class="card bg-dark mb-3">
+                    <div class="col-lg-12 bg-black text-light">
+                        <h6 class="card-header">
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </h6>
+                    </div>
+                    <div class="card-body bg-dark text-light">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h6 class="card-title">Current Value</h6>
+                                @Html.DisplayFor(modelItem => item.CurrentValue)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
 </div>
 
 <div class="col-lg-6">
-    @Html.ActionLink("Create Entrace", "Create", "Entrace", null, new { @class = "btn btn-primary btn-sm btn-block" })
+    @Html.ActionLink("Create Entrace", "Create", "Entrace", null, new { @class = "btn btn-secondary bg-black btn-sm btn-block" })
 
     <br />
 
-    <table class="table table-striped">
+    <table class="table bg-dark text-light">
         <thead>
             <tr>
                 <th>Description</th>
@@ -79,7 +107,7 @@
                         @Html.DisplayFor(modelItem => item.CreatedAt)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", "Entrace", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
+                        @Html.ActionLink("Edit", "Edit", "Entrace", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-secondary bg-black btn-sm" })
                     </td>
                 </tr>
                 }

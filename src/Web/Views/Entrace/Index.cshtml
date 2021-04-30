@@ -4,11 +4,11 @@
     ViewData["Title"] = "Entrances";
 }
 
-@Html.ActionLink("Create Entrance", "Create", null, htmlAttributes: new { @class = "btn btn-primary btn-sm btn-block" })
+@Html.ActionLink("Create Entrance", "Create", null, htmlAttributes: new { @class = "btn btn-secondary bg-black btn-sm btn-block mb-3" })
 
 <br />
 
-<table class="table table-striped">
+<table class="table bg-dark text-light">
     <thead>
         <tr>
             <th>
@@ -64,7 +64,7 @@
                     @Html.DisplayFor(modelItem => item.CreatedAt)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", "Entrace", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
+                    @Html.ActionLink("Edit", "Edit", "Entrace", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-secondary bg-black btn-sm" })
                 </td>
             </tr>
             }

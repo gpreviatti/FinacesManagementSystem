@@ -12,38 +12,38 @@
         </div>
         <div class="form-group">
             <label asp-for="@Model.Entrace.Description" class="control-label"></label>
-            <textarea asp-for="@Model.Entrace.Description" class="form-control"></textarea>
+            <textarea asp-for="@Model.Entrace.Description" class="form-control bg-dark text-light"></textarea>
             <span asp-validation-for="@Model.Entrace.Description" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="@Model.Entrace.Type" class="control-label"></label>
-            @Html.DropDownListFor(Model => Model.Entrace.Type, new SelectList(Model.EntraceTypes, "Value", "Name"), new { @class = "form-control" })
+            @Html.DropDownListFor(Model => Model.Entrace.Type, new SelectList(Model.EntraceTypes, "Value", "Name"), new { @class = "form-control bg-dark text-light" })
             <span asp-validation-for="@Model.Entrace.Type" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="@Model.Entrace.Value" class="control-label"></label>
-            <input asp-for="@Model.Entrace.Value" class="form-control" />
+            <input asp-for="@Model.Entrace.Value" class="form-control bg-dark text-light" type="number"/>
             <span asp-validation-for="@Model.Entrace.Value" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="@Model.Categories" class="control-label"></label>
-            @Html.DropDownListFor(Model => @Model.Entrace.CategoryId, new SelectList(Model.Categories, "Id", "Name"), new { @class = "form-control" })
+            @Html.DropDownListFor(Model => @Model.Entrace.CategoryId, new SelectList(Model.Categories, "Id", "Name"), new { @class = "form-control bg-dark text-light" })
             <span asp-validation-for="@Model.Entrace.CategoryId" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="@Model.Wallets" class="control-label"></label>
-            @Html.DropDownListFor(Model => @Model.Entrace.WalletId, new SelectList(@Model.Wallets, "Id", "Name"), new { @class = "form-control" })
+            @Html.DropDownListFor(Model => @Model.Entrace.WalletId, new SelectList(@Model.Wallets, "Id", "Name"), new { @class = "form-control bg-dark text-light" })
             <span asp-validation-for="@Model.Entrace.WalletId" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="@Model.Entrace.Observation" class="control-label"></label>
-            <textarea asp-for="@Model.Entrace.Observation" class="form-control"></textarea>
+            <textarea asp-for="@Model.Entrace.Observation" class="form-control bg-dark text-light"></textarea>
             <span asp-validation-for="@Model.Entrace.Observation" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <input type="submit" value="Update" class="btn btn-success btn-sm" />
+            <input type="submit" value="Update" class="btn btn-secondary bg-black btn-sm" />
             @Html.ActionLink("Delete", "Delete", new { id = @Model.Entrace.Id }, htmlAttributes: new { @class = "btn btn-danger btn-sm" })
-            @Html.ActionLink("Back to List", "Index", "Home", null, new { @class = "btn btn-secondary btn-sm" })
+            @Html.ActionLink("Back to List", "Index", "Entrace", null, new { @class = "btn btn-secondary btn-sm" })
         </div>
     </form>
 </div>
