@@ -1,91 +1,92 @@
-﻿using Domain.Interfaces.Services;
+﻿using System;
+using Domain.Dtos.Wallet;
+using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Web.ViewModels.Wallet;
 
 namespace Web.Controllers
 {
     public class WalletController : Controller
     {
         private readonly IWalletService _service;
-        public WalletController(IWalletService service)
+        private readonly IWalletTypeService _walletTypeService;
+
+        public WalletController(IWalletService service, IWalletTypeService walletTypeService)
         {
             _service = service;
+            _walletTypeService = walletTypeService;
         }
 
-        // GET: WalletController
         public ActionResult Index()
         {
-            var wallets = _service.FindAllAsync().Result;
+            var wallets = _service.FindAsyncWalletsUser().Result;
             return View(wallets);
         }
 
-        // GET: WalletController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: WalletController/Create
         public ActionResult Create()
         {
-            return View();
+            var walletCreateViewModel = new WalletCreateViewModel();
+            walletCreateViewModel.Wallet = new WalletCreateDto();
+            walletCreateViewModel.WalletTypes = _walletTypeService.FindAllAsync().Result;
+            return View(walletCreateViewModel);
         }
 
-        // POST: WalletController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(WalletCreateViewModel walletCreateViewModel)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                return BadRequest(ModelState);
             }
-            catch
+
+            var result = _service.CreateAsync(walletCreateViewModel.Wallet).Result;
+            if (result == null)
             {
-                return View();
+                return BadRequest(ModelState);
             }
+            return RedirectToAction("Index", "Wallet");
         }
 
-        // GET: WalletController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(Guid id)
         {
-            return View();
+            var walletUpdateViewModel = new WalletUpdateViewModel();
+            walletUpdateViewModel.Wallet = _service.FindByIdUpdateAsync(id).Result;
+            walletUpdateViewModel.WalletTypes = _walletTypeService.FindAllAsync().Result;
+            return View(walletUpdateViewModel);
         }
 
-        // POST: WalletController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, WalletUpdateViewModel walletUpdateViewModel)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                return BadRequest(ModelState);
             }
-            catch
+
+            var result = _service.UpdateAsync(walletUpdateViewModel.Wallet).Result;
+            if (result == null)
             {
-                return View();
+                return BadRequest(ModelState);
             }
+            return RedirectToAction("Index", "Wallet");
         }
 
-        // GET: WalletController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(Guid id)
         {
-            return View();
-        }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        // POST: WalletController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
+            var result = _service.DeleteAsync(id).Result;
+            if (result.Equals(null))
             {
-                return RedirectToAction(nameof(Index));
+                return BadRequest(ModelState);
             }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction("Index", "Wallet");
         }
     }
 }
