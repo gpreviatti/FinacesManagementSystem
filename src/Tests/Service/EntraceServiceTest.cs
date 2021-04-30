@@ -203,7 +203,7 @@ namespace Tests.Service
         {
             try
             {
-                EntraceResultDto entraceUpdateDto = new EntraceResultDto()
+                EntraceUpdateDto entraceUpdateDto = new EntraceUpdateDto()
                 {
                     Description = FakerName,
                 };

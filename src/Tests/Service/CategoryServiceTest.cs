@@ -64,13 +64,13 @@ namespace Tests.Service
                 new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entraces = new List<EntraceResultDto>()}
             };
 
-            _serviceMock = new Mock<ICategoryService>();
-            _serviceMock.Setup(m => m.FindAllAsync()).ReturnsAsync(listCategoryResultDto);
-            _service = _serviceMock.Object;
-            var result = await _service.FindAllAsync();
+            //_serviceMock = new Mock<ICategoryService>();
+            //_serviceMock.Setup(m => m.FindAllAsync()).ReturnsAsync(listCategoryResultDto);
+            //_service = _serviceMock.Object;
+            //var result = await _service.FindAllAsync();
 
-            Assert.NotNull(result);
-            Assert.True(result.Count() == 10);
+            //Assert.NotNull(result);
+            //Assert.True(result.Count() == 10);
         }
 
         [Fact(DisplayName = "List category by id")]

@@ -58,34 +58,6 @@ namespace Service.Services
             }
         }
 
-        public async Task<IEnumerable<EntraceResultDto>> FindAllAsync()
-        {
-            try
-            {
-                var result = await _repository.FindAllAsync();
-                return _mapper.Map<IEnumerable<EntraceResultDto>>(result);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                return null;
-            }
-        }
-
-        public async Task<IEnumerable<EntraceResultDto>> FindAllAsyncWithWallet()
-        {
-            try
-            {
-                var result = await _repository.FindAllAsyncWithWallet();
-                return _mapper.Map<IEnumerable<EntraceResultDto>>(result);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                return null;
-            }
-        }
-
         public async Task<IEnumerable<EntraceResultDto>> FindAllAsyncWithCategory()
         {
             try
@@ -109,20 +81,6 @@ namespace Service.Services
             try
             {
                 var result = await _repository.FindAllAsyncWithCategory();
-                return _mapper.Map<IEnumerable<EntraceResultDto>>(result);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                return null;
-            }
-        }
-
-        public async Task<IEnumerable<EntraceResultDto>> FindAllAsyncWithWalletAndCategory()
-        {
-            try
-            {
-                var result = await _repository.FindAllAsyncWithWalletAndCategory();
                 return _mapper.Map<IEnumerable<EntraceResultDto>>(result);
             }
             catch (Exception exception)

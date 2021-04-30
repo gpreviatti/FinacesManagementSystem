@@ -37,12 +37,12 @@ namespace Web.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var entraceCreateView = new EntraceCreateViewModel();
-            entraceCreateView.Entrace = new EntraceCreateDto();
-            entraceCreateView.Wallets = _walletService.FindAllAsync().Result;
-            entraceCreateView.Categories = _categoryService.FindAllAsync().Result;
-            entraceCreateView.EntraceTypes = _entraceTypesResultDto;
-            return View(entraceCreateView);
+            var entraceCreateViewModel = new EntraceCreateViewModel();
+            entraceCreateViewModel.Entrace = new EntraceCreateDto();
+            entraceCreateViewModel.Wallets = _walletService.FindAsyncWalletsUser().Result;
+            entraceCreateViewModel.Categories = _categoryService.FindAsyncAllCommonAndUserCategories().Result;
+            entraceCreateViewModel.EntraceTypes = _entraceTypesResultDto;
+            return View(entraceCreateViewModel);
         }
 
         [HttpPost]
@@ -67,8 +67,8 @@ namespace Web.Controllers
         {
             var entraceUpdateViewModel = new EntraceUpdateViewModel();
             entraceUpdateViewModel.Entrace = _service.FindByIdUpdateAsync(id).Result;
-            entraceUpdateViewModel.Wallets = _walletService.FindAllAsync().Result;
-            entraceUpdateViewModel.Categories = _categoryService.FindAllAsync().Result;
+            entraceUpdateViewModel.Wallets = _walletService.FindAsyncWalletsUser().Result;
+            entraceUpdateViewModel.Categories = _categoryService.FindAsyncAllCommonAndUserCategories().Result;
             entraceUpdateViewModel.EntraceTypes = new List<EntraceTypeResultDto>()
             {
                 new EntraceTypeResultDto() { Value = 1, Name = "Income"},

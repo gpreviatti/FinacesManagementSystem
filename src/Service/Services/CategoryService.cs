@@ -47,21 +47,6 @@ namespace Service.Services
             }
         }
 
-
-        public async Task<IEnumerable<CategoryResultDto>> FindAllAsync()
-        {
-            try
-            {
-                var result = await _repository.FindAllAsync();
-                return _mapper.Map<IEnumerable<CategoryResultDto>>(result);
-            }
-            catch (Exception exception)
-            {
-                System.Console.WriteLine(exception);
-                return null;
-            }
-        }
-
         /// <summary>
         /// Return all user and common categories
         /// </summary>
