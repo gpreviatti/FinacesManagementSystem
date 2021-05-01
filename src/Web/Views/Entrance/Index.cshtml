@@ -1,10 +1,10 @@
-﻿@model IEnumerable<Domain.Dtos.Entrace.EntraceResultDto>
+﻿@model IEnumerable<Domain.Dtos.Entrance.EntranceResultDto>
 
 @{
     ViewData["Title"] = "Entrances";
 }
 
-@Html.ActionLink("Create Entrance", "Create", null, htmlAttributes: new { @class = "btn btn-secondary bg-black btn-sm btn-block mb-3" })
+@Html.ActionLink("Create Entrance", "Create", null, htmlAttributes: new { @class = "btn btn-secondary bg-black btn-lg btn-block mb-3" })
 
 <br />
 
@@ -12,7 +12,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["Description"]">@Html.DisplayNameFor(model => model.Description)</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Type)
@@ -64,7 +64,7 @@
                     @Html.DisplayFor(modelItem => item.CreatedAt)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", "Entrace", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-secondary bg-black btn-sm" })
+                    @Html.ActionLink("Edit", "Edit", "Entrance", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-secondary bg-black btn-sm" })
                 </td>
             </tr>
             }

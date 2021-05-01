@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using Domain.Dtos.EntraceTypeDto;
+using Domain.Dtos.EntranceTypeDto;
 using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,11 +11,11 @@ namespace Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IEntraceService _entraceService;
+        private readonly IEntranceService _entraceService;
         private readonly IWalletService _walletService;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(IEntraceService entraceService, IWalletService walletService, ICategoryService categoryService)
+        public HomeController(IEntranceService entraceService, IWalletService walletService, ICategoryService categoryService)
         {
             _entraceService = entraceService;
             _walletService = walletService;
@@ -29,7 +29,7 @@ namespace Web.Controllers
         public IActionResult Index()
         {
             var homeIndexViewModel = new HomeIndexViewModel();
-            homeIndexViewModel.Entraces = _entraceService.FindAsyncLastTenEntracesWithCategories().Result;
+            homeIndexViewModel.Entrances = _entraceService.FindAsyncLastTenEntrancesWithCategories().Result;
             homeIndexViewModel.Wallets = _walletService.FindAsyncWalletsUser().Result;
             homeIndexViewModel.TotalExpanse = 1000;
             homeIndexViewModel.TotalIncome = 5000;

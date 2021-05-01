@@ -1,17 +1,8 @@
 ﻿@model Web.ViewModels.Home.HomeIndexViewModel
 
 @{
-    ViewData["Title"] = "Finnaces Management System";
+    ViewData["Title"] = "Finances Management System";
 }
-
-<style>
-    .card {
-        -webkit-box-shadow: 0 4px 60px rgb(0 0 0 / 50%);
-        box-shadow: 0 4px 60px rgb(0 0 0 / 50%);
-        /*box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);*/
-    }
-</style>
-
 <div class="col-lg-6 mb-4">
     <div class="card bg-dark">
         <h5 class="card-header bg-black text-light">Current Values</h5>
@@ -42,11 +33,9 @@
                         </h6>
                     </div>
                     <div class="card-body bg-dark text-light">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h6 class="card-title">Current Value</h6>
-                                @Html.DisplayFor(modelItem => item.CurrentValue)
-                            </div>
+                        <div class="col-lg-12">
+                            <h6 class="card-title">Current Value</h6>
+                            @Html.DisplayFor(modelItem => item.CurrentValue)
                         </div>
                     </div>
                 </div>
@@ -57,7 +46,7 @@
 </div>
 
 <div class="col-lg-6">
-    @Html.ActionLink("Create Entrace", "Create", "Entrace", null, new { @class = "btn btn-secondary bg-black btn-sm btn-block" })
+    @Html.ActionLink("Create Entrance", "Create", "Entrance", null, new { @class = "btn btn-secondary bg-black btn-lg btn-block" })
 
     <br />
 
@@ -72,10 +61,10 @@
                 <th></th>
             </tr>
         </thead>
-        @if (Model.Entraces.Count() > 0 && Model.Entraces.Any())
+        @if (Model.Entrances.Count() > 0 && Model.Entrances.Any())
         {
             <tbody>
-                @foreach (var item in Model.Entraces)
+                @foreach (var item in Model.Entrances)
                 {
                 <tr>
                     <td>
@@ -107,7 +96,7 @@
                         @Html.DisplayFor(modelItem => item.CreatedAt)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", "Entrace", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-secondary bg-black btn-sm" })
+                        @Html.ActionLink("Edit", "Edit", "Entrance", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-secondary bg-black btn-sm" })
                     </td>
                 </tr>
                 }

@@ -19,7 +19,7 @@ namespace Data.Mapping
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.HasMany(c => c.Entraces)
+            builder.HasMany(c => c.Entrances)
                 .WithOne(e => e.Category);
 
             builder.HasOne(c => c.User)

@@ -14,7 +14,7 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<IWalletTypeRepository, WalletTypeRepository>();
             serviceCollection.AddScoped<IWalletRepository, WalletRepository>();
             serviceCollection.AddScoped<ICategoryRepository, CategoryRepository>();
-            serviceCollection.AddScoped<IEntraceRepository, EntraceRepository>();
+            serviceCollection.AddScoped<IEntranceRepository, EntranceRepository>();
 
             //var dbConnection = Environment.GetEnvironmentVariable("DB_CONNECTION");
 

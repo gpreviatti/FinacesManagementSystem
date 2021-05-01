@@ -2,7 +2,7 @@
 
 namespace Domain.Entities
 {
-    public class Entrace : Entity
+    public class Entrance : Entity
     {
         public string Description { get; set; }
         public string Ticker { get; set; }

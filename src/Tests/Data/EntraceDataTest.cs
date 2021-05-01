@@ -7,17 +7,17 @@ using Xunit;
 
 namespace Tests.Data
 {
-    public class EntraceDataTest : BaseDataTest
+    public class EntranceDataTest : BaseDataTest
     {
-        private readonly IEntraceRepository _repository;
-        public EntraceDataTest()
+        private readonly IEntranceRepository _repository;
+        public EntranceDataTest()
         {
-            _repository = new EntraceRepository(_context);
+            _repository = new EntranceRepository(_context);
         }
 
-        private Entrace CreateEntraceEntity()
+        private Entrance CreateEntranceEntity()
         {
-            return new Entrace()
+            return new Entrance()
             {
                 Description = Faker.Lorem.Sentence(10),
                 Observation = Faker.Lorem.Sentence(10),
@@ -29,13 +29,13 @@ namespace Tests.Data
             };   
         }
 
-        [Fact(DisplayName = "Create Entrace")]
-        [Trait("Crud", "ShouldCreateEntrace")]
-        public async void ShouldCreateEntrace()
+        [Fact(DisplayName = "Create Entrance")]
+        [Trait("Crud", "ShouldCreateEntrance")]
+        public async void ShouldCreateEntrance()
         {
             try
             {
-                var entraceEntity = CreateEntraceEntity();
+                var entraceEntity = CreateEntranceEntity();
                 var result = await _repository.CreateAsync(entraceEntity);
                 Assert.NotNull(result);
                 Assert.False(result.Id == Guid.Empty);
@@ -56,13 +56,13 @@ namespace Tests.Data
             }
         }
 
-        [Fact(DisplayName = "List Entraces")]
-        [Trait("Crud", "ShouldListEntrace")]
-        public async void ShouldListEntrace()
+        [Fact(DisplayName = "List Entrances")]
+        [Trait("Crud", "ShouldListEntrance")]
+        public async void ShouldListEntrance()
         {
             try
             {
-                var entraceEntity = CreateEntraceEntity(); ;
+                var entraceEntity = CreateEntranceEntity(); ;
                 await _repository.CreateAsync(entraceEntity);
 
                 var result = await _repository.FindAllAsync();
@@ -76,19 +76,19 @@ namespace Tests.Data
             }
         }
 
-        [Fact(DisplayName = "List Entrace by Id")]
-        [Trait("Crud", "ShouldListEntraceById")]
-        public async void ShouldListEntraceById()
+        [Fact(DisplayName = "List Entrance by Id")]
+        [Trait("Crud", "ShouldListEntranceById")]
+        public async void ShouldListEntranceById()
         {
             try
             {
-                var enntraceEntity = CreateEntraceEntity();
+                var enntraceEntity = CreateEntranceEntity();
                 await _repository.CreateAsync(enntraceEntity);
 
                 var result = _repository.FindByIdAsync(enntraceEntity.Id).Result;
 
                 Assert.NotNull(result);
-                Assert.IsType<Entrace>(result);
+                Assert.IsType<Entrance>(result);
                 Assert.Equal(enntraceEntity.Id, result.Id);
             }
             catch (Exception e)
@@ -98,13 +98,13 @@ namespace Tests.Data
             }
         }
 
-        [Fact(DisplayName = "Update Entrace")]
-        [Trait("Crud", "ShouldUpdateEntrace")]
-        public async void ShouldUpdateEntrace()
+        [Fact(DisplayName = "Update Entrance")]
+        [Trait("Crud", "ShouldUpdateEntrance")]
+        public async void ShouldUpdateEntrance()
         {
             try
             {
-                var enntraceEntity = CreateEntraceEntity();
+                var enntraceEntity = CreateEntranceEntity();
                 await _repository.CreateAsync(enntraceEntity);
                 enntraceEntity.Description = Faker.Name.First();
 
@@ -119,13 +119,13 @@ namespace Tests.Data
             }
         }
 
-        [Fact(DisplayName = "Delete Entrace")]
-        [Trait("Crud", "ShouldDeleteEntrace")]
-        public async void ShouldDeleteEntrace()
+        [Fact(DisplayName = "Delete Entrance")]
+        [Trait("Crud", "ShouldDeleteEntrance")]
+        public async void ShouldDeleteEntrance()
         {
             try
             {
-                var enntraceEntity = CreateEntraceEntity();
+                var enntraceEntity = CreateEntranceEntity();
                 await _repository.CreateAsync(enntraceEntity);
 
                 var result = await _repository.DeleteAsync(enntraceEntity.Id);

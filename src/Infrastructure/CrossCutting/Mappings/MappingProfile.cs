@@ -1,6 +1,6 @@
 using AutoMapper;
 using Domain.Dtos.Category;
-using Domain.Dtos.Entrace;
+using Domain.Dtos.Entrance;
 using Domain.Dtos.User;
 using Domain.Dtos.Wallet;
 using Domain.Dtos.WalletType;
@@ -44,13 +44,13 @@ namespace CrossCutting.Mappings
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<Category, CategoryResultDto>().ReverseMap();
 
-            // Entrace
-            CreateMap<EntraceCreateDto, Entrace>();
+            // Entrance
+            CreateMap<EntranceCreateDto, Entrance>();
             // This option will prevent AutoMapper to replace fields that not will be updated to null
-            CreateMap<EntraceUpdateDto, Entrace>()
+            CreateMap<EntranceUpdateDto, Entrance>()
                 .ReverseMap()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
-            CreateMap<Entrace, EntraceResultDto>().ReverseMap();
+            CreateMap<Entrance, EntranceResultDto>().ReverseMap();
         }
     }
 }

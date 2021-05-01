@@ -1,30 +1,30 @@
 using System;
 using System.Collections.Generic;
-using Domain.Dtos.Entrace;
+using Domain.Dtos.Entrance;
 using Domain.Entities;
 using Helpers.Enuns;
 using Xunit;
 
 namespace Tests.AutoMapper
 {
-    public class EntraceMapperTest : BaseMapperTest
+    public class EntranceMapperTest : BaseMapperTest
     {
-        [Fact(DisplayName = "Should transform EntraceCreateDto to Entrace")]
-        [Trait("AutoMapper", "EntraceCreateDtoToEntrace")]
-        public void EntraceCreateDtoToEntrace()
+        [Fact(DisplayName = "Should transform EntranceCreateDto to Entrance")]
+        [Trait("AutoMapper", "EntranceCreateDtoToEntrance")]
+        public void EntranceCreateDtoToEntrance()
         {
-            var entityCreateDto = new EntraceCreateDto()
+            var entityCreateDto = new EntranceCreateDto()
             {
                 Description = Faker.Lorem.Sentence(100),
                 Observation = Faker.Lorem.Sentence(100),
                 CategoryId = Guid.NewGuid(),
                 Ticker = "BIDI4",
-                Type = (int) EEntraceType.expanse,
+                Type = (int) EEntranceType.expanse,
                 Value = 100,
                 WalletId = Guid.NewGuid()
             };
 
-            var entity = _mapper.Map<Entrace>(entityCreateDto);
+            var entity = _mapper.Map<Entrance>(entityCreateDto);
             Assert.NotNull(entity);
             Assert.Equal(entity.Description, entityCreateDto.Description);
             Assert.Equal(entity.Observation, entityCreateDto.Observation);
@@ -32,24 +32,24 @@ namespace Tests.AutoMapper
             Assert.Equal(entity.Value, entityCreateDto.Value);
         }
 
-        [Fact(DisplayName = "Should transform EntraceUpdateDto to Entrace")]
-        [Trait("AutoMapper", "EntraceCreateDtoToEntrace")]
-        public void EntraceUpdateDtoToEntrace()
+        [Fact(DisplayName = "Should transform EntranceUpdateDto to Entrance")]
+        [Trait("AutoMapper", "EntranceCreateDtoToEntrance")]
+        public void EntranceUpdateDtoToEntrance()
         {
-            var entityUpdateDto = new EntraceUpdateDto()
+            var entityUpdateDto = new EntranceUpdateDto()
             {
                 Id = Guid.NewGuid(),
                 Description = Faker.Lorem.Sentence(100),
                 Observation = Faker.Lorem.Sentence(100),
                 CategoryId = Guid.NewGuid(),
                 Ticker = "BIDI4",
-                Type = (int)EEntraceType.expanse,
+                Type = (int)EEntranceType.expanse,
                 Value = 100,
                 WalletId = Guid.NewGuid()
 
             };
 
-            var entity = _mapper.Map<Entrace>(entityUpdateDto);
+            var entity = _mapper.Map<Entrance>(entityUpdateDto);
             Assert.NotNull(entity);
             Assert.Equal(entity.Id, entityUpdateDto.Id);
             Assert.Equal(entity.Description, entityUpdateDto.Description);
@@ -58,17 +58,17 @@ namespace Tests.AutoMapper
             Assert.Equal(entity.Value, entityUpdateDto.Value);
         }
 
-        [Fact(DisplayName = "Should transform Entrace to EntraceResultDto")]
-        [Trait("AutoMapper", "EntraceCreateDtoToEntrace")]
-        public void EntraceToEntraceResultDto()
+        [Fact(DisplayName = "Should transform Entrance to EntranceResultDto")]
+        [Trait("AutoMapper", "EntranceCreateDtoToEntrance")]
+        public void EntranceToEntranceResultDto()
         {
-            var entity = new Entrace()
+            var entity = new Entrance()
             {
                 Id = Guid.NewGuid(),
                 Description = Faker.Lorem.Sentence(100),
                 Observation = Faker.Lorem.Sentence(100),
                 Ticker = "BIDI4",
-                Type = (int)EEntraceType.expanse,
+                Type = (int)EEntranceType.expanse,
                 Value = 100,
                 Wallet = new Wallet(),
                 Category = new Category(),
@@ -76,7 +76,7 @@ namespace Tests.AutoMapper
                 UpdatedAt = DateTime.Now
             };
 
-            var entityResultDto = _mapper.Map<EntraceResultDto>(entity);
+            var entityResultDto = _mapper.Map<EntranceResultDto>(entity);
             Assert.NotNull(entityResultDto);
             Assert.Equal(entity.Id, entityResultDto.Id);
             Assert.Equal(entity.Description, entityResultDto.Description);

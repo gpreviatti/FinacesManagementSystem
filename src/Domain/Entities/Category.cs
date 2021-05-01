@@ -13,6 +13,6 @@ namespace Domain.Entities
         public Guid? CategoryId { get; set; }
         public Category CustomCategory { get; set; }
 
-        public IEnumerable<Entrace> Entraces { get; set; }
+        public IEnumerable<Entrance> Entrances { get; set; }
     }
 }

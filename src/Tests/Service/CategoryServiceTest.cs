@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Domain.Dtos.Category;
-using Domain.Dtos.Entrace;
+using Domain.Dtos.Entrance;
 using Domain.Dtos.Wallet;
 using Domain.Interfaces.Services;
 using Moq;
@@ -52,16 +52,16 @@ namespace Tests.Service
         {
             IEnumerable<CategoryResultDto> listCategoryResultDto = new List<CategoryResultDto>
             {
-                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entraces = new List<EntraceResultDto>()},
-                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entraces = new List<EntraceResultDto>()},
-                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entraces = new List<EntraceResultDto>()},
-                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entraces = new List<EntraceResultDto>()},
-                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entraces = new List<EntraceResultDto>()},
-                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entraces = new List<EntraceResultDto>()},
-                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entraces = new List<EntraceResultDto>()},
-                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entraces = new List<EntraceResultDto>()},
-                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entraces = new List<EntraceResultDto>()},
-                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entraces = new List<EntraceResultDto>()}
+                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entrances = new List<EntranceResultDto>()},
+                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entrances = new List<EntranceResultDto>()},
+                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entrances = new List<EntranceResultDto>()},
+                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entrances = new List<EntranceResultDto>()},
+                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entrances = new List<EntranceResultDto>()},
+                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entrances = new List<EntranceResultDto>()},
+                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entrances = new List<EntranceResultDto>()},
+                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entrances = new List<EntranceResultDto>()},
+                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entrances = new List<EntranceResultDto>()},
+                new CategoryResultDto(){ Id = new Guid(), Name = Faker.Name.FullName(), Entrances = new List<EntranceResultDto>()}
             };
 
             //_serviceMock = new Mock<ICategoryService>();
@@ -82,7 +82,7 @@ namespace Tests.Service
                 Name = Faker.Name.FullName(),
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
-                Entraces = new List<EntraceResultDto>()
+                Entrances = new List<EntranceResultDto>()
             };
             
             _serviceMock = new Mock<ICategoryService>();
@@ -110,7 +110,7 @@ namespace Tests.Service
                 Name = FakerName,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
-                Entraces = new List<EntraceResultDto>()
+                Entrances = new List<EntranceResultDto>()
             };
 
             _serviceMock = new Mock<ICategoryService>();

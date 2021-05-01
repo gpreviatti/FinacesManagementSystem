@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Domain.Dtos.Entrace;
+using Domain.Dtos.Entrance;
 using Domain.Dtos.Wallet;
 using Domain.Dtos.WalletType;
 using Domain.Entities;
@@ -73,11 +73,11 @@ namespace Tests.AutoMapper
                 CloseDate = DateTime.Now.AddDays(15),
                 CurrentValue = 100,
                 WalletType = new WalletType(),
-                Entraces = new List<Entrace>()
+                Entrances = new List<Entrance>()
             };
 
             var entityWalletTypeMapper = _mapper.Map<WalletTypeResultDto>(entity.WalletType);
-            var entityEntraceMapper = _mapper.Map<IEnumerable<EntraceResultDto>>(entity.Entraces);
+            var entityEntranceMapper = _mapper.Map<IEnumerable<EntranceResultDto>>(entity.Entrances);
 
             var entityResultDto = _mapper.Map<WalletResultDto>(entity);
             Assert.NotNull(entityResultDto);
@@ -86,7 +86,7 @@ namespace Tests.AutoMapper
             Assert.Equal(entity.DueDate, entityResultDto.DueDate);
             Assert.Equal(entity.CloseDate, entityResultDto.CloseDate);
             Assert.Equal(entity.CurrentValue, entityResultDto.CurrentValue);
-            Assert.Equal(entityResultDto.Entraces, entityEntraceMapper);
+            Assert.Equal(entityResultDto.Entrances, entityEntranceMapper);
             //Assert.Equal(entityResultDto.WalletType, entityWalletTypeMapper);
         }
     }

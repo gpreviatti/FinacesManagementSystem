@@ -54,161 +54,161 @@ namespace Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("afe84d2d-3cfb-45f2-af1a-9cb1dcdead56"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5341),
+                            Id = new Guid("0ea381c4-3955-46b2-9642-65602e338f3a"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4404),
                             Name = "Salary",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5347)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4409)
                         },
                         new
                         {
-                            Id = new Guid("5a207b72-66b5-4621-b304-30cf1a6b472d"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5362),
+                            Id = new Guid("4849827a-3419-4820-8638-43c40bc6a83c"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4427),
                             Name = "Loans",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5363)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4428)
                         },
                         new
                         {
-                            Id = new Guid("19f0a471-e247-4c52-b7b5-6503561cef10"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5365),
+                            Id = new Guid("a6b9744a-1923-4eae-ac83-5848da07714c"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4430),
                             Name = "Other Earnings",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5365)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4431)
                         },
                         new
                         {
-                            Id = new Guid("3cf74692-98cc-4519-aff5-ea887aa4764c"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5367),
+                            Id = new Guid("dd292047-fb69-4970-9908-3671488f62ef"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4432),
                             Name = "Investiments",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5367)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4433)
                         },
                         new
                         {
-                            Id = new Guid("fdff15a0-efac-496f-8065-2ec89a72fae0"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5369),
+                            Id = new Guid("70b5f1fe-5f29-422b-b75b-0ac5b0ea582e"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4434),
                             Name = "Food",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5370)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4435)
                         },
                         new
                         {
-                            Id = new Guid("bd2abc15-5a49-4526-a8d2-3c6ca85c99da"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5373),
+                            Id = new Guid("9a4f1f28-8534-488e-9767-22d7128729ae"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4450),
                             Name = "Transport",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5374)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4451)
                         },
                         new
                         {
-                            Id = new Guid("fe0ff864-b8f0-4f2f-8a66-55e7a64ffa5d"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5375),
+                            Id = new Guid("4f351c55-3892-42ba-958e-f4c763f739cd"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4453),
                             Name = "Services",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5376)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4453)
                         },
                         new
                         {
-                            Id = new Guid("4b5da34a-5317-4c5c-af76-2dac83e67a41"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5413),
+                            Id = new Guid("37442197-62b1-4f6d-a819-afc4fb7724c6"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4455),
                             Name = "Health",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5414)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4456)
                         },
                         new
                         {
-                            Id = new Guid("3c94fc52-f3b0-4013-80c3-ebf7ea0dd19c"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5416),
+                            Id = new Guid("7f8a8eaf-c152-4e5d-ac10-8c1677704628"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4457),
                             Name = "Education",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5417)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4458)
                         },
                         new
                         {
-                            Id = new Guid("636cf9fe-ddc3-4b38-a080-6cc2f9dc1c3d"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5419),
+                            Id = new Guid("9245f61b-85cd-4ea4-9554-7006afaf84ac"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4460),
                             Name = "Travel",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5420)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4461)
                         },
                         new
                         {
-                            Id = new Guid("35603d7f-865f-4496-ac08-1276cacf8583"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5421),
+                            Id = new Guid("c229e41c-24c4-44bc-80d1-6d573eb3d0c1"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4497),
                             Name = "Work",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5422)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4498)
                         },
                         new
                         {
-                            Id = new Guid("2a01b945-1bf1-4da1-af03-51e85106e57c"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5423),
+                            Id = new Guid("d7d072fd-8e6c-460d-83e5-2e2986e02840"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4499),
                             Name = "Gifts",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5424)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4500)
                         },
                         new
                         {
-                            Id = new Guid("c8735def-95a7-4600-b0e9-3a38796fe5a0"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5425),
+                            Id = new Guid("7016a053-d5fb-47bb-b78a-dccdb7705eae"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4501),
                             Name = "Industrials",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5426)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4502)
                         },
                         new
                         {
-                            Id = new Guid("b26c3953-e45e-4078-9c4f-e529aeb92648"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5427),
+                            Id = new Guid("57a4a78b-8349-432b-9c25-caa731a4727c"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4505),
                             Name = "Financials",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5428)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4506)
                         },
                         new
                         {
-                            Id = new Guid("46ef3354-87ca-42cc-88ed-761531f39ee2"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5429),
+                            Id = new Guid("bde6e8b1-5e9b-46d7-872b-5ceb636b78d2"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4507),
                             Name = "Energy",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5430)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4508)
                         },
                         new
                         {
-                            Id = new Guid("6b89bf02-ecbd-4605-8a9a-0b1e3b28db62"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5433),
+                            Id = new Guid("b95f09f8-55e6-444f-8383-3e33f7536ead"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4509),
                             Name = "Consumer Discretionary",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5434)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4510)
                         },
                         new
                         {
-                            Id = new Guid("245e6f7a-f849-4323-baee-dd1212c546af"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5435),
+                            Id = new Guid("fedde108-d1d7-43a7-ac9e-2fcb14524633"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4511),
                             Name = "Information Technology",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5436)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4512)
                         },
                         new
                         {
-                            Id = new Guid("bcfe7168-9ccd-400d-b3eb-5744c695568f"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5438),
+                            Id = new Guid("058e6276-dea4-4e9f-b2ce-111cacf8352b"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4515),
                             Name = "Communication Services",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5439)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4515)
                         },
                         new
                         {
-                            Id = new Guid("48b2a969-863e-4ee5-810c-489bf389182b"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5440),
+                            Id = new Guid("06aa7076-f187-4500-886c-6a5c835a0f14"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4517),
                             Name = "Real Estate",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5441)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4517)
                         },
                         new
                         {
-                            Id = new Guid("3f0f75d2-1504-429c-953a-2a6369c49375"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5442),
+                            Id = new Guid("76ba6c58-3f27-4866-8973-24ee19de784a"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4519),
                             Name = "Health Care",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5443)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4520)
                         },
                         new
                         {
-                            Id = new Guid("fb156b5e-29f0-4b1f-a473-2d931efc3ee6"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5444),
+                            Id = new Guid("ba1adaf5-6bc0-4561-b3d9-332a4acf22b6"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4521),
                             Name = "Consumer Staples",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5445)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4522)
                         },
                         new
                         {
-                            Id = new Guid("c7076130-71e9-4e6e-9279-998d487f60de"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5446),
+                            Id = new Guid("06591ed3-e393-484b-ae85-da4bffb45fb2"),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4525),
                             Name = "Utilities",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5447)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4526)
                         });
                 });
 
-            modelBuilder.Entity("Domain.Entities.Entrace", b =>
+            modelBuilder.Entity("Domain.Entities.Entrance", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -252,7 +252,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("WalletId");
 
-                    b.ToTable("Entraces");
+                    b.ToTable("Entrances");
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
@@ -293,20 +293,20 @@ namespace Infrastructure.Data.Migrations
                         new
                         {
                             Id = new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 693, DateTimeKind.Local).AddTicks(1851),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 591, DateTimeKind.Local).AddTicks(389),
                             Email = "admin@admin.com",
                             Name = "Admin",
-                            Password = "$2a$11$eS63Z.krrkXp971dszCK9.uR3tm3SYzxWIeyoS1/A/PDHW/DlXs.y",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 693, DateTimeKind.Local).AddTicks(8917)
+                            Password = "$2a$11$Qma.mDclcg9ChOY2y.PzOuf/JZ8G1KHoxSRoukp2wonSG2lYu1i12",
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 591, DateTimeKind.Local).AddTicks(8711)
                         },
                         new
                         {
                             Id = new Guid("cb43d078-87f1-4864-853a-e626922b8109"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 816, DateTimeKind.Local).AddTicks(9769),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 720, DateTimeKind.Local).AddTicks(7439),
                             Email = "testUser01@email.com",
                             Name = "Test-User-01",
-                            Password = "$2a$11$v/2.Dd2yL7Rfp4zymjQsgubDASRihHvYVIITxM1zelywzaIcIMGVq",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 816, DateTimeKind.Local).AddTicks(9791)
+                            Password = "$2a$11$0OMcWwg1xp4qcAEi7I566e/6mkoCRcFjAvW.IF0vJI1zGtAJFSrye",
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 720, DateTimeKind.Local).AddTicks(7467)
                         });
                 });
 
@@ -360,27 +360,27 @@ namespace Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("722b84da-1628-49af-b09b-b622271af6ec"),
-                            CloseDate = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(178),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(965),
+                            Id = new Guid("b7b68314-e2a6-4200-8299-f6076824d690"),
+                            CloseDate = new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(9167),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(9827),
                             CurrentValue = 500.0,
                             Description = "Main Account",
-                            DueDate = new DateTime(2021, 5, 11, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(470),
+                            DueDate = new DateTime(2021, 5, 16, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(9451),
                             Name = "Inter",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(969),
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(9830),
                             UserId = new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"),
                             WalletTypeId = new Guid("ad4ac47f-0888-4d60-81f9-964153b13e37")
                         },
                         new
                         {
-                            Id = new Guid("c5ee0354-48af-4bac-a752-ab99f3c747b3"),
-                            CloseDate = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(1007),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(1014),
+                            Id = new Guid("1e6942cd-adce-4f4c-95c7-6e3176a48619"),
+                            CloseDate = new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(9857),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(9863),
                             CurrentValue = 500.0,
                             Description = "Credit Card Account",
-                            DueDate = new DateTime(2021, 5, 11, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(1009),
+                            DueDate = new DateTime(2021, 5, 16, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(9858),
                             Name = "Credit",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(1015),
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(9863),
                             UserId = new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"),
                             WalletTypeId = new Guid("ad4ac47f-0888-4d60-81f9-964153b13e38")
                         });
@@ -412,37 +412,37 @@ namespace Infrastructure.Data.Migrations
                         new
                         {
                             Id = new Guid("ad4ac47f-0888-4d60-81f9-964153b13e37"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(3423),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(2548),
                             Name = "Checking Account",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(3431)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(2558)
                         },
                         new
                         {
                             Id = new Guid("ad4ac47f-0888-4d60-81f9-964153b13e38"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(3809),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(3082),
                             Name = "Credit",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(3812)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(3085)
                         },
                         new
                         {
                             Id = new Guid("ad4ac47f-0888-4d60-81f9-964153b13e39"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(4128),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(3391),
                             Name = "Saving",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(4131)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(3394)
                         },
                         new
                         {
                             Id = new Guid("ad4ac47f-0888-4d60-81f9-964153b13e40"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(4428),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(3697),
                             Name = "Investiments",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(4430)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(3699)
                         },
                         new
                         {
                             Id = new Guid("ad4ac47f-0888-4d60-81f9-964153b13e41"),
-                            CreatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(4719),
+                            CreatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(3979),
                             Name = "Stocks",
-                            UpdatedAt = new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(4721)
+                            UpdatedAt = new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(3982)
                         });
                 });
 
@@ -461,16 +461,16 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Entrace", b =>
+            modelBuilder.Entity("Domain.Entities.Entrance", b =>
                 {
                     b.HasOne("Domain.Entities.Category", "Category")
-                        .WithMany("Entraces")
+                        .WithMany("Entrances")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Wallet", "Wallet")
-                        .WithMany("Entraces")
+                        .WithMany("Entrances")
                         .HasForeignKey("WalletId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -501,7 +501,7 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
-                    b.Navigation("Entraces");
+                    b.Navigation("Entrances");
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
@@ -513,7 +513,7 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Domain.Entities.Wallet", b =>
                 {
-                    b.Navigation("Entraces");
+                    b.Navigation("Entrances");
                 });
 
             modelBuilder.Entity("Domain.Entities.WalletType", b =>

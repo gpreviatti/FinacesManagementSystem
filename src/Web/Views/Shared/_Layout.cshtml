@@ -11,13 +11,19 @@
     <style>
         .bg-black {
             background-color: black;
-            border: none;
         }
         .btn {
             border: none;
         }
         .card {
             border-radius: 30px;
+            border: black;
+            transition: all .2s ease-in-out;
+            -webkit-box-shadow: 0 4px 60px rgb(0 0 0 / 50%);
+            box-shadow: 0 4px 60px rgb(0 0 0 / 50%);
+        }
+        .card:hover {
+            transform: scale(1.1);
         }
         body {
             background-color: black;
@@ -39,7 +45,7 @@
                         <a class="nav-link" asp-controller="Category" asp-action="Index">Categories</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Entrace" asp-action="Index">Entraces</a>
+                        <a class="nav-link" asp-controller="Entrance" asp-action="Index">Entrances</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Wallet" asp-action="Index">Wallets</a>

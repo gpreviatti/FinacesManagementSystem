@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Domain.Dtos.Entrace;
-using Domain.Dtos.EntraceTypeDto;
+using Domain.Dtos.Entrance;
+using Domain.Dtos.EntranceTypeDto;
 using Domain.Dtos.Wallet;
 
 namespace Web.ViewModels.Home
@@ -14,7 +14,7 @@ namespace Web.ViewModels.Home
         [DataType(DataType.Currency)]
         public double TotalExpanse { get; set; }
 
-        public IEnumerable<EntraceResultDto> Entraces { get; set; }
+        public IEnumerable<EntranceResultDto> Entrances { get; set; }
 
         public IEnumerable<WalletResultDto> Wallets { get; set; }
     }

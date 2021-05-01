@@ -17,6 +17,6 @@ namespace Domain.Entities
         public WalletType WalletType { get; set; }
         public Guid WalletTypeId { get; set; }
 
-        public IEnumerable<Entrace> Entraces { get; set; }
+        public IEnumerable<Entrance> Entrances { get; set; }
     }
 }

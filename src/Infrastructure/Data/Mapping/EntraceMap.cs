@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.Mapping
 {
-    public class EntraceMap : IEntityTypeConfiguration<Entrace>
+    public class EntranceMap : IEntityTypeConfiguration<Entrance>
     {
-        public void Configure(EntityTypeBuilder<Entrace> builder)
+        public void Configure(EntityTypeBuilder<Entrance> builder)
         {
-            builder.ToTable("Entraces");
+            builder.ToTable("Entrances");
 
             builder.HasKey(e => e.Id);
 
@@ -32,12 +32,12 @@ namespace Data.Mapping
                 .IsRequired();
 
             builder.HasOne(e => e.Wallet)
-                .WithMany(w => w.Entraces)
+                .WithMany(w => w.Entrances)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .HasOne(e => e.Category)
-                .WithMany(c => c.Entraces);
+                .WithMany(c => c.Entrances);
         }
     }
 }
