@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Domain.Dtos.Entity;
-using Domain.Dtos.Entrace;
+using Domain.Dtos.Entrance;
 using Domain.Dtos.WalletType;
 
 namespace Domain.Dtos.Wallet
@@ -26,6 +26,6 @@ namespace Domain.Dtos.Wallet
 
         public WalletTypeResultDto WalletType { get; set; }
 
-        public IEnumerable<EntraceResultDto> Entraces { get; set; }
+        public IEnumerable<EntranceResultDto> Entrances { get; set; }
     }
 }

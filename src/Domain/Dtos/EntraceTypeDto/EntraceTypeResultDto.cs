@@ -1,8 +1,8 @@
 ﻿using Domain.Dtos.Entity;
 
-namespace Domain.Dtos.EntraceTypeDto
+namespace Domain.Dtos.EntranceTypeDto
 {
-    public class EntraceTypeResultDto : EntityResultDto
+    public class EntranceTypeResultDto : EntityResultDto
     {
         public string Name { get; set; }
         public int Value { get; set; }

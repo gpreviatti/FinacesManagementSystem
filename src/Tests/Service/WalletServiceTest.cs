@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Domain.Dtos.Entrace;
+using Domain.Dtos.Entrance;
 using Domain.Dtos.Wallet;
 using Domain.Dtos.WalletType;
 using Domain.Interfaces.Services;
@@ -44,7 +44,7 @@ namespace Tests.Service
                 Description = FakerName,
                 CreatedAt = FakerDate,
                 UpdatedAt = FakerDate,
-                Entraces = new List<EntraceResultDto>(),
+                Entrances = new List<EntranceResultDto>(),
                 WalletType = new WalletTypeResultDto()
             };
             _serviceMock = new Mock<IWalletService>();
@@ -59,7 +59,7 @@ namespace Tests.Service
             Assert.Equal(walletCreateDto.DueDate, result.DueDate);
             Assert.Equal(walletCreateDto.CurrentValue, result.CurrentValue);
             Assert.Equal(walletCreateDto.Description, result.Description);
-            Assert.False(result.Entraces.Equals(null));
+            Assert.False(result.Entrances.Equals(null));
             Assert.False(result.WalletType.Equals(null));
         }
 
@@ -78,7 +78,7 @@ namespace Tests.Service
                     Description = FakerName,
                     CreatedAt = FakerDate,
                     UpdatedAt = FakerDate,
-                    Entraces = new List<EntraceResultDto>(),
+                    Entrances = new List<EntranceResultDto>(),
                     WalletType = new WalletTypeResultDto()
                 },
                 new WalletResultDto() {
@@ -90,7 +90,7 @@ namespace Tests.Service
                     Description = FakerName,
                     CreatedAt = FakerDate,
                     UpdatedAt = FakerDate,
-                    Entraces = new List<EntraceResultDto>(),
+                    Entrances = new List<EntranceResultDto>(),
                     WalletType = new WalletTypeResultDto()
                 },
                 new WalletResultDto() {
@@ -102,7 +102,7 @@ namespace Tests.Service
                     Description = FakerName,
                     CreatedAt = FakerDate,
                     UpdatedAt = FakerDate,
-                    Entraces = new List<EntraceResultDto>(),
+                    Entrances = new List<EntranceResultDto>(),
                     WalletType = new WalletTypeResultDto()
                 },
             };
@@ -128,7 +128,7 @@ namespace Tests.Service
                 Description = FakerName,
                 CreatedAt = FakerDate,
                 UpdatedAt = FakerDate,
-                Entraces = new List<EntraceResultDto>(),
+                Entrances = new List<EntranceResultDto>(),
                 WalletType = new WalletTypeResultDto()
             };
             

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using Domain.Dtos.Entrace;
+using Domain.Dtos.Entrance;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
@@ -10,15 +10,15 @@ using Helpers.Enuns;
 
 namespace Service.Services
 {
-    public class EntraceService : BaseService, IEntraceService
+    public class EntranceService : BaseService, IEntranceService
     {
-        private readonly IEntraceRepository _repository;
+        private readonly IEntranceRepository _repository;
         private readonly IWalletRepository _walletRepository;
         private readonly ICategoryRepository _categoryRepository;
 
-        public EntraceService(
+        public EntranceService(
             IMapper mapper,
-            IEntraceRepository repository,
+            IEntranceRepository repository,
             IWalletRepository walletRepository,
             ICategoryRepository categoryRepository
         ) 
@@ -30,12 +30,12 @@ namespace Service.Services
         }
 
         #region "Find"
-        public async Task<EntraceResultDto> FindByIdAsync(Guid Id)
+        public async Task<EntranceResultDto> FindByIdAsync(Guid Id)
         {
             try
             {
                 var result = await _repository.FindByIdAsync(Id);
-                return _mapper.Map<EntraceResultDto>(result);
+                return _mapper.Map<EntranceResultDto>(result);
             }
             catch (Exception exception)
             {
@@ -44,12 +44,12 @@ namespace Service.Services
             }
         }
 
-        public async Task<EntraceUpdateDto> FindByIdUpdateAsync(Guid id)
+        public async Task<EntranceUpdateDto> FindByIdUpdateAsync(Guid id)
         {
             try
             {
                 var result = await _repository.FindByIdAsync(id);
-                return _mapper.Map<EntraceUpdateDto>(result);
+                return _mapper.Map<EntranceUpdateDto>(result);
             }
             catch (Exception exception)
             {
@@ -58,12 +58,12 @@ namespace Service.Services
             }
         }
 
-        public async Task<IEnumerable<EntraceResultDto>> FindAllAsyncWithCategory()
+        public async Task<IEnumerable<EntranceResultDto>> FindAllAsyncWithCategory()
         {
             try
             {
                 var result = await _repository.FindAllAsyncWithCategory();
-                return _mapper.Map<IEnumerable<EntraceResultDto>>(result);
+                return _mapper.Map<IEnumerable<EntranceResultDto>>(result);
             }
             catch (Exception exception)
             {
@@ -76,12 +76,12 @@ namespace Service.Services
         /// Take last ten entraces ordered by CreatedAt field
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<EntraceResultDto>> FindAsyncLastTenEntracesWithCategories()
+        public async Task<IEnumerable<EntranceResultDto>> FindAsyncLastTenEntrancesWithCategories()
         {
             try
             {
                 var result = await _repository.FindAllAsyncWithCategory();
-                return _mapper.Map<IEnumerable<EntraceResultDto>>(result);
+                return _mapper.Map<IEnumerable<EntranceResultDto>>(result);
             }
             catch (Exception exception)
             {
@@ -91,7 +91,7 @@ namespace Service.Services
         }
         #endregion
 
-        public async Task<EntraceResultDto> CreateAsync(EntraceCreateDto entraceCreateDto)
+        public async Task<EntranceResultDto> CreateAsync(EntranceCreateDto entraceCreateDto)
         {
             try
             {
@@ -103,10 +103,10 @@ namespace Service.Services
 
                 switch (entraceCreateDto.Type)
                 {
-                    case (int) EEntraceType.income:
+                    case (int) EEntranceType.income:
                         wallet.CurrentValue = wallet.CurrentValue + entraceCreateDto.Value;
                         break;
-                    case (int) EEntraceType.expanse:
+                    case (int) EEntranceType.expanse:
                         wallet.CurrentValue = wallet.CurrentValue - entraceCreateDto.Value;
                         break;
                     default:
@@ -124,12 +124,12 @@ namespace Service.Services
                     return null;
                 }
 
-                var entrace = _mapper.Map<Entrace>(entraceCreateDto);
+                var entrace = _mapper.Map<Entrance>(entraceCreateDto);
                 entrace.Wallet = wallet;
                 entrace.Category = category;
 
                 var result = await _repository.CreateAsync(entrace);
-                return _mapper.Map<EntraceResultDto>(entrace);
+                return _mapper.Map<EntranceResultDto>(entrace);
             }
             catch (Exception exception)
             {
@@ -138,7 +138,7 @@ namespace Service.Services
             }
         }
 
-        public async Task<EntraceResultDto> UpdateAsync(EntraceUpdateDto entraceUpdateDto)
+        public async Task<EntranceResultDto> UpdateAsync(EntranceUpdateDto entraceUpdateDto)
         {
             try
             {
@@ -157,10 +157,10 @@ namespace Service.Services
 
                 switch (entraceUpdateDto.Type)
                 {
-                    case (int)EEntraceType.income:
+                    case (int)EEntranceType.income:
                         wallet.CurrentValue = wallet.CurrentValue + entraceUpdateDto.Value;
                         break;
-                    case (int)EEntraceType.expanse:
+                    case (int)EEntranceType.expanse:
                         wallet.CurrentValue = wallet.CurrentValue - entraceUpdateDto.Value;
                         break;
                     default:
@@ -183,7 +183,7 @@ namespace Service.Services
 
                 if (savedChanges > 0)
                 {
-                    return _mapper.Map<EntraceResultDto>(entrace);
+                    return _mapper.Map<EntranceResultDto>(entrace);
                 }
                 return null;
             }

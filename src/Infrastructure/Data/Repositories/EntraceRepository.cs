@@ -8,20 +8,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories
 {
-    public class EntraceRepository : BaseRepository<Entrace>, IEntraceRepository
+    public class EntranceRepository : BaseRepository<Entrance>, IEntranceRepository
     {
-        public EntraceRepository(MyContext context) : base(context)
+        public EntranceRepository(MyContext context) : base(context)
         {
         }
 
-        public async Task<IEnumerable<Entrace>> FindAllAsyncWithWallet()
+        public async Task<IEnumerable<Entrance>> FindAllAsyncWithWallet()
         {
             return await _dataset
                 .Include(e => e.Wallet)
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Entrace>> FindAllAsyncWithCategory()
+        public async Task<IEnumerable<Entrance>> FindAllAsyncWithCategory()
         {
             return await _dataset
                 .Include(e => e.Category)
@@ -29,7 +29,7 @@ namespace Data.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Entrace>> FindAsyncLastTenEntracesWithCategories()
+        public async Task<IEnumerable<Entrance>> FindAsyncLastTenEntrancesWithCategories()
         {
             return await _dataset
                 .Include(e => e.Category)
@@ -38,7 +38,7 @@ namespace Data.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Entrace>> FindAllAsyncWithWalletAndCategory()
+        public async Task<IEnumerable<Entrance>> FindAllAsyncWithWalletAndCategory()
         {
              return await _dataset
                 .Include(e => e.Category)

@@ -4,9 +4,9 @@ using Domain.Dtos.Category;
 using Domain.Dtos.Entity;
 using Domain.Dtos.Wallet;
 
-namespace Domain.Dtos.Entrace
+namespace Domain.Dtos.Entrance
 {
-    public class EntraceResultDto : EntityResultDto
+    public class EntranceResultDto : EntityResultDto
     {
         public string Description { get; set; }
 

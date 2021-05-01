@@ -31,7 +31,7 @@ namespace Data.Mapping
             builder.HasOne(w => w.WalletType)
                 .WithMany(wt => wt.Wallets);
 
-            builder.HasMany(w => w.Entraces)
+            builder.HasMany(w => w.Entrances)
                 .WithOne(e => e.Wallet);
         }
     }

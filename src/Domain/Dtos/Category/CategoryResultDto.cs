@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Domain.Dtos.Entity;
-using Domain.Dtos.Entrace;
+using Domain.Dtos.Entrance;
 using Domain.Dtos.User;
 
 namespace Domain.Dtos.Category
@@ -16,6 +16,6 @@ namespace Domain.Dtos.Category
         public Guid CategoryId { get; set; }
         public CategoryResultDto CategoryMain { get; set; }
 
-        public IEnumerable<EntraceResultDto> Entraces { get; set; }
+        public IEnumerable<EntranceResultDto> Entrances { get; set; }
     }
 }

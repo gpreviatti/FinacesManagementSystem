@@ -1,9 +1,9 @@
 using System;
 using Domain.Dtos.Entity;
 
-namespace Domain.Dtos.Entrace
+namespace Domain.Dtos.Entrance
 {
-    public class EntraceUpdateDto : EntityUpdateDto
+    public class EntranceUpdateDto : EntityUpdateDto
     {   
         public string Description { get; set; }
         

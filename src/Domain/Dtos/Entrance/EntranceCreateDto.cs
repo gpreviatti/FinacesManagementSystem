@@ -1,9 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Dtos.Entrace
+namespace Domain.Dtos.Entrance
 {
-    public class EntraceCreateDto
+    public class EntranceCreateDto
     {
         [Required(ErrorMessage = "Descrption is required")]
         [StringLength(60, ErrorMessage = "Name should have {1} caracters")]

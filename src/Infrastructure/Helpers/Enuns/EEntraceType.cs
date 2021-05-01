@@ -1,6 +1,6 @@
 ﻿namespace Helpers.Enuns
 {
-    public enum EEntraceType
+    public enum EEntranceType
     {
         income = 1,
 

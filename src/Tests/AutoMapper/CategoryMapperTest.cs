@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Domain.Dtos.Category;
-using Domain.Dtos.Entrace;
+using Domain.Dtos.Entrance;
 using Domain.Entities;
 using Xunit;
 
@@ -50,10 +50,10 @@ namespace Tests.AutoMapper
                 Name = Faker.Name.First(),
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
-                Entraces = new List<Entrace>()
+                Entrances = new List<Entrance>()
             };
 
-            var entraceResultDto = _mapper.Map<IEnumerable<EntraceResultDto>>(entity.Entraces);
+            var entraceResultDto = _mapper.Map<IEnumerable<EntranceResultDto>>(entity.Entrances);
             var entityResultDto = _mapper.Map<CategoryResultDto>(entity);
             Assert.NotNull(entityResultDto);
             Assert.Equal(entity.Id, entityResultDto.Id);
@@ -61,7 +61,7 @@ namespace Tests.AutoMapper
             Assert.Equal(entity.Name, entityResultDto.Name);
             Assert.Equal(entity.CreatedAt, entityResultDto.CreatedAt);
             Assert.Equal(entity.UpdatedAt, entityResultDto.UpdatedAt);
-            Assert.Equal(entraceResultDto, entityResultDto.Entraces);
+            Assert.Equal(entraceResultDto, entityResultDto.Entrances);
         }
     }
 }

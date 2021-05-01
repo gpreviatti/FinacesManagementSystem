@@ -98,7 +98,7 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Entraces",
+                name: "Entrances",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
@@ -114,15 +114,15 @@ namespace Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Entraces", x => x.Id);
+                    table.PrimaryKey("PK_Entrances", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Entraces_Categories_CategoryId",
+                        name: "FK_Entrances_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Entraces_Wallets_WalletId",
+                        name: "FK_Entrances_Wallets_WalletId",
                         column: x => x.WalletId,
                         principalTable: "Wallets",
                         principalColumn: "Id");
@@ -133,28 +133,28 @@ namespace Infrastructure.Data.Migrations
                 columns: new[] { "Id", "CategoryId", "CreatedAt", "Name", "UpdatedAt", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("afe84d2d-3cfb-45f2-af1a-9cb1dcdead56"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5341), "Salary", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5347), null },
-                    { new Guid("c7076130-71e9-4e6e-9279-998d487f60de"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5446), "Utilities", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5447), null },
-                    { new Guid("fb156b5e-29f0-4b1f-a473-2d931efc3ee6"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5444), "Consumer Staples", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5445), null },
-                    { new Guid("3f0f75d2-1504-429c-953a-2a6369c49375"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5442), "Health Care", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5443), null },
-                    { new Guid("48b2a969-863e-4ee5-810c-489bf389182b"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5440), "Real Estate", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5441), null },
-                    { new Guid("bcfe7168-9ccd-400d-b3eb-5744c695568f"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5438), "Communication Services", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5439), null },
-                    { new Guid("245e6f7a-f849-4323-baee-dd1212c546af"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5435), "Information Technology", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5436), null },
-                    { new Guid("6b89bf02-ecbd-4605-8a9a-0b1e3b28db62"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5433), "Consumer Discretionary", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5434), null },
-                    { new Guid("b26c3953-e45e-4078-9c4f-e529aeb92648"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5427), "Financials", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5428), null },
-                    { new Guid("c8735def-95a7-4600-b0e9-3a38796fe5a0"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5425), "Industrials", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5426), null },
-                    { new Guid("2a01b945-1bf1-4da1-af03-51e85106e57c"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5423), "Gifts", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5424), null },
-                    { new Guid("46ef3354-87ca-42cc-88ed-761531f39ee2"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5429), "Energy", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5430), null },
-                    { new Guid("636cf9fe-ddc3-4b38-a080-6cc2f9dc1c3d"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5419), "Travel", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5420), null },
-                    { new Guid("5a207b72-66b5-4621-b304-30cf1a6b472d"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5362), "Loans", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5363), null },
-                    { new Guid("35603d7f-865f-4496-ac08-1276cacf8583"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5421), "Work", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5422), null },
-                    { new Guid("3cf74692-98cc-4519-aff5-ea887aa4764c"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5367), "Investiments", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5367), null },
-                    { new Guid("fdff15a0-efac-496f-8065-2ec89a72fae0"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5369), "Food", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5370), null },
-                    { new Guid("19f0a471-e247-4c52-b7b5-6503561cef10"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5365), "Other Earnings", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5365), null },
-                    { new Guid("fe0ff864-b8f0-4f2f-8a66-55e7a64ffa5d"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5375), "Services", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5376), null },
-                    { new Guid("4b5da34a-5317-4c5c-af76-2dac83e67a41"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5413), "Health", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5414), null },
-                    { new Guid("3c94fc52-f3b0-4013-80c3-ebf7ea0dd19c"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5416), "Education", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5417), null },
-                    { new Guid("bd2abc15-5a49-4526-a8d2-3c6ca85c99da"), null, new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5373), "Transport", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(5374), null }
+                    { new Guid("0ea381c4-3955-46b2-9642-65602e338f3a"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4404), "Salary", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4409), null },
+                    { new Guid("06591ed3-e393-484b-ae85-da4bffb45fb2"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4525), "Utilities", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4526), null },
+                    { new Guid("ba1adaf5-6bc0-4561-b3d9-332a4acf22b6"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4521), "Consumer Staples", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4522), null },
+                    { new Guid("76ba6c58-3f27-4866-8973-24ee19de784a"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4519), "Health Care", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4520), null },
+                    { new Guid("06aa7076-f187-4500-886c-6a5c835a0f14"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4517), "Real Estate", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4517), null },
+                    { new Guid("058e6276-dea4-4e9f-b2ce-111cacf8352b"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4515), "Communication Services", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4515), null },
+                    { new Guid("fedde108-d1d7-43a7-ac9e-2fcb14524633"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4511), "Information Technology", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4512), null },
+                    { new Guid("b95f09f8-55e6-444f-8383-3e33f7536ead"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4509), "Consumer Discretionary", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4510), null },
+                    { new Guid("57a4a78b-8349-432b-9c25-caa731a4727c"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4505), "Financials", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4506), null },
+                    { new Guid("7016a053-d5fb-47bb-b78a-dccdb7705eae"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4501), "Industrials", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4502), null },
+                    { new Guid("d7d072fd-8e6c-460d-83e5-2e2986e02840"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4499), "Gifts", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4500), null },
+                    { new Guid("bde6e8b1-5e9b-46d7-872b-5ceb636b78d2"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4507), "Energy", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4508), null },
+                    { new Guid("9245f61b-85cd-4ea4-9554-7006afaf84ac"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4460), "Travel", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4461), null },
+                    { new Guid("4849827a-3419-4820-8638-43c40bc6a83c"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4427), "Loans", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4428), null },
+                    { new Guid("c229e41c-24c4-44bc-80d1-6d573eb3d0c1"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4497), "Work", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4498), null },
+                    { new Guid("dd292047-fb69-4970-9908-3671488f62ef"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4432), "Investiments", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4433), null },
+                    { new Guid("70b5f1fe-5f29-422b-b75b-0ac5b0ea582e"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4434), "Food", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4435), null },
+                    { new Guid("a6b9744a-1923-4eae-ac83-5848da07714c"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4430), "Other Earnings", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4431), null },
+                    { new Guid("4f351c55-3892-42ba-958e-f4c763f739cd"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4453), "Services", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4453), null },
+                    { new Guid("37442197-62b1-4f6d-a819-afc4fb7724c6"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4455), "Health", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4456), null },
+                    { new Guid("7f8a8eaf-c152-4e5d-ac10-8c1677704628"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4457), "Education", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4458), null },
+                    { new Guid("9a4f1f28-8534-488e-9767-22d7128729ae"), null, new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4450), "Transport", new DateTime(2021, 5, 1, 11, 55, 43, 723, DateTimeKind.Local).AddTicks(4451), null }
                 });
 
             migrationBuilder.InsertData(
@@ -162,8 +162,8 @@ namespace Infrastructure.Data.Migrations
                 columns: new[] { "Id", "CreatedAt", "Email", "Name", "Password", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), new DateTime(2021, 4, 26, 7, 59, 9, 693, DateTimeKind.Local).AddTicks(1851), "admin@admin.com", "Admin", "$2a$11$eS63Z.krrkXp971dszCK9.uR3tm3SYzxWIeyoS1/A/PDHW/DlXs.y", new DateTime(2021, 4, 26, 7, 59, 9, 693, DateTimeKind.Local).AddTicks(8917) },
-                    { new Guid("cb43d078-87f1-4864-853a-e626922b8109"), new DateTime(2021, 4, 26, 7, 59, 9, 816, DateTimeKind.Local).AddTicks(9769), "testUser01@email.com", "Test-User-01", "$2a$11$v/2.Dd2yL7Rfp4zymjQsgubDASRihHvYVIITxM1zelywzaIcIMGVq", new DateTime(2021, 4, 26, 7, 59, 9, 816, DateTimeKind.Local).AddTicks(9791) }
+                    { new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), new DateTime(2021, 5, 1, 11, 55, 43, 591, DateTimeKind.Local).AddTicks(389), "admin@admin.com", "Admin", "$2a$11$Qma.mDclcg9ChOY2y.PzOuf/JZ8G1KHoxSRoukp2wonSG2lYu1i12", new DateTime(2021, 5, 1, 11, 55, 43, 591, DateTimeKind.Local).AddTicks(8711) },
+                    { new Guid("cb43d078-87f1-4864-853a-e626922b8109"), new DateTime(2021, 5, 1, 11, 55, 43, 720, DateTimeKind.Local).AddTicks(7439), "testUser01@email.com", "Test-User-01", "$2a$11$0OMcWwg1xp4qcAEi7I566e/6mkoCRcFjAvW.IF0vJI1zGtAJFSrye", new DateTime(2021, 5, 1, 11, 55, 43, 720, DateTimeKind.Local).AddTicks(7467) }
                 });
 
             migrationBuilder.InsertData(
@@ -171,22 +171,22 @@ namespace Infrastructure.Data.Migrations
                 columns: new[] { "Id", "CreatedAt", "Name", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { new Guid("ad4ac47f-0888-4d60-81f9-964153b13e40"), new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(4428), "Investiments", new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(4430) },
-                    { new Guid("ad4ac47f-0888-4d60-81f9-964153b13e37"), new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(3423), "Checking Account", new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(3431) },
-                    { new Guid("ad4ac47f-0888-4d60-81f9-964153b13e38"), new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(3809), "Credit", new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(3812) },
-                    { new Guid("ad4ac47f-0888-4d60-81f9-964153b13e39"), new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(4128), "Saving", new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(4131) },
-                    { new Guid("ad4ac47f-0888-4d60-81f9-964153b13e41"), new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(4719), "Stocks", new DateTime(2021, 4, 26, 7, 59, 9, 818, DateTimeKind.Local).AddTicks(4721) }
+                    { new Guid("ad4ac47f-0888-4d60-81f9-964153b13e40"), new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(3697), "Investiments", new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(3699) },
+                    { new Guid("ad4ac47f-0888-4d60-81f9-964153b13e37"), new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(2548), "Checking Account", new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(2558) },
+                    { new Guid("ad4ac47f-0888-4d60-81f9-964153b13e38"), new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(3082), "Credit", new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(3085) },
+                    { new Guid("ad4ac47f-0888-4d60-81f9-964153b13e39"), new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(3391), "Saving", new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(3394) },
+                    { new Guid("ad4ac47f-0888-4d60-81f9-964153b13e41"), new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(3979), "Stocks", new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(3982) }
                 });
 
             migrationBuilder.InsertData(
                 table: "Wallets",
                 columns: new[] { "Id", "CloseDate", "CreatedAt", "CurrentValue", "Description", "DueDate", "Name", "UpdatedAt", "UserId", "WalletTypeId" },
-                values: new object[] { new Guid("722b84da-1628-49af-b09b-b622271af6ec"), new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(178), new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(965), 500.0, "Main Account", new DateTime(2021, 5, 11, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(470), "Inter", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(969), new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), new Guid("ad4ac47f-0888-4d60-81f9-964153b13e37") });
+                values: new object[] { new Guid("b7b68314-e2a6-4200-8299-f6076824d690"), new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(9167), new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(9827), 500.0, "Main Account", new DateTime(2021, 5, 16, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(9451), "Inter", new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(9830), new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), new Guid("ad4ac47f-0888-4d60-81f9-964153b13e37") });
 
             migrationBuilder.InsertData(
                 table: "Wallets",
                 columns: new[] { "Id", "CloseDate", "CreatedAt", "CurrentValue", "Description", "DueDate", "Name", "UpdatedAt", "UserId", "WalletTypeId" },
-                values: new object[] { new Guid("c5ee0354-48af-4bac-a752-ab99f3c747b3"), new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(1007), new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(1014), 500.0, "Credit Card Account", new DateTime(2021, 5, 11, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(1009), "Credit", new DateTime(2021, 4, 26, 7, 59, 9, 819, DateTimeKind.Local).AddTicks(1015), new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), new Guid("ad4ac47f-0888-4d60-81f9-964153b13e38") });
+                values: new object[] { new Guid("1e6942cd-adce-4f4c-95c7-6e3176a48619"), new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(9857), new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(9863), 500.0, "Credit Card Account", new DateTime(2021, 5, 16, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(9858), "Credit", new DateTime(2021, 5, 1, 11, 55, 43, 722, DateTimeKind.Local).AddTicks(9863), new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), new Guid("ad4ac47f-0888-4d60-81f9-964153b13e38") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_CategoryId",
@@ -199,13 +199,13 @@ namespace Infrastructure.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Entraces_CategoryId",
-                table: "Entraces",
+                name: "IX_Entrances_CategoryId",
+                table: "Entrances",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Entraces_WalletId",
-                table: "Entraces",
+                name: "IX_Entrances_WalletId",
+                table: "Entrances",
                 column: "WalletId");
 
             migrationBuilder.CreateIndex(
@@ -228,7 +228,7 @@ namespace Infrastructure.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Entraces");
+                name: "Entrances");
 
             migrationBuilder.DropTable(
                 name: "Categories");
