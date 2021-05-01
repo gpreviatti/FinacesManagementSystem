@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -58,11 +59,53 @@ namespace Service.Services
             }
         }
 
-        public async Task<IEnumerable<EntranceResultDto>> FindAllAsyncWithCategory()
+        public async Task<IEnumerable<EntranceResultDto>> FindAllAsyncWithCategory(
+            string sortOrder, 
+            string currentFilter, 
+            string searchString, 
+            int? pageNumber
+        ) 
         {
             try
             {
+                if (searchString != null)
+                {
+                    pageNumber = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+
                 var result = await _repository.FindAllAsyncWithCategory();
+
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    result = result.Where(e =>
+                        e.Description.Contains(searchString) ||
+                        e.Observation.Contains(searchString) ||
+                        e.Category.Name.Contains(searchString)
+                    );
+                }
+
+                switch (sortOrder)
+                {
+                    case "Description":
+                        result = result.OrderByDescending(e => e.Description);
+                    break;
+                    case "Category":
+                        result = result.OrderByDescending(e => e.Category);
+                        break;
+                    case "Value":
+                        result = result.OrderByDescending(e => e.Value);
+                        break;
+                    case "Wallet":
+                        result = result.OrderByDescending(e => e.Wallet);
+                        break;
+                    default:
+                        break;
+                }
+                
                 return _mapper.Map<IEnumerable<EntranceResultDto>>(result);
             }
             catch (Exception exception)
