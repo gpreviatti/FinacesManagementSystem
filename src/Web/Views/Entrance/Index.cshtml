@@ -4,27 +4,38 @@
     ViewData["Title"] = "Entrances";
 }
 
-@Html.ActionLink("Create Entrance", "Create", null, htmlAttributes: new { @class = "btn btn-secondary bg-black btn-lg btn-block mb-3" })
+@Html.ActionLink("Create Entrance", "Create", null, htmlAttributes: new { @class = "btn btn-primary btn-sm btn-block mb-3" })
 
-<br />
+<div class="mb-3 col-lg-12">
+    <form asp-action="Index">
+        <div class="form-group">
+            <label class="control-label">Search</label>
+            <input type="text" name="searchString" class="form-control-sm col-lg-12 mb-3" autofocus="autofocus" />
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary btn-block col-lg-12 mb-3 btn-sm" value="Filter" />
+        </div>
+    </form>
+</div>
 
-<table class="table bg-dark text-light">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["Description"]">@Html.DisplayNameFor(model => model.Description)</a>
+                <a asp-action="Index" asp-route-sortOrder="Description">@Html.DisplayNameFor(model => model.Description)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Type)
+                <a asp-action="Index" asp-route-sortOrder="Type">@Html.DisplayNameFor(model => model.Type)</a>
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Value)
+                <a asp-action="Index" asp-route-sortOrder="Value">@Html.DisplayNameFor(model => model.Value)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category)
+                <a asp-action="Index" asp-route-sortOrder="Category">@Html.DisplayNameFor(model => model.Category)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
+                <a asp-action="Index">@Html.DisplayNameFor(model => model.CreatedAt)</a>
             </th>
             <th></th>
         </tr>
@@ -64,7 +75,7 @@
                     @Html.DisplayFor(modelItem => item.CreatedAt)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", "Entrance", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-secondary bg-black btn-sm" })
+                    @Html.ActionLink("Edit", "Edit", "Entrance", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
                 </td>
             </tr>
             }

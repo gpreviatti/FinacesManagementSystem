@@ -4,11 +4,11 @@
     ViewData["Title"] = "Categories";
 }
 
-@Html.ActionLink("Create Category", "Create", null, htmlAttributes: new { @class = "btn btn-secondary bg-black btn-lg btn-block mb-3" })
+@Html.ActionLink("Create Category", "Create", null, htmlAttributes: new { @class = "btn btn-primary btn-sm btn-block mb-3" })
 
 <br />
 
-<table class="table bg-dark text-light">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -35,7 +35,7 @@
                     <td>
                         @if (item.UserId != Guid.Empty)
                         {
-                            @Html.ActionLink("Edit", "Edit", "Category", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-secondary bg-black btn-sm" })
+                            @Html.ActionLink("Edit", "Edit", "Category", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-primary" })
                         }
                     </td>
                 </tr>
