@@ -19,9 +19,11 @@ namespace Domain.Dtos.Entrance
         [Required(ErrorMessage = "Value is required")]
         public double Value { get; set; }
 
+        [Display(Name = "Wallet")]
         [Required(ErrorMessage = "Wallet Id is required")]
         public Guid WalletId { get; set; }
 
+        [Display(Name = "Category")]
         [Required(ErrorMessage = "Category Id is required")]
         public Guid CategoryId { get; set; }
     }
