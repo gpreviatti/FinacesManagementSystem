@@ -13,44 +13,33 @@ namespace Data.Seeds
             var categories = new List<Category>();
 
             #region Incomes
-            categories.Add(CreateCategory("Salary"));
-            categories.Add(CreateCategory("Loans"));
-            categories.Add(CreateCategory("Other Earnings"));
-            categories.Add(CreateCategory("Investiments"));
+            categories.Add(CreateCategory("Salary", "18301DE4-A10F-404E-8CE7-836F297382BB"));
+            categories.Add(CreateCategory("Loans", "18341DE4-A10F-404E-8CE7-836F297382BB"));
+            categories.Add(CreateCategory("Other Earnings", "18351DE4-A10F-404E-8CE7-836F297382BB"));
+            categories.Add(CreateCategory("Investiments", "18361DE4-A10F-404E-8CE7-836F297382BB"));
             #endregion
 
             #region Outcomes
-            categories.Add(CreateCategory("Food"));
-            categories.Add(CreateCategory("Transport"));
-            categories.Add(CreateCategory("Services"));
-            categories.Add(CreateCategory("Health"));
-            categories.Add(CreateCategory("Education"));
-            categories.Add(CreateCategory("Travel"));
-            categories.Add(CreateCategory("Work"));
-            categories.Add(CreateCategory("Gifts"));
-            #endregion
-
-            #region Investiments
-            categories.Add(CreateCategory("Industrials"));
-            categories.Add(CreateCategory("Financials"));
-            categories.Add(CreateCategory("Energy"));
-            categories.Add(CreateCategory("Consumer Discretionary"));
-            categories.Add(CreateCategory("Information Technology"));
-            categories.Add(CreateCategory("Communication Services"));
-            categories.Add(CreateCategory("Real Estate"));
-            categories.Add(CreateCategory("Health Care"));
-            categories.Add(CreateCategory("Consumer Staples"));
-            categories.Add(CreateCategory("Utilities"));
+            categories.Add(CreateCategory("Food", "18371DE4-A10F-404E-8CE7-836F297382BB"));
+            categories.Add(CreateCategory("Transport", "18381DE4-A10F-404E-8CE7-836F297382BB"));
+            categories.Add(CreateCategory("Services", "18391DE4-A10F-404E-8CE7-836F297382BB"));
+            categories.Add(CreateCategory("Health", "18401DE4-A10F-404E-8CE7-836F297382BB"));
+            categories.Add(CreateCategory("Education", "18411DE4-A10F-404E-8CE7-836F297382BB"));
+            categories.Add(CreateCategory("Travel", "18421DE4-A10F-404E-8CE7-836F297382BB"));
+            categories.Add(CreateCategory("Work", "18431DE4-A10F-404E-8CE7-836F297382BB"));
+            categories.Add(CreateCategory("Gifts", "18441DE4-A10F-404E-8CE7-836F297382BB"));
+            categories.Add(CreateCategory("Home", "18451DE4-A10F-404E-8CE7-836F297382BB"));
+            categories.Add(CreateCategory("Other Expanses", "18461DE4-A10F-404E-8CE7-836F297382BB"));
             #endregion
 
             modelBuilder.Entity<Category>().HasData(categories);
         }
 
-        public static Category CreateCategory(string name)
+        public static Category CreateCategory(string name, string id = "")
         {
             return new Category()
             {
-                Id = Guid.NewGuid(),
+                Id = string.IsNullOrEmpty(id) ? Guid.NewGuid() : Guid.Parse(id),
                 Name = name,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
