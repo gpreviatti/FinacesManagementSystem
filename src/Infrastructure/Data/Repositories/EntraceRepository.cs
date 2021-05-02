@@ -25,7 +25,6 @@ namespace Data.Repositories
         {
             return await _dataset
                 .Include(e => e.Category)
-                .OrderByDescending(e => e.CreatedAt)
                 .ToListAsync();
         }
 

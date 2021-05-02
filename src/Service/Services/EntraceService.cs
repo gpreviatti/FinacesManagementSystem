@@ -83,7 +83,8 @@ namespace Service.Services
                 {
                     result = result.Where(e =>
                         e.Description.Contains(searchString) ||
-                        e.Observation.Contains(searchString) ||
+                        e.CreatedAt.ToString().Contains(searchString) ||
+                        e.Value.ToString().Contains(searchString) ||
                         e.Category.Name.Contains(searchString)
                     );
                 }
@@ -91,18 +92,19 @@ namespace Service.Services
                 switch (sortOrder)
                 {
                     case "Description":
-                        result = result.OrderByDescending(e => e.Description);
+                        result = result.OrderBy(e => e.Description);
                     break;
+                    case "Type":
+                        result = result.OrderBy(e => e.Type);
+                        break;
                     case "Category":
-                        result = result.OrderByDescending(e => e.Category);
+                        result = result.OrderBy(e => e.Category.Name);
                         break;
                     case "Value":
-                        result = result.OrderByDescending(e => e.Value);
-                        break;
-                    case "Wallet":
-                        result = result.OrderByDescending(e => e.Wallet);
+                        result = result.OrderBy(e => e.Value);
                         break;
                     default:
+                        result = result.OrderByDescending(e => e.CreatedAt);
                         break;
                 }
                 
@@ -123,7 +125,7 @@ namespace Service.Services
         {
             try
             {
-                var result = await _repository.FindAllAsyncWithCategory();
+                var result = await _repository.FindAsyncLastTenEntrancesWithCategories();
                 return _mapper.Map<IEnumerable<EntranceResultDto>>(result);
             }
             catch (Exception exception)

@@ -29,15 +29,17 @@ namespace Web.Controllers
             };
         }
 
-        public IActionResult Index(string sortOrder)
+        public IActionResult Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? pageNumber
+        )
         {
-            ViewData["Description"] = sortOrder == "Description" ? "Description" : "";
-            var entraces = _service.FindAllAsyncWithCategory().Result;
-            switch (sortOrder)
-            {
-                default:
-                    break;
-            }
+            //ViewData["Description"] = sortOrder == "Description" ? "Description" : "";
+            //ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            var entraces = _service.FindAllAsyncWithCategory(sortOrder, currentFilter, searchString, pageNumber).Result;
             return View(entraces);
         }
 
