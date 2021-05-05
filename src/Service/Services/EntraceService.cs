@@ -8,6 +8,7 @@ using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Helpers.Enuns;
+using Domain.Models;
 
 namespace Service.Services
 {
@@ -59,41 +60,26 @@ namespace Service.Services
             }
         }
 
-        public async Task<IEnumerable<EntranceResultDto>> FindAllAsyncWithCategory(
-            string sortOrder, 
-            string currentFilter, 
-            string searchString, 
-            int? pageNumber
-        ) 
+        public async Task<PaginationModel<EntranceResultDto>> FindAllAsyncWithCategoryPaginated(PaginationModel<EntranceResultDto> paginationModel)
         {
             try
             {
-                if (searchString != null)
-                {
-                    pageNumber = 1;
-                }
-                else
-                {
-                    searchString = currentFilter;
-                }
-
                 var result = await _repository.FindAllAsyncWithCategory();
-
-                if (!string.IsNullOrEmpty(searchString))
+                if (!string.IsNullOrEmpty(paginationModel.SearchString))
                 {
                     result = result.Where(e =>
-                        e.Description.Contains(searchString) ||
-                        e.CreatedAt.ToString().Contains(searchString) ||
-                        e.Value.ToString().Contains(searchString) ||
-                        e.Category.Name.Contains(searchString)
+                        e.Description.Contains(paginationModel.SearchString) ||
+                        e.CreatedAt.ToString().Contains(paginationModel.SearchString) ||
+                        e.Value.ToString().Contains(paginationModel.SearchString) ||
+                        e.Category.Name.Contains(paginationModel.SearchString)
                     );
                 }
 
-                switch (sortOrder)
+                switch (paginationModel.SortOrder)
                 {
                     case "Description":
                         result = result.OrderBy(e => e.Description);
-                    break;
+                        break;
                     case "Type":
                         result = result.OrderBy(e => e.Type);
                         break;
@@ -107,8 +93,17 @@ namespace Service.Services
                         result = result.OrderByDescending(e => e.CreatedAt);
                         break;
                 }
+
+                paginationModel.Count = result.Count();
+                result = result
+                    .Skip((paginationModel.CurrentPage - 1) * paginationModel.PageSize)
+                    .Take(paginationModel.PageSize)
+                    .ToList();
+
+                var entrances = _mapper.Map<IEnumerable<EntranceResultDto>>(result);
+                paginationModel.Data = entrances;
                 
-                return _mapper.Map<IEnumerable<EntranceResultDto>>(result);
+                return paginationModel;
             }
             catch (Exception exception)
             {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Dtos.Entrance;
+using Domain.Models;
 
 namespace Domain.Interfaces.Services
 {
@@ -9,7 +10,7 @@ namespace Domain.Interfaces.Services
     {
         Task<EntranceResultDto> FindByIdAsync(Guid id);
         Task<EntranceUpdateDto> FindByIdUpdateAsync(Guid id);
-        Task<IEnumerable<EntranceResultDto>> FindAllAsyncWithCategory(string sortOrder, string currentFilter, string searchString, int? pageNumber);
+        Task<PaginationModel<EntranceResultDto>> FindAllAsyncWithCategoryPaginated(PaginationModel<EntranceResultDto> paginationModel);
         Task<IEnumerable<EntranceResultDto>> FindAsyncLastTenEntrancesWithCategories();
         Task<EntranceResultDto> CreateAsync(EntranceCreateDto entrace);
         Task<EntranceResultDto> UpdateAsync(EntranceUpdateDto entrace);

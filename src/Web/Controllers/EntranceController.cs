@@ -6,6 +6,7 @@ using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.Entrance;
 using System.Linq;
+using Domain.Models;
 
 namespace Web.Controllers
 {
@@ -29,18 +30,20 @@ namespace Web.Controllers
             };
         }
 
-        public IActionResult Index(
-            string sortOrder,
-            string currentFilter,
-            string searchString,
-            int? pageNumber
-        )
+        public IActionResult Index(string sortOrder, string searchString, int currentPage = 1, int pageSize = 10)
         {
-            //ViewData["Description"] = sortOrder == "Description" ? "Description" : "";
-            //ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
-            var entraces = _service.FindAllAsyncWithCategory(sortOrder, currentFilter, searchString, pageNumber).Result;
-            return View(entraces);
+            var entranceResultViewModel = new EntraceResultViewModel();
+            entranceResultViewModel.PaginationModel = new PaginationModel<EntranceResultDto>();
+            entranceResultViewModel.PaginationModel.SortOrder = sortOrder;
+            entranceResultViewModel.PaginationModel.SearchString = searchString;
+            entranceResultViewModel.PaginationModel.CurrentPage = currentPage;
+            entranceResultViewModel.PaginationModel.PageSize = pageSize;
+
+            entranceResultViewModel.PaginationModel = _service
+                .FindAllAsyncWithCategoryPaginated(entranceResultViewModel.PaginationModel)
+                .Result;
+
+            return View(entranceResultViewModel);
         }
 
         [HttpGet]
