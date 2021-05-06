@@ -60,50 +60,13 @@ namespace Service.Services
             }
         }
 
-        public async Task<PaginationModel<EntranceResultDto>> FindAllAsyncWithCategoryPaginated(PaginationModel<EntranceResultDto> paginationModel)
+        public async Task<IEnumerable<EntranceResultDto>> FindAllAsyncWithCategory()
         {
             try
             {
                 var result = await _repository.FindAllAsyncWithCategory();
-                if (!string.IsNullOrEmpty(paginationModel.SearchString))
-                {
-                    result = result.Where(e =>
-                        e.Description.Contains(paginationModel.SearchString) ||
-                        e.CreatedAt.ToString().Contains(paginationModel.SearchString) ||
-                        e.Value.ToString().Contains(paginationModel.SearchString) ||
-                        e.Category.Name.Contains(paginationModel.SearchString)
-                    );
-                }
-
-                switch (paginationModel.SortOrder)
-                {
-                    case "Description":
-                        result = result.OrderBy(e => e.Description);
-                        break;
-                    case "Type":
-                        result = result.OrderBy(e => e.Type);
-                        break;
-                    case "Category":
-                        result = result.OrderBy(e => e.Category.Name);
-                        break;
-                    case "Value":
-                        result = result.OrderBy(e => e.Value);
-                        break;
-                    default:
-                        result = result.OrderByDescending(e => e.CreatedAt);
-                        break;
-                }
-
-                paginationModel.Count = result.Count();
-                result = result
-                    .Skip((paginationModel.CurrentPage - 1) * paginationModel.PageSize)
-                    .Take(paginationModel.PageSize)
-                    .ToList();
-
-                var entrances = _mapper.Map<IEnumerable<EntranceResultDto>>(result);
-                paginationModel.Data = entrances;
                 
-                return paginationModel;
+                return _mapper.Map< IEnumerable<EntranceResultDto>>(result);
             }
             catch (Exception exception)
             {

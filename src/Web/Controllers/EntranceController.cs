@@ -5,8 +5,8 @@ using Domain.Dtos.EntranceTypeDto;
 using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.Entrance;
-using System.Linq;
 using Domain.Models;
+using System.Linq;
 
 namespace Web.Controllers
 {
@@ -30,20 +30,36 @@ namespace Web.Controllers
             };
         }
 
-        public IActionResult Index(string sortOrder, string searchString, int currentPage = 1, int pageSize = 10)
+        public IActionResult Index()
         {
-            var entranceResultViewModel = new EntraceResultViewModel();
-            entranceResultViewModel.PaginationModel = new PaginationModel<EntranceResultDto>();
-            entranceResultViewModel.PaginationModel.SortOrder = sortOrder;
-            entranceResultViewModel.PaginationModel.SearchString = searchString;
-            entranceResultViewModel.PaginationModel.CurrentPage = currentPage;
-            entranceResultViewModel.PaginationModel.PageSize = pageSize;
+            return View();
+        }
 
-            entranceResultViewModel.PaginationModel = _service
-                .FindAllAsyncWithCategoryPaginated(entranceResultViewModel.PaginationModel)
-                .Result;
-
-            return View(entranceResultViewModel);
+        [HttpPost("entrances/GetEntrancesDatatables")]
+        public IActionResult GetEntrancesDatatables()
+        {
+            var draw = Request.Form["draw"].FirstOrDefault();
+            var start = Request.Form["start"].FirstOrDefault();
+            var length = Request.Form["length"].FirstOrDefault();
+            var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+            var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+            var searchValue = Request.Form["search[value]"].FirstOrDefault();
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int recordsTotal = 0;
+            var entrancesData = _service.FindAllAsyncWithCategory().Result;
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
+            {
+                entrancesData = entrancesData.OrderBy(sortColumn + " " + sortColumnDirection);
+            }
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                entrancesData = entrancesData.Where(m => m.Description.Contains(searchValue) || m.Observation.Contains(searchValue) || m.Category.Name.Contains(searchValue)).ToList();
+            }
+            recordsTotal = entrancesData.Count();
+            var data = entrancesData.Skip(skip).Take(pageSize).ToList();
+            var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
+            return Ok(jsonData);
         }
 
         [HttpGet]
@@ -74,7 +90,7 @@ namespace Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet("Edit/{Id}")]
+        [HttpGet("Entrances/Edit/{Id}")]
         public IActionResult Edit(Guid id)
         {
             var entraceUpdateViewModel = new EntranceUpdateViewModel();

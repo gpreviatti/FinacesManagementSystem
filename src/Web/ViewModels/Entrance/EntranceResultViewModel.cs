@@ -3,7 +3,7 @@ using Domain.Models;
 
 namespace Web.ViewModels.Entrance
 {
-    public class EntraceResultViewModel
+    public class EntranceResultViewModel
     {
         public PaginationModel<EntranceResultDto> PaginationModel { get; set; }
     }
