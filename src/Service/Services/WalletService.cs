@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -12,10 +13,12 @@ namespace Service.Services
     public class WalletService : BaseService, IWalletService
     {
         private readonly IWalletRepository _repository;
+        private readonly IEntranceService _entranceService;
 
-        public WalletService(IWalletRepository repository, IMapper mapper)
+        public WalletService(IWalletRepository repository, IEntranceService entranceService, IMapper mapper)
         {
             _repository = repository;
+            _entranceService = entranceService;
             _mapper = mapper;
         }
 
@@ -53,28 +56,17 @@ namespace Service.Services
             try
             {
                 var result = await _repository.FindAsyncWalletsUser(UserId);
-                return _mapper.Map<IEnumerable<WalletResultDto>>(result);
+                var wallets = _mapper.Map<IEnumerable<WalletResultDto>>(result);
+                wallets.ToList().ForEach(w => w.CurrentValue = _entranceService.TotalEntrancesByWallet(w.Id).Result);
+                return wallets;
             }
             catch (Exception exception)
             {
-                System.Console.WriteLine(exception);
+                Console.WriteLine(exception);
                 return null;
             }
         }
 
-        public async Task<IEnumerable<WalletResultDto>> FindAllAsync()
-        {
-            try
-            {
-                var result = await _repository.FindAllAsync();
-                return _mapper.Map<IEnumerable<WalletResultDto>>(result);
-            }
-            catch (Exception exception)
-            {
-                System.Console.WriteLine(exception);
-                return null;
-            }
-        }
         #endregion
 
         public async Task<WalletResultDto> CreateAsync(WalletCreateDto entityCreateDto)
@@ -94,7 +86,7 @@ namespace Service.Services
             }
             catch (Exception exception)
             {
-                System.Console.WriteLine(exception);
+                Console.WriteLine(exception);
                 return null;
             }
         }
@@ -123,7 +115,7 @@ namespace Service.Services
             }
             catch (Exception exception)
             {
-                System.Console.WriteLine(exception);
+                Console.WriteLine(exception);
                 return null;
             }
         }
@@ -136,7 +128,7 @@ namespace Service.Services
             }
             catch (Exception exception)
             {
-                System.Console.WriteLine(exception);
+                Console.WriteLine(exception);
                 return false;
             }
         }

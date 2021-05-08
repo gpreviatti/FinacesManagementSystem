@@ -12,7 +12,8 @@ namespace Domain.Interfaces.Services
         Task<EntranceUpdateDto> FindByIdUpdateAsync(Guid id);
         Task<DatatablesModel<EntranceResultDto>> FindAllAsyncWithCategoryDatatables(DatatablesModel<EntranceResultDto> paginationModel);
         Task<IEnumerable<EntranceResultDto>> FindAsyncLastFiveEntrancesWithCategories();
-        Task<double> FindEntrancesByCategory(Guid categoryId);
+        Task<double> TotalEntrancesByCategory(Guid categoryId);
+        Task<double> TotalEntrancesByWallet(Guid walletId);
         Task<EntranceResultDto> CreateAsync(EntranceCreateDto entrace);
         Task<EntranceResultDto> UpdateAsync(EntranceUpdateDto entrace);
         Task<bool> DeleteAsync(Guid id);

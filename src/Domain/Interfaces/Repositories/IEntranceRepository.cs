@@ -10,6 +10,7 @@ namespace Domain.Interfaces.Repositories
         Task<IEnumerable<Entrance>> FindAllAsyncWithWallet();
         Task<IEnumerable<Entrance>> FindAllAsyncWithCategory();
         Task<IEnumerable<Entrance>> FindAsyncLastFiveEntrancesWithCategories();
-        Task<double> FindEntrancesByCategoryTotalValue(Guid categoryId);
+        Task<double> TotalEntrancesByCategory(Guid categoryId);
+        Task<double> TotalEntrancesByWallet(Guid walletId);
     }
 }

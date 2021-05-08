@@ -271,11 +271,23 @@ namespace Service.Services
             }
         }
 
-        public async Task<double> FindEntrancesByCategory(Guid categoryId)
+        public async Task<double> TotalEntrancesByCategory(Guid categoryId)
         {
             try
             {
-                return await _repository.FindEntrancesByCategoryTotalValue(categoryId);
+                return await _repository.TotalEntrancesByCategory(categoryId);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                return 0.0;
+            }
+        }
+        public async Task<double> TotalEntrancesByWallet(Guid walletId)
+        {
+            try
+            {
+                return await _repository.TotalEntrancesByWallet(walletId);
             }
             catch (Exception exception)
             {

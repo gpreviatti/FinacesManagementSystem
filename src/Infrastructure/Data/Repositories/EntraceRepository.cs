@@ -38,10 +38,18 @@ namespace Data.Repositories
                 .ToListAsync();
         }
 
-        public async Task<double> FindEntrancesByCategoryTotalValue(Guid categoryId)
+        public async Task<double> TotalEntrancesByCategory(Guid categoryId)
         {
             return await _dataset
                 .Where(e => e.CategoryId.Equals(categoryId))
+                .Select(e => e.Value)
+                .SumAsync();
+        }
+
+        public async Task<double> TotalEntrancesByWallet(Guid walletId)
+        {
+            return await _dataset
+                .Where(e => e.WalletId.Equals(walletId))
                 .Select(e => e.Value)
                 .SumAsync();
         }

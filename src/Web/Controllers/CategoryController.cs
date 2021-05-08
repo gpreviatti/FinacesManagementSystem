@@ -17,10 +17,7 @@ namespace Web.Controllers
             _service = service;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() => View();
 
         [HttpPost("Categories/Datatables")]
         public IActionResult GetEntrancesDatatables(DatatablesModel<CategoryResultDto> datatablesModel)
