@@ -4,25 +4,23 @@
     ViewData["Title"] = "Wallets";
 }
 
-@Html.ActionLink("Create Wallet", "Create", null, htmlAttributes: new { @class = "btn btn-secondary bg-black btn-lg btn-block mb-3" })
+@Html.ActionLink("Create Wallet", "Create", null, htmlAttributes: new { @class = "btn btn-primary btn-sm btn-block mb-3" })
 
 <br />
 
 @foreach (var item in Model)
 {
-    <div class="col-lg-12">
-        <div class="card bg-dark mb-3">
-            <div class="text-light bg-black">
-                <p class="card-header">
-                    @Html.DisplayFor(modelItem => item.Name)
-                </p>
-            </div>
-            <div class="card-body bg-dark text-light">
+    <div class="col-lg-6">
+        <div class="card mb-3">
+            <div class="card-header">
+                @Html.DisplayFor(modelItem => item.Name)
+            </div class="card-header">
+            <div class="card-body">
                 <p class="card-title">Current Value</p>
                 @Html.DisplayFor(modelItem => item.CurrentValue)
             </div>
-            <div>
-                @Html.ActionLink("Edit", "Edit", "Wallet", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-secondary bg-black btn-sm btn-block" })
+            <div class="card-footer">
+                @Html.ActionLink("Edit", "Edit", "Wallet", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-sm btn-primary btn-block" })
             </div>
         </div>
     </div>

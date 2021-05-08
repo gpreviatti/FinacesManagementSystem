@@ -5,6 +5,7 @@ using Domain.Dtos.EntranceTypeDto;
 using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.Entrance;
+using Domain.Models;
 using System.Linq;
 
 namespace Web.Controllers
@@ -29,16 +30,23 @@ namespace Web.Controllers
             };
         }
 
-        public IActionResult Index(string sortOrder)
+        public IActionResult Index()
         {
-            ViewData["Description"] = sortOrder == "Description" ? "Description" : "";
-            var entraces = _service.FindAllAsyncWithCategory().Result;
-            switch (sortOrder)
-            {
-                default:
-                    break;
-            }
-            return View(entraces);
+            return View();
+        }
+
+        [HttpPost("Entrances/Datatables")]
+        public IActionResult GetEntrancesDatatables(DatatablesModel<EntranceResultDto> datatablesModel)
+        {
+            datatablesModel.Draw = Request.Form["draw"].FirstOrDefault();
+            datatablesModel.Start = Request.Form["start"].FirstOrDefault();
+            datatablesModel.Length = Request.Form["length"].FirstOrDefault();
+            datatablesModel.SortColumn = int.Parse(Request.Form["order[0][column]"].FirstOrDefault());
+            datatablesModel.SortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+            datatablesModel.SearchValue = Request.Form["search[value]"].FirstOrDefault();
+
+            datatablesModel = _service.FindAllAsyncWithCategoryDatatables(datatablesModel).Result;
+            return Ok(datatablesModel);
         }
 
         [HttpGet]
@@ -69,7 +77,7 @@ namespace Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet("Edit/{Id}")]
+        [HttpGet("Entrances/Edit/{Id}")]
         public IActionResult Edit(Guid id)
         {
             var entraceUpdateViewModel = new EntranceUpdateViewModel();
@@ -85,7 +93,7 @@ namespace Web.Controllers
             return View(entraceUpdateViewModel);
         }
 
-        [HttpPost("Edit/{Id}")]
+        [HttpPost("Entrances/Edit/{Id}")]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Guid id, EntranceUpdateViewModel entraceUpdateView)
         {

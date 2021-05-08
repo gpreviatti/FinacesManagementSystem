@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -7,6 +8,7 @@ using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Helpers.Enuns;
+using Domain.Models;
 
 namespace Service.Services
 {
@@ -58,12 +60,36 @@ namespace Service.Services
             }
         }
 
-        public async Task<IEnumerable<EntranceResultDto>> FindAllAsyncWithCategory()
+        public async Task<DatatablesModel<EntranceResultDto>> FindAllAsyncWithCategoryDatatables(DatatablesModel<EntranceResultDto> datatablesModel)
         {
             try
-            {
-                var result = await _repository.FindAllAsyncWithCategory();
-                return _mapper.Map<IEnumerable<EntranceResultDto>>(result);
+            {   
+                var entrances = await _repository.FindAllAsyncWithCategory();
+                var entrancesData = _mapper.Map<IEnumerable<EntranceResultDto>>(entrances);
+                datatablesModel.RecordsTotal = entrancesData.Count();
+
+                if (!string.IsNullOrEmpty(datatablesModel.SearchValue))
+                {
+                    entrancesData = entrancesData
+                    .Where(
+                        m => m.Description.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase) ||
+                        m.Observation.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase) ||
+                        m.Category.Name.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase)
+                    );
+                }
+
+                if (!string.IsNullOrEmpty(datatablesModel.SortColumnDirection))
+                {
+                    entrancesData = SortDatatables(datatablesModel, entrancesData);
+                }
+
+                datatablesModel.RecordsFiltered = entrancesData.Count();
+                datatablesModel.Data = entrancesData
+                    .Skip(datatablesModel.Skip)
+                    .Take(datatablesModel.PageSize)
+                    .ToList();
+
+                return datatablesModel;
             }
             catch (Exception exception)
             {
@@ -72,15 +98,53 @@ namespace Service.Services
             }
         }
 
+        private static IEnumerable<EntranceResultDto> SortDatatables(DatatablesModel<EntranceResultDto> datatablesModel, IEnumerable<EntranceResultDto> entrancesData)
+        {
+            var sortDirection = datatablesModel.SortColumnDirection;
+            switch (datatablesModel.SortColumn)
+            {
+                case 0:
+                    if (sortDirection.Equals("asc"))
+                    {
+                        return entrancesData.OrderBy(e => e.Description);
+                    }
+                    return entrancesData.OrderByDescending(e => e.Description);
+                case 1:
+                    if (sortDirection.Equals("asc"))
+                    {
+                        return entrancesData = entrancesData.OrderBy(e => e.Type);
+                    }
+                    return entrancesData.OrderByDescending(e => e.Type);
+                case 2:
+                    if (sortDirection.Equals("asc"))
+                    {
+                        return entrancesData.OrderBy(e => e.Value);
+                    }
+                    return entrancesData.OrderByDescending(e => e.Value);
+                case 3:
+                    if (sortDirection.Equals("asc"))
+                    {
+                        return entrancesData.OrderBy(e => e.Category.Name);
+                    }
+                    return entrancesData.OrderByDescending(e => e.Category.Name);
+                default:
+                    if (sortDirection.Equals("asc"))
+                    {
+                        return entrancesData.OrderBy(e => e.CreatedAt);
+                    }
+                    return entrancesData.OrderByDescending(e => e.CreatedAt);
+            }
+        }
+
         /// <summary>
         /// Take last ten entraces ordered by CreatedAt field
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<EntranceResultDto>> FindAsyncLastTenEntrancesWithCategories()
+        public async Task<IEnumerable<EntranceResultDto>> FindAsyncLastFiveEntrancesWithCategories()
         {
             try
             {
-                var result = await _repository.FindAllAsyncWithCategory();
+                var result = await _repository.FindAsyncLastFiveEntrancesWithCategories();
                 return _mapper.Map<IEnumerable<EntranceResultDto>>(result);
             }
             catch (Exception exception)
@@ -204,6 +268,19 @@ namespace Service.Services
             {
                 Console.WriteLine(exception);
                 return false;
+            }
+        }
+
+        public async Task<double> FindEntrancesByCategory(Guid categoryId)
+        {
+            try
+            {
+                return await _repository.FindEntrancesByCategoryTotalValue(categoryId);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                return 0.0;
             }
         }
     }

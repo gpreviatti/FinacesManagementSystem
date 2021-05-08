@@ -15,7 +15,7 @@ namespace Web.Controllers
         private readonly IWalletService _walletService;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(IEntranceService entraceService, IWalletService walletService, ICategoryService categoryService)
+        public HomeController(IEntranceService entraceService, IWalletService walletService)
         {
             _entraceService = entraceService;
             _walletService = walletService;
@@ -29,17 +29,12 @@ namespace Web.Controllers
         public IActionResult Index()
         {
             var homeIndexViewModel = new HomeIndexViewModel();
-            homeIndexViewModel.Entrances = _entraceService.FindAsyncLastTenEntrancesWithCategories().Result;
+            homeIndexViewModel.Entrances = _entraceService.FindAsyncLastFiveEntrancesWithCategories().Result;
             homeIndexViewModel.Wallets = _walletService.FindAsyncWalletsUser().Result;
             homeIndexViewModel.TotalExpanse = 1000;
             homeIndexViewModel.TotalIncome = 5000;
 
             return View(homeIndexViewModel);
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

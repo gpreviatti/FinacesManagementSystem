@@ -35,6 +35,9 @@ namespace Data.Mapping
                 .WithMany(w => w.Entrances)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.HasIndex(e => new { e.Id, e.CategoryId })
+                .IsClustered(false);
+
             builder
                 .HasOne(e => e.Category)
                 .WithMany(c => c.Entrances);

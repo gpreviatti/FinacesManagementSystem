@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Entities;
@@ -8,7 +9,7 @@ namespace Domain.Interfaces.Repositories
     {
         Task<IEnumerable<Entrance>> FindAllAsyncWithWallet();
         Task<IEnumerable<Entrance>> FindAllAsyncWithCategory();
-        Task<IEnumerable<Entrance>> FindAsyncLastTenEntrancesWithCategories();
-        Task<IEnumerable<Entrance>> FindAllAsyncWithWalletAndCategory();
+        Task<IEnumerable<Entrance>> FindAsyncLastFiveEntrancesWithCategories();
+        Task<double> FindEntrancesByCategoryTotalValue(Guid categoryId);
     }
 }

@@ -7,12 +7,12 @@ namespace Domain.Dtos.Entity
     {
         public Guid Id { get; set; }
 
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Created At")]
+        [DataType(DataType.Date)]
         public DateTime CreatedAt { get; set; }
 
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Updated At")]
+        [DataType(DataType.Date)]
         public DateTime UpdatedAt { get; set; }
     }
 }

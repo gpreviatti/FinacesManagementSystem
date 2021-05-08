@@ -30,7 +30,7 @@ namespace Data.Context
             WalletTypeSeeder.WalletTypes(modelBuilder);
             WalletSeeder.Wallet(modelBuilder);
             CategorySeeder.Categories(modelBuilder);
-
+            EntraceSeeder.Entrance(modelBuilder);
         }
     }
 }

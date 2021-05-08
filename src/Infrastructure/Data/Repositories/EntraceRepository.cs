@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,25 +26,24 @@ namespace Data.Repositories
         {
             return await _dataset
                 .Include(e => e.Category)
-                .OrderByDescending(e => e.CreatedAt)
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Entrance>> FindAsyncLastTenEntrancesWithCategories()
+        public async Task<IEnumerable<Entrance>> FindAsyncLastFiveEntrancesWithCategories()
         {
             return await _dataset
                 .Include(e => e.Category)
                 .OrderByDescending(e => e.CreatedAt)
-                .Take(10)
+                .Take(5)
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Entrance>> FindAllAsyncWithWalletAndCategory()
+        public async Task<double> FindEntrancesByCategoryTotalValue(Guid categoryId)
         {
-             return await _dataset
-                .Include(e => e.Category)
-                .Include(e => e.Wallet)
-                .ToListAsync();
+            return await _dataset
+                .Where(e => e.CategoryId.Equals(categoryId))
+                .Select(e => e.Value)
+                .SumAsync();
         }
     }
 }
