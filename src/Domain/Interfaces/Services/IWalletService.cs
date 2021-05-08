@@ -9,7 +9,6 @@ namespace Domain.Interfaces.Services
     {
         Task<WalletResultDto> FindByIdAsync(Guid id);
         Task<WalletUpdateDto> FindByIdUpdateAsync(Guid id);
-        Task<IEnumerable<WalletResultDto>> FindAllAsync();
         Task<IEnumerable<WalletResultDto>> FindAsyncWalletsUser();
         Task<WalletResultDto> CreateAsync(WalletCreateDto wallet);
         Task<WalletResultDto> UpdateAsync(WalletUpdateDto wallet);

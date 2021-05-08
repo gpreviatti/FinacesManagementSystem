@@ -13,18 +13,12 @@ namespace Web.Controllers
     {
         private readonly IEntranceService _entraceService;
         private readonly IWalletService _walletService;
-        private readonly ILogger<HomeController> _logger;
 
         public HomeController(IEntranceService entraceService, IWalletService walletService)
         {
             _entraceService = entraceService;
             _walletService = walletService;
         }
-
-        //public HomeController(ILogger<HomeController> logger)
-        //{
-        //    _logger = logger;
-        //}
 
         public IActionResult Index()
         {

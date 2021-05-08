@@ -30,10 +30,7 @@ namespace Web.Controllers
             };
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() => View();
 
         [HttpPost("Entrances/Datatables")]
         public IActionResult GetEntrancesDatatables(DatatablesModel<EntranceResultDto> datatablesModel)

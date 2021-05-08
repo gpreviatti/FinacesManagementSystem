@@ -79,27 +79,27 @@ namespace Service.Services
             try
             {
                 var result = await _repository.FindAsyncAllCommonAndUserCategories(UserId);
-                var categoriesData = _mapper.Map<IEnumerable<CategoryResultDto>>(result);
-                foreach (var category in categoriesData)
+                var categories = _mapper.Map<IEnumerable<CategoryResultDto>>(result);
+                foreach (var category in categories)
                 {
-                    category.Total = _entranceService.FindEntrancesByCategory(category.Id).Result;
+                    category.Total = _entranceService.TotalEntrancesByCategory(category.Id).Result;
                 }
 
-                datatablesModel.RecordsTotal = categoriesData.Count();
+                datatablesModel.RecordsTotal = categories.Count();
 
                 if (!string.IsNullOrEmpty(datatablesModel.SearchValue))
                 {
-                    categoriesData = categoriesData
+                    categories = categories
                     .Where(m => m.Name.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase));
                 }
 
                 if (!string.IsNullOrEmpty(datatablesModel.SortColumnDirection))
                 {
-                    categoriesData = SortDatatables(datatablesModel, categoriesData);
+                    categories = SortDatatables(datatablesModel, categories);
                 }
 
-                datatablesModel.RecordsFiltered = categoriesData.Count();
-                datatablesModel.Data = categoriesData
+                datatablesModel.RecordsFiltered = categories.Count();
+                datatablesModel.Data = categories
                     .Skip(datatablesModel.Skip)
                     .Take(datatablesModel.PageSize)
                     .ToList();
