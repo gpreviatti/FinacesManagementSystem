@@ -15,7 +15,7 @@ namespace Web.Controllers
         private readonly IWalletService _walletService;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(IEntranceService entraceService, IWalletService walletService, ICategoryService categoryService)
+        public HomeController(IEntranceService entraceService, IWalletService walletService)
         {
             _entraceService = entraceService;
             _walletService = walletService;
