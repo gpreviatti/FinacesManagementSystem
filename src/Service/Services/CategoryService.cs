@@ -125,6 +125,12 @@ namespace Service.Services
                         return entrancesData.OrderBy(e => e.Name);
                     }
                     return entrancesData.OrderByDescending(e => e.Name);
+                case 1:
+                    if (sortDirection.Equals("asc"))
+                    {
+                        return entrancesData.OrderBy(e => e.Total);
+                    }
+                    return entrancesData.OrderByDescending(e => e.Total);
                 default:
                     if (sortDirection.Equals("asc"))
                     {

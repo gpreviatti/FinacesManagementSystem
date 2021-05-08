@@ -34,7 +34,7 @@ namespace Data.Seeds
                 "042CC3AD-2159-4B8E-894E-E700A121B48F"
             };
 
-            for (int i = 1; i <= 1000; i++)
+            for (int i = 1; i <= 5000; i++)
             {
                 var randonCategory = random.Next(categoriesGuid.Count());
                 var randonWallet = random.Next(walletsGuid.Count());

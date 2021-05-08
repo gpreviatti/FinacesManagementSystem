@@ -43,7 +43,7 @@ namespace Data.Repositories
             return await _dataset
                 .Where(e => e.CategoryId.Equals(categoryId))
                 .Select(e => e.Value)
-                .CountAsync();
+                .SumAsync();
         }
     }
 }
