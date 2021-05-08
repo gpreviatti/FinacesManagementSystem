@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Domain.Dtos.Category;
 using Domain.Interfaces.Services;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.Category;
 
@@ -17,8 +19,21 @@ namespace Web.Controllers
 
         public IActionResult Index()
         {
-            var categories = _service.FindAsyncAllCommonAndUserCategories().Result;
-            return View(categories);
+            return View();
+        }
+
+        [HttpPost("Categories/Datatables")]
+        public IActionResult GetEntrancesDatatables(DatatablesModel<CategoryResultDto> datatablesModel)
+        {
+            datatablesModel.Draw = Request.Form["draw"].FirstOrDefault();
+            datatablesModel.Start = Request.Form["start"].FirstOrDefault();
+            datatablesModel.Length = Request.Form["length"].FirstOrDefault();
+            datatablesModel.SortColumn = int.Parse(Request.Form["order[0][column]"].FirstOrDefault());
+            datatablesModel.SortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+            datatablesModel.SearchValue = Request.Form["search[value]"].FirstOrDefault();
+
+            datatablesModel = _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModel).Result;
+            return Ok(datatablesModel);
         }
 
         public ActionResult Create()
@@ -46,6 +61,7 @@ namespace Web.Controllers
             return RedirectToAction("Index", "Category");
         }
 
+        [HttpGet("Categories/Edit/{id}")]
         public ActionResult Edit(Guid id)
         {
             var categoryUpdateViewModel = new CategoryUpdateViewModel();
@@ -54,9 +70,9 @@ namespace Web.Controllers
             return View(categoryUpdateViewModel);
         }
 
-        [HttpPost]
+        [HttpPost("Categories/Edit/{id}")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, CategoryUpdateViewModel categoryUpdateView)
+        public ActionResult Edit(Guid id, CategoryUpdateViewModel categoryUpdateView)
         {
             if (!ModelState.IsValid)
             {

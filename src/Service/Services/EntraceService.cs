@@ -72,15 +72,16 @@ namespace Service.Services
                 {
                     entrancesData = entrancesData
                     .Where(
-                        m => m.Description.Contains(datatablesModel.SearchValue) ||
-                        m.Observation.Contains(datatablesModel.SearchValue) ||
-                        m.Category.Name.Contains(datatablesModel.SearchValue)
+                        m => m.Description.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase) ||
+                        m.Observation.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase) ||
+                        m.Category.Name.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase)
                     );
                 }
-                //if (!(string.IsNullOrEmpty(datatablesModel.SortColumn) && string.IsNullOrEmpty(datatablesModel.SortColumnDirection)))
-                //{
-                //    entrancesData = entrancesData.OrderBy(datatablesModel.SortColumn + " " + datatablesModel.SortColumnDirection);
-                //}
+
+                if (!string.IsNullOrEmpty(datatablesModel.SortColumnDirection))
+                {
+                    entrancesData = SortDatatables(datatablesModel, entrancesData);
+                }
 
                 datatablesModel.RecordsFiltered = entrancesData.Count();
                 datatablesModel.Data = entrancesData
@@ -94,6 +95,44 @@ namespace Service.Services
             {
                 Console.WriteLine(exception);
                 return null;
+            }
+        }
+
+        private static IEnumerable<EntranceResultDto> SortDatatables(DatatablesModel<EntranceResultDto> datatablesModel, IEnumerable<EntranceResultDto> entrancesData)
+        {
+            var sortDirection = datatablesModel.SortColumnDirection;
+            switch (datatablesModel.SortColumn)
+            {
+                case 0:
+                    if (sortDirection.Equals("asc"))
+                    {
+                        return entrancesData.OrderBy(e => e.Description);
+                    }
+                    return entrancesData.OrderByDescending(e => e.Description);
+                case 1:
+                    if (sortDirection.Equals("asc"))
+                    {
+                        return entrancesData = entrancesData.OrderBy(e => e.Type);
+                    }
+                    return entrancesData.OrderByDescending(e => e.Type);
+                case 2:
+                    if (sortDirection.Equals("asc"))
+                    {
+                        return entrancesData.OrderBy(e => e.Value);
+                    }
+                    return entrancesData.OrderByDescending(e => e.Value);
+                case 3:
+                    if (sortDirection.Equals("asc"))
+                    {
+                        return entrancesData.OrderBy(e => e.Category.Name);
+                    }
+                    return entrancesData.OrderByDescending(e => e.Category.Name);
+                default:
+                    if (sortDirection.Equals("asc"))
+                    {
+                        return entrancesData.OrderBy(e => e.CreatedAt);
+                    }
+                    return entrancesData.OrderByDescending(e => e.CreatedAt);
             }
         }
 
@@ -229,6 +268,19 @@ namespace Service.Services
             {
                 Console.WriteLine(exception);
                 return false;
+            }
+        }
+
+        public async Task<double> FindEntrancesByCategory(Guid categoryId)
+        {
+            try
+            {
+                return await _repository.FindEntrancesByCategoryTotalValue(categoryId);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                return 0.0;
             }
         }
     }

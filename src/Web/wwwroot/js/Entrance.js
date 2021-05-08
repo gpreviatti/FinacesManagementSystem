@@ -3,7 +3,7 @@
         serverSide: true,
         responsive: true,
         ajax: {
-            url: "/entrances/getEntrancesDatatables",
+            url: "/Entrances/Datatables",
             type: "POST",
             datatype: "json"
         },
@@ -30,7 +30,7 @@
             {
                 title: "Value",
                 autoWidth: true,
-                data: "value"
+                data: data => data.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
             },
             {
                 title: "Category",
@@ -40,9 +40,10 @@
             {
                 title: "Created At",
                 autoWidth: true,
-                data: "createdAt"
+                data: data => new Date(data.createdAt).toLocaleDateString()
             },
             {
+                orderable: false,
                 data: data => `<a href='Entrances/Edit/${data.id}' class='btn btn-primary btn-sm'>Edit</a>`
             },
         ]

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,12 +38,12 @@ namespace Data.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Entrance>> FindAllAsyncWithWalletAndCategory()
+        public async Task<double> FindEntrancesByCategoryTotalValue(Guid categoryId)
         {
-             return await _dataset
-                .Include(e => e.Category)
-                .Include(e => e.Wallet)
-                .ToListAsync();
+            return await _dataset
+                .Where(e => e.CategoryId.Equals(categoryId))
+                .Select(e => e.Value)
+                .CountAsync();
         }
     }
 }

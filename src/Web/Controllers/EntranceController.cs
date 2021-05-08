@@ -35,13 +35,13 @@ namespace Web.Controllers
             return View();
         }
 
-        [HttpPost("entrances/GetEntrancesDatatables")]
+        [HttpPost("Entrances/Datatables")]
         public IActionResult GetEntrancesDatatables(DatatablesModel<EntranceResultDto> datatablesModel)
         {
             datatablesModel.Draw = Request.Form["draw"].FirstOrDefault();
             datatablesModel.Start = Request.Form["start"].FirstOrDefault();
             datatablesModel.Length = Request.Form["length"].FirstOrDefault();
-            datatablesModel.SortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+            datatablesModel.SortColumn = int.Parse(Request.Form["order[0][column]"].FirstOrDefault());
             datatablesModel.SortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
             datatablesModel.SearchValue = Request.Form["search[value]"].FirstOrDefault();
 
@@ -93,7 +93,7 @@ namespace Web.Controllers
             return View(entraceUpdateViewModel);
         }
 
-        [HttpPost("Edit/{Id}")]
+        [HttpPost("Entrances/Edit/{Id}")]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Guid id, EntranceUpdateViewModel entraceUpdateView)
         {

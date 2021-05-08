@@ -59,7 +59,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, WalletUpdateViewModel walletUpdateViewModel)
+        public ActionResult Edit(Guid id, WalletUpdateViewModel walletUpdateViewModel)
         {
             if (!ModelState.IsValid)
             {

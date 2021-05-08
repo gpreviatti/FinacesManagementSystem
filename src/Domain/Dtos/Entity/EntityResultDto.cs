@@ -8,13 +8,11 @@ namespace Domain.Dtos.Entity
         public Guid Id { get; set; }
 
         [Display(Name = "Created At")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public DateTime CreatedAt { get; set; }
 
         [Display(Name = "Updated At")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public DateTime UpdatedAt { get; set; }
     }
 }
