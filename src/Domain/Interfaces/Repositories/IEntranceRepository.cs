@@ -8,7 +8,7 @@ namespace Domain.Interfaces.Repositories
     {
         Task<IEnumerable<Entrance>> FindAllAsyncWithWallet();
         Task<IEnumerable<Entrance>> FindAllAsyncWithCategory();
-        Task<IEnumerable<Entrance>> FindAsyncLastTenEntrancesWithCategories();
+        Task<IEnumerable<Entrance>> FindAsyncLastFiveEntrancesWithCategories();
         Task<IEnumerable<Entrance>> FindAllAsyncWithWalletAndCategory();
     }
 }

@@ -28,12 +28,12 @@ namespace Data.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Entrance>> FindAsyncLastTenEntrancesWithCategories()
+        public async Task<IEnumerable<Entrance>> FindAsyncLastFiveEntrancesWithCategories()
         {
             return await _dataset
                 .Include(e => e.Category)
                 .OrderByDescending(e => e.CreatedAt)
-                .Take(10)
+                .Take(5)
                 .ToListAsync();
         }
 

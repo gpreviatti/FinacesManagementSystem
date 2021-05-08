@@ -5,6 +5,6 @@ namespace Web.ViewModels.Entrance
 {
     public class EntranceResultViewModel
     {
-        public PaginationModel<EntranceResultDto> PaginationModel { get; set; }
+        public DatatablesModel<EntranceResultDto> PaginationModel { get; set; }
     }
 }

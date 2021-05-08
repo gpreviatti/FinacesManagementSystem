@@ -60,13 +60,35 @@ namespace Service.Services
             }
         }
 
-        public async Task<IEnumerable<EntranceResultDto>> FindAllAsyncWithCategory()
+        public async Task<DatatablesModel<EntranceResultDto>> FindAllAsyncWithCategoryDatatables(DatatablesModel<EntranceResultDto> datatablesModel)
         {
             try
-            {
-                var result = await _repository.FindAllAsyncWithCategory();
-                
-                return _mapper.Map< IEnumerable<EntranceResultDto>>(result);
+            {   
+                var entrances = await _repository.FindAllAsyncWithCategory();
+                var entrancesData = _mapper.Map<IEnumerable<EntranceResultDto>>(entrances);
+                datatablesModel.RecordsTotal = entrancesData.Count();
+
+                if (!string.IsNullOrEmpty(datatablesModel.SearchValue))
+                {
+                    entrancesData = entrancesData
+                    .Where(
+                        m => m.Description.Contains(datatablesModel.SearchValue) ||
+                        m.Observation.Contains(datatablesModel.SearchValue) ||
+                        m.Category.Name.Contains(datatablesModel.SearchValue)
+                    );
+                }
+                //if (!(string.IsNullOrEmpty(datatablesModel.SortColumn) && string.IsNullOrEmpty(datatablesModel.SortColumnDirection)))
+                //{
+                //    entrancesData = entrancesData.OrderBy(datatablesModel.SortColumn + " " + datatablesModel.SortColumnDirection);
+                //}
+
+                datatablesModel.RecordsFiltered = entrancesData.Count();
+                datatablesModel.Data = entrancesData
+                    .Skip(datatablesModel.Skip)
+                    .Take(datatablesModel.PageSize)
+                    .ToList();
+
+                return datatablesModel;
             }
             catch (Exception exception)
             {
@@ -79,11 +101,11 @@ namespace Service.Services
         /// Take last ten entraces ordered by CreatedAt field
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<EntranceResultDto>> FindAsyncLastTenEntrancesWithCategories()
+        public async Task<IEnumerable<EntranceResultDto>> FindAsyncLastFiveEntrancesWithCategories()
         {
             try
             {
-                var result = await _repository.FindAsyncLastTenEntrancesWithCategories();
+                var result = await _repository.FindAsyncLastFiveEntrancesWithCategories();
                 return _mapper.Map<IEnumerable<EntranceResultDto>>(result);
             }
             catch (Exception exception)

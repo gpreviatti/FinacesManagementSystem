@@ -36,30 +36,17 @@ namespace Web.Controllers
         }
 
         [HttpPost("entrances/GetEntrancesDatatables")]
-        public IActionResult GetEntrancesDatatables()
+        public IActionResult GetEntrancesDatatables(DatatablesModel<EntranceResultDto> datatablesModel)
         {
-            var draw = Request.Form["draw"].FirstOrDefault();
-            var start = Request.Form["start"].FirstOrDefault();
-            var length = Request.Form["length"].FirstOrDefault();
-            var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
-            var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
-            var searchValue = Request.Form["search[value]"].FirstOrDefault();
-            int pageSize = length != null ? Convert.ToInt32(length) : 0;
-            int skip = start != null ? Convert.ToInt32(start) : 0;
-            int recordsTotal = 0;
-            var entrancesData = _service.FindAllAsyncWithCategory().Result;
-            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
-            {
-                entrancesData = entrancesData.OrderBy(sortColumn + " " + sortColumnDirection);
-            }
-            if (!string.IsNullOrEmpty(searchValue))
-            {
-                entrancesData = entrancesData.Where(m => m.Description.Contains(searchValue) || m.Observation.Contains(searchValue) || m.Category.Name.Contains(searchValue)).ToList();
-            }
-            recordsTotal = entrancesData.Count();
-            var data = entrancesData.Skip(skip).Take(pageSize).ToList();
-            var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
-            return Ok(jsonData);
+            datatablesModel.Draw = Request.Form["draw"].FirstOrDefault();
+            datatablesModel.Start = Request.Form["start"].FirstOrDefault();
+            datatablesModel.Length = Request.Form["length"].FirstOrDefault();
+            datatablesModel.SortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+            datatablesModel.SortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+            datatablesModel.SearchValue = Request.Form["search[value]"].FirstOrDefault();
+
+            datatablesModel = _service.FindAllAsyncWithCategoryDatatables(datatablesModel).Result;
+            return Ok(datatablesModel);
         }
 
         [HttpGet]

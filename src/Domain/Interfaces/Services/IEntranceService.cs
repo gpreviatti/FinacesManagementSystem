@@ -10,8 +10,8 @@ namespace Domain.Interfaces.Services
     {
         Task<EntranceResultDto> FindByIdAsync(Guid id);
         Task<EntranceUpdateDto> FindByIdUpdateAsync(Guid id);
-        Task<IEnumerable<EntranceResultDto>> FindAllAsyncWithCategory();
-        Task<IEnumerable<EntranceResultDto>> FindAsyncLastTenEntrancesWithCategories();
+        Task<DatatablesModel<EntranceResultDto>> FindAllAsyncWithCategoryDatatables(DatatablesModel<EntranceResultDto> paginationModel);
+        Task<IEnumerable<EntranceResultDto>> FindAsyncLastFiveEntrancesWithCategories();
         Task<EntranceResultDto> CreateAsync(EntranceCreateDto entrace);
         Task<EntranceResultDto> UpdateAsync(EntranceUpdateDto entrace);
         Task<bool> DeleteAsync(Guid id);
