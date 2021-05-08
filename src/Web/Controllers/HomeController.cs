@@ -29,7 +29,7 @@ namespace Web.Controllers
         public IActionResult Index()
         {
             var homeIndexViewModel = new HomeIndexViewModel();
-            homeIndexViewModel.Entrances = _entraceService.FindAsyncLastTenEntrancesWithCategories().Result;
+            homeIndexViewModel.Entrances = _entraceService.FindAsyncLastFiveEntrancesWithCategories().Result;
             homeIndexViewModel.Wallets = _walletService.FindAsyncWalletsUser().Result;
             homeIndexViewModel.TotalExpanse = 1000;
             homeIndexViewModel.TotalIncome = 5000;
