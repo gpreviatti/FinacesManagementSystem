@@ -92,11 +92,12 @@ namespace Web.Controllers
 
             try
             {
-                var result = _service.CreateAsync(entraceCreateViewModel.Entrance);
+                var result = _service.CreateAsync(entraceCreateViewModel.Entrance).Result;
                 if (result == null)
                 {
                     return BadRequest(ModelState);
                 }
+                LoggingWarning($"Entrance {result.Id} created with success");
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception exception)
@@ -146,6 +147,7 @@ namespace Web.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+                LoggingWarning($"Entrance {result.Id} updated with success");
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception exception)
@@ -171,6 +173,7 @@ namespace Web.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+                LoggingWarning($"Entrance {id} deleted with success");
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception exception)

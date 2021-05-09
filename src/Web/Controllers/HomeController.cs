@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Domain.Dtos.EntranceTypeDto;
 using Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Web.Models;
@@ -26,19 +28,25 @@ namespace Web.Controllers
 
         public IActionResult Index()
         {
-            var homeIndexViewModel = new HomeIndexViewModel();
-            homeIndexViewModel.Entrances = _entraceService.FindAsyncLastFiveEntrancesWithCategories().Result;
-            homeIndexViewModel.Wallets = _walletService.FindAsyncWalletsUser().Result;
-            homeIndexViewModel.TotalExpanse = 1000;
-            homeIndexViewModel.TotalIncome = 5000;
+            try
+            {
+                var homeIndexViewModel = new HomeIndexViewModel();
+                homeIndexViewModel.Entrances = _entraceService.FindAsyncLastFiveEntrancesWithCategories().Result;
+                homeIndexViewModel.Wallets = _walletService.FindAsyncWalletsUser().Result;
+                homeIndexViewModel.TotalExpanse = 1000;
+                homeIndexViewModel.TotalIncome = 5000;
 
-            return View(homeIndexViewModel);
+                return View(homeIndexViewModel);
+            }
+            catch (Exception exception)
+            {
+                LoggingExceptions(exception);
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        public IActionResult Error() =>
+            View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

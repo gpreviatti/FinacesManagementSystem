@@ -23,14 +23,15 @@ namespace Web
         }
         
         public static IHostBuilder CreateHostBuilder(string[] args) {
-            return Host.CreateDefaultBuilder(args)
+            return Host
+                .CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
                     var settings = config.Build();
                     Log.Logger = new LoggerConfiguration()
                         .WriteTo.MSSqlServer(
                             "Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=FmsDB",
-                            restrictedToMinimumLevel: LogEventLevel.Error,
+                            restrictedToMinimumLevel: LogEventLevel.Warning,
                             sinkOptions: new MSSqlServerSinkOptions()
                             {
                                 AutoCreateSqlTable = true,
