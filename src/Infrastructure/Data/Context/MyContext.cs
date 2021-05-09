@@ -24,6 +24,7 @@ namespace Data.Context
             modelBuilder.Entity<Wallet>(new WalletMap().Configure);
             modelBuilder.Entity<Category>(new CategoryMap().Configure);
             modelBuilder.Entity<Entrance>(new EntranceMap().Configure);
+            modelBuilder.Entity<Log>(new LogMap().Configure);
 
             // Add your seeders below
             UserSeeder.Users(modelBuilder);

@@ -23,7 +23,7 @@ namespace Service.Services
             IEntranceRepository repository,
             IWalletRepository walletRepository,
             ICategoryRepository categoryRepository
-        ) 
+        )
         {
             _mapper = mapper;
             _repository = repository;
@@ -34,68 +34,45 @@ namespace Service.Services
         #region "Find"
         public async Task<EntranceResultDto> FindByIdAsync(Guid Id)
         {
-            try
-            {
-                var result = await _repository.FindByIdAsync(Id);
-                return _mapper.Map<EntranceResultDto>(result);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                return null;
-            }
+            var result = await _repository.FindByIdAsync(Id);
+            return _mapper.Map<EntranceResultDto>(result);
         }
 
         public async Task<EntranceUpdateDto> FindByIdUpdateAsync(Guid id)
         {
-            try
-            {
-                var result = await _repository.FindByIdAsync(id);
-                return _mapper.Map<EntranceUpdateDto>(result);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                return null;
-            }
+            
+            var result = await _repository.FindByIdAsync(id);
+            return _mapper.Map<EntranceUpdateDto>(result);
         }
 
         public async Task<DatatablesModel<EntranceResultDto>> FindAllAsyncWithCategoryDatatables(DatatablesModel<EntranceResultDto> datatablesModel)
         {
-            try
-            {   
-                var entrances = await _repository.FindAllAsyncWithCategory();
-                var entrancesData = _mapper.Map<IEnumerable<EntranceResultDto>>(entrances);
-                datatablesModel.RecordsTotal = entrancesData.Count();
+            var entrances = await _repository.FindAllAsyncWithCategory();
+            var entrancesData = _mapper.Map<IEnumerable<EntranceResultDto>>(entrances);
+            datatablesModel.RecordsTotal = entrancesData.Count();
 
-                if (!string.IsNullOrEmpty(datatablesModel.SearchValue))
-                {
-                    entrancesData = entrancesData
-                    .Where(
-                        m => m.Description.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase) ||
-                        m.Observation.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase) ||
-                        m.Category.Name.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase)
-                    );
-                }
-
-                if (!string.IsNullOrEmpty(datatablesModel.SortColumnDirection))
-                {
-                    entrancesData = SortDatatables(datatablesModel, entrancesData);
-                }
-
-                datatablesModel.RecordsFiltered = entrancesData.Count();
-                datatablesModel.Data = entrancesData
-                    .Skip(datatablesModel.Skip)
-                    .Take(datatablesModel.PageSize)
-                    .ToList();
-
-                return datatablesModel;
-            }
-            catch (Exception exception)
+            if (!string.IsNullOrEmpty(datatablesModel.SearchValue))
             {
-                Console.WriteLine(exception);
-                return null;
+                entrancesData = entrancesData
+                .Where(
+                    m => m.Description.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase) ||
+                    m.Observation.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase) ||
+                    m.Category.Name.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase)
+                );
             }
+
+            if (!string.IsNullOrEmpty(datatablesModel.SortColumnDirection))
+            {
+                entrancesData = SortDatatables(datatablesModel, entrancesData);
+            }
+
+            datatablesModel.RecordsFiltered = entrancesData.Count();
+            datatablesModel.Data = entrancesData
+                .Skip(datatablesModel.Skip)
+                .Take(datatablesModel.PageSize)
+                .ToList();
+
+            return datatablesModel;
         }
 
         private static IEnumerable<EntranceResultDto> SortDatatables(DatatablesModel<EntranceResultDto> datatablesModel, IEnumerable<EntranceResultDto> entrancesData)
@@ -142,158 +119,104 @@ namespace Service.Services
         /// <returns></returns>
         public async Task<IEnumerable<EntranceResultDto>> FindAsyncLastFiveEntrancesWithCategories()
         {
-            try
-            {
-                var result = await _repository.FindAsyncLastFiveEntrancesWithCategories();
-                return _mapper.Map<IEnumerable<EntranceResultDto>>(result);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                return null;
-            }
+            var result = await _repository.FindAsyncLastFiveEntrancesWithCategories();
+            return _mapper.Map<IEnumerable<EntranceResultDto>>(result);
         }
         #endregion
 
         public async Task<EntranceResultDto> CreateAsync(EntranceCreateDto entraceCreateDto)
         {
-            try
+            var wallet = _walletRepository.FindByIdAsync(entraceCreateDto.WalletId).Result;
+            if (wallet == null)
             {
-                var wallet = _walletRepository.FindByIdAsync(entraceCreateDto.WalletId).Result;
-                if (wallet == null)
-                {
-                    return null;
-                }
-
-                switch (entraceCreateDto.Type)
-                {
-                    case (int) EEntranceType.income:
-                        wallet.CurrentValue = wallet.CurrentValue + entraceCreateDto.Value;
-                        break;
-                    case (int) EEntranceType.expanse:
-                        wallet.CurrentValue = wallet.CurrentValue - entraceCreateDto.Value;
-                        break;
-                    default:
-                        wallet.CurrentValue = wallet.CurrentValue;
-                        break;
-                }
-                if (_walletRepository.SaveChangesAsync().Result.Equals(0))
-                {
-                    return null;
-                }
-
-                var category = _categoryRepository.FindByIdAsync(entraceCreateDto.CategoryId).Result;
-                if (category == null)
-                {
-                    return null;
-                }
-
-                var entrace = _mapper.Map<Entrance>(entraceCreateDto);
-                entrace.Wallet = wallet;
-                entrace.Category = category;
-
-                var result = await _repository.CreateAsync(entrace);
-                return _mapper.Map<EntranceResultDto>(entrace);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
                 return null;
             }
+
+            switch (entraceCreateDto.Type)
+            {
+                case (int) EEntranceType.income:
+                    wallet.CurrentValue = wallet.CurrentValue + entraceCreateDto.Value;
+                    break;
+                case (int) EEntranceType.expanse:
+                    wallet.CurrentValue = wallet.CurrentValue - entraceCreateDto.Value;
+                    break;
+                default:
+                    wallet.CurrentValue = wallet.CurrentValue;
+                    break;
+            }
+            if (_walletRepository.SaveChangesAsync().Result.Equals(0))
+            {
+                return null;
+            }
+
+            var category = _categoryRepository.FindByIdAsync(entraceCreateDto.CategoryId).Result;
+            if (category == null)
+            {
+                return null;
+            }
+
+            var entrace = _mapper.Map<Entrance>(entraceCreateDto);
+            entrace.Wallet = wallet;
+            entrace.Category = category;
+
+            var result = await _repository.CreateAsync(entrace);
+            return _mapper.Map<EntranceResultDto>(entrace);
         }
 
         public async Task<EntranceResultDto> UpdateAsync(EntranceUpdateDto entraceUpdateDto)
         {
-            try
+            var result = await _repository.FindByIdAsync(entraceUpdateDto.Id);
+
+            if (result == null)
             {
-                var result = await _repository.FindByIdAsync(entraceUpdateDto.Id);
-
-                if (result == null)
-                {
-                    return null;
-                }
-
-                var wallet = _walletRepository.FindByIdAsync(entraceUpdateDto.WalletId).Result;
-                if (wallet == null)
-                {
-                    return null;
-                }
-
-                switch (entraceUpdateDto.Type)
-                {
-                    case (int)EEntranceType.income:
-                        wallet.CurrentValue = wallet.CurrentValue + entraceUpdateDto.Value;
-                        break;
-                    case (int)EEntranceType.expanse:
-                        wallet.CurrentValue = wallet.CurrentValue - entraceUpdateDto.Value;
-                        break;
-                    default:
-                        wallet.CurrentValue = wallet.CurrentValue;
-                        break;
-                }
-                if (_walletRepository.SaveChangesAsync().Result.Equals(0))
-                {
-                    return null;
-                }
-
-                if (_categoryRepository.FindByIdAsync(entraceUpdateDto.CategoryId).Result == null)
-                {
-                    return null;
-                }
-
-                var entrace = _mapper.Map(entraceUpdateDto, result);
-
-                var savedChanges = await _repository.SaveChangesAsync();
-
-                if (savedChanges > 0)
-                {
-                    return _mapper.Map<EntranceResultDto>(entrace);
-                }
                 return null;
             }
-            catch (Exception exception)
+
+            var wallet = _walletRepository.FindByIdAsync(entraceUpdateDto.WalletId).Result;
+            if (wallet == null)
             {
-                System.Console.WriteLine(exception);
                 return null;
             }
+
+            switch (entraceUpdateDto.Type)
+            {
+                case (int)EEntranceType.income:
+                    wallet.CurrentValue = wallet.CurrentValue + entraceUpdateDto.Value;
+                    break;
+                case (int)EEntranceType.expanse:
+                    wallet.CurrentValue = wallet.CurrentValue - entraceUpdateDto.Value;
+                    break;
+                default:
+                    wallet.CurrentValue = wallet.CurrentValue;
+                    break;
+            }
+            if (_walletRepository.SaveChangesAsync().Result.Equals(0))
+            {
+                return null;
+            }
+
+            if (_categoryRepository.FindByIdAsync(entraceUpdateDto.CategoryId).Result == null)
+            {
+                return null;
+            }
+
+            var entrace = _mapper.Map(entraceUpdateDto, result);
+
+            var savedChanges = await _repository.SaveChangesAsync();
+
+            if (savedChanges > 0)
+            {
+                return _mapper.Map<EntranceResultDto>(entrace);
+            }
+            return null;
         }
 
-        public async Task<bool> DeleteAsync(Guid Id)
-        {
-            try
-            {
-                return await _repository.DeleteAsync(Id);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                return false;
-            }
-        }
+        public async Task<bool> DeleteAsync(Guid Id) => await _repository.DeleteAsync(Id);
 
-        public async Task<double> TotalEntrancesByCategory(Guid categoryId)
-        {
-            try
-            {
-                return await _repository.TotalEntrancesByCategory(categoryId);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                return 0.0;
-            }
-        }
-        public async Task<double> TotalEntrancesByWallet(Guid walletId)
-        {
-            try
-            {
-                return await _repository.TotalEntrancesByWallet(walletId);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                return 0.0;
-            }
-        }
+        public async Task<double> TotalEntrancesByCategory(Guid categoryId) => 
+            await _repository.TotalEntrancesByCategory(categoryId);
+
+        public async Task<double> TotalEntrancesByWallet(Guid walletId) => 
+            await _repository.TotalEntrancesByWallet(walletId);
     }
 }

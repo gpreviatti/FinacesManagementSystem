@@ -9,12 +9,16 @@ using Web.ViewModels.Home;
 
 namespace Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController<HomeController>
     {
         private readonly IEntranceService _entraceService;
         private readonly IWalletService _walletService;
 
-        public HomeController(IEntranceService entraceService, IWalletService walletService)
+        public HomeController(
+            IEntranceService entraceService, 
+            IWalletService walletService,
+            ILogger<HomeController> logger
+        ) : base(logger)
         {
             _entraceService = entraceService;
             _walletService = walletService;

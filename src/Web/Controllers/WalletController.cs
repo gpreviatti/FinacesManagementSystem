@@ -3,16 +3,21 @@ using Domain.Dtos.Wallet;
 using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Web.ViewModels.Wallet;
 
 namespace Web.Controllers
 {
-    public class WalletController : Controller
+    public class WalletController : BaseController<WalletController>
     {
         private readonly IWalletService _service;
         private readonly IWalletTypeService _walletTypeService;
 
-        public WalletController(IWalletService service, IWalletTypeService walletTypeService)
+        public WalletController(
+            IWalletService service, 
+            IWalletTypeService walletTypeService,
+            ILogger<WalletController> logger
+        ) : base(logger)
         {
             _service = service;
             _walletTypeService = walletTypeService;
@@ -20,8 +25,17 @@ namespace Web.Controllers
 
         public ActionResult Index()
         {
-            var wallets = _service.FindAsyncWalletsUser().Result;
-            return View(wallets);
+            try
+            {
+                var wallets = _service.FindAsyncWalletsUser().Result;
+                return View(wallets);
+            }
+            catch (Exception exception)
+            {
+                LoggingExceptions(_logger, exception);
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+            
         }
 
         public ActionResult Create()

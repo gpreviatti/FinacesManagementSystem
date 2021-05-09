@@ -4,15 +4,16 @@ using Domain.Dtos.Category;
 using Domain.Interfaces.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Web.ViewModels.Category;
 
 namespace Web.Controllers
 {
-    public class CategoryController : Controller
+    public class CategoryController : BaseController<CategoryController>
     {
         private readonly ICategoryService _service;
 
-        public CategoryController(ICategoryService service)
+        public CategoryController(ICategoryService service, ILogger<CategoryController> logger) : base(logger)
         {
             _service = service;
         }

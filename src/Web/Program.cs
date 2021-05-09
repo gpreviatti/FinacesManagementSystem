@@ -1,11 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.MSSqlServer;
 
 namespace Web
 {
@@ -13,14 +12,42 @@ namespace Web
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            try
+            {
+                CreateHostBuilder(args).Build().Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Web App unexpectedly closed");
+            }
         }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+        
+        public static IHostBuilder CreateHostBuilder(string[] args) {
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) =>
                 {
-                    webBuilder.UseStartup<Startup>();
-                });
+                    var settings = config.Build();
+                    Log.Logger = new LoggerConfiguration()
+                        .WriteTo.MSSqlServer(
+                            "Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=FmsDB",
+                            restrictedToMinimumLevel: LogEventLevel.Error,
+                            sinkOptions: new MSSqlServerSinkOptions()
+                            {
+                                AutoCreateSqlTable = true,
+                                TableName = "Logs"
+                            })
+                        .WriteTo.Debug(
+                            outputTemplate: "{Timestamp:HH:mm} [{Level}] ({ThreadId}) {Message}{NewLine}{Exception}",
+                            restrictedToMinimumLevel: LogEventLevel.Information
+                         )
+                        .WriteTo.Console(
+                            outputTemplate: "{Timestamp:HH:mm} [{Level}] ({ThreadId}) {Message} {NewLine}{Exception}",
+                            restrictedToMinimumLevel: LogEventLevel.Information
+                        )
+                        .CreateLogger();
+                })
+                .UseSerilog()
+                .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
+        }
     }
 }

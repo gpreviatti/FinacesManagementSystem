@@ -7,17 +7,24 @@ using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.Entrance;
 using Domain.Models;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace Web.Controllers
 {
-    public class EntranceController : Controller
+    public class EntranceController : BaseController<EntranceController>
     {
         private readonly IEntranceService _service;
         private readonly IWalletService _walletService;
         private readonly ICategoryService _categoryService;
         private readonly IEnumerable<EntranceTypeResultDto> _entraceTypesResultDto;
 
-        public EntranceController(IEntranceService service, IWalletService walletService, ICategoryService categoryService)
+        public EntranceController(
+            IEntranceService service, 
+            IWalletService walletService, 
+            ICategoryService categoryService, 
+            ILogger<EntranceController> logger
+        ) : base(logger)
         {
             _service = service;
             _walletService = walletService;
@@ -35,26 +42,43 @@ namespace Web.Controllers
         [HttpPost("Entrances/Datatables")]
         public IActionResult GetEntrancesDatatables(DatatablesModel<EntranceResultDto> datatablesModel)
         {
-            datatablesModel.Draw = Request.Form["draw"].FirstOrDefault();
-            datatablesModel.Start = Request.Form["start"].FirstOrDefault();
-            datatablesModel.Length = Request.Form["length"].FirstOrDefault();
-            datatablesModel.SortColumn = int.Parse(Request.Form["order[0][column]"].FirstOrDefault());
-            datatablesModel.SortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
-            datatablesModel.SearchValue = Request.Form["search[value]"].FirstOrDefault();
+            try
+            {
+                datatablesModel.Draw = Request.Form["draw"].FirstOrDefault();
+                datatablesModel.Start = Request.Form["start"].FirstOrDefault();
+                datatablesModel.Length = Request.Form["length"].FirstOrDefault();
+                datatablesModel.SortColumn = int.Parse(Request.Form["order[0][column]"].FirstOrDefault());
+                datatablesModel.SortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+                datatablesModel.SearchValue = Request.Form["search[value]"].FirstOrDefault();
 
-            datatablesModel = _service.FindAllAsyncWithCategoryDatatables(datatablesModel).Result;
-            return Ok(datatablesModel);
+                datatablesModel = _service.FindAllAsyncWithCategoryDatatables(datatablesModel).Result;
+                return Ok(datatablesModel);
+            }
+            catch (Exception exception)
+            {
+                LoggingExceptions(exception);
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            var entraceCreateViewModel = new EntranceCreateViewModel();
-            entraceCreateViewModel.Entrance = new EntranceCreateDto();
-            entraceCreateViewModel.Wallets = _walletService.FindAsyncWalletsUser().Result;
-            entraceCreateViewModel.Categories = _categoryService.FindAsyncAllCommonAndUserCategories().Result;
-            entraceCreateViewModel.EntranceTypes = _entraceTypesResultDto;
-            return View(entraceCreateViewModel);
+            try
+            {
+                var entraceCreateViewModel = new EntranceCreateViewModel();
+                entraceCreateViewModel.Entrance = new EntranceCreateDto();
+                entraceCreateViewModel.Wallets = _walletService.FindAsyncWalletsUser().Result;
+                entraceCreateViewModel.Categories = _categoryService.FindAsyncAllCommonAndUserCategories().Result;
+                entraceCreateViewModel.EntranceTypes = _entraceTypesResultDto;
+                return View(entraceCreateViewModel);
+            }
+            catch (Exception exception)
+            {
+                LoggingExceptions(exception);
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
         }
 
         [HttpPost]
@@ -66,28 +90,44 @@ namespace Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = _service.CreateAsync(entraceCreateViewModel.Entrance).Result;
-            if (result == null)
+            try
             {
-                return BadRequest(ModelState);
+                var result = _service.CreateAsync(entraceCreateViewModel.Entrance);
+                if (result == null)
+                {
+                    return BadRequest(ModelState);
+                }
+                return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Index", "Home");
+            catch (Exception exception)
+            {
+                LoggingExceptions(exception);
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
         }
 
         [HttpGet("Entrances/Edit/{Id}")]
         public IActionResult Edit(Guid id)
         {
-            var entraceUpdateViewModel = new EntranceUpdateViewModel();
-            entraceUpdateViewModel.Entrance = _service.FindByIdUpdateAsync(id).Result;
-            entraceUpdateViewModel.Wallets = _walletService.FindAsyncWalletsUser().Result;
-            entraceUpdateViewModel.Categories = _categoryService.FindAsyncAllCommonAndUserCategories().Result;
-            entraceUpdateViewModel.EntranceTypes = new List<EntranceTypeResultDto>()
+            try
+            {
+                var entraceUpdateViewModel = new EntranceUpdateViewModel();
+                entraceUpdateViewModel.Entrance = _service.FindByIdUpdateAsync(id).Result;
+                entraceUpdateViewModel.Wallets = _walletService.FindAsyncWalletsUser().Result;
+                entraceUpdateViewModel.Categories = _categoryService.FindAsyncAllCommonAndUserCategories().Result;
+                entraceUpdateViewModel.EntranceTypes = new List<EntranceTypeResultDto>()
             {
                 new EntranceTypeResultDto() { Value = 1, Name = "Income"},
                 new EntranceTypeResultDto() { Value = 2, Name = "Expanse"},
                 new EntranceTypeResultDto() { Value = 3, Name = "Transferance"},
             };
-            return View(entraceUpdateViewModel);
+                return View(entraceUpdateViewModel);
+            }
+            catch (Exception exception)
+            {
+                LoggingExceptions(exception);
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
         }
 
         [HttpPost("Entrances/Edit/{Id}")]
@@ -99,12 +139,20 @@ namespace Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = _service.UpdateAsync(entraceUpdateView.Entrance).Result;
-            if (result == null)
+            try
             {
-                return BadRequest(ModelState);
+                var result = _service.UpdateAsync(entraceUpdateView.Entrance).Result;
+                if (result == null)
+                {
+                    return BadRequest(ModelState);
+                }
+                return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Index", "Home");
+            catch (Exception exception)
+            {
+                LoggingExceptions(exception);
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
         }
 
 
@@ -116,12 +164,20 @@ namespace Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = _service.DeleteAsync(id).Result;
-            if (result.Equals(null))
+            try
             {
-                return BadRequest(ModelState);
+                var result = _service.DeleteAsync(id).Result;
+                if (result.Equals(null))
+                {
+                    return BadRequest(ModelState);
+                }
+                return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Index", "Home");
+            catch (Exception exception)
+            {
+                LoggingExceptions(exception);
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
         }
     }
 }
