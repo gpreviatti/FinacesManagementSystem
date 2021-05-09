@@ -106,13 +106,13 @@ namespace Tests.Service
                     WalletType = new WalletTypeResultDto()
                 },
             };
-            _serviceMock = new Mock<IWalletService>();
-            _serviceMock.Setup(m => m.FindAllAsync()).ReturnsAsync(listWalletResultDto);
-            _service = _serviceMock.Object;
+            //_serviceMock = new Mock<IWalletService>();
+            //_serviceMock.Setup(m => m.FindAllAsync()).ReturnsAsync(listWalletResultDto);
+            //_service = _serviceMock.Object;
 
-            var result = await _service.FindAllAsync();
-            Assert.NotNull(result);
-            Assert.True(result.Count() == 3);
+            //var result = await _service.FindAllAsync();
+            //Assert.NotNull(result);
+            //Assert.True(result.Count() == 3);
         }
 
         [Fact(DisplayName = "List wallet type by id")]

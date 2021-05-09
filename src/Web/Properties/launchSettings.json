@@ -14,7 +14,8 @@
       "environmentVariables": {
         "DB_CONNECTION": "Server=(localdb)\\\\mssqllocaldb;Integrated Security=true;Initial Catalog=FmsDB",
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "sqlDebugging": false
     },
     "Web": {
       "commandName": "Project",
