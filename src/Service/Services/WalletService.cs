@@ -25,112 +25,74 @@ namespace Service.Services
         #region Find
         public async Task<WalletResultDto> FindByIdAsync(Guid Id)
         {
-            try
-            {
-                var result = await _repository.FindByIdAsync(Id);
-                return _mapper.Map<WalletResultDto>(result);
-            }
-            catch (Exception exception)
-            {
-                System.Console.WriteLine(exception);
-                return null;
-            }
+            var result = await _repository.FindByIdAsync(Id);
+            return _mapper.Map<WalletResultDto>(result);
         }
 
         public async Task<WalletUpdateDto> FindByIdUpdateAsync(Guid id)
         {
-            try
-            {
-                var result = await _repository.FindByIdAsync(id);
-                return _mapper.Map<WalletUpdateDto>(result);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                return null;
-            }
+            var result = await _repository.FindByIdAsync(id);
+            return _mapper.Map<WalletUpdateDto>(result);
         }
 
         public async Task<IEnumerable<WalletResultDto>> FindAsyncWalletsUser()
         {
-            try
-            {
-                var result = await _repository.FindAsyncWalletsUser(UserId);
-                var wallets = _mapper.Map<IEnumerable<WalletResultDto>>(result);
-                wallets.ToList().ForEach(w => w.CurrentValue = _entranceService.TotalEntrancesByWallet(w.Id).Result);
-                return wallets;
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                return null;
-            }
+            var result = await _repository.FindAsyncWalletsUser(UserId);
+            var wallets = _mapper.Map<IEnumerable<WalletResultDto>>(result);
+            wallets.ToList().ForEach(w => w.CurrentValue = _entranceService.TotalEntrancesByWallet(w.Id).Result);
+            return wallets;
         }
 
+        /// <summary>
+        /// Return wallets values and sum them
+        /// </summary>
+        /// <returns></returns>
+        public async Task<WalletTotalValuesAndEntrancesDto> WalletsTotalValuesAndLastTenEntrances() 
+        {
+            var walletsValues = await _repository.FindAsyncWalletsValues(UserId);
+            var walletTotalValuesDto = new WalletTotalValuesAndEntrancesDto();
+            walletTotalValuesDto.WalletsValues = walletsValues.ToList();
+            walletTotalValuesDto.Entrances = _entranceService.FindAsyncLastFiveEntrancesWithCategories().Result;
+
+            walletsValues.ToList().ForEach(w => {
+                walletTotalValuesDto.TotalIncomes += w.TotalIncomes;
+                walletTotalValuesDto.TotalExpanses += w.TotalExpanses;
+            });
+
+            return walletTotalValuesDto;
+        }
         #endregion
 
         public async Task<WalletResultDto> CreateAsync(WalletCreateDto entityCreateDto)
-        {
-            try
-            {
-                if (entityCreateDto.WalletTypeId == Guid.Empty)
-                {
-                    return null;
-                }
-
-                entityCreateDto.UserId = UserId;
-                var entity = _mapper.Map<Wallet>(entityCreateDto);
-
-                var result = await _repository.CreateAsync(entity);
-                return _mapper.Map<WalletResultDto>(entity);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
+        { 
+            if (entityCreateDto.WalletTypeId == Guid.Empty)
                 return null;
-            }
+
+            entityCreateDto.UserId = UserId;
+            var entity = _mapper.Map<Wallet>(entityCreateDto);
+
+            var result = await _repository.CreateAsync(entity);
+            return _mapper.Map<WalletResultDto>(entity);
         }
 
         public async Task<WalletResultDto> UpdateAsync(WalletUpdateDto entityUpdateDto)
         {
-            try
-            {
-                var result = await _repository.FindByIdAsync(entityUpdateDto.Id);
+            var result = await _repository.FindByIdAsync(entityUpdateDto.Id);
 
-                if (result == null)
-                {
-                    return null;
-                }
-
-                var entity = _mapper.Map(entityUpdateDto, result);
-
-                var savedChanges = await _repository.SaveChangesAsync();
-
-                if (savedChanges > 0)
-                {
-                    return _mapper.Map<WalletResultDto>(entity);
-                }
+            if (result == null)
                 return null;
 
-            }
-            catch (Exception exception)
+            var entity = _mapper.Map(entityUpdateDto, result);
+
+            var savedChanges = await _repository.SaveChangesAsync();
+
+            if (savedChanges > 0)
             {
-                Console.WriteLine(exception);
-                return null;
+                return _mapper.Map<WalletResultDto>(entity);
             }
+            return null;
         }
 
-        public async Task<bool> DeleteAsync(Guid Id)
-        {
-            try
-            {
-                return await _repository.DeleteAsync(Id);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                return false;
-            }
-        }
+        public async Task<bool> DeleteAsync(Guid Id) => await _repository.DeleteAsync(Id);
     }
 }

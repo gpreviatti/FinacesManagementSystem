@@ -1,4 +1,4 @@
-﻿@model Web.ViewModels.Home.HomeIndexViewModel
+﻿@model Domain.Dtos.Wallet.WalletTotalValuesAndEntrancesDto
 
 @{
     ViewData["Title"] = "Finances Management System";
@@ -9,12 +9,12 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-6">
-                    <h4 class="card-title">Total Income</h4> 
-                    <p class="card-text">@Model.TotalIncome</p>
+                    <h4 class="card-title">Total Income</h4>
+                    @Html.DisplayFor(w => Model.TotalIncomes)
                 </div>
                 <div class="col-lg-6">
                     <h4 class="card-title">Total Expanse</h4>
-                    <p class="card-text">@Model.TotalExpanse</p>
+                    @Html.DisplayFor(w => Model.TotalExpanses)
                 </div>
             </div>
         </div>
@@ -22,16 +22,20 @@
 
     <h2 class="row mt-3 mb-3">Wallets</h2>
     <div class="row">
-        @foreach (var item in Model.Wallets)
+        @foreach (var item in Model.WalletsValues)
         {
             <div class="col-lg-6">
                 <div class="card mb-3">
                     <div class="card-header">
-                        @Html.DisplayFor(modelItem => item.Name)
+                        <b>@Html.DisplayFor(modelItem => item.Name)</b>
                     </div>
                     <div class="card-body">
-                        <h6 class="card-title">Current Value</h6>
-                        @Html.DisplayFor(modelItem => item.CurrentValue)
+                        <h6 class="card-title">Total Incomes</h6>
+                        @Html.DisplayFor(modelItem => item.TotalIncomes)
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-title">Total Expanses</h6>
+                        @Html.DisplayFor(modelItem => item.TotalExpanses)
                     </div>
                 </div>
             </div>
@@ -58,39 +62,39 @@
             <tbody>
                 @foreach (var item in Model.Entrances)
                 {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @{
-                            switch (item.Type)
-                            {
-                                case 1:
-                                    @Html.Label("", "Income", htmlAttributes: new { @class = "badge badge-pill badge-success" });
-                                    break;
-                                case 2:
-                                    @Html.Label("", "Expanse", htmlAttributes: new { @class = "badge badge-pill badge-danger" });
-                                    break;
-                                default:
-                                    @Html.Label("", "Unknown", htmlAttributes: new { @class = "badge badge-pill badge-secondary" });
-                                    break;
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @{
+                                switch (item.Type)
+                                {
+                                    case 1:
+                                        @Html.Label("", "Income", htmlAttributes: new { @class = "badge badge-pill badge-success" });
+                                        break;
+                                    case 2:
+                                        @Html.Label("", "Expanse", htmlAttributes: new { @class = "badge badge-pill badge-danger" });
+                                        break;
+                                    default:
+                                        @Html.Label("", "Unknown", htmlAttributes: new { @class = "badge badge-pill badge-secondary" });
+                                        break;
+                                }
                             }
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Value)
-                    </td>
-                    <td>
-                        @Html.Label("", item.Category.Name, htmlAttributes: new { @class = "badge badge-pill badge-primary" })
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreatedAt)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", "Entrance", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
-                    </td>
-                </tr>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Value)
+                        </td>
+                        <td>
+                            @Html.Label("", item.Category.Name, htmlAttributes: new { @class = "badge badge-pill badge-primary" })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedAt)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Entrance", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
+                        </td>
+                    </tr>
                 }
             </tbody>
         }
