@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using Domain.Dtos.EntranceTypeDto;
+using Domain.Dtos.Wallet;
 using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Web.Models;
-using Web.ViewModels.Home;
 
 namespace Web.Controllers
 {
@@ -16,11 +14,7 @@ namespace Web.Controllers
         private readonly IEntranceService _entraceService;
         private readonly IWalletService _walletService;
 
-        public HomeController(
-            IEntranceService entraceService, 
-            IWalletService walletService,
-            ILogger<HomeController> logger
-        ) : base(logger)
+        public HomeController(IEntranceService entraceService, IWalletService walletService, ILogger<HomeController> logger) : base(logger)
         {
             _entraceService = entraceService;
             _walletService = walletService;
@@ -30,13 +24,9 @@ namespace Web.Controllers
         {
             try
             {
-                var homeIndexViewModel = new HomeIndexViewModel();
-                homeIndexViewModel.Entrances = _entraceService.FindAsyncLastFiveEntrancesWithCategories().Result;
-                homeIndexViewModel.Wallets = _walletService.FindAsyncWalletsUser().Result;
-                homeIndexViewModel.TotalExpanse = 1000;
-                homeIndexViewModel.TotalIncome = 5000;
-
-                return View(homeIndexViewModel);
+                var walletIndexDto = new WalletTotalValuesAndEntrancesDto();
+                walletIndexDto = _walletService.WalletsTotalValuesAndLastTenEntrances().Result;
+                return View(walletIndexDto);
             }
             catch (Exception exception)
             {
@@ -46,7 +36,6 @@ namespace Web.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() =>
-            View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
