@@ -7,21 +7,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
-    <style>
-        .btn {
-            border: none;
-        }
-        .card {
-            transition: all .2s ease-in-out;
-            box-shadow: 0 2px 20px rgb(0 0 0 / 50%);
-        }
-        .card:hover {
-            transform: scale(1.1);
-        }
-    </style>
+<body class="bg-black">
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-black">
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                 <span class="navbar-toggler-icon"></span>
@@ -46,7 +34,7 @@
         </nav>
     </header>
 
-    <div class="container">
+    <div class="container bg-dark text-light">
         <main role="main" class="pb-3 mt-3">
             <div class="row mb-3">
                 <h1>@ViewData["Title"]</h1>
@@ -58,7 +46,7 @@
         </main>
     </div>
 
-    <footer class="footer text-muted mt-3">
+    <footer class="footer text-muted mt-3 navbar-dark bg-black text-light">
         <div class="container">
             &copy; 2021 - Powered by <b>Giovanni Brunno Previatti</b> |
             <a href="https://github.com/gpreviatti/FinancesManagementSystem/issues/new?assignees=gpreviatti&labels=enhancement&template=feature_request.md&title=" target="_blank">Sugestions ?</a> |
