@@ -4,8 +4,8 @@
     ViewData["Title"] = "Finances Management System";
 }
 <div class="col-lg-6 mb-4">
-    <div class="card">
-        <h5 class="card-header">Current Values</h5>
+    <div class="card bg-dark text-light">
+        <h5 class="card-header bg-black">Current Values</h5>
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-6">
@@ -25,9 +25,9 @@
         @foreach (var item in Model.WalletsValues)
         {
             <div class="col-lg-6">
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <b>@Html.DisplayFor(modelItem => item.Name)</b>
+                <div class="card mb-3 bg-dark text-light">
+                    <div class="card-header bg-black">
+                        @Html.DisplayFor(modelItem => item.Name)
                     </div>
                     <div class="card-body">
                         <h6 class="card-title">Total Incomes</h6>
@@ -46,7 +46,7 @@
 <div class="col-lg-6">
     @Html.ActionLink("Create Entrance", "Create", "Entrance", null, new { @class = "btn btn-primary btn-sm btn-block mb-3" })
 
-    <table class="table">
+    <table class="table table-dark text-light table-hover">
         <thead>
             <tr>
                 <th>Description</th>
