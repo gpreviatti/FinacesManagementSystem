@@ -111,5 +111,41 @@ namespace Service.Services
             var token = handler.WriteToken(securityToken);
             return token;
         }
+
+        public async Task<LoginResultDto> LoginWeb(LoginDto loginDto)
+        {
+            if (loginDto != null && !string.IsNullOrWhiteSpace(loginDto.Email) && !string.IsNullOrWhiteSpace(loginDto.Password))
+            {
+                var user = new User();
+                user = await _repository.FindByLogin(loginDto.Email);
+
+                if (user == null)
+                {
+                    return new LoginResultDto()
+                    {
+                        Authenticated = false,
+                        Message = "Incorrect Password"
+                    };
+                }
+
+                var checkPassword = EncryptHelper.CheckHashedField(loginDto.Password, user.Password);
+                if (!checkPassword)
+                {
+                    return new LoginResultDto()
+                    {
+                        Authenticated = false,
+                        Message = "Incorrect Password"
+                    };
+                }
+
+                return new LoginResultDto()
+                {
+                    Authenticated = true,
+                    Message = "Authenticated With Success",
+                    User = _mapper.Map<UserResultDto>(user),
+                };
+            }
+            return null;
+        }
     }
 }
