@@ -100,6 +100,12 @@ a {
     border: none !important;
 }
 
+.page-item.active .page-link {
+    z-index: 1 !important;
+    color: #fff !important;
+    background-color: #000 !important;
+}
+
 .container {
     padding-left: 3%;
     padding-right: 5%;
