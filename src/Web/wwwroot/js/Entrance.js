@@ -30,7 +30,7 @@
             {
                 title: "Value",
                 autoWidth: true,
-                data: data => data.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+                data: data => FormatValueAsMoney(data.value)
             },
             {
                 title: "Category",
@@ -40,7 +40,7 @@
             {
                 title: "Created At",
                 autoWidth: true,
-                data: data => new Date(data.createdAt).toLocaleDateString()
+                data: data => FormatValueAsDate(data.createdAt)
             },
             {
                 orderable: false,

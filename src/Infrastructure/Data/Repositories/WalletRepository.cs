@@ -30,7 +30,6 @@ namespace Data.Repositories
                 .Where(w => w.UserId.Equals(UserId))
                 .Select(w => new WalletValuesDto
                 {
-                    Id = w.Id,
                     Name = w.Name,
                     TotalIncomes = w.Entrances.Where(e => e.Type.Equals(1)).Sum(e => e.Value),
                     TotalExpanses = w.Entrances.Where(e => e.Type.Equals(2)).Sum(e => e.Value),

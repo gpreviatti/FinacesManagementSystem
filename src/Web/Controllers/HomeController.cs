@@ -35,6 +35,24 @@ namespace Web.Controllers
             }
         }
 
+        [HttpGet("GetData")]
+        public IActionResult GetData()
+        {
+            try
+            {
+                var walletIndexDto = new WalletTotalValuesAndEntrancesDto();
+                walletIndexDto = _walletService.WalletsTotalValuesAndLastTenEntrances().Result;
+                return Ok(walletIndexDto);
+            }
+            catch (Exception exception)
+            {
+                LoggingExceptions(exception);
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+        }
+
+        
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }

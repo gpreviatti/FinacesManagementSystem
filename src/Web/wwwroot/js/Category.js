@@ -16,17 +16,16 @@
             {
                 title: "Total Entrances",
                 autoWidth: true,
-                data : data => data.total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+                data: data => FormatValueAsMoney(data.total)
             },
             {
                 title: "Created At",
                 autoWidth: true,
-                data: data => new Date(data.createdAt).toLocaleDateString()
+                data: data => FormatValueAsDate(data.createdAt)
             },
             {
                 orderable: false,
                 data: data => {
-                    console.log(data);
                     if (data.userId !== "00000000-0000-0000-0000-000000000000") {
                         return `<a href='Categories/Edit/${data.id}' class='btn btn-primary btn-sm'>Edit</a>`
                     }
