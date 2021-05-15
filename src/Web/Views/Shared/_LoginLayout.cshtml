@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FMS - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="bg-black">
+    <style>
+        .login-div {
+            position: center;
+            float: right;
+            padding: 5%;
+            transition: all .2s ease-in-out;
+            box-shadow: 0 2px 20px rgb(0 0 0 / 50%);
+        }
+    </style>
+    <div class="container">
+        <main role="main" style="margin-top: 230px">
+            <div class="row">
+                <div class="col-lg-6 bg-black"></div>
+                <div class="col-lg-6 bg-dark login-div rounded">
+                    <h3 class="mb-3">Finances Management System</h3>
+                    @RenderBody()
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer text-muted mt-3 navbar-dark bg-black text-light">
+        <div class="container">
+            &copy; 2021 - Powered by <b>Giovanni Brunno Previatti</b> |
+            <a href="https://github.com/gpreviatti/FinancesManagementSystem/issues/new?assignees=gpreviatti&labels=enhancement&template=feature_request.md&title=" target="_blank">Sugestions ?</a> |
+            <a href="https://github.com/gpreviatti/FinancesManagementSystem/issues/new?assignees=gpreviatti&labels=bug&template=bug_report.md&title=" target="_blank">Problems ?</a> |
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
