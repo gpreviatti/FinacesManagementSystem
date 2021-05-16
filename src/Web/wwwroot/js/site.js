@@ -1,9 +1,12 @@
-﻿
-var FormatValueAsMoney = value => {
-    return value
-    .toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-}
+﻿var FormatValueAsMoney = value => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 
-var FormatValueAsDate = date => {
-    return new Date(date).toLocaleDateString()
+var FormatValueAsDate = date => new Date(date).toLocaleDateString()
+
+var barChartConfig = {
+    type: "bar",
+    options: {
+        plugins: {
+            legend: { display: false }
+        }
+    }
 }

@@ -1,11 +1,11 @@
-﻿@model Domain.Dtos.Wallet.WalletTotalValuesAndEntrancesDto
+﻿@model IEnumerable<Domain.Dtos.Entrance.EntranceResultDto>
 
 @{
     ViewData["Title"] = "Finances Management System";
 }
 <div class="col-lg-6 mb-4">
-    <div class="card bg-dark text-light">
-        <h5 class="card-header bg-black">Current Values</h5>
+    <div class="card">
+        <h5 class="card-header">Current Values</h5>
         <div class="card-body">
             <div class="row">
                 <canvas id="totalIncomesExpansesChart"></canvas>
@@ -14,32 +14,13 @@
     </div>
 
     <h2 class="row mt-3 mb-3">Wallets</h2>
-    <div class="row" id="divWallets">
-            @foreach (var item in Model.WalletsValues)
-            {
-                <div class="col-lg-6">
-                    <div class="card mb-3 bg-dark text-light">
-                        <div class="card-header bg-black">
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </div>
-                        <div class="card-body">
-                            <h6 class="card-title">Total Incomes</h6>
-                            @Html.DisplayFor(modelItem => item.TotalIncomes)
-                        </div>
-                        <div class="card-body">
-                            <h6 class="card-title">Total Expanses</h6>
-                            @Html.DisplayFor(modelItem => item.TotalExpanses)
-                        </div>
-                    </div>
-                </div>
-            }
-    </div>
+    <div class="row" id="divWallets"></div>
 </div>
 
 <div class="col-lg-6">
     @Html.ActionLink("Create Entrance", "Create", "Entrance", null, new { @class = "btn btn-primary btn-sm btn-block mb-3" })
 
-    <table class="table table-dark text-light table-hover">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Description</th>
@@ -50,7 +31,39 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody id="tbodyEntrances"></tbody>
+        @if (Model.Count() > 0 && Model.Any())
+        {
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                        <td>
+                            @{
+                                switch (item.Type)
+                                {
+                                    case 1:
+                                        @Html.Label("", "Income", htmlAttributes: new { @class = "badge badge-pill badge-success" });
+                                        break;
+                                    case 2:
+                                        @Html.Label("", "Expanse", htmlAttributes: new { @class = "badge badge-pill badge-danger" });
+                                        break;
+                                    default:
+                                        @Html.Label("", "Unknown", htmlAttributes: new { @class = "badge badge-pill badge-secondary" });
+                                        break;
+                                }
+                            }
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.Value)</td>
+                        <td>@Html.Label("", item.Category.Name, htmlAttributes: new { @class = "badge badge-pill badge-primary" })</td>
+                        <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Entrance", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-primary btn-sm" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        }
     </table>
 </div>
 

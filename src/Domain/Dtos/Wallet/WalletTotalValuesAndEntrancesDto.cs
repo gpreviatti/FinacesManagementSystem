@@ -4,7 +4,7 @@ using Domain.Dtos.Entrance;
 
 namespace Domain.Dtos.Wallet
 {
-    public class WalletTotalValuesAndEntrancesDto
+    public class WalletTotalValuesDto
     {
         [DataType(DataType.Currency)]
         public double TotalIncomes { get; set; }
@@ -13,7 +13,5 @@ namespace Domain.Dtos.Wallet
         public double TotalExpanses { get; set; }
 
         public IEnumerable<WalletValuesDto> WalletsValues { get; set; }
-
-        public IEnumerable<EntranceResultDto> Entrances { get; set; }
     }
 }

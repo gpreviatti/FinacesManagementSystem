@@ -24,9 +24,8 @@ namespace Web.Controllers
         {
             try
             {
-                var walletIndexDto = new WalletTotalValuesAndEntrancesDto();
-                walletIndexDto = _walletService.WalletsTotalValuesAndLastTenEntrances().Result;
-                return View(walletIndexDto);
+                var entrances = _entraceService.FindAsyncLastFiveEntrancesWithCategories().Result;
+                return View(entrances);
             }
             catch (Exception exception)
             {
@@ -40,8 +39,8 @@ namespace Web.Controllers
         {
             try
             {
-                var walletIndexDto = new WalletTotalValuesAndEntrancesDto();
-                walletIndexDto = _walletService.WalletsTotalValuesAndLastTenEntrances().Result;
+                var walletIndexDto = new WalletTotalValuesDto();
+                walletIndexDto = _walletService.WalletsTotalValues().Result;
                 return Ok(walletIndexDto);
             }
             catch (Exception exception)

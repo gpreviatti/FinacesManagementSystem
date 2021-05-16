@@ -5,6 +5,7 @@ namespace Domain.Dtos.Wallet
 {
     public class WalletValuesDto
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
 
         [DataType(DataType.Currency)]
