@@ -6,13 +6,13 @@ namespace CrossCutting.DependencyInjection
 {
     public class ConfigureService
     {
-        public static void ConfigureDependenciesService(IServiceCollection serviceCollection)
+        public static void ConfigureDependenciesService(IServiceCollection service)
         {
-            serviceCollection.AddTransient<IUserService, UserService>();
-            serviceCollection.AddTransient<IWalletTypeService, WalletTypeService>();
-            serviceCollection.AddTransient<IWalletService, WalletService>();
-            serviceCollection.AddTransient<ICategoryService, CategoryService>();
-            serviceCollection.AddTransient<IEntranceService, EntranceService>();
+            service.AddTransient<IUserService, UserService>();
+            service.AddTransient<IWalletTypeService, WalletTypeService>();
+            service.AddTransient<IWalletService, WalletService>();
+            service.AddTransient<ICategoryService, CategoryService>();
+            service.AddTransient<IEntranceService, EntranceService>();
         }
     }
 }

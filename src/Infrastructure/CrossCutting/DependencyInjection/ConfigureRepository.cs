@@ -2,29 +2,24 @@ using Data.Context;
 using Data.Repositories;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CrossCutting.DependencyInjection
 {
     public class ConfigureRepository
     {
-        public static void ConfigureDependenciesRepository(IServiceCollection serviceCollection)
+        public static void ConfigureDependenciesRepository(IServiceCollection service, IConfiguration configuration)
         {
-            serviceCollection.AddScoped<IUserRepository, UserRepository>();
-            serviceCollection.AddScoped<IWalletTypeRepository, WalletTypeRepository>();
-            serviceCollection.AddScoped<IWalletRepository, WalletRepository>();
-            serviceCollection.AddScoped<ICategoryRepository, CategoryRepository>();
-            serviceCollection.AddScoped<IEntranceRepository, EntranceRepository>();
+            // Add Dependency Injection for repositories below
+            service.AddScoped<IUserRepository, UserRepository>();
+            service.AddScoped<IWalletTypeRepository, WalletTypeRepository>();
+            service.AddScoped<IWalletRepository, WalletRepository>();
+            service.AddScoped<ICategoryRepository, CategoryRepository>();
+            service.AddScoped<IEntranceRepository, EntranceRepository>();
 
-            //var dbConnection = Environment.GetEnvironmentVariable("DB_CONNECTION");
-
-            // SqlServer
-            //serviceCollection.AddDbContext<MyContext>(options => options.UseSqlServer(dbConnection));
-
-            serviceCollection.AddDbContext<MyContext>(
-                options => options
-                .UseSqlServer($"Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=FmsDB")
-            );
+            // Connection Configs
+            service.AddDbContext<MyContext>(options => options.UseSqlServer(configuration["Database:ConnectionString"]));
         }
     }
 }
