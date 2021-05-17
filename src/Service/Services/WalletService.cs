@@ -47,12 +47,11 @@ namespace Service.Services
         /// Return wallets values and sum them
         /// </summary>
         /// <returns></returns>
-        public async Task<WalletTotalValuesAndEntrancesDto> WalletsTotalValuesAndLastTenEntrances() 
+        public async Task<WalletTotalValuesDto> WalletsTotalValues() 
         {
             var walletsValues = await _repository.FindAsyncWalletsValues(UserId);
-            var walletTotalValuesDto = new WalletTotalValuesAndEntrancesDto();
+            var walletTotalValuesDto = new WalletTotalValuesDto();
             walletTotalValuesDto.WalletsValues = walletsValues.ToList();
-            walletTotalValuesDto.Entrances = _entranceService.FindAsyncLastFiveEntrancesWithCategories().Result;
 
             walletsValues.ToList().ForEach(w => {
                 walletTotalValuesDto.TotalIncomes += w.TotalIncomes;

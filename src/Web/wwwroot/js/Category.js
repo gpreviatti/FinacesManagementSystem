@@ -1,4 +1,37 @@
-﻿$(document).ready(function () {
+﻿let canvasCategories = document.getElementById("canvasCategories")
+
+//#region ChartJs
+CreateChart = (canvasId, labels, data) => {
+    new Chart(canvasId, {
+        ...barChartConfig,
+        data: {
+            labels,
+            datasets: [{
+                backgroundColor: ["#007bff"],
+                data
+            }]
+        }
+    });
+}
+
+RenderChart = datatablesCallback => {
+    let categories = datatablesCallback.json.data;
+    let labels = []
+    let data = []
+
+    categories.forEach(category => {
+        labels.push(category.name)
+        data.push(category.total)
+    });
+
+    setTimeout(() => {
+        CreateChart(canvasCategories, labels, data)
+    }, 1)
+}
+//#endregion
+
+//#region Datatables
+$(document).ready(function () {
     $("#datatableCategories").DataTable({
         serverSide: true,
         responsive: true,
@@ -16,23 +49,24 @@
             {
                 title: "Total Entrances",
                 autoWidth: true,
-                data : data => data.total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+                data: data => FormatValueAsMoney(data.total)
             },
             {
                 title: "Created At",
                 autoWidth: true,
-                data: data => new Date(data.createdAt).toLocaleDateString()
+                data: data => FormatValueAsDate(data.createdAt)
             },
             {
                 orderable: false,
                 data: data => {
-                    console.log(data);
                     if (data.userId !== "00000000-0000-0000-0000-000000000000") {
                         return `<a href='Categories/Edit/${data.id}' class='btn btn-primary btn-sm'>Edit</a>`
                     }
                     return ''
                 }
             },
-        ]
+        ],
+        initComplete: callback => RenderChart(callback)
     })
 })
+//#endregion

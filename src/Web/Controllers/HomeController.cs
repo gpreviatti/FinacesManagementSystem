@@ -24,9 +24,8 @@ namespace Web.Controllers
         {
             try
             {
-                var walletIndexDto = new WalletTotalValuesAndEntrancesDto();
-                walletIndexDto = _walletService.WalletsTotalValuesAndLastTenEntrances().Result;
-                return View(walletIndexDto);
+                var entrances = _entraceService.FindAsyncLastFiveEntrancesWithCategories().Result;
+                return View(entrances);
             }
             catch (Exception exception)
             {
@@ -34,6 +33,24 @@ namespace Web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
             }
         }
+
+        [HttpGet("GetData")]
+        public IActionResult GetData()
+        {
+            try
+            {
+                var walletIndexDto = new WalletTotalValuesDto();
+                walletIndexDto = _walletService.WalletsTotalValues().Result;
+                return Ok(walletIndexDto);
+            }
+            catch (Exception exception)
+            {
+                LoggingExceptions(exception);
+                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+            }
+        }
+
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
