@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CrossCutting.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,7 +20,7 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureService.ConfigureDependenciesService(services);
-            ConfigureRepository.ConfigureDependenciesRepository(services);
+            ConfigureRepository.ConfigureDependenciesRepository(services, Configuration);
             ConfigureAutoMapper.ConfigureDepencenciesAutoMapper(services);
 
             services.AddControllersWithViews();

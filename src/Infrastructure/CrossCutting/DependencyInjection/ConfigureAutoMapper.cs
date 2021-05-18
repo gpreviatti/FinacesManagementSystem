@@ -6,7 +6,7 @@ namespace CrossCutting.DependencyInjection
 {
     public class ConfigureAutoMapper
     {
-        public static void ConfigureDepencenciesAutoMapper(IServiceCollection serviceCollection)
+        public static void ConfigureDepencenciesAutoMapper(IServiceCollection service)
         {
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
@@ -14,7 +14,7 @@ namespace CrossCutting.DependencyInjection
             });
 
             IMapper mapper = config.CreateMapper();
-            serviceCollection.AddSingleton(mapper);
+            service.AddSingleton(mapper);
         }
     }
 }
