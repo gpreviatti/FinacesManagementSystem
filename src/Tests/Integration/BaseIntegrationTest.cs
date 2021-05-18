@@ -46,10 +46,7 @@ namespace Tests.Integration
 
         public IMapper GetMapper()
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new MappingProfile());
-            });
+            var config = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfile()));
 
             return config.CreateMapper();
         }
@@ -95,9 +92,6 @@ namespace Tests.Integration
         public static async Task<HttpResponseMessage> DeleteAsync(string url) => await _client.DeleteAsync(_hostApi + url);
         #endregion
 
-        public void Dispose()
-        {
-            _myContext.Database.EnsureDeleted();
-        }
+        public void Dispose() => _myContext.Database.EnsureDeleted();
     }
 }

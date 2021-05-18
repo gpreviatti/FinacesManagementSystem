@@ -55,6 +55,7 @@ namespace Tests.AutoMapper
 
             var entraceResultDto = _mapper.Map<IEnumerable<EntranceResultDto>>(entity.Entrances);
             var entityResultDto = _mapper.Map<CategoryResultDto>(entity);
+
             Assert.NotNull(entityResultDto);
             Assert.Equal(entity.Id, entityResultDto.Id);
             Assert.Equal(entity.Name, entityResultDto.Name);

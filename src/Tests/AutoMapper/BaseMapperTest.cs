@@ -13,10 +13,7 @@ namespace Tests.AutoMapper
 
         public IMapper GetMapper()
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new MappingProfile());
-            });
+            var config = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfile()));
 
             return config.CreateMapper();
         }
