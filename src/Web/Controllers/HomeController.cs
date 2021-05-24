@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Domain.Dtos.Wallet;
 using Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,6 +10,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
+    [Authorize]
     public class HomeController : BaseController<HomeController>
     {
         private readonly IEntranceService _entraceService;

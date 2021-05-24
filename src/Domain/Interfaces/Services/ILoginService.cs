@@ -6,6 +6,6 @@ namespace Domain.Interfaces.Services
 {
     public interface ILoginService
     {
-        Task<LoginResultDto> Login(LoginDto loginDto);
+        Task<LoginResultDto> LoginWeb(LoginDto loginDto);
     }
 }

@@ -1,6 +1,9 @@
+using System;
 using CrossCutting.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,7 +26,24 @@ namespace Web
             ConfigureRepository.ConfigureDependenciesRepository(services, Configuration);
             ConfigureAutoMapper.ConfigureDepencenciesAutoMapper(services);
 
-            services.AddControllersWithViews();
+            // Authorization settings.  
+            services.AddAuthentication(options =>
+            {
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(options =>
+            {
+                options.LoginPath = new PathString("/Login");
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5.0);
+            });
+
+            // Authorization settings.  
+            services.AddMvc().AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AuthorizeFolder("/");
+                options.Conventions.AllowAnonymousToPage("/Login");
+            });
 
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
@@ -44,6 +64,9 @@ namespace Web
             }
             app.UseStaticFiles();
 
+            //Register simple authorization.
+            app.UseAuthentication();
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -52,7 +75,7 @@ namespace Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}");
+                    pattern: "{controller=Login}/{action=Index}");
             });
         }
     }
