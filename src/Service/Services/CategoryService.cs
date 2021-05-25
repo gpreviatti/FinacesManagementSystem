@@ -117,21 +117,18 @@ namespace Service.Services
             {
                 case 0:
                     if (sortDirection.Equals("asc"))
-                    {
                         return entrancesData.OrderBy(e => e.Name);
-                    }
+
                     return entrancesData.OrderByDescending(e => e.Name);
                 case 1:
                     if (sortDirection.Equals("asc"))
-                    {
                         return entrancesData.OrderBy(e => e.Total);
-                    }
+
                     return entrancesData.OrderByDescending(e => e.Total);
                 default:
                     if (sortDirection.Equals("asc"))
-                    {
                         return entrancesData.OrderBy(e => e.CreatedAt);
-                    }
+
                     return entrancesData.OrderByDescending(e => e.CreatedAt);
             }
         }
@@ -141,9 +138,7 @@ namespace Service.Services
             try
             {
                 if (entityCreateDto.CategoryId == Guid.Empty)
-                {
                     return null;
-                }
 
                 entityCreateDto.UserId = UserId;
                 var entity = _mapper.Map<Category>(entityCreateDto);
@@ -165,18 +160,15 @@ namespace Service.Services
                 var result = await _repository.FindByIdAsync(entityUpdateDto.Id);
 
                 if (result == null)
-                {
                     return null;
-                }
 
                 var entity = _mapper.Map(entityUpdateDto, result);
 
                 var savedChanges = await _repository.SaveChangesAsync();
 
                 if (savedChanges > 0)
-                {
                     return _mapper.Map<CategoryResultDto>(entity);
-                }
+
                 return null;
 
             }

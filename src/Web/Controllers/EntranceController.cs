@@ -85,18 +85,15 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(EntranceCreateViewModel entraceCreateViewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var result = _service.CreateAsync(entraceCreateViewModel.Entrance).Result;
                 if (result == null)
-                {
                     return BadRequest(ModelState);
-                }
+
                 LoggingWarning($"Entrance {result.Id} created with success");
                 return RedirectToAction("Index", "Home");
             }
@@ -135,18 +132,15 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Guid id, EntranceUpdateViewModel entraceUpdateView)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var result = _service.UpdateAsync(entraceUpdateView.Entrance).Result;
                 if (result == null)
-                {
                     return BadRequest(ModelState);
-                }
+
                 LoggingWarning($"Entrance {result.Id} updated with success");
                 return RedirectToAction("Index", "Home");
             }
@@ -161,18 +155,16 @@ namespace Web.Controllers
         [HttpGet("Entrance/Delete/{Id}")]
         public IActionResult Delete(Guid id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var result = _service.DeleteAsync(id).Result;
                 if (result.Equals(null))
-                {
                     return BadRequest(ModelState);
-                }
+
                 LoggingWarning($"Entrance {id} deleted with success");
                 return RedirectToAction("Index", "Home");
             }

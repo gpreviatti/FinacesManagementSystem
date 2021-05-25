@@ -22,94 +22,45 @@ namespace Service.Services
 
         public async Task<UserResultDto> FindByIdAsync(Guid Id)
         {
-            try
-            {
-                var result = await _repository.FindByIdAsync(Id);
-                return _mapper.Map<UserResultDto>(result);
-            }
-            catch (Exception exception)
-            {
-                System.Console.WriteLine(exception);
-                return null;
-            }
+            var result = await _repository.FindByIdAsync(Id);
+            return _mapper.Map<UserResultDto>(result);
         }
 
         public async Task<IEnumerable<UserResultDto>> FindAllAsync()
         {
-            try
-            {
-                var result = await _repository.FindAllAsync();
-                return _mapper.Map<IEnumerable<UserResultDto>>(result);
-            }
-            catch (Exception exception)
-            {
-                System.Console.WriteLine(exception);
-                return null;
-            }
+            var result = await _repository.FindAllAsync();
+            return _mapper.Map<IEnumerable<UserResultDto>>(result);
         }
 
         public async Task<UserResultDto> CreateAsync(UserCreateDto userDto)
         {
-            try
-            {
-                var user = _mapper.Map<User>(userDto);
-                user.Password = EncryptHelper.HashField(user.Password);
+            var user = _mapper.Map<User>(userDto);
+            user.Password = EncryptHelper.HashField(user.Password);
 
-                var result = await _repository.CreateAsync(user);
-                return _mapper.Map<UserResultDto>(user);
-            }
-            catch (Exception exception)
-            {
-                System.Console.WriteLine(exception);
-                return null;
-            }
+            var result = await _repository.CreateAsync(user);
+            return _mapper.Map<UserResultDto>(user);
         }
 
         public async Task<UserResultDto> UpdateAsync(UserUpdateDto userUpdateDto)
         {
-            try
-            {
-                if (userUpdateDto.Password != null)
-                {
-                    userUpdateDto.Password = EncryptHelper.HashField(userUpdateDto.Password);
-                }
+            if (userUpdateDto.Password != null)
+                userUpdateDto.Password = EncryptHelper.HashField(userUpdateDto.Password);
 
-                var result = await _repository.FindByIdAsync(userUpdateDto.Id);
+            var result = await _repository.FindByIdAsync(userUpdateDto.Id);
 
-                if (result == null)
-                {
-                    return null;
-                }
-
-                var user = _mapper.Map(userUpdateDto, result);
-
-                var savedChanges = await _repository.SaveChangesAsync();
-
-                if (savedChanges > 0)
-                {
-                    return _mapper.Map<UserResultDto>(user);
-                }
+            if (result == null)
                 return null;
 
-            }
-            catch (Exception exception)
-            {
-                System.Console.WriteLine(exception);
-                return null;
-            }
+            var user = _mapper.Map(userUpdateDto, result);
+
+            var savedChanges = await _repository.SaveChangesAsync();
+
+            if (savedChanges > 0)
+                return _mapper.Map<UserResultDto>(user);
+
+            return null;
         }
 
-        public async Task<bool> DeleteAsync(Guid Id)
-        {
-            try
-            {
-                return await _repository.DeleteAsync(Id);
-            }
-            catch (Exception exception)
-            {
-                System.Console.WriteLine(exception);
-                return false;
-            }
-        }
+        public async Task<bool> DeleteAsync(Guid Id) => await _repository.DeleteAsync(Id);
     }
 }

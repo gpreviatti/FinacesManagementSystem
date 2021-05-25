@@ -126,9 +126,7 @@ namespace Service.Services
         {
             var wallet = _walletRepository.FindByIdAsync(entraceCreateDto.WalletId).Result;
             if (wallet == null)
-            {
                 return null;
-            }
 
             switch (entraceCreateDto.Type)
             {
@@ -143,15 +141,11 @@ namespace Service.Services
                     break;
             }
             if (_walletRepository.SaveChangesAsync().Result.Equals(0))
-            {
                 return null;
-            }
 
             var category = _categoryRepository.FindByIdAsync(entraceCreateDto.CategoryId).Result;
             if (category == null)
-            {
                 return null;
-            }
 
             var entrace = _mapper.Map<Entrance>(entraceCreateDto);
             entrace.Wallet = wallet;
@@ -166,15 +160,11 @@ namespace Service.Services
             var result = await _repository.FindByIdAsync(entraceUpdateDto.Id);
 
             if (result == null)
-            {
                 return null;
-            }
 
             var wallet = _walletRepository.FindByIdAsync(entraceUpdateDto.WalletId).Result;
             if (wallet == null)
-            {
                 return null;
-            }
 
             switch (entraceUpdateDto.Type)
             {
@@ -189,23 +179,17 @@ namespace Service.Services
                     break;
             }
             if (_walletRepository.SaveChangesAsync().Result.Equals(0))
-            {
                 return null;
-            }
 
             if (_categoryRepository.FindByIdAsync(entraceUpdateDto.CategoryId).Result == null)
-            {
                 return null;
-            }
 
             var entrace = _mapper.Map(entraceUpdateDto, result);
 
             var savedChanges = await _repository.SaveChangesAsync();
 
             if (savedChanges > 0)
-            {
                 return _mapper.Map<EntranceResultDto>(entrace);
-            }
             return null;
         }
 

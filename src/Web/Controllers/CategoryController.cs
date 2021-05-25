@@ -63,18 +63,15 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(CategoryCreateViewModel categoryCreateViewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var result = _service.CreateAsync(categoryCreateViewModel.Category).Result;
                 if (result == null)
-                {
                     return BadRequest(ModelState);
-                }
+
                 LoggingWarning($"Category {result.Id} created with success");
                 return RedirectToAction("Index", "Category");
             }
@@ -106,18 +103,16 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Guid id, CategoryUpdateViewModel categoryUpdateView)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var result = _service.UpdateAsync(categoryUpdateView.Category).Result;
                 if (result == null)
-                {
                     return BadRequest(ModelState);
-                }
+
                 LoggingWarning($"Category {result.Id} updated with success");
                 return RedirectToAction("Index", "Category");
             }
@@ -130,18 +125,15 @@ namespace Web.Controllers
 
         public ActionResult Delete(Guid id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var result = _service.DeleteAsync(id).Result;
                 if (result.Equals(null))
-                {
                     return BadRequest(ModelState);
-                }
+
                 LoggingWarning($"Category {id} deleted with success");
                 return RedirectToAction("Index", "Category");
             }
