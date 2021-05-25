@@ -7,7 +7,7 @@ CreateChart = (canvasId, labels, data) => {
         data: {
             labels,
             datasets: [{
-                backgroundColor: ["#007bff"],
+                backgroundColor: ["#000"],
                 data
             }]
         }
@@ -59,7 +59,6 @@ $(document).ready(function () {
             {
                 orderable: false,
                 data: data => {
-                    console.log(data)
                     if (data.userId !== "00000000-0000-0000-0000-000000000000")
                         return `<a href='Categories/Edit/${data.id}' class='btn btn-primary btn-sm'>Edit</a>`
                     return ''

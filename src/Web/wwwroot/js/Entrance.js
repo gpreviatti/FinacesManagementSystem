@@ -2,6 +2,7 @@
     $("#datatableEntrances").DataTable({
         serverSide: true,
         responsive: true,
+        processing: true,
         ajax: {
             url: "/Entrances/Datatables",
             type: "POST",

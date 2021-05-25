@@ -93,7 +93,12 @@ a {
     color: #ffff !important;
 }
 
-.btn-primary, .btn-success {
+.dataTables_processing {
+    background-color: #000!important;
+    color: #ffff !important;
+}
+
+.btn-primary, .btn-success, .badge-primary {
     background-color: #000;
     color: #ffff !important;
     border: none;
