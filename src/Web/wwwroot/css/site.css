@@ -87,8 +87,8 @@ a {
     padding-right: 5%;
 }
 
-/* Dark mode configs*/
-/*.bg-black {
+ /*Dark mode configs*/
+.bg-black {
     background-color: #000;
     color: #ffff !important;
 }
@@ -97,9 +97,9 @@ a {
     background-color: #000;
     color: #ffff !important;
     border: none;
-}*/
+}
 
-/*.form-control, .page-link {
+.form-control, .page-link {
     background-color: #212529 !important;
     color: #ffff !important;
     border: none !important;
@@ -109,4 +109,4 @@ a {
     z-index: 1 !important;
     color: #fff !important;
     background-color: #000 !important;
-}*/
+}

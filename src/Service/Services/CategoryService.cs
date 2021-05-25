@@ -81,9 +81,7 @@ namespace Service.Services
                 var result = await _repository.FindAsyncAllCommonAndUserCategories(UserId);
                 var categories = _mapper.Map<IEnumerable<CategoryResultDto>>(result);
                 foreach (var category in categories)
-                {
                     category.Total = _entranceService.TotalEntrancesByCategory(category.Id).Result;
-                }
 
                 datatablesModel.RecordsTotal = categories.Count();
 
@@ -94,9 +92,7 @@ namespace Service.Services
                 }
 
                 if (!string.IsNullOrEmpty(datatablesModel.SortColumnDirection))
-                {
                     categories = SortDatatables(datatablesModel, categories);
-                }
 
                 datatablesModel.RecordsFiltered = categories.Count();
                 datatablesModel.Data = categories

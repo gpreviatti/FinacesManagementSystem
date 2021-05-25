@@ -9,6 +9,7 @@ using Domain.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace Web.Controllers
 {
@@ -59,7 +60,6 @@ namespace Web.Controllers
                 LoggingExceptions(exception);
                 return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
             }
-
         }
 
         [HttpGet]

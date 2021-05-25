@@ -36,21 +36,14 @@ namespace Web.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                {
                     return BadRequest(ModelState);
-                }
 
-                var result = await _service.LoginWeb(login);
-                if (result == null)
-                {
-                    return BadRequest(ModelState);
-                }
+                var result = _service.LoginWeb(login).Result;
+                if (result.Authenticated == false)
+                    return StatusCode(StatusCodes.Status203NonAuthoritative, result.Message);
+
                 await SignInUser(result.User, false);
-                if (User.Identity.IsAuthenticated)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception exception)
             {
@@ -74,15 +67,15 @@ namespace Web.Controllers
             claims.Add(new Claim(ClaimTypes.Sid, user.Id.ToString()));
             claims.Add(new Claim(ClaimTypes.Email, user.Email));
             claims.Add(new Claim(ClaimTypes.Name, user.Name));
-            var claimIdenties = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var claimPrincipal = new ClaimsPrincipal(claimIdenties);
+            var claimIdentities = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var mainClaim = new ClaimsPrincipal(claimIdentities);
             var authenticationManager = Request.HttpContext;
 
             // Sign In.  
             await authenticationManager
                 .SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme, 
-                    claimPrincipal, new AuthenticationProperties() { IsPersistent = isPersistent }
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    mainClaim, new AuthenticationProperties() { IsPersistent = isPersistent }
                 );
         }
 
@@ -110,7 +103,7 @@ namespace Web.Controllers
 
         [HttpPost("/Login/Register")]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(UserCreateDto userCreateDto)
+        public async Task<IActionResult> Register(UserCreateDto userCreateDto)
         {
             try
             {
@@ -119,13 +112,14 @@ namespace Web.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var result = _userService.CreateAsync(userCreateDto).Result;
-                if (result == null)
+                var user = _userService.CreateAsync(userCreateDto).Result;
+                if (user == null)
                 {
                     return BadRequest(ModelState);
                 }
 
-                return RedirectToAction("Index");
+                await SignInUser(user, false);
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception exception)
             {

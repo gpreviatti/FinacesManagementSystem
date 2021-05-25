@@ -62,9 +62,7 @@ namespace Service.Services
             }
 
             if (!string.IsNullOrEmpty(datatablesModel.SortColumnDirection))
-            {
                 entrancesData = SortDatatables(datatablesModel, entrancesData);
-            }
 
             datatablesModel.RecordsFiltered = entrancesData.Count();
             datatablesModel.Data = entrancesData
