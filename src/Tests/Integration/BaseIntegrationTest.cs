@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Application;
 using AutoMapper;
 using CrossCutting.Mappings;
 using Data.Context;
@@ -15,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Web;
 
 namespace Tests.Integration
 {

@@ -65,9 +65,6 @@ namespace Tests.AutoMapper
                 Categories = new List<Category>()
             };
 
-            var walletResultDto = _mapper.Map<IEnumerable<WalletResultDto>>(entity.Wallets);
-            var categoryResultDto = _mapper.Map<IEnumerable<CategoryResultDto>>(entity.Categories);
-
             var userResultDto = _mapper.Map<UserResultDto>(entity);
             Assert.NotNull(userResultDto);
             Assert.Equal(entity.Id, userResultDto.Id);
@@ -75,8 +72,6 @@ namespace Tests.AutoMapper
             Assert.Equal(entity.Name, userResultDto.Name);
             Assert.Equal(entity.Email, userResultDto.Email);
             Assert.Equal(entity.Name, userResultDto.Name);
-            Assert.Equal(userResultDto.Wallets, walletResultDto);
-            Assert.Equal(userResultDto.Categories, categoryResultDto);
         }
     }
 }

@@ -22,18 +22,19 @@ namespace Data.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Entrance>> FindAllAsyncWithCategory()
+        public async Task<IEnumerable<Entrance>> FindAllAsyncWithCategory(List<Guid> userWallets)
         {
             return await _dataset
                 .Include(e => e.Category)
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Entrance>> FindAsyncLastFiveEntrancesWithCategories()
+        public async Task<IEnumerable<Entrance>> FindAsyncLastFiveEntrancesWithCategories(Guid userId)
         {
             return await _dataset
                 .Include(e => e.Category)
                 .OrderByDescending(e => e.CreatedAt)
+                .Where(e => e.Wallet.UserId.Equals(userId))
                 .Take(5)
                 .ToListAsync();
         }

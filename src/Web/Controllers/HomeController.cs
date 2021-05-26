@@ -26,7 +26,8 @@ namespace Web.Controllers
         {
             try
             {
-                var entrances = _entraceService.FindAsyncLastFiveEntrancesWithCategories().Result;
+                GetClaims();
+                var entrances = _entraceService.FindAsyncLastFiveEntrancesWithCategories(UserId).Result;
                 return View(entrances);
             }
             catch (Exception exception)
@@ -41,8 +42,9 @@ namespace Web.Controllers
         {
             try
             {
+                GetClaims();
                 var walletIndexDto = new WalletTotalValuesDto();
-                walletIndexDto = _walletService.WalletsTotalValues().Result;
+                walletIndexDto = _walletService.WalletsTotalValues(UserId).Result;
                 return Ok(walletIndexDto);
             }
             catch (Exception exception)
@@ -51,8 +53,6 @@ namespace Web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
             }
         }
-
-        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

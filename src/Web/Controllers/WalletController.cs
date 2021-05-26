@@ -27,7 +27,8 @@ namespace Web.Controllers
         {
             try
             {
-                var wallets = _service.FindAsyncWalletsUser().Result;
+                GetClaims();
+                var wallets = _service.FindAsyncWalletsUser(UserId).Result;
                 return View(wallets);
             }
             catch (Exception exception)
@@ -59,17 +60,16 @@ namespace Web.Controllers
         public ActionResult Create(WalletCreateViewModel walletCreateViewModel)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             try
             {
-                var result = _service.CreateAsync(walletCreateViewModel.Wallet).Result;
+                GetClaims();
+                var result = _service.CreateAsync(walletCreateViewModel.Wallet, UserId).Result;
+                
                 if (result == null)
-                {
                     return BadRequest(ModelState);
-                }
+
                 LoggingWarning($"Wallet {result.Id} created with success");
                 return RedirectToAction("Index", "Wallet");
             }
@@ -100,18 +100,15 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Guid id, WalletUpdateViewModel walletUpdateViewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var result = _service.UpdateAsync(walletUpdateViewModel.Wallet).Result;
                 if (result == null)
-                {
                     return BadRequest(ModelState);
-                }
+
                 LoggingWarning($"Wallet {result.Id} updated with success");
                 return RedirectToAction("Index", "Wallet");
             }
@@ -124,18 +121,15 @@ namespace Web.Controllers
 
         public ActionResult Delete(Guid id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var result = _service.DeleteAsync(id).Result;
                 if (result.Equals(null))
-                {
                     return BadRequest(ModelState);
-                }
+
                 LoggingWarning($"Wallet {id} deleted with success");
                 return RedirectToAction("Index", "Wallet");
             }

@@ -14,10 +14,7 @@ namespace Web.Controllers
     {
         private readonly ICategoryService _service;
 
-        public CategoryController(ICategoryService service, ILogger<CategoryController> logger) : base(logger)
-        {
-            _service = service;
-        }
+        public CategoryController(ICategoryService service, ILogger<CategoryController> logger) : base(logger) =>  _service = service;
 
         public IActionResult Index() => View();
 
@@ -26,6 +23,7 @@ namespace Web.Controllers
         {
             try
             {
+                GetClaims();
                 datatablesModel.Draw = Request.Form["draw"].FirstOrDefault();
                 datatablesModel.Start = Request.Form["start"].FirstOrDefault();
                 datatablesModel.Length = Request.Form["length"].FirstOrDefault();
@@ -33,7 +31,7 @@ namespace Web.Controllers
                 datatablesModel.SortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
                 datatablesModel.SearchValue = Request.Form["search[value]"].FirstOrDefault();
 
-                datatablesModel = _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModel).Result;
+                datatablesModel = _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModel, UserId).Result;
                 return Ok(datatablesModel);
             }
             catch (Exception exception)
@@ -49,7 +47,8 @@ namespace Web.Controllers
             {
                 var categoryCreateViewModel = new CategoryCreateViewModel();
                 categoryCreateViewModel.Category = new CategoryCreateDto();
-                categoryCreateViewModel.Categories = _service.FindAsyncAllCommonAndUserCategories().Result;
+                GetClaims();
+                categoryCreateViewModel.Categories = _service.FindAsyncAllCommonAndUserCategories(UserId).Result;
                 return View(categoryCreateViewModel);
             }
             catch (Exception exception)
@@ -68,7 +67,8 @@ namespace Web.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var result = _service.CreateAsync(categoryCreateViewModel.Category).Result;
+                GetClaims();
+                var result = _service.CreateAsync(categoryCreateViewModel.Category, UserId).Result;
                 if (result == null)
                     return BadRequest(ModelState);
 
@@ -89,7 +89,8 @@ namespace Web.Controllers
             {
                 var categoryUpdateViewModel = new CategoryUpdateViewModel();
                 categoryUpdateViewModel.Category = _service.FindByIdUpdateAsync(id).Result;
-                categoryUpdateViewModel.Categories = _service.FindAsyncAllCommonAndUserCategories().Result;
+                GetClaims();
+                categoryUpdateViewModel.Categories = _service.FindAsyncAllCommonAndUserCategories(UserId).Result;
                 return View(categoryUpdateViewModel);
             }
             catch (Exception exception)
@@ -103,7 +104,6 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Guid id, CategoryUpdateViewModel categoryUpdateView)
         {
-
             try
             {
                 if (!ModelState.IsValid)

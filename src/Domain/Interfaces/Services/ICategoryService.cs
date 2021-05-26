@@ -10,9 +10,9 @@ namespace Domain.Interfaces.Services
     {
         Task<CategoryResultDto> FindByIdAsync(Guid id);
         Task<CategoryUpdateDto> FindByIdUpdateAsync(Guid id);
-        Task<IEnumerable<CategoryResultDto>> FindAsyncAllCommonAndUserCategories();
-        Task<DatatablesModel<CategoryResultDto>> FindAsyncAllCommonAndUserCategoriesDatatables(DatatablesModel<CategoryResultDto> datatablesModel);
-        Task<CategoryResultDto> CreateAsync(CategoryCreateDto category);
+        Task<IEnumerable<CategoryResultDto>> FindAsyncAllCommonAndUserCategories(Guid userId);
+        Task<DatatablesModel<CategoryResultDto>> FindAsyncAllCommonAndUserCategoriesDatatables(DatatablesModel<CategoryResultDto> datatablesModel, Guid userId);
+        Task<CategoryResultDto> CreateAsync(CategoryCreateDto category, Guid userId);
         Task<CategoryResultDto> UpdateAsync(CategoryUpdateDto category);
         Task<bool> DeleteAsync(Guid id);
     }

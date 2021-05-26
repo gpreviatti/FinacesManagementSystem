@@ -38,7 +38,7 @@ namespace Web.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var result = _service.LoginWeb(login).Result;
+                var result = _service.Login(login).Result;
                 if (result.Authenticated == false)
                     return StatusCode(StatusCodes.Status203NonAuthoritative, result.Message);
 

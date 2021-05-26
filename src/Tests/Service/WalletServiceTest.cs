@@ -48,10 +48,10 @@ namespace Tests.Service
                 WalletType = new WalletTypeResultDto()
             };
             _serviceMock = new Mock<IWalletService>();
-            _serviceMock.Setup(m => m.CreateAsync(walletCreateDto)).ReturnsAsync(walletResultDto);
+            _serviceMock.Setup(m => m.CreateAsync(walletCreateDto, It.IsAny<Guid>())).ReturnsAsync(walletResultDto);
             _service = _serviceMock.Object;
 
-            var result = await _service.CreateAsync(walletCreateDto);
+            var result = await _service.CreateAsync(walletCreateDto, It.IsAny<Guid>());
             Assert.NotNull(result);
             Assert.False(result.Id.Equals(Guid.Empty));
             Assert.Equal(walletCreateDto.Name, result.Name);

@@ -9,7 +9,6 @@ using Domain.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 
 namespace Web.Controllers
 {
@@ -45,6 +44,7 @@ namespace Web.Controllers
         {
             try
             {
+                GetClaims();
                 datatablesModel.Draw = Request.Form["draw"].FirstOrDefault();
                 datatablesModel.Start = Request.Form["start"].FirstOrDefault();
                 datatablesModel.Length = Request.Form["length"].FirstOrDefault();
@@ -52,7 +52,7 @@ namespace Web.Controllers
                 datatablesModel.SortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
                 datatablesModel.SearchValue = Request.Form["search[value]"].FirstOrDefault();
 
-                datatablesModel = _service.FindAllAsyncWithCategoryDatatables(datatablesModel).Result;
+                datatablesModel = _service.FindAllAsyncWithCategoryDatatables(datatablesModel, UserId).Result;
                 return Ok(datatablesModel);
             }
             catch (Exception exception)
@@ -67,10 +67,11 @@ namespace Web.Controllers
         {
             try
             {
+                GetClaims();
                 var entraceCreateViewModel = new EntranceCreateViewModel();
                 entraceCreateViewModel.Entrance = new EntranceCreateDto();
-                entraceCreateViewModel.Wallets = _walletService.FindAsyncWalletsUser().Result;
-                entraceCreateViewModel.Categories = _categoryService.FindAsyncAllCommonAndUserCategories().Result;
+                entraceCreateViewModel.Wallets = _walletService.FindAsyncWalletsUser(UserId).Result;
+                entraceCreateViewModel.Categories = _categoryService.FindAsyncAllCommonAndUserCategories(UserId).Result;
                 entraceCreateViewModel.EntranceTypes = _entraceTypesResultDto;
                 return View(entraceCreateViewModel);
             }
@@ -109,16 +110,17 @@ namespace Web.Controllers
         {
             try
             {
+                GetClaims();
                 var entraceUpdateViewModel = new EntranceUpdateViewModel();
                 entraceUpdateViewModel.Entrance = _service.FindByIdUpdateAsync(id).Result;
-                entraceUpdateViewModel.Wallets = _walletService.FindAsyncWalletsUser().Result;
-                entraceUpdateViewModel.Categories = _categoryService.FindAsyncAllCommonAndUserCategories().Result;
+                entraceUpdateViewModel.Wallets = _walletService.FindAsyncWalletsUser(UserId).Result;
+                entraceUpdateViewModel.Categories = _categoryService.FindAsyncAllCommonAndUserCategories(UserId).Result;
                 entraceUpdateViewModel.EntranceTypes = new List<EntranceTypeResultDto>()
-            {
-                new EntranceTypeResultDto() { Value = 1, Name = "Income"},
-                new EntranceTypeResultDto() { Value = 2, Name = "Expanse"},
-                new EntranceTypeResultDto() { Value = 3, Name = "Transferance"},
-            };
+                {
+                    new EntranceTypeResultDto() { Value = 1, Name = "Income"},
+                    new EntranceTypeResultDto() { Value = 2, Name = "Expanse"},
+                    new EntranceTypeResultDto() { Value = 3, Name = "Transferance"},
+                };
                 return View(entraceUpdateViewModel);
             }
             catch (Exception exception)
@@ -151,11 +153,9 @@ namespace Web.Controllers
             }
         }
 
-
         [HttpGet("Entrance/Delete/{Id}")]
         public IActionResult Delete(Guid id)
         {
-
             try
             {
                 if (!ModelState.IsValid)

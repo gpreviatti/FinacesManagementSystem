@@ -24,6 +24,9 @@ namespace Web.Controllers
 
         public void LoggingWarning(string message) => _logger.LogWarning(message);
 
+        /// <summary>
+        /// Get session variables
+        /// </summary>
         public void GetClaims()
         {
             if (User != null && User.Identity.IsAuthenticated)

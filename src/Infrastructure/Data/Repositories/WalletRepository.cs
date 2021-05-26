@@ -38,5 +38,15 @@ namespace Data.Repositories
                 .AsNoTracking()
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Wallet>> FindWalletEntrances(Guid userId)
+        {
+            return await _dataset
+                .Where(w => w.UserId.Equals(userId))
+                .Include(w => w.Entrances)
+                .Include(w => w.Entrances.FirstOrDefault().Category)
+                .AsNoTracking()
+                .ToListAsync();
+        }
     }
 }
