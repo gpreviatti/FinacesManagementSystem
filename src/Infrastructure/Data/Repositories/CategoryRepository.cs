@@ -18,8 +18,14 @@ namespace Data.Repositories
         public async Task<IEnumerable<Category>> FindAsyncAllCommonAndUserCategories(Guid userId)
         {
             return await _dataset
-                .Where(c => c.UserId == userId || c.UserId == null || c.UserId == Guid.Empty)
+                .Select(c => new Category() { 
+                    Name = c.Name,
+                    UserId = c.UserId,
+                    CreatedAt = c.CreatedAt,
+                    Entrances = c.Entrances.ToList()
+                })
                 .OrderBy(c => c.CreatedAt)
+                .Where(c => c.UserId == userId)
                 .ToListAsync();
         }
     }

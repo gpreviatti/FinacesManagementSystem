@@ -10,6 +10,5 @@ namespace Domain.Interfaces.Repositories
     {
         Task<IEnumerable<Wallet>> FindAsyncWalletsUser(Guid UserId);
         Task<IEnumerable<WalletValuesDto>> FindAsyncWalletsValues(Guid UserId);
-        Task<IEnumerable<Wallet>> FindWalletEntrances(Guid userId);
     }
 }

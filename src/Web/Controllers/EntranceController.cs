@@ -21,14 +21,10 @@ namespace Web.Controllers
 
         public EntranceController(
             IEntranceService service, 
-            IWalletService walletService, 
-            ICategoryService categoryService, 
             ILogger<EntranceController> logger
         ) : base(logger)
         {
             _service = service;
-            _walletService = walletService;
-            _categoryService = categoryService;
             _entraceTypesResultDto = new List<EntranceTypeResultDto>()
             {
                 new EntranceTypeResultDto() { Value = 1, Name = "Income"},

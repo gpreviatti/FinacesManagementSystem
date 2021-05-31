@@ -15,20 +15,20 @@ namespace Service.Services
     public class EntranceService : BaseService, IEntranceService
     {
         private readonly IEntranceRepository _repository;
-        private readonly IWalletRepository _walletRepository;
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IWalletService _walletService;
+        private readonly ICategoryService _categoryService;
 
         public EntranceService(
             IMapper mapper,
             IEntranceRepository repository,
-            IWalletRepository walletRepository,
-            ICategoryRepository categoryRepository
+            IWalletService walletService,
+            ICategoryService categoryService
         )
         {
             _mapper = mapper;
             _repository = repository;
-            _walletRepository = walletRepository;
-            _categoryRepository = categoryRepository;
+            _walletService = walletService;
+            _categoryService = categoryService;
         }
 
         #region "Find"
@@ -47,8 +47,8 @@ namespace Service.Services
 
         public async Task<DatatablesModel<EntranceResultDto>> FindAllAsyncWithCategoryDatatables(DatatablesModel<EntranceResultDto> datatablesModel, Guid userId)
         {
-            var entrances = await _walletRepository
-                .FindWalletEntrances(userId);
+            var userWalletsIds = _walletService.FindAsyncWalletsUserIds(userId);
+            var entrances = await _repository.FindAllAsyncWithCategory(userWalletsIds);
             var entrancesData = _mapper.Map<IEnumerable<EntranceResultDto>>(entrances);
             datatablesModel.RecordsTotal = entrancesData.Count();
 
@@ -118,14 +118,15 @@ namespace Service.Services
         /// <returns></returns>
         public async Task<IEnumerable<EntranceResultDto>> FindAsyncLastFiveEntrancesWithCategories(Guid userId)
         {
-            var result = await _repository.FindAsyncLastFiveEntrancesWithCategories(userId);
+            var userWalletsIds = _walletService.FindAsyncWalletsUserIds(userId);
+            var result = await _repository.FindAsyncLastFiveEntrancesWithCategories(userWalletsIds);
             return _mapper.Map<IEnumerable<EntranceResultDto>>(result);
         }
         #endregion
 
         public async Task<EntranceResultDto> CreateAsync(EntranceCreateDto entraceCreateDto)
         {
-            var wallet = _walletRepository.FindByIdAsync(entraceCreateDto.WalletId).Result;
+            var wallet = _walletService.FindByIdAsync(entraceCreateDto.WalletId).Result;
             if (wallet == null)
                 return null;
 
@@ -141,16 +142,16 @@ namespace Service.Services
                     wallet.CurrentValue = wallet.CurrentValue;
                     break;
             }
-            if (_walletRepository.SaveChangesAsync().Result.Equals(0))
+            if (_repository.SaveChangesAsync().Result.Equals(0))
                 return null;
 
-            var category = _categoryRepository.FindByIdAsync(entraceCreateDto.CategoryId).Result;
+            var category = _categoryService.FindByIdAsync(entraceCreateDto.CategoryId).Result;
             if (category == null)
                 return null;
 
             var entrace = _mapper.Map<Entrance>(entraceCreateDto);
-            entrace.Wallet = wallet;
-            entrace.Category = category;
+            entrace.Wallet = _mapper.Map<Wallet>(wallet);
+            entrace.Category = _mapper.Map<Category>(category);
 
             var result = await _repository.CreateAsync(entrace);
             return _mapper.Map<EntranceResultDto>(entrace);
@@ -163,7 +164,7 @@ namespace Service.Services
             if (result == null)
                 return null;
 
-            var wallet = _walletRepository.FindByIdAsync(entraceUpdateDto.WalletId).Result;
+            var wallet = _walletService.FindByIdAsync(entraceUpdateDto.WalletId).Result;
             if (wallet == null)
                 return null;
 
@@ -179,10 +180,10 @@ namespace Service.Services
                     wallet.CurrentValue = wallet.CurrentValue;
                     break;
             }
-            if (_walletRepository.SaveChangesAsync().Result.Equals(0))
+            if (_repository.SaveChangesAsync().Result.Equals(0))
                 return null;
 
-            if (_categoryRepository.FindByIdAsync(entraceUpdateDto.CategoryId).Result == null)
+            if (_categoryService.FindByIdAsync(entraceUpdateDto.CategoryId).Result == null)
                 return null;
 
             var entrace = _mapper.Map(entraceUpdateDto, result);
@@ -195,11 +196,5 @@ namespace Service.Services
         }
 
         public async Task<bool> DeleteAsync(Guid Id) => await _repository.DeleteAsync(Id);
-
-        public async Task<double> TotalEntrancesByCategory(Guid categoryId) => 
-            await _repository.TotalEntrancesByCategory(categoryId);
-
-        public async Task<double> TotalEntrancesByWallet(Guid walletId) => 
-            await _repository.TotalEntrancesByWallet(walletId);
     }
 }

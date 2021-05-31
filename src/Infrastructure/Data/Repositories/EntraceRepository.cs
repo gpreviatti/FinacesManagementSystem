@@ -26,15 +26,16 @@ namespace Data.Repositories
         {
             return await _dataset
                 .Include(e => e.Category)
+                .Where(e => userWallets.Contains(e.WalletId))
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Entrance>> FindAsyncLastFiveEntrancesWithCategories(Guid userId)
+        public async Task<IEnumerable<Entrance>> FindAsyncLastFiveEntrancesWithCategories(List<Guid> userWalletsId)
         {
             return await _dataset
                 .Include(e => e.Category)
                 .OrderByDescending(e => e.CreatedAt)
-                .Where(e => e.Wallet.UserId.Equals(userId))
+                .Where(e => userWalletsId.Contains(e.WalletId))
                 .Take(5)
                 .ToListAsync();
         }

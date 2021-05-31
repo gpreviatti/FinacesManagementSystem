@@ -14,12 +14,10 @@ namespace Service.Services
     public class CategoryService : BaseService, ICategoryService
     {
         private readonly ICategoryRepository _repository;
-        private readonly IEntranceService _entranceService;
 
-        public CategoryService(ICategoryRepository repository, IEntranceService entranceService, IMapper mapper)
+        public CategoryService(ICategoryRepository repository, IMapper mapper)
         {
             _repository = repository;
-            _entranceService = entranceService;
             _mapper = mapper;
         }
 
@@ -55,7 +53,7 @@ namespace Service.Services
             var result = await _repository.FindAsyncAllCommonAndUserCategories(userId);
             var categories = _mapper.Map<IEnumerable<CategoryResultDto>>(result);
             foreach (var category in categories)
-                category.Total = _entranceService.TotalEntrancesByCategory(category.Id).Result;
+                category.Total = category.Entrances.Select(c => c.Value).Sum();
 
             datatablesModel.RecordsTotal = categories.Count();
 

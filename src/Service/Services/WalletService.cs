@@ -13,12 +13,10 @@ namespace Service.Services
     public class WalletService : BaseService, IWalletService
     {
         private readonly IWalletRepository _repository;
-        private readonly IEntranceService _entranceService;
 
-        public WalletService(IWalletRepository repository, IEntranceService entranceService, IMapper mapper)
+        public WalletService(IWalletRepository repository, IMapper mapper)
         {
             _repository = repository;
-            _entranceService = entranceService;
             _mapper = mapper;
         }
 
@@ -39,9 +37,14 @@ namespace Service.Services
         {
             var result = await _repository.FindAsyncWalletsUser(userId);
             var wallets = _mapper.Map<IEnumerable<WalletResultDto>>(result);
-            wallets.ToList().ForEach(w => w.CurrentValue = _entranceService.TotalEntrancesByWallet(w.Id).Result);
+            wallets
+                .ToList()
+                .ForEach(w => w.CurrentValue = w.Entrances.Select(w => w.Value).Sum());
             return wallets;
         }
+
+        public List<Guid> FindAsyncWalletsUserIds(Guid userId) => 
+            _repository.FindAsyncWalletsUser(userId).Result.Select(w => w.Id).ToList();
 
         /// <summary>
         /// Return wallets values and sum them
