@@ -17,17 +17,13 @@ namespace Data.Seeds
                         Id = Guid.Parse("430E0144-289F-4A95-8F14-BACFABB3FE8A"),
                         Name = "Admin",
                         Email = "admin@admin.com",
-                        Password = EncryptHelper.HashField("mudar@123"),
-                        CreatedAt = DateTime.Now,
-                        UpdatedAt = DateTime.Now
+                        Password = EncryptHelper.HashField("mudar@123")
                     },
                     new User() {
                         Id = Guid.Parse("CB43D078-87F1-4864-853A-E626922B8109"),
                         Name = "Test-User-01",
                         Email = "testUser01@email.com",
-                        Password = EncryptHelper.HashField("mudar@123"),
-                        CreatedAt = DateTime.Now,
-                        UpdatedAt = DateTime.Now
+                        Password = EncryptHelper.HashField("mudar@123")
                     }
                 }
             );

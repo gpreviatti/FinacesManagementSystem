@@ -46,9 +46,7 @@ namespace Data.Seeds
                     Type = random.Next(1, 3),
                     Value = random.Next(100, 1000),
                     CategoryId = Guid.Parse(categoriesGuid[randonCategory]),
-                    WalletId = Guid.Parse(walletsGuid[randonWallet]),
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
+                    WalletId = Guid.Parse(walletsGuid[randonWallet])
                 });
             }
             modelBuilder.Entity<Entrance>().HasData(entrances);

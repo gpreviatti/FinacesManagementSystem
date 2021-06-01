@@ -29,9 +29,7 @@ namespace Data.Seeds
                 UserId = Guid.Parse("430E0144-289F-4A95-8F14-BACFABB3FE8A"),
                 WalletTypeId = walletTypeId,
                 CloseDate = DateTime.Now,
-                DueDate = DateTime.Now.AddDays(15),
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                DueDate = DateTime.Now.AddDays(15)
             };
         }
     }

@@ -4,16 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.Mapping
 {
-    public class EntranceMap : IEntityTypeConfiguration<Entrance>
+    public class EntranceMap : BaseMap<Entrance>
     {
-        public void Configure(EntityTypeBuilder<Entrance> builder)
+        public EntranceMap() : base("Entrances") { }
+
+        public override void Configure(EntityTypeBuilder<Entrance> builder)
         {
-            builder.ToTable("Entrances");
-
-            builder.HasKey(e => e.Id);
-
-            builder.Property(e => e.Id)
-                .HasMaxLength(36);
+            base.Configure(builder);
 
             builder.Property(e => e.Description)
                 .IsRequired()

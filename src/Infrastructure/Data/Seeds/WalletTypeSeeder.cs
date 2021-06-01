@@ -26,9 +26,7 @@ namespace Data.Seeds
             return new WalletType()
             {
                 Id = guid,
-                Name = name,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                Name = name
             };
         }
     }

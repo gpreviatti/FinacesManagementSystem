@@ -4,16 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.Mapping
 {
-    public class WalletMap : IEntityTypeConfiguration<Wallet>
+    public class WalletMap : BaseMap<Wallet>
     {
-        public void Configure(EntityTypeBuilder<Wallet> builder)
+        public WalletMap() : base("Wallets") { }
+        public override void Configure(EntityTypeBuilder<Wallet> builder)
         {
-            builder.ToTable("Wallets");
-
-            builder.HasKey(w => w.Id);
-
-            builder.Property(w => w.Id)
-                .HasMaxLength(36);
+            base.Configure(builder);
 
             builder.Property(w => w.Name)
                 .IsRequired()
