@@ -3,28 +3,27 @@ using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Data.Context
 {
     public class ContextFactory : IDesignTimeDbContextFactory<MyContext>
     {
-        private IConfigurationRoot configuration;
-
         public MyContext CreateDbContext(string[] args)
         {
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var filename = Directory.GetCurrentDirectory() + $"/../Web/appsettings.{environment}.json";
+
             // Add config file
-            configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile(filename)
                 .Build();
 
-            var optionsBuilder = new DbContextOptionsBuilder<MyContext>();
+            var builder = new DbContextOptionsBuilder<MyContext>();
 
             //SQLServer
-            optionsBuilder.UseSqlServer(configuration["Database:ConnectionString"]);
+            builder.UseSqlServer(configuration.GetConnectionString("App"));
 
-            return new MyContext(optionsBuilder.Options);
+            return new MyContext(builder.Options);
         }
     }
 }

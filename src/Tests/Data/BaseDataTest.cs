@@ -11,20 +11,25 @@ namespace Tests.Data
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly MyContext _context;
-        private IConfigurationRoot configuration;
 
         public BaseDataTest()
         {
-            var serviceCollection = new ServiceCollection();
+            // Add config file
+            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Testing");
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var filename = Directory.GetCurrentDirectory() + $"/../../Web/appsettings.{environment}.json";
 
             // Add config file
-            configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile(filename)
                 .Build();
 
+            var serviceCollection = new ServiceCollection();
+
             // In Memory
-            serviceCollection.AddDbContext<MyContext>(options => options.UseSqlServer(configuration["Database:ConnectionString"]));
+            serviceCollection.AddDbContext<MyContext>(
+                options => options.UseSqlServer(configuration.GetConnectionString("App"))
+            );
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
             _context = _serviceProvider.GetService<MyContext>();

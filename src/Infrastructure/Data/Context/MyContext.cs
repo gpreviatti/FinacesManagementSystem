@@ -7,7 +7,10 @@ namespace Data.Context
 {
     public class MyContext : DbContext
     {
-        public MyContext(DbContextOptions<MyContext> options) : base(options) => Database.Migrate();
+        public MyContext(DbContextOptions<MyContext> options) : base(options) 
+        {
+            Database.Migrate();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

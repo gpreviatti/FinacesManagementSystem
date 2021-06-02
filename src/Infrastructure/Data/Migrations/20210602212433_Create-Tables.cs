@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Data.Migrations
 {
-    public partial class create_table : Migration
+    public partial class CreateTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,7 @@ namespace Infrastructure.Data.Migrations
                     Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MessageTemplate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Level = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 1, 20, 39, 59, 852, DateTimeKind.Local).AddTicks(6090)),
+                    TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 2, 18, 24, 33, 172, DateTimeKind.Local).AddTicks(6436)),
                     Exception = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Propperties = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -33,8 +33,8 @@ namespace Infrastructure.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 1, 20, 39, 59, 812, DateTimeKind.Local).AddTicks(1168)),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 1, 20, 39, 59, 823, DateTimeKind.Local).AddTicks(2767))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 2, 18, 24, 33, 144, DateTimeKind.Local).AddTicks(7345)),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 2, 18, 24, 33, 152, DateTimeKind.Local).AddTicks(8709))
                 },
                 constraints: table =>
                 {
@@ -47,8 +47,8 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 1, 20, 39, 59, 837, DateTimeKind.Local).AddTicks(4614)),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 1, 20, 39, 59, 837, DateTimeKind.Local).AddTicks(5102))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 2, 18, 24, 33, 162, DateTimeKind.Local).AddTicks(938)),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 2, 18, 24, 33, 162, DateTimeKind.Local).AddTicks(1362))
                 },
                 constraints: table =>
                 {
@@ -63,8 +63,8 @@ namespace Infrastructure.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 1, 20, 39, 59, 842, DateTimeKind.Local).AddTicks(9229)),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 1, 20, 39, 59, 842, DateTimeKind.Local).AddTicks(9679))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 2, 18, 24, 33, 165, DateTimeKind.Local).AddTicks(4695)),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 2, 18, 24, 33, 165, DateTimeKind.Local).AddTicks(5011))
                 },
                 constraints: table =>
                 {
@@ -95,8 +95,8 @@ namespace Infrastructure.Data.Migrations
                     CloseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     WalletTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 1, 20, 39, 59, 839, DateTimeKind.Local).AddTicks(5064)),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 1, 20, 39, 59, 839, DateTimeKind.Local).AddTicks(6423))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 2, 18, 24, 33, 163, DateTimeKind.Local).AddTicks(2682)),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 2, 18, 24, 33, 163, DateTimeKind.Local).AddTicks(3566))
                 },
                 constraints: table =>
                 {
@@ -127,8 +127,8 @@ namespace Infrastructure.Data.Migrations
                     Value = table.Column<double>(type: "float", nullable: false),
                     WalletId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 1, 20, 39, 59, 848, DateTimeKind.Local).AddTicks(4822)),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 1, 20, 39, 59, 848, DateTimeKind.Local).AddTicks(5541))
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 2, 18, 24, 33, 169, DateTimeKind.Local).AddTicks(4737)),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 2, 18, 24, 33, 169, DateTimeKind.Local).AddTicks(5098))
                 },
                 constraints: table =>
                 {
@@ -172,8 +172,8 @@ namespace Infrastructure.Data.Migrations
                 columns: new[] { "Id", "Email", "Name", "Password" },
                 values: new object[,]
                 {
-                    { new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), "admin@admin.com", "Admin", "$2a$11$vYcYipqRw6wPH.erZyEsTOTVIFVwRq2sMETZRuOIUeoC6zhbY68zG" },
-                    { new Guid("cb43d078-87f1-4864-853a-e626922b8109"), "testUser01@email.com", "Test-User-01", "$2a$11$ukpt3gp0fKtjmpDDgbEDZuLy8C9cLpnrZoRj7vnRrZIEXGoRjDuTi" }
+                    { new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), "admin@admin.com", "Admin", "$2a$11$k8al7XOOgrZwu25tOY30POrA75n7XXHJlozGDK1TtwDXjp0IrsQQ6" },
+                    { new Guid("cb43d078-87f1-4864-853a-e626922b8109"), "testUser01@email.com", "Test-User-01", "$2a$11$Dxf4l/m622igWPFwxyPvxOGtW77NlipYXh.E4V0CEw4nmrP/4lFZK" }
                 });
 
             migrationBuilder.InsertData(
@@ -191,33 +191,33 @@ namespace Infrastructure.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Wallets",
                 columns: new[] { "Id", "CloseDate", "CurrentValue", "Description", "DueDate", "Name", "UserId", "WalletTypeId" },
-                values: new object[] { new Guid("040cc3ad-2159-4b8e-894e-e700a121b48f"), new DateTime(2021, 6, 1, 20, 40, 0, 158, DateTimeKind.Local).AddTicks(210), 500.0, "Main Account", new DateTime(2021, 6, 16, 20, 40, 0, 158, DateTimeKind.Local).AddTicks(570), "Main Card", new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), new Guid("ad4ac47f-0888-4d60-81f9-964153b13e37") });
+                values: new object[] { new Guid("040cc3ad-2159-4b8e-894e-e700a121b48f"), new DateTime(2021, 6, 2, 18, 24, 33, 443, DateTimeKind.Local).AddTicks(6918), 500.0, "Main Account", new DateTime(2021, 6, 17, 18, 24, 33, 443, DateTimeKind.Local).AddTicks(7272), "Main Card", new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), new Guid("ad4ac47f-0888-4d60-81f9-964153b13e37") });
 
             migrationBuilder.InsertData(
                 table: "Wallets",
                 columns: new[] { "Id", "CloseDate", "CurrentValue", "Description", "DueDate", "Name", "UserId", "WalletTypeId" },
-                values: new object[] { new Guid("041cc3ad-2159-4b8e-894e-e700a121b48f"), new DateTime(2021, 6, 1, 20, 40, 0, 158, DateTimeKind.Local).AddTicks(1021), 500.0, "Credit Card Account", new DateTime(2021, 6, 16, 20, 40, 0, 158, DateTimeKind.Local).AddTicks(1025), "Credit", new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), new Guid("ad4ac47f-0888-4d60-81f9-964153b13e38") });
+                values: new object[] { new Guid("041cc3ad-2159-4b8e-894e-e700a121b48f"), new DateTime(2021, 6, 2, 18, 24, 33, 443, DateTimeKind.Local).AddTicks(7707), 500.0, "Credit Card Account", new DateTime(2021, 6, 17, 18, 24, 33, 443, DateTimeKind.Local).AddTicks(7711), "Credit", new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), new Guid("ad4ac47f-0888-4d60-81f9-964153b13e38") });
 
             migrationBuilder.InsertData(
                 table: "Wallets",
                 columns: new[] { "Id", "CloseDate", "CurrentValue", "Description", "DueDate", "Name", "UserId", "WalletTypeId" },
-                values: new object[] { new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f"), new DateTime(2021, 6, 1, 20, 40, 0, 158, DateTimeKind.Local).AddTicks(1035), 1000.0, "My Savings", new DateTime(2021, 6, 16, 20, 40, 0, 158, DateTimeKind.Local).AddTicks(1036), "Saving", new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), new Guid("ad4ac47f-0888-4d60-81f9-964153b13e39") });
+                values: new object[] { new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f"), new DateTime(2021, 6, 2, 18, 24, 33, 443, DateTimeKind.Local).AddTicks(7721), 1000.0, "My Savings", new DateTime(2021, 6, 17, 18, 24, 33, 443, DateTimeKind.Local).AddTicks(7721), "Saving", new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), new Guid("ad4ac47f-0888-4d60-81f9-964153b13e39") });
 
             migrationBuilder.InsertData(
                 table: "Entrances",
                 columns: new[] { "Id", "CategoryId", "Description", "Observation", "Ticker", "Type", "Value", "WalletId" },
                 values: new object[,]
                 {
-                    { new Guid("0fa44aa8-859a-4714-851e-d50936cc98fd"), new Guid("18381de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 2, 675.0, new Guid("040cc3ad-2159-4b8e-894e-e700a121b48f") },
-                    { new Guid("1f6ad96a-37e0-48af-abb2-0fcc8ddfa38d"), new Guid("18401de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 2, 143.0, new Guid("040cc3ad-2159-4b8e-894e-e700a121b48f") },
-                    { new Guid("6d15b03a-9f9d-4e17-a580-0f82ea0f027f"), new Guid("18451de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 2, 668.0, new Guid("040cc3ad-2159-4b8e-894e-e700a121b48f") },
-                    { new Guid("f3729b7e-f4bc-4ba8-954d-be10eb1230af"), new Guid("18441de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 2, 752.0, new Guid("040cc3ad-2159-4b8e-894e-e700a121b48f") },
-                    { new Guid("7d47b3b1-0a2e-4279-b385-c93a3d2b36cf"), new Guid("18371de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 2, 208.0, new Guid("040cc3ad-2159-4b8e-894e-e700a121b48f") },
-                    { new Guid("cf7c6bf3-3dc6-4bf8-bcea-a40128e76560"), new Guid("18381de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 1, 894.0, new Guid("041cc3ad-2159-4b8e-894e-e700a121b48f") },
-                    { new Guid("a5f2cb7d-494f-4293-880f-76da669da55e"), new Guid("18421de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 1, 679.0, new Guid("041cc3ad-2159-4b8e-894e-e700a121b48f") },
-                    { new Guid("2a218904-8c83-4776-b75f-fcf73cd2d771"), new Guid("18391de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 2, 861.0, new Guid("041cc3ad-2159-4b8e-894e-e700a121b48f") },
-                    { new Guid("0f2e7489-6268-4a13-a6d0-6a20f0421399"), new Guid("18421de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 1, 514.0, new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f") },
-                    { new Guid("d129437f-fa7c-42b8-ad5d-c8ae424a115e"), new Guid("18411de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 1, 944.0, new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f") }
+                    { new Guid("77e77c02-e763-4eff-afa4-d5b37f48436b"), new Guid("18391de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 2, 772.0, new Guid("040cc3ad-2159-4b8e-894e-e700a121b48f") },
+                    { new Guid("420a0164-097e-4fe0-9d4d-d5bec5a0d6f4"), new Guid("18411de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 1, 500.0, new Guid("040cc3ad-2159-4b8e-894e-e700a121b48f") },
+                    { new Guid("88ee76b4-e159-44ff-81a8-922ee1f5172b"), new Guid("18411de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 2, 718.0, new Guid("041cc3ad-2159-4b8e-894e-e700a121b48f") },
+                    { new Guid("484165aa-cb5a-41a6-9a2c-351b54f406ed"), new Guid("18431de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 1, 499.0, new Guid("041cc3ad-2159-4b8e-894e-e700a121b48f") },
+                    { new Guid("8cbc6a55-3f53-46e2-9159-31646126d285"), new Guid("18381de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 1, 672.0, new Guid("041cc3ad-2159-4b8e-894e-e700a121b48f") },
+                    { new Guid("f401cadb-b05d-4c36-aee0-151f0f6469ac"), new Guid("18411de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 2, 377.0, new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f") },
+                    { new Guid("f3e72eb0-47e4-4cce-ace0-40455baf9d78"), new Guid("18461de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 2, 976.0, new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f") },
+                    { new Guid("83d080a9-07b2-4db6-9a96-443953c97b55"), new Guid("18421de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 2, 771.0, new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f") },
+                    { new Guid("9b862cec-5971-4ffc-b82e-934fbb0af755"), new Guid("18411de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 2, 524.0, new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f") },
+                    { new Guid("a60f23ae-0c03-4d9c-8e31-8a4d8a73c478"), new Guid("18371de4-a10f-404e-8ce7-836f297382bb"), "Lorem Ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", null, 2, 162.0, new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f") }
                 });
 
             migrationBuilder.CreateIndex(
