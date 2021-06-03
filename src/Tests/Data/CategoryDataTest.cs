@@ -1,9 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using Data.Repositories;
+using Domain.Dtos.Category;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using Domain.Models;
 using Xunit;
 
 namespace Tests.Data
@@ -19,7 +20,7 @@ namespace Tests.Data
 
         public Category CreateCategoryEntity()
         {
-            return new Category()
+            return new Category
             {
                 Name = Faker.Name.FullName()
             };
@@ -41,7 +42,7 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
         }
 
@@ -61,7 +62,7 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
         }
 
@@ -84,7 +85,32 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
+            }
+        }
+
+        [Fact(DisplayName = "List Common User Categories for Datatables")]
+        [Trait("List", "ShouledFindAsyncAllCommonAndUserCategoriesDatatables")]
+        public async void ShouledFindAsyncAllCommonAndUserCategoriesDatatables()
+        {
+            try
+            {
+                // Arrange
+                var datatatablesModel = new DatatablesModel<CategoryResultDto>
+                {
+
+                };
+                var testUserGuid = Guid.Parse("CB43D078-87F1-4864-853A-E626922B8109");
+
+                // Act
+                var result = await _repository.FindAsyncAllCommonAndUserCategories(testUserGuid);
+
+                // Assert
+            }
+            catch (Exception exception)
+            {
+                Assert.True(false);
+                Debug.WriteLine(exception);
             }
         }
 
@@ -105,7 +131,7 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
             
         }
@@ -126,7 +152,7 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
         }
     }

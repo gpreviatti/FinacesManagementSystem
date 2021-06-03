@@ -2,7 +2,7 @@
 using Domain.Dtos.Wallet;
 using Domain.Dtos.WalletType;
 
-namespace Web.ViewModels.Wallet
+namespace Domain.ViewModels
 {
     public class WalletUpdateViewModel
     {

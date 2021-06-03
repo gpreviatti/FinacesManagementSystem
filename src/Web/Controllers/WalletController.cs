@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Domain.Dtos.Wallet;
 using Domain.Interfaces.Services;
+using Domain.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Web.ViewModels.Wallet;
 
 namespace Web.Controllers
 {
@@ -23,12 +24,12 @@ namespace Web.Controllers
             _walletTypeService = walletTypeService;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             try
             {
                 GetClaims();
-                var wallets = _service.FindAsyncWalletsUser(UserId).Result;
+                var wallets = await _service.FindAsyncWalletsUser(UserId);
                 return View(wallets);
             }
             catch (Exception exception)
@@ -39,13 +40,12 @@ namespace Web.Controllers
             
         }
 
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
             try
             {
                 var walletCreateViewModel = new WalletCreateViewModel();
-                walletCreateViewModel.Wallet = new WalletCreateDto();
-                walletCreateViewModel.WalletTypes = _walletTypeService.FindAllAsync().Result;
+                walletCreateViewModel.WalletTypes = await _walletTypeService.FindAllAsync();
                 return View(walletCreateViewModel);
             }
             catch (Exception exception)
@@ -57,7 +57,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(WalletCreateViewModel walletCreateViewModel)
+        public async Task<ActionResult> Create(WalletCreateViewModel walletCreateViewModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -65,7 +65,7 @@ namespace Web.Controllers
             try
             {
                 GetClaims();
-                var result = _service.CreateAsync(walletCreateViewModel.Wallet, UserId).Result;
+                var result = await _service.CreateAsync(walletCreateViewModel.Wallet, UserId);
                 
                 if (result == null)
                     return BadRequest(ModelState);
@@ -80,13 +80,13 @@ namespace Web.Controllers
             }
         }
 
-        public ActionResult Edit(Guid id)
+        public async Task<ActionResult> Edit(Guid id)
         {
             try
             {
                 var walletUpdateViewModel = new WalletUpdateViewModel();
-                walletUpdateViewModel.Wallet = _service.FindByIdUpdateAsync(id).Result;
-                walletUpdateViewModel.WalletTypes = _walletTypeService.FindAllAsync().Result;
+                walletUpdateViewModel.Wallet = await _service.FindByIdUpdateAsync(id);
+                walletUpdateViewModel.WalletTypes = await _walletTypeService.FindAllAsync();
                 return View(walletUpdateViewModel);
             }
             catch (Exception exception)
@@ -98,14 +98,14 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Guid id, WalletUpdateViewModel walletUpdateViewModel)
+        public async Task<ActionResult> Edit(Guid id, WalletUpdateViewModel walletUpdateViewModel)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var result = _service.UpdateAsync(walletUpdateViewModel.Wallet).Result;
+                var result = await _service.UpdateAsync(walletUpdateViewModel.Wallet);
                 if (result == null)
                     return BadRequest(ModelState);
 
@@ -119,14 +119,14 @@ namespace Web.Controllers
             }
         }
 
-        public ActionResult Delete(Guid id)
+        public async Task<ActionResult> Delete(Guid id)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var result = _service.DeleteAsync(id).Result;
+                var result = await _service.DeleteAsync(id);
                 if (result.Equals(null))
                     return BadRequest(ModelState);
 

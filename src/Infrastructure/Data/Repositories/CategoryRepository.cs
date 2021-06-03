@@ -11,9 +11,7 @@ namespace Data.Repositories
 {
     public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     {
-        public CategoryRepository(MyContext context) : base(context)
-        {
-        }
+        public CategoryRepository(MyContext context) : base(context) {}
 
         public async Task<IEnumerable<Category>> FindAsyncAllCommonAndUserCategories(Guid userId)
         {
@@ -21,11 +19,10 @@ namespace Data.Repositories
                 .Select(c => new Category() { 
                     Name = c.Name,
                     UserId = c.UserId,
-                    CreatedAt = c.CreatedAt,
-                    Entrances = c.Entrances.ToList()
+                    CreatedAt = c.CreatedAt
                 })
                 .OrderBy(c => c.CreatedAt)
-                .Where(c => c.UserId == userId)
+                .Where(c => c.UserId == userId || c.UserId == null)
                 .ToListAsync();
         }
     }

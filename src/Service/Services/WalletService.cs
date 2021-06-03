@@ -7,6 +7,7 @@ using Domain.Dtos.Wallet;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
+using Domain.Enums;
 
 namespace Service.Services
 {
@@ -36,14 +37,14 @@ namespace Service.Services
         public async Task<IEnumerable<WalletResultDto>> FindAsyncWalletsUser(Guid userId)
         {
             var result = await _repository.FindAsyncWalletsUser(userId);
+            if (result == null)
+                return null;
+
             var wallets = _mapper.Map<IEnumerable<WalletResultDto>>(result);
-            wallets
-                .ToList()
-                .ForEach(w => w.CurrentValue = w.Entrances.Select(w => w.Value).Sum());
             return wallets;
         }
 
-        public List<Guid> FindAsyncWalletsUserIds(Guid userId) => 
+        public List<Guid> FindAsyncWalletsUserIds(Guid userId) =>
             _repository.FindAsyncWalletsUser(userId).Result.Select(w => w.Id).ToList();
 
         /// <summary>
@@ -96,6 +97,29 @@ namespace Service.Services
                 return _mapper.Map<WalletResultDto>(entity);
             }
             return null;
+        }
+
+        public async Task<int> UpdateWalletValue(Guid id, int type, double value)
+        {
+            var result = await FindByIdAsync(id);
+            if (result == null)
+                return 0;
+
+            switch (type)
+            {
+                case (int) EntranceType.Income:
+                    result.CurrentValue = result.CurrentValue + value;
+                    break;
+                case (int) EntranceType.Expanse:
+                    result.CurrentValue = result.CurrentValue - value;
+                    break;
+                default:
+                    result.CurrentValue = result.CurrentValue;
+                    break;
+            }
+
+            var wallet = _mapper.Map<Wallet>(result);
+            return await _repository.SaveChangesAsync();
         }
 
         public async Task<bool> DeleteAsync(Guid Id) => await _repository.DeleteAsync(Id);

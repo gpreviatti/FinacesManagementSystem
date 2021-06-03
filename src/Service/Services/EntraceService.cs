@@ -7,8 +7,10 @@ using Domain.Dtos.Entrance;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
-using Helpers.Enuns;
 using Domain.Models;
+using Domain.ViewModels;
+using Domain.Dtos.EntranceTypeDto;
+using Domain.Enums;
 
 namespace Service.Services
 {
@@ -40,7 +42,6 @@ namespace Service.Services
 
         public async Task<EntranceUpdateDto> FindByIdUpdateAsync(Guid id)
         {
-            
             var result = await _repository.FindByIdAsync(id);
             return _mapper.Map<EntranceUpdateDto>(result);
         }
@@ -122,35 +123,50 @@ namespace Service.Services
             var result = await _repository.FindAsyncLastFiveEntrancesWithCategories(userWalletsIds);
             return _mapper.Map<IEnumerable<EntranceResultDto>>(result);
         }
+
+        public List<EntranceTypeResultDto> FindEntranceTypes()
+        {
+            return new List<EntranceTypeResultDto>
+            {
+                new EntranceTypeResultDto() { Value = (int) EntranceType.Income, Name = "Income"},
+                new EntranceTypeResultDto() { Value = (int) EntranceType.Expanse, Name = "Expanse"},
+                new EntranceTypeResultDto() { Value = (int) EntranceType.Transference, Name = "Transference"},
+            };  
+        }
         #endregion
+
+        public async Task<EntranceCreateViewModel> SetupEntranceCreateViewModel(Guid userId)
+        {
+            var entraceCreateViewModel = new EntranceCreateViewModel();
+            entraceCreateViewModel.Entrance = new EntranceCreateDto();
+            entraceCreateViewModel.Wallets = await _walletService.FindAsyncWalletsUser(userId);
+            entraceCreateViewModel.Categories = await _categoryService.FindAsyncAllCommonAndUserCategories(userId);
+            entraceCreateViewModel.EntranceTypes = FindEntranceTypes();
+            return entraceCreateViewModel;
+        }
+
+        public async Task<EntranceUpdateViewModel> SetupEntranceUpdateViewModel(Guid userId, Guid id)
+        {
+            var entraceUpdateViewModel = new EntranceUpdateViewModel();
+            entraceUpdateViewModel.Entrance = await FindByIdUpdateAsync(id);
+            entraceUpdateViewModel.Wallets = await _walletService.FindAsyncWalletsUser(userId);
+            entraceUpdateViewModel.Categories = await _categoryService.FindAsyncAllCommonAndUserCategories(userId);
+            entraceUpdateViewModel.EntranceTypes = FindEntranceTypes();
+            return entraceUpdateViewModel;
+        }
 
         public async Task<EntranceResultDto> CreateAsync(EntranceCreateDto entraceCreateDto)
         {
-            var wallet = _walletService.FindByIdAsync(entraceCreateDto.WalletId).Result;
-            if (wallet == null)
+            var updateWalletValue = await _walletService
+                .UpdateWalletValue(entraceCreateDto.WalletId, entraceCreateDto.Type, entraceCreateDto.Value);
+            if (updateWalletValue == 0)
                 return null;
 
-            switch (entraceCreateDto.Type)
-            {
-                case (int) EEntranceType.income:
-                    wallet.CurrentValue = wallet.CurrentValue + entraceCreateDto.Value;
-                    break;
-                case (int) EEntranceType.expanse:
-                    wallet.CurrentValue = wallet.CurrentValue - entraceCreateDto.Value;
-                    break;
-                default:
-                    wallet.CurrentValue = wallet.CurrentValue;
-                    break;
-            }
-            if (_repository.SaveChangesAsync().Result.Equals(0))
-                return null;
-
-            var category = _categoryService.FindByIdAsync(entraceCreateDto.CategoryId).Result;
+            var category = await _categoryService.FindByIdAsync(entraceCreateDto.CategoryId);
             if (category == null)
                 return null;
 
             var entrace = _mapper.Map<Entrance>(entraceCreateDto);
-            entrace.Wallet = _mapper.Map<Wallet>(wallet);
             entrace.Category = _mapper.Map<Category>(category);
 
             var result = await _repository.CreateAsync(entrace);
@@ -164,34 +180,21 @@ namespace Service.Services
             if (result == null)
                 return null;
 
-            var wallet = _walletService.FindByIdAsync(entraceUpdateDto.WalletId).Result;
-            if (wallet == null)
+            var updateWalletValue = await _walletService
+                .UpdateWalletValue(entraceUpdateDto.WalletId, entraceUpdateDto.Type, entraceUpdateDto.Value);
+            if (updateWalletValue == 0)
                 return null;
 
-            switch (entraceUpdateDto.Type)
-            {
-                case (int)EEntranceType.income:
-                    wallet.CurrentValue = wallet.CurrentValue + entraceUpdateDto.Value;
-                    break;
-                case (int)EEntranceType.expanse:
-                    wallet.CurrentValue = wallet.CurrentValue - entraceUpdateDto.Value;
-                    break;
-                default:
-                    wallet.CurrentValue = wallet.CurrentValue;
-                    break;
-            }
-            if (_repository.SaveChangesAsync().Result.Equals(0))
+            if (await _categoryService.FindByIdAsync(entraceUpdateDto.CategoryId) == null)
                 return null;
 
-            if (_categoryService.FindByIdAsync(entraceUpdateDto.CategoryId).Result == null)
-                return null;
-
-            var entrace = _mapper.Map(entraceUpdateDto, result);
+            var entrace = _mapper.Map<Entrance>(entraceUpdateDto);
 
             var savedChanges = await _repository.SaveChangesAsync();
 
             if (savedChanges > 0)
                 return _mapper.Map<EntranceResultDto>(entrace);
+
             return null;
         }
 

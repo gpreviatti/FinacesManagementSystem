@@ -20,7 +20,6 @@ namespace Data.Context
 
             var builder = new DbContextOptionsBuilder<MyContext>();
 
-            //SQLServer
             builder.UseSqlServer(configuration.GetConnectionString("App"));
 
             return new MyContext(builder.Options);

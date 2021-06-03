@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Domain.Dtos.Wallet;
 using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -22,12 +23,12 @@ namespace Web.Controllers
             _walletService = walletService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
                 GetClaims();
-                var entrances = _entraceService.FindAsyncLastFiveEntrancesWithCategories(UserId).Result;
+                var entrances = await _entraceService.FindAsyncLastFiveEntrancesWithCategories(UserId);
                 return View(entrances);
             }
             catch (Exception exception)
@@ -38,13 +39,12 @@ namespace Web.Controllers
         }
 
         [HttpGet("GetData")]
-        public IActionResult GetData()
+        public async Task<IActionResult> GetData()
         {
             try
             {
                 GetClaims();
-                var walletIndexDto = new WalletTotalValuesDto();
-                walletIndexDto = _walletService.WalletsTotalValues(UserId).Result;
+                var walletIndexDto = await _walletService.WalletsTotalValues(UserId);
                 return Ok(walletIndexDto);
             }
             catch (Exception exception)

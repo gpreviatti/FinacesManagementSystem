@@ -4,17 +4,16 @@ using Domain.Dtos.Entrance;
 using Domain.Dtos.EntranceTypeDto;
 using Domain.Dtos.Wallet;
 
-namespace Web.ViewModels.Entrance
+namespace Domain.ViewModels
 {
-    public class EntranceCreateViewModel
+    public class EntranceUpdateViewModel
     {
-        public EntranceCreateDto Entrance { get; set; }
+        public EntranceUpdateDto Entrance { get; set; }
 
         public IEnumerable<EntranceTypeResultDto> EntranceTypes { get; set; }
 
         public IEnumerable<CategoryResultDto> Categories { get; set; }
 
         public IEnumerable<WalletResultDto> Wallets { get; set; }
-
     }
 }

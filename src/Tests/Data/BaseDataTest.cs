@@ -9,31 +9,34 @@ namespace Tests.Data
 {
     public abstract class BaseDataTest
     {
-        protected readonly IServiceProvider _serviceProvider;
-        protected readonly MyContext _context;
+        protected MyContext _context;
 
+        /// <summary>
+        /// Add Config file and set environment
+        /// </summary>
         public BaseDataTest()
         {
-            // Add config file
-            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Testing");
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var filename = Directory.GetCurrentDirectory() + $"/../../Web/appsettings.{environment}.json";
 
-            // Add config file
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile(filename)
                 .Build();
 
+            SetupDatabase(configuration);
+        }
+
+        public void SetupDatabase(IConfigurationRoot configuration)
+        {
             var serviceCollection = new ServiceCollection();
 
-            // In Memory
             serviceCollection.AddDbContext<MyContext>(
                 options => options.UseSqlServer(configuration.GetConnectionString("App"))
             );
 
-            _serviceProvider = serviceCollection.BuildServiceProvider();
-            _context = _serviceProvider.GetService<MyContext>();
-            _context.Database.EnsureCreated();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            _context = serviceProvider.GetService<MyContext>();
+            _context.Database.Migrate();
         }
     }
 }

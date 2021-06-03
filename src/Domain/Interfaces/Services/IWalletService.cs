@@ -14,6 +14,7 @@ namespace Domain.Interfaces.Services
         Task<WalletTotalValuesDto> WalletsTotalValues(Guid userId);
         Task<WalletResultDto> CreateAsync(WalletCreateDto wallet, Guid userId);
         Task<WalletResultDto> UpdateAsync(WalletUpdateDto wallet);
+        Task<int> UpdateWalletValue(Guid id, int type, double value);
         Task<bool> DeleteAsync(Guid id);
     }
 }

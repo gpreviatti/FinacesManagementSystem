@@ -4,39 +4,25 @@ using Domain.Dtos.Entrance;
 using Domain.Dtos.EntranceTypeDto;
 using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using Web.ViewModels.Entrance;
 using Domain.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
+using Domain.ViewModels;
 
 namespace Web.Controllers
 {
     public class EntranceController : BaseController<EntranceController>
     {
         private readonly IEntranceService _service;
-        private readonly IWalletService _walletService;
-        private readonly ICategoryService _categoryService;
-        private readonly IEnumerable<EntranceTypeResultDto> _entraceTypesResultDto;
 
-        public EntranceController(
-            IEntranceService service, 
-            ILogger<EntranceController> logger
-        ) : base(logger)
-        {
-            _service = service;
-            _entraceTypesResultDto = new List<EntranceTypeResultDto>()
-            {
-                new EntranceTypeResultDto() { Value = 1, Name = "Income"},
-                new EntranceTypeResultDto() { Value = 2, Name = "Expanse"},
-                new EntranceTypeResultDto() { Value = 3, Name = "Transferance"},
-            };
-        }
+        public EntranceController(IEntranceService service, ILogger<EntranceController> logger) : base(logger) => _service = service;
 
         public IActionResult Index() => View();
 
         [HttpPost("Entrances/Datatables")]
-        public IActionResult GetEntrancesDatatables(DatatablesModel<EntranceResultDto> datatablesModel)
+        public async Task<IActionResult> GetEntrancesDatatables(DatatablesModel<EntranceResultDto> datatablesModel)
         {
             try
             {
@@ -48,7 +34,7 @@ namespace Web.Controllers
                 datatablesModel.SortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
                 datatablesModel.SearchValue = Request.Form["search[value]"].FirstOrDefault();
 
-                datatablesModel = _service.FindAllAsyncWithCategoryDatatables(datatablesModel, UserId).Result;
+                datatablesModel = await _service.FindAllAsyncWithCategoryDatatables(datatablesModel, UserId);
                 return Ok(datatablesModel);
             }
             catch (Exception exception)
@@ -59,17 +45,13 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             try
             {
                 GetClaims();
-                var entraceCreateViewModel = new EntranceCreateViewModel();
-                entraceCreateViewModel.Entrance = new EntranceCreateDto();
-                entraceCreateViewModel.Wallets = _walletService.FindAsyncWalletsUser(UserId).Result;
-                entraceCreateViewModel.Categories = _categoryService.FindAsyncAllCommonAndUserCategories(UserId).Result;
-                entraceCreateViewModel.EntranceTypes = _entraceTypesResultDto;
-                return View(entraceCreateViewModel);
+                var result = await _service.SetupEntranceCreateViewModel(UserId);
+                return View(result);
             }
             catch (Exception exception)
             {
@@ -102,22 +84,13 @@ namespace Web.Controllers
         }
 
         [HttpGet("Entrances/Edit/{Id}")]
-        public IActionResult Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid id)
         {
             try
             {
                 GetClaims();
-                var entraceUpdateViewModel = new EntranceUpdateViewModel();
-                entraceUpdateViewModel.Entrance = _service.FindByIdUpdateAsync(id).Result;
-                entraceUpdateViewModel.Wallets = _walletService.FindAsyncWalletsUser(UserId).Result;
-                entraceUpdateViewModel.Categories = _categoryService.FindAsyncAllCommonAndUserCategories(UserId).Result;
-                entraceUpdateViewModel.EntranceTypes = new List<EntranceTypeResultDto>()
-                {
-                    new EntranceTypeResultDto() { Value = 1, Name = "Income"},
-                    new EntranceTypeResultDto() { Value = 2, Name = "Expanse"},
-                    new EntranceTypeResultDto() { Value = 3, Name = "Transferance"},
-                };
-                return View(entraceUpdateViewModel);
+                var result = await _service.SetupEntranceUpdateViewModel(UserId, id);
+                return View(result);
             }
             catch (Exception exception)
             {

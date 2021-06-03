@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Domain.Dtos.Category;
 
-namespace Web.ViewModels.Category
+namespace Domain.ViewModels
 {
     public class CategoryUpdateViewModel
     {
