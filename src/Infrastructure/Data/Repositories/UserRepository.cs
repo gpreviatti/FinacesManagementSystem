@@ -8,9 +8,7 @@ namespace Data.Repositories
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
-        public UserRepository(MyContext context) : base(context)
-        {
-        }
+        public UserRepository(MyContext context) : base(context) { }
 
         public async Task<User> FindByLogin(string email) => await _dataset.FirstOrDefaultAsync(u => u.Email.Equals(email));
     }

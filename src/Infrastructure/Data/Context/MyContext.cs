@@ -29,7 +29,9 @@ namespace Data.Context
             WalletTypeSeeder.WalletTypes(modelBuilder);
             WalletSeeder.Wallet(modelBuilder);
             CategorySeeder.Categories(modelBuilder);
-            EntraceSeeder.Entrance(modelBuilder);
+
+            // If you want to add some data remove this comment
+            //EntraceSeeder.Entrance(modelBuilder);
         }
     }
 }

@@ -62,14 +62,14 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(EntranceCreateViewModel entraceCreateViewModel)
+        public async Task<IActionResult> Create(EntranceCreateViewModel entraceCreateViewModel)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var result = _service.CreateAsync(entraceCreateViewModel.Entrance).Result;
+                var result = await _service.CreateAsync(entraceCreateViewModel.Entrance);
                 if (result == null)
                     return BadRequest(ModelState);
 
@@ -101,14 +101,14 @@ namespace Web.Controllers
 
         [HttpPost("Entrances/Edit/{Id}")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Guid id, EntranceUpdateViewModel entraceUpdateView)
+        public async Task<IActionResult> Edit(Guid id, EntranceUpdateViewModel entraceUpdateView)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var result = _service.UpdateAsync(entraceUpdateView.Entrance).Result;
+                var result = await _service.UpdateAsync(entraceUpdateView.Entrance);
                 if (result == null)
                     return BadRequest(ModelState);
 
@@ -123,14 +123,14 @@ namespace Web.Controllers
         }
 
         [HttpGet("Entrance/Delete/{Id}")]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var result = _service.DeleteAsync(id).Result;
+                var result = await _service.DeleteAsync(id);
                 if (result.Equals(null))
                     return BadRequest(ModelState);
 

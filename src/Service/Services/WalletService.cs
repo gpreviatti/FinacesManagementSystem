@@ -77,7 +77,7 @@ namespace Service.Services
             entityCreateDto.UserId = userId;
             var entity = _mapper.Map<Wallet>(entityCreateDto);
 
-            var result = await _repository.CreateAsync(entity);
+            await _repository.CreateAsync(entity);
             return _mapper.Map<WalletResultDto>(entity);
         }
 
@@ -93,32 +93,31 @@ namespace Service.Services
             var savedChanges = await _repository.SaveChangesAsync();
 
             if (savedChanges > 0)
-            {
                 return _mapper.Map<WalletResultDto>(entity);
-            }
+
             return null;
         }
 
         public async Task<int> UpdateWalletValue(Guid id, int type, double value)
         {
-            var result = await FindByIdAsync(id);
-            if (result == null)
+            var wallet = await _repository.FindByIdAsync(id);
+            if (wallet == null)
                 return 0;
 
             switch (type)
             {
                 case (int) EntranceType.Income:
-                    result.CurrentValue = result.CurrentValue + value;
+                    wallet.CurrentValue = wallet.CurrentValue + value;
                     break;
                 case (int) EntranceType.Expanse:
-                    result.CurrentValue = result.CurrentValue - value;
+                    if (value > wallet.CurrentValue)
+                        throw new Exception("Insuficient founds :(");
+                    wallet.CurrentValue = wallet.CurrentValue - value;
                     break;
                 default:
-                    result.CurrentValue = result.CurrentValue;
+                    wallet.CurrentValue = wallet.CurrentValue;
                     break;
             }
-
-            var wallet = _mapper.Map<Wallet>(result);
             return await _repository.SaveChangesAsync();
         }
 

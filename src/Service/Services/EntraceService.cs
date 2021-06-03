@@ -140,7 +140,13 @@ namespace Service.Services
             var entraceCreateViewModel = new EntranceCreateViewModel();
             entraceCreateViewModel.Entrance = new EntranceCreateDto();
             entraceCreateViewModel.Wallets = await _walletService.FindAsyncWalletsUser(userId);
-            entraceCreateViewModel.Categories = await _categoryService.FindAsyncAllCommonAndUserCategories(userId);
+            if (entraceCreateViewModel.Wallets.Count() == 0)
+                throw new Exception("Any Wallet was found");
+
+            entraceCreateViewModel.Categories = await _categoryService.FindAsyncNameAndIdUserCategories(userId);
+            if (entraceCreateViewModel.Categories == null)
+                throw new Exception("Any Category was found");
+
             entraceCreateViewModel.EntranceTypes = FindEntranceTypes();
             return entraceCreateViewModel;
         }
@@ -167,9 +173,8 @@ namespace Service.Services
                 return null;
 
             var entrace = _mapper.Map<Entrance>(entraceCreateDto);
-            entrace.Category = _mapper.Map<Category>(category);
 
-            var result = await _repository.CreateAsync(entrace);
+            await _repository.CreateAsync(entrace);
             return _mapper.Map<EntranceResultDto>(entrace);
         }
 
@@ -188,8 +193,7 @@ namespace Service.Services
             if (await _categoryService.FindByIdAsync(entraceUpdateDto.CategoryId) == null)
                 return null;
 
-            var entrace = _mapper.Map<Entrance>(entraceUpdateDto);
-
+            var entrace = _mapper.Map(entraceUpdateDto, result);
             var savedChanges = await _repository.SaveChangesAsync();
 
             if (savedChanges > 0)

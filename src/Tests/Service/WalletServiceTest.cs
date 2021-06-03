@@ -28,7 +28,6 @@ namespace Tests.Service
                 Name = FakerName,
                 CloseDate = FakerDate,
                 DueDate = FakerDate,
-                CurrentValue = 100,
                 Description = FakerName,
                 UserId = Guid.NewGuid(),
                 WalletTypeId = Guid.NewGuid()
@@ -57,7 +56,6 @@ namespace Tests.Service
             Assert.Equal(walletCreateDto.Name, result.Name);
             Assert.Equal(walletCreateDto.CloseDate, result.CloseDate);
             Assert.Equal(walletCreateDto.DueDate, result.DueDate);
-            Assert.Equal(walletCreateDto.CurrentValue, result.CurrentValue);
             Assert.Equal(walletCreateDto.Description, result.Description);
             Assert.False(result.Entrances.Equals(null));
             Assert.False(result.WalletType.Equals(null));

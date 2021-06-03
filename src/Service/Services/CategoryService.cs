@@ -8,6 +8,7 @@ using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Domain.Models;
+using Domain.ViewModels;
 
 namespace Service.Services
 {
@@ -33,6 +34,13 @@ namespace Service.Services
             return _mapper.Map<CategoryUpdateDto>(result);
         }
 
+        public async Task<IEnumerable<CategoryResultDto>> FindAsyncNameAndIdUserCategories(Guid userId)
+        {
+            var categories = await _repository.FindAsyncAllCommonAndUserCategories(userId);
+            var result = categories.Select(c => new CategoryResultDto { Id = c.Id, Name = c.Name }).ToList();
+            return _mapper.Map<IEnumerable<CategoryResultDto>>(result);
+        }
+
         /// <summary>
         /// Return common categories and users categories
         /// </summary>
@@ -41,6 +49,15 @@ namespace Service.Services
         {
             var result = await _repository.FindAsyncAllCommonAndUserCategories(userId);
             return _mapper.Map<IEnumerable<CategoryResultDto>>(result);
+        }
+
+        public async Task<CategoryUpdateViewModel> SetupCategoryUpdateViewModel(Guid id, Guid userId)
+        {
+            return new CategoryUpdateViewModel
+            {
+                Category = await FindByIdUpdateAsync(id),
+                Categories = await FindAsyncAllCommonAndUserCategories(userId)
+            };
         }
 
         /// <summary>
@@ -108,7 +125,7 @@ namespace Service.Services
             entityCreateDto.UserId = userId;
             var entity = _mapper.Map<Category>(entityCreateDto);
 
-            var result = await _repository.CreateAsync(entity);
+            await _repository.CreateAsync(entity);
             return _mapper.Map<CategoryResultDto>(entity);
         }
 

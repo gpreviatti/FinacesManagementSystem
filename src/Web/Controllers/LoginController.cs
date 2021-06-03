@@ -38,7 +38,7 @@ namespace Web.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var result = _service.Login(login).Result;
+                var result = await _service.Login(login);
                 if (result.Authenticated == false)
                     return StatusCode(StatusCodes.Status203NonAuthoritative, result.Message);
 
@@ -108,15 +108,11 @@ namespace Web.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                {
                     return BadRequest(ModelState);
-                }
 
-                var user = _userService.CreateAsync(userCreateDto).Result;
+                var user = await _userService.CreateAsync(userCreateDto);
                 if (user == null)
-                {
                     return BadRequest(ModelState);
-                }
 
                 await SignInUser(user, false);
                 return RedirectToAction("Index", "Home");

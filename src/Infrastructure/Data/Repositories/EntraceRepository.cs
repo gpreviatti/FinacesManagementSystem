@@ -11,16 +11,7 @@ namespace Data.Repositories
 {
     public class EntranceRepository : BaseRepository<Entrance>, IEntranceRepository
     {
-        public EntranceRepository(MyContext context) : base(context)
-        {
-        }
-
-        public async Task<IEnumerable<Entrance>> FindAllAsyncWithWallet()
-        {
-            return await _dataset
-                .Include(e => e.Wallet)
-                .ToListAsync();
-        }
+        public EntranceRepository(MyContext context) : base(context) {}
 
         public async Task<IEnumerable<Entrance>> FindAllAsyncWithCategory(List<Guid> userWallets)
         {
@@ -38,22 +29,6 @@ namespace Data.Repositories
                 .Where(e => userWalletsId.Contains(e.WalletId))
                 .Take(5)
                 .ToListAsync();
-        }
-
-        public async Task<double> TotalEntrancesByCategory(Guid categoryId)
-        {
-            return await _dataset
-                .Where(e => e.CategoryId.Equals(categoryId))
-                .Select(e => e.Value)
-                .SumAsync();
-        }
-
-        public async Task<double> TotalEntrancesByWallet(Guid walletId)
-        {
-            return await _dataset
-                .Where(e => e.WalletId.Equals(walletId))
-                .Select(e => e.Value)
-                .SumAsync();
         }
     }
 }

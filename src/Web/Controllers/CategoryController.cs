@@ -46,9 +46,8 @@ namespace Web.Controllers
         {
             try
             {
-                var categoryCreateViewModel = new CategoryCreateViewModel();
-                categoryCreateViewModel.Category = new CategoryCreateDto();
                 GetClaims();
+                var categoryCreateViewModel = new CategoryCreateViewModel();
                 categoryCreateViewModel.Categories = await _service.FindAsyncAllCommonAndUserCategories(UserId);
                 return View(categoryCreateViewModel);
             }
@@ -89,9 +88,7 @@ namespace Web.Controllers
             try
             {
                 GetClaims();
-                var categoryUpdateViewModel = new CategoryUpdateViewModel();
-                categoryUpdateViewModel.Category = await _service.FindByIdUpdateAsync(id);
-                categoryUpdateViewModel.Categories = await _service.FindAsyncAllCommonAndUserCategories(UserId);
+                var categoryUpdateViewModel = await _service.SetupCategoryUpdateViewModel(id, UserId);
                 return View(categoryUpdateViewModel);
             }
             catch (Exception exception)

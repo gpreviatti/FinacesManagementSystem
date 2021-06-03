@@ -16,7 +16,7 @@ namespace Infrastructure.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.4")
+                .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Domain.Entities.Category", b =>
@@ -32,7 +32,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 2, 18, 24, 33, 165, DateTimeKind.Local).AddTicks(4695));
+                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 448, DateTimeKind.Local).AddTicks(405));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -42,7 +42,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 2, 18, 24, 33, 165, DateTimeKind.Local).AddTicks(5011));
+                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 448, DateTimeKind.Local).AddTicks(676));
 
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -169,7 +169,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 2, 18, 24, 33, 169, DateTimeKind.Local).AddTicks(4737));
+                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 451, DateTimeKind.Local).AddTicks(7939));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -190,7 +190,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 2, 18, 24, 33, 169, DateTimeKind.Local).AddTicks(5098));
+                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 451, DateTimeKind.Local).AddTicks(8244));
 
                     b.Property<double>("Value")
                         .HasColumnType("float");
@@ -208,128 +208,6 @@ namespace Infrastructure.Data.Migrations
                         .IsClustered(false);
 
                     b.ToTable("Entrances");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("88ee76b4-e159-44ff-81a8-922ee1f5172b"),
-                            CategoryId = new Guid("18411de4-a10f-404e-8ce7-836f297382bb"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Lorem Ipsum",
-                            Observation = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                            Type = 2,
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Value = 718.0,
-                            WalletId = new Guid("041cc3ad-2159-4b8e-894e-e700a121b48f")
-                        },
-                        new
-                        {
-                            Id = new Guid("77e77c02-e763-4eff-afa4-d5b37f48436b"),
-                            CategoryId = new Guid("18391de4-a10f-404e-8ce7-836f297382bb"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Lorem Ipsum",
-                            Observation = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                            Type = 2,
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Value = 772.0,
-                            WalletId = new Guid("040cc3ad-2159-4b8e-894e-e700a121b48f")
-                        },
-                        new
-                        {
-                            Id = new Guid("484165aa-cb5a-41a6-9a2c-351b54f406ed"),
-                            CategoryId = new Guid("18431de4-a10f-404e-8ce7-836f297382bb"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Lorem Ipsum",
-                            Observation = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                            Type = 1,
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Value = 499.0,
-                            WalletId = new Guid("041cc3ad-2159-4b8e-894e-e700a121b48f")
-                        },
-                        new
-                        {
-                            Id = new Guid("420a0164-097e-4fe0-9d4d-d5bec5a0d6f4"),
-                            CategoryId = new Guid("18411de4-a10f-404e-8ce7-836f297382bb"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Lorem Ipsum",
-                            Observation = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                            Type = 1,
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Value = 500.0,
-                            WalletId = new Guid("040cc3ad-2159-4b8e-894e-e700a121b48f")
-                        },
-                        new
-                        {
-                            Id = new Guid("8cbc6a55-3f53-46e2-9159-31646126d285"),
-                            CategoryId = new Guid("18381de4-a10f-404e-8ce7-836f297382bb"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Lorem Ipsum",
-                            Observation = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                            Type = 1,
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Value = 672.0,
-                            WalletId = new Guid("041cc3ad-2159-4b8e-894e-e700a121b48f")
-                        },
-                        new
-                        {
-                            Id = new Guid("f401cadb-b05d-4c36-aee0-151f0f6469ac"),
-                            CategoryId = new Guid("18411de4-a10f-404e-8ce7-836f297382bb"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Lorem Ipsum",
-                            Observation = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                            Type = 2,
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Value = 377.0,
-                            WalletId = new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f")
-                        },
-                        new
-                        {
-                            Id = new Guid("f3e72eb0-47e4-4cce-ace0-40455baf9d78"),
-                            CategoryId = new Guid("18461de4-a10f-404e-8ce7-836f297382bb"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Lorem Ipsum",
-                            Observation = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                            Type = 2,
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Value = 976.0,
-                            WalletId = new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f")
-                        },
-                        new
-                        {
-                            Id = new Guid("83d080a9-07b2-4db6-9a96-443953c97b55"),
-                            CategoryId = new Guid("18421de4-a10f-404e-8ce7-836f297382bb"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Lorem Ipsum",
-                            Observation = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                            Type = 2,
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Value = 771.0,
-                            WalletId = new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f")
-                        },
-                        new
-                        {
-                            Id = new Guid("9b862cec-5971-4ffc-b82e-934fbb0af755"),
-                            CategoryId = new Guid("18411de4-a10f-404e-8ce7-836f297382bb"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Lorem Ipsum",
-                            Observation = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                            Type = 2,
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Value = 524.0,
-                            WalletId = new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f")
-                        },
-                        new
-                        {
-                            Id = new Guid("a60f23ae-0c03-4d9c-8e31-8a4d8a73c478"),
-                            CategoryId = new Guid("18371de4-a10f-404e-8ce7-836f297382bb"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Lorem Ipsum",
-                            Observation = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                            Type = 2,
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Value = 162.0,
-                            WalletId = new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f")
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Log", b =>
@@ -357,7 +235,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("TimeStamp")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 2, 18, 24, 33, 172, DateTimeKind.Local).AddTicks(6436));
+                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 454, DateTimeKind.Local).AddTicks(7284));
 
                     b.HasKey("Id");
 
@@ -374,7 +252,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 2, 18, 24, 33, 144, DateTimeKind.Local).AddTicks(7345));
+                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 426, DateTimeKind.Local).AddTicks(2034));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -393,7 +271,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 2, 18, 24, 33, 152, DateTimeKind.Local).AddTicks(8709));
+                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 435, DateTimeKind.Local).AddTicks(8677));
 
                     b.HasKey("Id");
 
@@ -409,7 +287,7 @@ namespace Infrastructure.Data.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@admin.com",
                             Name = "Admin",
-                            Password = "$2a$11$k8al7XOOgrZwu25tOY30POrA75n7XXHJlozGDK1TtwDXjp0IrsQQ6",
+                            Password = "$2a$11$yIfE2BBOnJnlOsQu.3rBreXp72vvONrWCdOVNUxd1jVmkjaJK7/CO",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -418,7 +296,7 @@ namespace Infrastructure.Data.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "testUser01@email.com",
                             Name = "Test-User-01",
-                            Password = "$2a$11$Dxf4l/m622igWPFwxyPvxOGtW77NlipYXh.E4V0CEw4nmrP/4lFZK",
+                            Password = "$2a$11$Bw24s/vX.6H3EzOBcViLI.VOtLLBFyE5C7/uOnSo/6/gjusmC3OSK",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
@@ -436,7 +314,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 2, 18, 24, 33, 163, DateTimeKind.Local).AddTicks(2682));
+                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 445, DateTimeKind.Local).AddTicks(9881));
 
                     b.Property<double>("CurrentValue")
                         .ValueGeneratedOnAdd()
@@ -458,7 +336,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 2, 18, 24, 33, 163, DateTimeKind.Local).AddTicks(3566));
+                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 446, DateTimeKind.Local).AddTicks(688));
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -478,11 +356,11 @@ namespace Infrastructure.Data.Migrations
                         new
                         {
                             Id = new Guid("040cc3ad-2159-4b8e-894e-e700a121b48f"),
-                            CloseDate = new DateTime(2021, 6, 2, 18, 24, 33, 443, DateTimeKind.Local).AddTicks(6918),
+                            CloseDate = new DateTime(2021, 6, 3, 13, 8, 26, 725, DateTimeKind.Local).AddTicks(9398),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CurrentValue = 500.0,
+                            CurrentValue = 0.0,
                             Description = "Main Account",
-                            DueDate = new DateTime(2021, 6, 17, 18, 24, 33, 443, DateTimeKind.Local).AddTicks(7272),
+                            DueDate = new DateTime(2021, 6, 18, 13, 8, 26, 725, DateTimeKind.Local).AddTicks(9767),
                             Name = "Main Card",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"),
@@ -491,11 +369,11 @@ namespace Infrastructure.Data.Migrations
                         new
                         {
                             Id = new Guid("041cc3ad-2159-4b8e-894e-e700a121b48f"),
-                            CloseDate = new DateTime(2021, 6, 2, 18, 24, 33, 443, DateTimeKind.Local).AddTicks(7707),
+                            CloseDate = new DateTime(2021, 6, 3, 13, 8, 26, 726, DateTimeKind.Local).AddTicks(990),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CurrentValue = 500.0,
+                            CurrentValue = 0.0,
                             Description = "Credit Card Account",
-                            DueDate = new DateTime(2021, 6, 17, 18, 24, 33, 443, DateTimeKind.Local).AddTicks(7711),
+                            DueDate = new DateTime(2021, 6, 18, 13, 8, 26, 726, DateTimeKind.Local).AddTicks(994),
                             Name = "Credit",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"),
@@ -504,11 +382,11 @@ namespace Infrastructure.Data.Migrations
                         new
                         {
                             Id = new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f"),
-                            CloseDate = new DateTime(2021, 6, 2, 18, 24, 33, 443, DateTimeKind.Local).AddTicks(7721),
+                            CloseDate = new DateTime(2021, 6, 3, 13, 8, 26, 726, DateTimeKind.Local).AddTicks(1005),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CurrentValue = 1000.0,
+                            CurrentValue = 0.0,
                             Description = "My Savings",
-                            DueDate = new DateTime(2021, 6, 17, 18, 24, 33, 443, DateTimeKind.Local).AddTicks(7721),
+                            DueDate = new DateTime(2021, 6, 18, 13, 8, 26, 726, DateTimeKind.Local).AddTicks(1006),
                             Name = "Saving",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"),
@@ -526,7 +404,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 2, 18, 24, 33, 162, DateTimeKind.Local).AddTicks(938));
+                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 444, DateTimeKind.Local).AddTicks(9327));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -536,7 +414,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 2, 18, 24, 33, 162, DateTimeKind.Local).AddTicks(1362));
+                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 444, DateTimeKind.Local).AddTicks(9612));
 
                     b.HasKey("Id");
 

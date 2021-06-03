@@ -2,6 +2,9 @@
   "profiles": {
     "Infrastructure.Data": {
       "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
       "sqlDebugging": true
     }
   }

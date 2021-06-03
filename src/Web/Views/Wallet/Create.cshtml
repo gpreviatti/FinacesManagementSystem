@@ -18,11 +18,6 @@
             <span asp-validation-for="@Model.Wallet.Description" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="@Model.Wallet.CurrentValue" class="control-label"></label>
-            <input asp-for="@Model.Wallet.CurrentValue" class="form-control" type="number" />
-            <span asp-validation-for="@Model.Wallet.CurrentValue" class="text-danger"></span>
-        </div>
-        <div class="form-group">
             <label asp-for="@Model.Wallet.WalletTypeId" class="control-label"></label>
             @Html.DropDownListFor(Model => @Model.Wallet.WalletTypeId, new SelectList(Model.WalletTypes, "Id", "Name"), new { @class = "form-control" })
             <span asp-validation-for="@Model.Wallet.WalletTypeId" class="text-danger"></span>
