@@ -37,9 +37,9 @@ namespace Tests.Service
             };
 
             _serviceMock = new Mock<ICategoryService>();
-            _serviceMock.Setup(m => m.CreateAsync(categoryCreateDto)).ReturnsAsync(categoryResultDto);
+            _serviceMock.Setup(m => m.CreateAsync(categoryCreateDto, It.IsAny<Guid>())).ReturnsAsync(categoryResultDto);
             _service = _serviceMock.Object;
-            var result = await _service.CreateAsync(categoryCreateDto);
+            var result = await _service.CreateAsync(categoryCreateDto, It.IsAny<Guid>());
 
             Assert.NotNull(result);
             Assert.False(result.Id.Equals(Guid.Empty));

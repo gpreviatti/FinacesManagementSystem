@@ -8,65 +8,56 @@ using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Domain.Models;
+using Domain.ViewModels;
 
 namespace Service.Services
 {
     public class CategoryService : BaseService, ICategoryService
     {
         private readonly ICategoryRepository _repository;
-        private readonly IEntranceService _entranceService;
 
-        public CategoryService(ICategoryRepository repository, IEntranceService entranceService, IMapper mapper)
+        public CategoryService(ICategoryRepository repository, IMapper mapper)
         {
             _repository = repository;
-            _entranceService = entranceService;
             _mapper = mapper;
         }
 
         #region Find
         public async Task<CategoryResultDto> FindByIdAsync(Guid Id)
         {
-            try
-            {
-                var result = await _repository.FindByIdAsync(Id);
-                return _mapper.Map<CategoryResultDto>(result);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                return null;
-            }
+            var result = await _repository.FindByIdAsync(Id);
+            return _mapper.Map<CategoryResultDto>(result);
         }
         public async Task<CategoryUpdateDto> FindByIdUpdateAsync(Guid Id)
         {
-            try
-            {
-                var result = await _repository.FindByIdAsync(Id);
-                return _mapper.Map<CategoryUpdateDto>(result);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                return null;
-            }
+            var result = await _repository.FindByIdAsync(Id);
+            return _mapper.Map<CategoryUpdateDto>(result);
+        }
+
+        public async Task<IEnumerable<CategoryResultDto>> FindAsyncNameAndIdUserCategories(Guid userId)
+        {
+            var categories = await _repository.FindAsyncAllCommonAndUserCategories(userId);
+            var result = categories.Select(c => new CategoryResultDto { Id = c.Id, Name = c.Name }).ToList();
+            return _mapper.Map<IEnumerable<CategoryResultDto>>(result);
         }
 
         /// <summary>
         /// Return common categories and users categories
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<CategoryResultDto>> FindAsyncAllCommonAndUserCategories()
+        public async Task<IEnumerable<CategoryResultDto>> FindAsyncAllCommonAndUserCategories(Guid userId)
         {
-            try
+            var result = await _repository.FindAsyncAllCommonAndUserCategories(userId);
+            return _mapper.Map<IEnumerable<CategoryResultDto>>(result);
+        }
+
+        public async Task<CategoryUpdateViewModel> SetupCategoryUpdateViewModel(Guid id, Guid userId)
+        {
+            return new CategoryUpdateViewModel
             {
-                var result = await _repository.FindAsyncAllCommonAndUserCategories(UserId);
-                return _mapper.Map<IEnumerable<CategoryResultDto>>(result);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                return null;
-            }
+                Category = await FindByIdUpdateAsync(id),
+                Categories = await FindAsyncAllCommonAndUserCategories(userId)
+            };
         }
 
         /// <summary>
@@ -74,43 +65,29 @@ namespace Service.Services
         /// </summary>
         /// <param name="datatablesModel"></param>
         /// <returns></returns>
-        public async Task<DatatablesModel<CategoryResultDto>> FindAsyncAllCommonAndUserCategoriesDatatables(DatatablesModel<CategoryResultDto> datatablesModel)
+        public async Task<DatatablesModel<CategoryResultDto>> FindAsyncAllCommonAndUserCategoriesDatatables(DatatablesModel<CategoryResultDto> datatablesModel, Guid userId)
         {
-            try
-            {
-                var result = await _repository.FindAsyncAllCommonAndUserCategories(UserId);
-                var categories = _mapper.Map<IEnumerable<CategoryResultDto>>(result);
-                foreach (var category in categories)
-                {
-                    category.Total = _entranceService.TotalEntrancesByCategory(category.Id).Result;
-                }
+            var result = await _repository.FindAsyncAllCommonAndUserCategories(userId);
+            var categories = _mapper.Map<IEnumerable<CategoryResultDto>>(result);
+            foreach (var category in categories)
+                category.Total = category.Entrances.Select(c => c.Value).Sum();
 
-                datatablesModel.RecordsTotal = categories.Count();
+            datatablesModel.RecordsTotal = categories.Count();
 
-                if (!string.IsNullOrEmpty(datatablesModel.SearchValue))
-                {
-                    categories = categories
-                    .Where(m => m.Name.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase));
-                }
+            if (!string.IsNullOrEmpty(datatablesModel.SearchValue))
+                categories = categories
+                .Where(m => m.Name.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase));
 
-                if (!string.IsNullOrEmpty(datatablesModel.SortColumnDirection))
-                {
-                    categories = SortDatatables(datatablesModel, categories);
-                }
+            if (!string.IsNullOrEmpty(datatablesModel.SortColumnDirection))
+                categories = SortDatatables(datatablesModel, categories);
 
-                datatablesModel.RecordsFiltered = categories.Count();
-                datatablesModel.Data = categories
-                    .Skip(datatablesModel.Skip)
-                    .Take(datatablesModel.PageSize)
-                    .ToList();
+            datatablesModel.RecordsFiltered = categories.Count();
+            datatablesModel.Data = categories
+                .Skip(datatablesModel.Skip)
+                .Take(datatablesModel.PageSize)
+                .ToList();
 
-                return datatablesModel;
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                return null;
-            }
+            return datatablesModel;
         }
         #endregion
 
@@ -121,87 +98,54 @@ namespace Service.Services
             {
                 case 0:
                     if (sortDirection.Equals("asc"))
-                    {
                         return entrancesData.OrderBy(e => e.Name);
-                    }
+
                     return entrancesData.OrderByDescending(e => e.Name);
                 case 1:
                     if (sortDirection.Equals("asc"))
-                    {
                         return entrancesData.OrderBy(e => e.Total);
-                    }
+
                     return entrancesData.OrderByDescending(e => e.Total);
                 default:
                     if (sortDirection.Equals("asc"))
-                    {
                         return entrancesData.OrderBy(e => e.CreatedAt);
-                    }
+
                     return entrancesData.OrderByDescending(e => e.CreatedAt);
             }
         }
 
-        public async Task<CategoryResultDto> CreateAsync(CategoryCreateDto entityCreateDto)
+        public async Task<CategoryResultDto> CreateAsync(CategoryCreateDto entityCreateDto, Guid userId)
         {
-            try
-            {
-                if (entityCreateDto.CategoryId == Guid.Empty)
-                {
-                    return null;
-                }
-
-                entityCreateDto.UserId = UserId;
-                var entity = _mapper.Map<Category>(entityCreateDto);
-
-                var result = await _repository.CreateAsync(entity);
-                return _mapper.Map<CategoryResultDto>(entity);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
+            if (entityCreateDto.CategoryId == Guid.Empty)
                 return null;
-            }
+
+            if (userId == Guid.Empty)
+                return null;
+
+            entityCreateDto.UserId = userId;
+            var entity = _mapper.Map<Category>(entityCreateDto);
+
+            await _repository.CreateAsync(entity);
+            return _mapper.Map<CategoryResultDto>(entity);
         }
 
         public async Task<CategoryResultDto> UpdateAsync(CategoryUpdateDto entityUpdateDto)
         {
-            try
-            {
-                var result = await _repository.FindByIdAsync(entityUpdateDto.Id);
+            var result = await _repository.FindByIdAsync(entityUpdateDto.Id);
 
-                if (result == null)
-                {
-                    return null;
-                }
-
-                var entity = _mapper.Map(entityUpdateDto, result);
-
-                var savedChanges = await _repository.SaveChangesAsync();
-
-                if (savedChanges > 0)
-                {
-                    return _mapper.Map<CategoryResultDto>(entity);
-                }
+            if (result == null)
                 return null;
 
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                return null;
-            }
+            var entity = _mapper.Map(entityUpdateDto, result);
+
+            var savedChanges = await _repository.SaveChangesAsync();
+
+            if (savedChanges > 0)
+                return _mapper.Map<CategoryResultDto>(entity);
+
+            return null;
         }
 
-        public async Task<bool> DeleteAsync(Guid Id)
-        {
-            try
-            {
-                return await _repository.DeleteAsync(Id);
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                return false;
-            }
-        }
+        public async Task<bool> DeleteAsync(Guid Id) => await _repository.DeleteAsync(Id);
     }
 }

@@ -25,7 +25,6 @@ namespace Data.Repositories
                 item.Id = Guid.NewGuid();
             }
 
-            item.CreatedAt = DateTime.Now;
             _dataset.Add(item);
 
             await _context.SaveChangesAsync();

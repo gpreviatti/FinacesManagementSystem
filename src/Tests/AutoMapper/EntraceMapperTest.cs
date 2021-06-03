@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
 using Domain.Dtos.Entrance;
 using Domain.Entities;
-using Helpers.Enuns;
+using Domain.Enums;
 using Xunit;
 
 namespace Tests.AutoMapper
@@ -19,7 +18,7 @@ namespace Tests.AutoMapper
                 Observation = Faker.Lorem.Sentence(100),
                 CategoryId = Guid.NewGuid(),
                 Ticker = "BIDI4",
-                Type = (int) EEntranceType.expanse,
+                Type = (int) EntranceType.Expanse,
                 Value = 100,
                 WalletId = Guid.NewGuid()
             };
@@ -43,7 +42,7 @@ namespace Tests.AutoMapper
                 Observation = Faker.Lorem.Sentence(100),
                 CategoryId = Guid.NewGuid(),
                 Ticker = "BIDI4",
-                Type = (int)EEntranceType.expanse,
+                Type = (int) EntranceType.Expanse,
                 Value = 100,
                 WalletId = Guid.NewGuid()
 
@@ -68,7 +67,7 @@ namespace Tests.AutoMapper
                 Description = Faker.Lorem.Sentence(100),
                 Observation = Faker.Lorem.Sentence(100),
                 Ticker = "BIDI4",
-                Type = (int)EEntranceType.expanse,
+                Type = (int) EntranceType.Expanse,
                 Value = 100,
                 Wallet = new Wallet(),
                 Category = new Category(),

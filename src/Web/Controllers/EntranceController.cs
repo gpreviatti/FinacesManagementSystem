@@ -4,46 +4,29 @@ using Domain.Dtos.Entrance;
 using Domain.Dtos.EntranceTypeDto;
 using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using Web.ViewModels.Entrance;
 using Domain.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
+using Domain.ViewModels;
 
 namespace Web.Controllers
 {
     public class EntranceController : BaseController<EntranceController>
     {
         private readonly IEntranceService _service;
-        private readonly IWalletService _walletService;
-        private readonly ICategoryService _categoryService;
-        private readonly IEnumerable<EntranceTypeResultDto> _entraceTypesResultDto;
 
-        public EntranceController(
-            IEntranceService service, 
-            IWalletService walletService, 
-            ICategoryService categoryService, 
-            ILogger<EntranceController> logger
-        ) : base(logger)
-        {
-            _service = service;
-            _walletService = walletService;
-            _categoryService = categoryService;
-            _entraceTypesResultDto = new List<EntranceTypeResultDto>()
-            {
-                new EntranceTypeResultDto() { Value = 1, Name = "Income"},
-                new EntranceTypeResultDto() { Value = 2, Name = "Expanse"},
-                new EntranceTypeResultDto() { Value = 3, Name = "Transferance"},
-            };
-        }
+        public EntranceController(IEntranceService service, ILogger<EntranceController> logger) : base(logger) => _service = service;
 
         public IActionResult Index() => View();
 
         [HttpPost("Entrances/Datatables")]
-        public IActionResult GetEntrancesDatatables(DatatablesModel<EntranceResultDto> datatablesModel)
+        public async Task<IActionResult> GetEntrancesDatatables(DatatablesModel<EntranceResultDto> datatablesModel)
         {
             try
             {
+                GetClaims();
                 datatablesModel.Draw = Request.Form["draw"].FirstOrDefault();
                 datatablesModel.Start = Request.Form["start"].FirstOrDefault();
                 datatablesModel.Length = Request.Form["length"].FirstOrDefault();
@@ -51,7 +34,7 @@ namespace Web.Controllers
                 datatablesModel.SortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
                 datatablesModel.SearchValue = Request.Form["search[value]"].FirstOrDefault();
 
-                datatablesModel = _service.FindAllAsyncWithCategoryDatatables(datatablesModel).Result;
+                datatablesModel = await _service.FindAllAsyncWithCategoryDatatables(datatablesModel, UserId);
                 return Ok(datatablesModel);
             }
             catch (Exception exception)
@@ -59,20 +42,16 @@ namespace Web.Controllers
                 LoggingExceptions(exception);
                 return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
             }
-
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             try
             {
-                var entraceCreateViewModel = new EntranceCreateViewModel();
-                entraceCreateViewModel.Entrance = new EntranceCreateDto();
-                entraceCreateViewModel.Wallets = _walletService.FindAsyncWalletsUser().Result;
-                entraceCreateViewModel.Categories = _categoryService.FindAsyncAllCommonAndUserCategories().Result;
-                entraceCreateViewModel.EntranceTypes = _entraceTypesResultDto;
-                return View(entraceCreateViewModel);
+                GetClaims();
+                var result = await _service.SetupEntranceCreateViewModel(UserId);
+                return View(result);
             }
             catch (Exception exception)
             {
@@ -83,20 +62,17 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(EntranceCreateViewModel entraceCreateViewModel)
+        public async Task<IActionResult> Create(EntranceCreateViewModel entraceCreateViewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
-                var result = _service.CreateAsync(entraceCreateViewModel.Entrance).Result;
-                if (result == null)
-                {
+                if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                }
+
+                var result = await _service.CreateAsync(entraceCreateViewModel.Entrance);
+                if (result == null)
+                    return BadRequest(ModelState);
+
                 LoggingWarning($"Entrance {result.Id} created with success");
                 return RedirectToAction("Index", "Home");
             }
@@ -108,21 +84,13 @@ namespace Web.Controllers
         }
 
         [HttpGet("Entrances/Edit/{Id}")]
-        public IActionResult Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid id)
         {
             try
             {
-                var entraceUpdateViewModel = new EntranceUpdateViewModel();
-                entraceUpdateViewModel.Entrance = _service.FindByIdUpdateAsync(id).Result;
-                entraceUpdateViewModel.Wallets = _walletService.FindAsyncWalletsUser().Result;
-                entraceUpdateViewModel.Categories = _categoryService.FindAsyncAllCommonAndUserCategories().Result;
-                entraceUpdateViewModel.EntranceTypes = new List<EntranceTypeResultDto>()
-            {
-                new EntranceTypeResultDto() { Value = 1, Name = "Income"},
-                new EntranceTypeResultDto() { Value = 2, Name = "Expanse"},
-                new EntranceTypeResultDto() { Value = 3, Name = "Transferance"},
-            };
-                return View(entraceUpdateViewModel);
+                GetClaims();
+                var result = await _service.SetupEntranceUpdateViewModel(UserId, id);
+                return View(result);
             }
             catch (Exception exception)
             {
@@ -133,20 +101,17 @@ namespace Web.Controllers
 
         [HttpPost("Entrances/Edit/{Id}")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Guid id, EntranceUpdateViewModel entraceUpdateView)
+        public async Task<IActionResult> Edit(Guid id, EntranceUpdateViewModel entraceUpdateView)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
-                var result = _service.UpdateAsync(entraceUpdateView.Entrance).Result;
-                if (result == null)
-                {
+                if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                }
+
+                var result = await _service.UpdateAsync(entraceUpdateView.Entrance);
+                if (result == null)
+                    return BadRequest(ModelState);
+
                 LoggingWarning($"Entrance {result.Id} updated with success");
                 return RedirectToAction("Index", "Home");
             }
@@ -157,22 +122,18 @@ namespace Web.Controllers
             }
         }
 
-
         [HttpGet("Entrance/Delete/{Id}")]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
-                var result = _service.DeleteAsync(id).Result;
-                if (result.Equals(null))
-                {
+                if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                }
+
+                var result = await _service.DeleteAsync(id);
+                if (result.Equals(null))
+                    return BadRequest(ModelState);
+
                 LoggingWarning($"Entrance {id} deleted with success");
                 return RedirectToAction("Index", "Home");
             }

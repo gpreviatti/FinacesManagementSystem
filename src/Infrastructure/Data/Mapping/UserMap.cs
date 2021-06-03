@@ -1,19 +1,15 @@
 using Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.Mapping
 {
-    public class UserMap : IEntityTypeConfiguration<User>
+    public class UserMap : BaseMap<User>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public UserMap() : base("Users") {}
+
+        public override void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("Users");
-
-            builder.HasKey(u => u.Id);
-
-            builder.Property(u => u.Id)
-                .HasMaxLength(36);
+            base.Configure(builder);
 
             builder.Property(u => u.Name)
                 .IsRequired()

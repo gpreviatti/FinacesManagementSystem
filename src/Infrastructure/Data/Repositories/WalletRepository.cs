@@ -12,9 +12,7 @@ namespace Data.Repositories
 {
     public class WalletRepository : BaseRepository<Wallet>, IWalletRepository
     {
-        public WalletRepository(MyContext context) : base(context)
-        {
-        }
+        public WalletRepository(MyContext context) : base(context) { }
 
         public async Task<IEnumerable<Wallet>> FindAsyncWalletsUser(Guid UserId)
         {

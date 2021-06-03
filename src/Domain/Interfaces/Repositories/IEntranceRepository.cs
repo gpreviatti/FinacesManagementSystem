@@ -7,10 +7,7 @@ namespace Domain.Interfaces.Repositories
 {
     public interface IEntranceRepository : IBaseRepository<Entrance>
     {
-        Task<IEnumerable<Entrance>> FindAllAsyncWithWallet();
-        Task<IEnumerable<Entrance>> FindAllAsyncWithCategory();
-        Task<IEnumerable<Entrance>> FindAsyncLastFiveEntrancesWithCategories();
-        Task<double> TotalEntrancesByCategory(Guid categoryId);
-        Task<double> TotalEntrancesByWallet(Guid walletId);
+        Task<IEnumerable<Entrance>> FindAllAsyncWithCategory(List<Guid> userWallets);
+        Task<IEnumerable<Entrance>> FindAsyncLastFiveEntrancesWithCategories(List<Guid> userWalletsId);
     }
 }

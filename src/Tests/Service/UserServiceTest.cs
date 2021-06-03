@@ -43,9 +43,7 @@ namespace Tests.Service
                 Email = email,
                 Name = name,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
-                Categories = new List<CategoryResultDto>(),
-                Wallets = new List<WalletResultDto>()
+                UpdatedAt = DateTime.Now
             };
             _serviceMock = new Mock<IUserService>();
             _serviceMock.Setup(m => m.CreateAsync(userCreateDto)).ReturnsAsync(loginResultDto);

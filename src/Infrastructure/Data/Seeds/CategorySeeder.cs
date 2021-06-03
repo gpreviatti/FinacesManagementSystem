@@ -37,12 +37,10 @@ namespace Data.Seeds
 
         public static Category CreateCategory(string name, string id = "")
         {
-            return new Category()
+            return new Category
             {
                 Id = string.IsNullOrEmpty(id) ? Guid.NewGuid() : Guid.Parse(id),
-                Name = name,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                Name = name
             };
         }
     }

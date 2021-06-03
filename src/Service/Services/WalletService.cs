@@ -7,18 +7,17 @@ using Domain.Dtos.Wallet;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
+using Domain.Enums;
 
 namespace Service.Services
 {
     public class WalletService : BaseService, IWalletService
     {
         private readonly IWalletRepository _repository;
-        private readonly IEntranceService _entranceService;
 
-        public WalletService(IWalletRepository repository, IEntranceService entranceService, IMapper mapper)
+        public WalletService(IWalletRepository repository, IMapper mapper)
         {
             _repository = repository;
-            _entranceService = entranceService;
             _mapper = mapper;
         }
 
@@ -35,21 +34,26 @@ namespace Service.Services
             return _mapper.Map<WalletUpdateDto>(result);
         }
 
-        public async Task<IEnumerable<WalletResultDto>> FindAsyncWalletsUser()
+        public async Task<IEnumerable<WalletResultDto>> FindAsyncWalletsUser(Guid userId)
         {
-            var result = await _repository.FindAsyncWalletsUser(UserId);
+            var result = await _repository.FindAsyncWalletsUser(userId);
+            if (result == null)
+                return null;
+
             var wallets = _mapper.Map<IEnumerable<WalletResultDto>>(result);
-            wallets.ToList().ForEach(w => w.CurrentValue = _entranceService.TotalEntrancesByWallet(w.Id).Result);
             return wallets;
         }
+
+        public List<Guid> FindAsyncWalletsUserIds(Guid userId) =>
+            _repository.FindAsyncWalletsUser(userId).Result.Select(w => w.Id).ToList();
 
         /// <summary>
         /// Return wallets values and sum them
         /// </summary>
         /// <returns></returns>
-        public async Task<WalletTotalValuesDto> WalletsTotalValues() 
+        public async Task<WalletTotalValuesDto> WalletsTotalValues(Guid userId) 
         {
-            var walletsValues = await _repository.FindAsyncWalletsValues(UserId);
+            var walletsValues = await _repository.FindAsyncWalletsValues(userId);
             var walletTotalValuesDto = new WalletTotalValuesDto();
             walletTotalValuesDto.WalletsValues = walletsValues.ToList();
 
@@ -62,15 +66,18 @@ namespace Service.Services
         }
         #endregion
 
-        public async Task<WalletResultDto> CreateAsync(WalletCreateDto entityCreateDto)
+        public async Task<WalletResultDto> CreateAsync(WalletCreateDto entityCreateDto, Guid userId)
         { 
             if (entityCreateDto.WalletTypeId == Guid.Empty)
                 return null;
 
-            entityCreateDto.UserId = UserId;
+            if (userId == Guid.Empty)
+                return null;
+
+            entityCreateDto.UserId = userId;
             var entity = _mapper.Map<Wallet>(entityCreateDto);
 
-            var result = await _repository.CreateAsync(entity);
+            await _repository.CreateAsync(entity);
             return _mapper.Map<WalletResultDto>(entity);
         }
 
@@ -86,10 +93,32 @@ namespace Service.Services
             var savedChanges = await _repository.SaveChangesAsync();
 
             if (savedChanges > 0)
-            {
                 return _mapper.Map<WalletResultDto>(entity);
-            }
+
             return null;
+        }
+
+        public async Task<int> UpdateWalletValue(Guid id, int type, double value)
+        {
+            var wallet = await _repository.FindByIdAsync(id);
+            if (wallet == null)
+                return 0;
+
+            switch (type)
+            {
+                case (int) EntranceType.Income:
+                    wallet.CurrentValue = wallet.CurrentValue + value;
+                    break;
+                case (int) EntranceType.Expanse:
+                    if (value > wallet.CurrentValue)
+                        throw new Exception("Insuficient founds :(");
+                    wallet.CurrentValue = wallet.CurrentValue - value;
+                    break;
+                default:
+                    wallet.CurrentValue = wallet.CurrentValue;
+                    break;
+            }
+            return await _repository.SaveChangesAsync();
         }
 
         public async Task<bool> DeleteAsync(Guid Id) => await _repository.DeleteAsync(Id);

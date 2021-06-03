@@ -28,7 +28,6 @@ namespace Tests.Service
                 Name = FakerName,
                 CloseDate = FakerDate,
                 DueDate = FakerDate,
-                CurrentValue = 100,
                 Description = FakerName,
                 UserId = Guid.NewGuid(),
                 WalletTypeId = Guid.NewGuid()
@@ -48,16 +47,15 @@ namespace Tests.Service
                 WalletType = new WalletTypeResultDto()
             };
             _serviceMock = new Mock<IWalletService>();
-            _serviceMock.Setup(m => m.CreateAsync(walletCreateDto)).ReturnsAsync(walletResultDto);
+            _serviceMock.Setup(m => m.CreateAsync(walletCreateDto, It.IsAny<Guid>())).ReturnsAsync(walletResultDto);
             _service = _serviceMock.Object;
 
-            var result = await _service.CreateAsync(walletCreateDto);
+            var result = await _service.CreateAsync(walletCreateDto, It.IsAny<Guid>());
             Assert.NotNull(result);
             Assert.False(result.Id.Equals(Guid.Empty));
             Assert.Equal(walletCreateDto.Name, result.Name);
             Assert.Equal(walletCreateDto.CloseDate, result.CloseDate);
             Assert.Equal(walletCreateDto.DueDate, result.DueDate);
-            Assert.Equal(walletCreateDto.CurrentValue, result.CurrentValue);
             Assert.Equal(walletCreateDto.Description, result.Description);
             Assert.False(result.Entrances.Equals(null));
             Assert.False(result.WalletType.Equals(null));

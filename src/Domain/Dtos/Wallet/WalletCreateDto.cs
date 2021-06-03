@@ -8,12 +8,9 @@ namespace Domain.Dtos.Wallet
         [Required(ErrorMessage = "Name is required")]
         [StringLength(60, ErrorMessage = "Name should have {1} caracters")]
         public string Name { get; set; }
-        
-        public string Description { get; set; }
 
-        [Display(Name = "Current Value")]
-        [Required(ErrorMessage = "Current value is required")]
-        public double CurrentValue { get; set; }
+        [Display(Name = "Description")]
+        public string Description { get; set; }
 
         [Display(Name = "Due Date")]
         public DateTime DueDate { get; set; }

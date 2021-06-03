@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Domain.Dtos.Category;
 using Domain.Interfaces.Services;
 using Domain.Models;
+using Domain.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Web.ViewModels.Category;
 
 namespace Web.Controllers
 {
@@ -14,18 +15,16 @@ namespace Web.Controllers
     {
         private readonly ICategoryService _service;
 
-        public CategoryController(ICategoryService service, ILogger<CategoryController> logger) : base(logger)
-        {
-            _service = service;
-        }
+        public CategoryController(ICategoryService service, ILogger<CategoryController> logger) : base(logger) =>  _service = service;
 
         public IActionResult Index() => View();
 
         [HttpPost("Categories/Datatables")]
-        public IActionResult GetEntrancesDatatables(DatatablesModel<CategoryResultDto> datatablesModel)
+        public async Task<IActionResult> GetDatatables(DatatablesModel<CategoryResultDto> datatablesModel)
         {
             try
             {
+                GetClaims();
                 datatablesModel.Draw = Request.Form["draw"].FirstOrDefault();
                 datatablesModel.Start = Request.Form["start"].FirstOrDefault();
                 datatablesModel.Length = Request.Form["length"].FirstOrDefault();
@@ -33,7 +32,7 @@ namespace Web.Controllers
                 datatablesModel.SortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
                 datatablesModel.SearchValue = Request.Form["search[value]"].FirstOrDefault();
 
-                datatablesModel = _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModel).Result;
+                datatablesModel = await _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModel, UserId);
                 return Ok(datatablesModel);
             }
             catch (Exception exception)
@@ -43,13 +42,13 @@ namespace Web.Controllers
             }
         }
 
-        public ActionResult Create()
+        public async Task <ActionResult> Create()
         {
             try
             {
+                GetClaims();
                 var categoryCreateViewModel = new CategoryCreateViewModel();
-                categoryCreateViewModel.Category = new CategoryCreateDto();
-                categoryCreateViewModel.Categories = _service.FindAsyncAllCommonAndUserCategories().Result;
+                categoryCreateViewModel.Categories = await _service.FindAsyncAllCommonAndUserCategories(UserId);
                 return View(categoryCreateViewModel);
             }
             catch (Exception exception)
@@ -61,20 +60,18 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CategoryCreateViewModel categoryCreateViewModel)
+        public async Task<ActionResult> Create(CategoryCreateViewModel categoryCreateViewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
-                var result = _service.CreateAsync(categoryCreateViewModel.Category).Result;
-                if (result == null)
-                {
+                if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                }
+
+                GetClaims();
+                var result = await _service.CreateAsync(categoryCreateViewModel.Category, UserId);
+                if (result == null)
+                    return BadRequest(ModelState);
+
                 LoggingWarning($"Category {result.Id} created with success");
                 return RedirectToAction("Index", "Category");
             }
@@ -86,13 +83,12 @@ namespace Web.Controllers
         }
 
         [HttpGet("Categories/Edit/{id}")]
-        public ActionResult Edit(Guid id)
+        public async Task<ActionResult> Edit(Guid id)
         {
             try
             {
-                var categoryUpdateViewModel = new CategoryUpdateViewModel();
-                categoryUpdateViewModel.Category = _service.FindByIdUpdateAsync(id).Result;
-                categoryUpdateViewModel.Categories = _service.FindAsyncAllCommonAndUserCategories().Result;
+                GetClaims();
+                var categoryUpdateViewModel = await _service.SetupCategoryUpdateViewModel(id, UserId);
                 return View(categoryUpdateViewModel);
             }
             catch (Exception exception)
@@ -104,20 +100,17 @@ namespace Web.Controllers
 
         [HttpPost("Categories/Edit/{id}")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Guid id, CategoryUpdateViewModel categoryUpdateView)
+        public async Task<ActionResult> Edit(Guid id, CategoryUpdateViewModel categoryUpdateView)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
-                var result = _service.UpdateAsync(categoryUpdateView.Category).Result;
-                if (result == null)
-                {
+                if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                }
+
+                var result = await _service.UpdateAsync(categoryUpdateView.Category);
+                if (result == null)
+                    return BadRequest(ModelState);
+
                 LoggingWarning($"Category {result.Id} updated with success");
                 return RedirectToAction("Index", "Category");
             }
@@ -128,20 +121,17 @@ namespace Web.Controllers
             }
         }
 
-        public ActionResult Delete(Guid id)
+        public async Task<ActionResult> Delete(Guid id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
-                var result = _service.DeleteAsync(id).Result;
-                if (result.Equals(null))
-                {
+                if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                }
+
+                var result = await _service.DeleteAsync(id);
+                if (result.Equals(null))
+                    return BadRequest(ModelState);
+
                 LoggingWarning($"Category {id} deleted with success");
                 return RedirectToAction("Index", "Category");
             }

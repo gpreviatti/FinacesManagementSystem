@@ -6,6 +6,11 @@ namespace Domain.Dtos.Wallet
 {
     public class WalletTotalValuesDto
     {
+        public WalletTotalValuesDto()
+        {
+            WalletsValues = new List<WalletValuesDto>();
+        }
+
         [DataType(DataType.Currency)]
         public double TotalIncomes { get; set; }
 

@@ -1,19 +1,14 @@
 using Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.Mapping
 {
-    public class WalletTypeMap : IEntityTypeConfiguration<WalletType>
+    public class WalletTypeMap : BaseMap<WalletType>
     {
-        public void Configure(EntityTypeBuilder<WalletType> builder)
+        public WalletTypeMap() : base("WalletTypes") { }
+        public override void Configure(EntityTypeBuilder<WalletType> builder)
         {
-            builder.ToTable("WalletTypes");
-
-            builder.HasKey(wt => wt.Id);
-
-            builder.Property(wt => wt.Id)
-                .HasMaxLength(36);
+            base.Configure(builder);
 
             builder.Property(wt => wt.Name)
                 .IsRequired()

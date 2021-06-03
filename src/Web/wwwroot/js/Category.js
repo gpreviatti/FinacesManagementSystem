@@ -59,12 +59,11 @@ $(document).ready(function () {
             {
                 orderable: false,
                 data: data => {
-                    if (data.userId !== "00000000-0000-0000-0000-000000000000") {
+                    if (data.userId !== "00000000-0000-0000-0000-000000000000")
                         return `<a href='Categories/Edit/${data.id}' class='btn btn-primary btn-sm'>Edit</a>`
-                    }
                     return ''
                 }
-            },
+            }
         ],
         initComplete: callback => RenderChart(callback)
     })

@@ -19,7 +19,9 @@ namespace CrossCutting.DependencyInjection
             service.AddScoped<IEntranceRepository, EntranceRepository>();
 
             // Connection Configs
-            service.AddDbContext<MyContext>(options => options.UseSqlServer(configuration["Database:ConnectionString"]));
+            service.AddDbContext<MyContext>(
+                options => options.UseSqlServer(configuration.GetConnectionString("App"))
+            );
         }
     }
 }

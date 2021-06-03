@@ -31,7 +31,7 @@ RenderWalletsCards = wallets => {
         let id = wallet.id
         divWallets.innerHTML += `<div class="col-lg-6">
             <div class="card mb-3">
-                <div class="card-header bg-black">
+                <div class="card-header">
                     ${wallet.name}
                 </div>
                 <div class="card-body">

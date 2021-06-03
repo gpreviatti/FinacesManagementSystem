@@ -23,13 +23,7 @@ namespace Data.Seeds
 
         public static WalletType CreateWalletType(string name, Guid guid)
         {
-            return new WalletType()
-            {
-                Id = guid,
-                Name = name,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
-            };
+            return new WalletType {Id = guid, Name = name};
         }
     }
 }

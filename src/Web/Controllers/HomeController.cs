@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Domain.Dtos.Wallet;
 using Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,6 +11,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
+    [Authorize]
     public class HomeController : BaseController<HomeController>
     {
         private readonly IEntranceService _entraceService;
@@ -20,11 +23,12 @@ namespace Web.Controllers
             _walletService = walletService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                var entrances = _entraceService.FindAsyncLastFiveEntrancesWithCategories().Result;
+                GetClaims();
+                var entrances = await _entraceService.FindAsyncLastFiveEntrancesWithCategories(UserId);
                 return View(entrances);
             }
             catch (Exception exception)
@@ -35,12 +39,12 @@ namespace Web.Controllers
         }
 
         [HttpGet("GetData")]
-        public IActionResult GetData()
+        public async Task<IActionResult> GetData()
         {
             try
             {
-                var walletIndexDto = new WalletTotalValuesDto();
-                walletIndexDto = _walletService.WalletsTotalValues().Result;
+                GetClaims();
+                var walletIndexDto = await _walletService.WalletsTotalValues(UserId);
                 return Ok(walletIndexDto);
             }
             catch (Exception exception)
@@ -49,8 +53,6 @@ namespace Web.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
             }
         }
-
-        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

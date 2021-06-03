@@ -21,7 +21,6 @@ namespace Tests.AutoMapper
                 Description = Faker.Lorem.Sentence(100),
                 DueDate = DateTime.Now,
                 CloseDate = DateTime.Now.AddDays(15),
-                CurrentValue = 100,
                 WalletTypeId = Guid.NewGuid(),
                 UserId = Guid.NewGuid(),
                 
@@ -33,7 +32,6 @@ namespace Tests.AutoMapper
             Assert.Equal(entity.Description, entityCreateDto.Description);
             Assert.Equal(entity.DueDate, entityCreateDto.DueDate);
             Assert.Equal(entity.CloseDate, entityCreateDto.CloseDate);
-            Assert.Equal(entity.CurrentValue, entityCreateDto.CurrentValue);
         }
 
         [Fact(DisplayName = "Should transform WalletUpdateDto to Wallet")]
