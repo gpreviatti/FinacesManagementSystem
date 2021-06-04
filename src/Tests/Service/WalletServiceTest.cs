@@ -25,10 +25,10 @@ namespace Tests.Service
         public async void ShouldCreateWallet()
         {
             WalletCreateDto walletCreateDto = new WalletCreateDto() { 
-                Name = FakerName,
-                CloseDate = FakerDate,
-                DueDate = FakerDate,
-                Description = FakerName,
+                Name = _fakerName,
+                CloseDate = _fakerDate,
+                DueDate = _fakerDate,
+                Description = _fakerName,
                 UserId = Guid.NewGuid(),
                 WalletTypeId = Guid.NewGuid()
             };
@@ -36,13 +36,13 @@ namespace Tests.Service
             WalletResultDto walletResultDto = new WalletResultDto()
             {
                 Id = Guid.NewGuid(),
-                Name = FakerName,
-                CloseDate = FakerDate,
-                DueDate = FakerDate,
+                Name = _fakerName,
+                CloseDate = _fakerDate,
+                DueDate = _fakerDate,
                 CurrentValue = 100,
-                Description = FakerName,
-                CreatedAt = FakerDate,
-                UpdatedAt = FakerDate,
+                Description = _fakerName,
+                CreatedAt = _fakerDate,
+                UpdatedAt = _fakerDate,
                 Entrances = new List<EntranceResultDto>(),
                 WalletType = new WalletTypeResultDto()
             };
@@ -69,37 +69,37 @@ namespace Tests.Service
             {
                 new WalletResultDto() {
                     Id = Guid.NewGuid(),
-                    Name = FakerName,
-                    CloseDate = FakerDate,
-                    DueDate = FakerDate,
+                    Name = _fakerName,
+                    CloseDate = _fakerDate,
+                    DueDate = _fakerDate,
                     CurrentValue = 100,
-                    Description = FakerName,
-                    CreatedAt = FakerDate,
-                    UpdatedAt = FakerDate,
+                    Description = _fakerName,
+                    CreatedAt = _fakerDate,
+                    UpdatedAt = _fakerDate,
                     Entrances = new List<EntranceResultDto>(),
                     WalletType = new WalletTypeResultDto()
                 },
                 new WalletResultDto() {
                     Id = Guid.NewGuid(),
-                    Name = FakerName,
-                    CloseDate = FakerDate,
-                    DueDate = FakerDate,
+                    Name = _fakerName,
+                    CloseDate = _fakerDate,
+                    DueDate = _fakerDate,
                     CurrentValue = 100,
-                    Description = FakerName,
-                    CreatedAt = FakerDate,
-                    UpdatedAt = FakerDate,
+                    Description = _fakerName,
+                    CreatedAt = _fakerDate,
+                    UpdatedAt = _fakerDate,
                     Entrances = new List<EntranceResultDto>(),
                     WalletType = new WalletTypeResultDto()
                 },
                 new WalletResultDto() {
                     Id = Guid.NewGuid(),
-                    Name = FakerName,
-                    CloseDate = FakerDate,
-                    DueDate = FakerDate,
+                    Name = _fakerName,
+                    CloseDate = _fakerDate,
+                    DueDate = _fakerDate,
                     CurrentValue = 100,
-                    Description = FakerName,
-                    CreatedAt = FakerDate,
-                    UpdatedAt = FakerDate,
+                    Description = _fakerName,
+                    CreatedAt = _fakerDate,
+                    UpdatedAt = _fakerDate,
                     Entrances = new List<EntranceResultDto>(),
                     WalletType = new WalletTypeResultDto()
                 },
@@ -119,13 +119,13 @@ namespace Tests.Service
         {
             var walletResultDto = new WalletResultDto() {
                 Id = Guid.NewGuid(),
-                Name = FakerName,
-                CloseDate = FakerDate,
-                DueDate = FakerDate,
+                Name = _fakerName,
+                CloseDate = _fakerDate,
+                DueDate = _fakerDate,
                 CurrentValue = 100,
-                Description = FakerName,
-                CreatedAt = FakerDate,
-                UpdatedAt = FakerDate,
+                Description = _fakerName,
+                CreatedAt = _fakerDate,
+                UpdatedAt = _fakerDate,
                 Entrances = new List<EntranceResultDto>(),
                 WalletType = new WalletTypeResultDto()
             };
@@ -146,13 +146,13 @@ namespace Tests.Service
         [Trait("Service", "Wallet")]
         public async void ShouldUpdateWallet()
         {
-            WalletUpdateDto walletTypeUpdateDto = new WalletUpdateDto() {Name = FakerName};
+            WalletUpdateDto walletTypeUpdateDto = new WalletUpdateDto() {Name = _fakerName};
 
             WalletResultDto walletResultDto = new WalletResultDto() {
                 Id = Guid.NewGuid(),
-                Name = FakerName,
-                CreatedAt = FakerDate,
-                UpdatedAt = FakerDate
+                Name = _fakerName,
+                CreatedAt = _fakerDate,
+                UpdatedAt = _fakerDate
             };
 
             _serviceMock = new Mock<IWalletService>();
@@ -162,7 +162,7 @@ namespace Tests.Service
             var result = await _service.UpdateAsync(walletTypeUpdateDto);
             Assert.NotNull(result);
             Assert.False(result.Id.Equals(Guid.Empty));
-            Assert.Equal(FakerName, result.Name);
+            Assert.Equal(_fakerName, result.Name);
         }
 
         [Fact(DisplayName = "Delete wallet type")]

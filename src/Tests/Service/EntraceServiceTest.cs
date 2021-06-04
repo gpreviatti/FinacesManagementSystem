@@ -29,8 +29,8 @@ namespace Tests.Service
                 var walletId = Guid.NewGuid();
                 EntranceCreateDto entraceCreateDto = new EntranceCreateDto()
                 {
-                    Description = FakerName,
-                    Observation = FakerName,
+                    Description = _fakerName,
+                    Observation = _fakerName,
                     Ticker = "TEST",
                     Type = 1,
                     Value = 100,
@@ -41,15 +41,15 @@ namespace Tests.Service
                 EntranceResultDto entraceResultDto = new EntranceResultDto()
                 {
                     Id = Guid.NewGuid(),
-                    Description = FakerName,
-                    Observation = FakerName,
+                    Description = _fakerName,
+                    Observation = _fakerName,
                     Ticker = "TEST",
                     Type = 1,
                     Value = 100,
                     CategoryId = categoryId,
                     WalletId = walletId,
-                    CreatedAt = FakerDate,
-                    UpdatedAt = FakerDate,
+                    CreatedAt = _fakerDate,
+                    UpdatedAt = _fakerDate,
                 };
                 _serviceMock = new Mock<IEntranceService>();
                 _serviceMock.Setup(m => m.CreateAsync(entraceCreateDto)).ReturnsAsync(entraceResultDto);
@@ -80,8 +80,8 @@ namespace Tests.Service
             {
                 EntranceCreateDto entraceCreateDto = new EntranceCreateDto()
                 {
-                    Description = FakerName,
-                    Observation = FakerName,
+                    Description = _fakerName,
+                    Observation = _fakerName,
                     Ticker = "TEST",
                     Type = 1,
                     Value = 100,
@@ -110,8 +110,8 @@ namespace Tests.Service
             {
                 EntranceCreateDto entraceCreateDto = new EntranceCreateDto()
                 {
-                    Description = FakerName,
-                    Observation = FakerName,
+                    Description = _fakerName,
+                    Observation = _fakerName,
                     Ticker = "TEST",
                     Type = 1,
                     Value = 100,
@@ -206,14 +206,14 @@ namespace Tests.Service
             {
                 EntranceUpdateDto entraceUpdateDto = new EntranceUpdateDto()
                 {
-                    Description = FakerName,
+                    Description = _fakerName,
                 };
 
                 EntranceResultDto entraceResultDto = new EntranceResultDto()
                 {
-                    Description = FakerName,
-                    CreatedAt = FakerDate,
-                    UpdatedAt = FakerDate
+                    Description = _fakerName,
+                    CreatedAt = _fakerDate,
+                    UpdatedAt = _fakerDate
                 };
 
                 _serviceMock = new Mock<IEntranceService>();
@@ -222,7 +222,7 @@ namespace Tests.Service
                 var result = await _service.UpdateAsync(entraceUpdateDto);
 
                 Assert.NotNull(result);
-                Assert.Equal(FakerName, result.Description);
+                Assert.Equal(_fakerName, result.Description);
             }
             catch (Exception e)
             {

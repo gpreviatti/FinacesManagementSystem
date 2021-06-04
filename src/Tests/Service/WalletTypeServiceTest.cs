@@ -24,14 +24,14 @@ namespace Tests.Service
         [Trait("Service", "WalletType")]
         public async void ShouldCreateWalletType()
         {
-            WalletTypeCreateDto walletTypeCreateDto = new WalletTypeCreateDto() { Name = FakerName };
+            WalletTypeCreateDto walletTypeCreateDto = new WalletTypeCreateDto() { Name = _fakerName };
 
             WalletTypeResultDto userResultDto = new WalletTypeResultDto()
             {
                 Id = Guid.NewGuid(),
-                Name = FakerName,
-                CreatedAt = FakerDate,
-                UpdatedAt = FakerDate
+                Name = _fakerName,
+                CreatedAt = _fakerDate,
+                UpdatedAt = _fakerDate
             };
             _serviceMock = new Mock<IWalletTypeService>();
             _serviceMock.Setup(m => m.CreateAsync(walletTypeCreateDto)).ReturnsAsync(userResultDto);
@@ -48,16 +48,16 @@ namespace Tests.Service
         {
             IEnumerable<WalletTypeResultDto> listWalletTypeResultDto = new List<WalletTypeResultDto>
             {
-                new WalletTypeResultDto(){ Id = new Guid(), Name = FakerName, CreatedAt = FakerDate, UpdatedAt = FakerDate},
-                new WalletTypeResultDto(){ Id = new Guid(), Name = FakerName, CreatedAt = FakerDate, UpdatedAt = FakerDate},
-                new WalletTypeResultDto(){ Id = new Guid(), Name = FakerName, CreatedAt = FakerDate, UpdatedAt = FakerDate},
-                new WalletTypeResultDto(){ Id = new Guid(), Name = FakerName, CreatedAt = FakerDate, UpdatedAt = FakerDate},
-                new WalletTypeResultDto(){ Id = new Guid(), Name = FakerName, CreatedAt = FakerDate, UpdatedAt = FakerDate},
-                new WalletTypeResultDto(){ Id = new Guid(), Name = FakerName, CreatedAt = FakerDate, UpdatedAt = FakerDate},
-                new WalletTypeResultDto(){ Id = new Guid(), Name = FakerName, CreatedAt = FakerDate, UpdatedAt = FakerDate},
-                new WalletTypeResultDto(){ Id = new Guid(), Name = FakerName, CreatedAt = FakerDate, UpdatedAt = FakerDate},
-                new WalletTypeResultDto(){ Id = new Guid(), Name = FakerName, CreatedAt = FakerDate, UpdatedAt = FakerDate},
-                new WalletTypeResultDto(){ Id = new Guid(), Name = FakerName, CreatedAt = FakerDate, UpdatedAt = FakerDate}
+                new WalletTypeResultDto(){ Id = new Guid(), Name = _fakerName, CreatedAt = _fakerDate, UpdatedAt = _fakerDate},
+                new WalletTypeResultDto(){ Id = new Guid(), Name = _fakerName, CreatedAt = _fakerDate, UpdatedAt = _fakerDate},
+                new WalletTypeResultDto(){ Id = new Guid(), Name = _fakerName, CreatedAt = _fakerDate, UpdatedAt = _fakerDate},
+                new WalletTypeResultDto(){ Id = new Guid(), Name = _fakerName, CreatedAt = _fakerDate, UpdatedAt = _fakerDate},
+                new WalletTypeResultDto(){ Id = new Guid(), Name = _fakerName, CreatedAt = _fakerDate, UpdatedAt = _fakerDate},
+                new WalletTypeResultDto(){ Id = new Guid(), Name = _fakerName, CreatedAt = _fakerDate, UpdatedAt = _fakerDate},
+                new WalletTypeResultDto(){ Id = new Guid(), Name = _fakerName, CreatedAt = _fakerDate, UpdatedAt = _fakerDate},
+                new WalletTypeResultDto(){ Id = new Guid(), Name = _fakerName, CreatedAt = _fakerDate, UpdatedAt = _fakerDate},
+                new WalletTypeResultDto(){ Id = new Guid(), Name = _fakerName, CreatedAt = _fakerDate, UpdatedAt = _fakerDate},
+                new WalletTypeResultDto(){ Id = new Guid(), Name = _fakerName, CreatedAt = _fakerDate, UpdatedAt = _fakerDate}
             };
             _serviceMock = new Mock<IWalletTypeService>();
             _serviceMock.Setup(m => m.FindAllAsync()).ReturnsAsync(listWalletTypeResultDto);
@@ -74,9 +74,9 @@ namespace Tests.Service
         {
             var walletTypeResultDto = new WalletTypeResultDto() { 
                 Id = new Guid(), 
-                Name = FakerName,
-                CreatedAt = FakerDate,
-                UpdatedAt = FakerDate
+                Name = _fakerName,
+                CreatedAt = _fakerDate,
+                UpdatedAt = _fakerDate
             };
             
             _serviceMock = new Mock<IWalletTypeService>();
@@ -95,13 +95,13 @@ namespace Tests.Service
         [Trait("Service", "WalletType")]
         public async void ShouldUpdateWalletType()
         {
-            WalletTypeUpdateDto walletTypeUpdateDto = new WalletTypeUpdateDto() {Name = FakerName};
+            WalletTypeUpdateDto walletTypeUpdateDto = new WalletTypeUpdateDto() {Name = _fakerName};
 
             WalletTypeResultDto walletTypeResultDto = new WalletTypeResultDto() {
                 Id = Guid.NewGuid(),
-                Name = FakerName,
-                CreatedAt = FakerDate,
-                UpdatedAt = FakerDate
+                Name = _fakerName,
+                CreatedAt = _fakerDate,
+                UpdatedAt = _fakerDate
             };
 
             _serviceMock = new Mock<IWalletTypeService>();
@@ -111,7 +111,7 @@ namespace Tests.Service
             var result = await _service.UpdateAsync(walletTypeUpdateDto);
             Assert.NotNull(result);
             Assert.False(result.Id.Equals(Guid.Empty));
-            Assert.Equal(FakerName, result.Name);
+            Assert.Equal(_fakerName, result.Name);
         }
 
         [Fact(DisplayName = "Delete wallet type")]

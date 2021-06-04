@@ -116,11 +116,8 @@ namespace Service.Services
 
         public async Task<CategoryResultDto> CreateAsync(CategoryCreateDto entityCreateDto, Guid userId)
         {
-            if (entityCreateDto.CategoryId == Guid.Empty)
-                return null;
-
-            if (userId == Guid.Empty)
-                return null;
+            if (entityCreateDto.CategoryId == Guid.Empty || userId == Guid.Empty)
+                throw new Exception("Main Category or User not found");
 
             entityCreateDto.UserId = userId;
             var entity = _mapper.Map<Category>(entityCreateDto);

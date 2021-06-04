@@ -40,8 +40,8 @@ namespace Tests.Service
             {
                 AccessToken = "12231312312312",
                 Authenticated = true,
-                CreatedAt = FakerDate.ToString("yyyy/mm/dd"),
-                Expiration = FakerDate.AddHours(8).ToString("yyyy/mm/dd"),
+                CreatedAt = _fakerDate.ToString("yyyy/mm/dd"),
+                Expiration = _fakerDate.AddHours(8).ToString("yyyy/mm/dd"),
                 Message = "Authenticated",
                 User = new UserResultDto() { Id = Guid.NewGuid(), Email = email, Name = Faker.Name.First() }
             };

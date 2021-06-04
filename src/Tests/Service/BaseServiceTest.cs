@@ -4,18 +4,15 @@ using CrossCutting.Mappings;
 
 namespace Tests.Service
 {
-    public abstract class BaseServiceTest
+    public abstract class BaseServiceTest : BaseTest
     {
         protected readonly IMapper _mapper;
 
-        public string FakerName { get; set; }
+        protected readonly string _fakerName = Faker.Name.FullName();
 
-        public DateTime FakerDate { get; set; } = DateTime.Now;
+        protected readonly DateTime _fakerDate = DateTime.Now;
 
-        public BaseServiceTest()
-        {
-            _mapper = GetMapper();
-        }
+        public BaseServiceTest() => _mapper = GetMapper();
 
         public IMapper GetMapper()
         {
