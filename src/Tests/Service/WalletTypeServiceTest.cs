@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Domain.Dtos.Category;
 using Domain.Dtos.WalletType;
-using Domain.Dtos.Wallet;
 using Domain.Interfaces.Services;
 using Moq;
 using Xunit;
@@ -72,13 +70,14 @@ namespace Tests.Service
         [Trait("Service", "WalletType")]
         public async void ShouldListWalletTypeById()
         {
-            var walletTypeResultDto = new WalletTypeResultDto() { 
-                Id = new Guid(), 
+            var walletTypeResultDto = new WalletTypeResultDto()
+            {
+                Id = new Guid(),
                 Name = _fakerName,
                 CreatedAt = _fakerDate,
                 UpdatedAt = _fakerDate
             };
-            
+
             _serviceMock = new Mock<IWalletTypeService>();
             _serviceMock.Setup(m => m.FindByIdAsync(It.IsAny<Guid>())).ReturnsAsync(walletTypeResultDto);
             _service = _serviceMock.Object;
@@ -95,9 +94,10 @@ namespace Tests.Service
         [Trait("Service", "WalletType")]
         public async void ShouldUpdateWalletType()
         {
-            WalletTypeUpdateDto walletTypeUpdateDto = new WalletTypeUpdateDto() {Name = _fakerName};
+            WalletTypeUpdateDto walletTypeUpdateDto = new WalletTypeUpdateDto() { Name = _fakerName };
 
-            WalletTypeResultDto walletTypeResultDto = new WalletTypeResultDto() {
+            WalletTypeResultDto walletTypeResultDto = new WalletTypeResultDto()
+            {
                 Id = Guid.NewGuid(),
                 Name = _fakerName,
                 CreatedAt = _fakerDate,

@@ -11,13 +11,13 @@ namespace Data.Repositories
 {
     public class EntranceRepository : BaseRepository<Entrance>, IEntranceRepository
     {
-        public EntranceRepository(MyContext context) : base(context) {}
+        public EntranceRepository(MyContext context) : base(context) { }
 
         public async Task<IEnumerable<Entrance>> FindAllAsyncWithCategory(List<Guid> userWalletsId)
         {
             return await _dataset
                 .Include(e => e.Category)
-                .Select(e => new Entrance 
+                .Select(e => new Entrance
                 {
                     Id = e.Id,
                     CategoryId = e.CategoryId,
@@ -27,7 +27,7 @@ namespace Data.Repositories
                     Value = e.Value,
                     CreatedAt = e.CreatedAt,
                     UpdatedAt = e.UpdatedAt,
-                    Category = new Category() { Id = e.Category.Id, Name = e.Category.Name}
+                    Category = new Category() { Id = e.Category.Id, Name = e.Category.Name }
                 })
                 .Where(e => userWalletsId.Contains(e.WalletId))
                 .OrderBy(e => e.CreatedAt)

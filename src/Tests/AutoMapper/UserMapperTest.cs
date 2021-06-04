@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Domain.Dtos.Category;
 using Domain.Dtos.User;
-using Domain.Dtos.Wallet;
 using Domain.Entities;
 using Helpers;
 using Xunit;

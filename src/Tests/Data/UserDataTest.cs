@@ -1,12 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using Data.Context;
 using Data.Repositories;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
-using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace Tests.Data
@@ -50,7 +46,7 @@ namespace Tests.Data
                 Assert.True(false);
                 Debug.WriteLine(e);
             }
-            
+
         }
 
         [Fact(DisplayName = "List Users")]

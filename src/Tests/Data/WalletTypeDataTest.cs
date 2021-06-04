@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Data.Repositories;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;

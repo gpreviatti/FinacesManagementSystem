@@ -6,7 +6,7 @@ namespace Helpers
     {
         public static string HashField(string field)
         {
-           return BC.HashPassword(field);
+            return BC.HashPassword(field);
         }
         public static bool CheckHashedField(string field, string hash)
         {

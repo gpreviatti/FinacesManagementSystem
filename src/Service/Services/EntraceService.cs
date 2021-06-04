@@ -1,16 +1,16 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Domain.Dtos.Entrance;
+using Domain.Dtos.EntranceTypeDto;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Domain.Models;
 using Domain.ViewModels;
-using Domain.Dtos.EntranceTypeDto;
-using Domain.Enums;
 
 namespace Service.Services
 {
@@ -132,7 +132,7 @@ namespace Service.Services
                 new EntranceTypeResultDto() { Value = (int) EntranceType.Income, Name = "Income"},
                 new EntranceTypeResultDto() { Value = (int) EntranceType.Expanse, Name = "Expanse"},
                 new EntranceTypeResultDto() { Value = (int) EntranceType.Transference, Name = "Transference"},
-            };  
+            };
         }
         #endregion
 

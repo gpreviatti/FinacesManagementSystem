@@ -130,7 +130,7 @@ namespace Tests.Data
                 Assert.True(false);
                 Debug.WriteLine(e);
             }
-            
+
         }
 
         [Fact(DisplayName = "Delete Category")]

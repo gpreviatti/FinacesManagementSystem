@@ -19,7 +19,7 @@ namespace Web.Controllers
             _logger = logger;
         }
 
-        public void LoggingExceptions(Exception exception) => 
+        public void LoggingExceptions(Exception exception) =>
             _logger.LogError(exception: exception.InnerException, message: exception.Message);
 
         public void LoggingWarning(string message) => _logger.LogWarning(message);

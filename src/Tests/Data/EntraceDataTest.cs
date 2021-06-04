@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using Data.Repositories;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
-using System.Linq;
 using Xunit;
-using System.Diagnostics;
 
 namespace Tests.Data
 {
@@ -28,7 +28,7 @@ namespace Tests.Data
                 Value = 100,
                 Category = new CategoryDataTest().CreateCategoryEntity(),
                 Wallet = new WalletDataTest().CreateWalletEntity(),
-            };   
+            };
         }
 
         [Fact(DisplayName = "Create Entrance")]
@@ -108,7 +108,7 @@ namespace Tests.Data
             {
                 var entranceEntity = CreateEntranceEntity();
                 await _repository.CreateAsync(entranceEntity);
-                var userWallets = new List<Guid> { entranceEntity.WalletId};
+                var userWallets = new List<Guid> { entranceEntity.WalletId };
 
                 var result = await _repository.FindAllAsyncWithCategory(userWallets);
 

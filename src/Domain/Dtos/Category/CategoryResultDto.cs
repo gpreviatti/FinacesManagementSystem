@@ -8,7 +8,7 @@ using Domain.Dtos.User;
 namespace Domain.Dtos.Category
 {
     public class CategoryResultDto : EntityResultDto
-    {   
+    {
         public string Name { get; set; }
 
         public Guid UserId { get; set; }

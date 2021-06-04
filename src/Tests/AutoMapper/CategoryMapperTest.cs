@@ -31,7 +31,7 @@ namespace Tests.AutoMapper
             {
                 Id = Guid.NewGuid(),
                 Name = Faker.Name.First()
-                
+
             };
 
             var entity = _mapper.Map<Category>(entityUpdateDto);

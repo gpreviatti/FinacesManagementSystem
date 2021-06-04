@@ -4,7 +4,6 @@ using Domain.Dtos.Entrance;
 using Domain.Dtos.Wallet;
 using Domain.Dtos.WalletType;
 using Domain.Entities;
-using Helpers;
 using Xunit;
 
 namespace Tests.AutoMapper
@@ -23,7 +22,7 @@ namespace Tests.AutoMapper
                 CloseDate = DateTime.Now.AddDays(15),
                 WalletTypeId = Guid.NewGuid(),
                 UserId = Guid.NewGuid(),
-                
+
             };
 
             var entity = _mapper.Map<Wallet>(entityCreateDto);

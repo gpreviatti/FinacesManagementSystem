@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Data.Repositories;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
@@ -18,7 +16,7 @@ namespace Tests.Data
             _repository = new WalletRepository(_context);
         }
 
-        public  Wallet CreateWalletEntity()
+        public Wallet CreateWalletEntity()
         {
             return new Wallet()
             {
@@ -29,7 +27,7 @@ namespace Tests.Data
                 CurrentValue = 1000,
                 WalletType = new WalletTypeDataTest().CreateWalletTypeEntity(),
                 User = new UserDataTest().CreateUserEntity()
-            };       
+            };
         }
 
         [Fact(DisplayName = "Create Wallet")]

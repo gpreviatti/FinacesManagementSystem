@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Dtos.Category;
 using Domain.Dtos.User;
-using Domain.Dtos.Wallet;
-using Domain.Entities;
 using Domain.Interfaces.Services;
 using Moq;
 using Xunit;
@@ -31,7 +26,8 @@ namespace Tests.Service
             var email = Faker.Internet.Email();
             var password = "123456789";
 
-            UserCreateDto userCreateDto = new UserCreateDto() {
+            UserCreateDto userCreateDto = new UserCreateDto()
+            {
                 Email = email,
                 Name = name,
                 Password = password
@@ -88,14 +84,15 @@ namespace Tests.Service
         [Trait("Service", "User")]
         public async void ShouldListUserById()
         {
-            var userResultDto = new UserResultDto() { 
-                Id = new Guid(), 
-                Email = Faker.Internet.Email(), 
+            var userResultDto = new UserResultDto()
+            {
+                Id = new Guid(),
+                Email = Faker.Internet.Email(),
                 Name = Faker.Name.FullName(),
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
             };
-            
+
             _serviceMock = new Mock<IUserService>();
             _serviceMock.Setup(m => m.FindByIdAsync(It.IsAny<Guid>())).ReturnsAsync(userResultDto);
             _service = _serviceMock.Object;

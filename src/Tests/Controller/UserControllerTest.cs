@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Domain.Dtos.User;
-using Domain.Interfaces.Services;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using Xunit;
-
-namespace Tests.Controller
+﻿namespace Tests.Controller
 {
     //public class UserControllerTest
     //{

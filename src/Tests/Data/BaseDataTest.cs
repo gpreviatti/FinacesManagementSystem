@@ -13,7 +13,7 @@ namespace Tests.Data
         public BaseDataTest()
         {
             var filename = Directory.GetCurrentDirectory() + $"/../../../../Web/appsettings.{_environment}.json";
-                
+
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile(filename)
                 .Build();

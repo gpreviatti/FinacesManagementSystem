@@ -1,13 +1,13 @@
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain.Dtos;
+using Domain.Dtos.Login;
+using Domain.Dtos.User;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Domain.Security;
-using Microsoft.Extensions.Configuration;
-using Domain.Dtos.Login;
-using AutoMapper;
-using Domain.Dtos.User;
 using Helpers;
+using Microsoft.Extensions.Configuration;
 
 namespace Service.Services
 {

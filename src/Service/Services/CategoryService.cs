@@ -89,7 +89,6 @@ namespace Service.Services
 
             return datatablesModel;
         }
-        #endregion
 
         private static IEnumerable<CategoryResultDto> SortDatatables(DatatablesModel<CategoryResultDto> datatablesModel, IEnumerable<CategoryResultDto> entrancesData)
         {
@@ -113,11 +112,12 @@ namespace Service.Services
                     return entrancesData.OrderByDescending(e => e.CreatedAt);
             }
         }
+        #endregion
 
         public async Task<CategoryResultDto> CreateAsync(CategoryCreateDto entityCreateDto, Guid userId)
         {
             if (entityCreateDto.CategoryId == Guid.Empty || userId == Guid.Empty)
-                throw new Exception("Main Category or User not found");
+                throw new ArgumentException("Main Category or User not found");
 
             entityCreateDto.UserId = userId;
             var entity = _mapper.Map<Category>(entityCreateDto);

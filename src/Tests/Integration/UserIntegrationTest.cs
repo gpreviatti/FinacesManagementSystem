@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Domain.Dtos.User;
-using Domain.Entities;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -74,7 +72,7 @@ namespace Tests.Integration
         public async void ShouldNotCreateUser()
         {
             // Arrange
-            var userCreateDto = new UserCreateDto() {Name = Faker.Name.First()};
+            var userCreateDto = new UserCreateDto() { Name = Faker.Name.First() };
 
             // Assumption
             await AdicionarToken();
@@ -114,7 +112,7 @@ namespace Tests.Integration
         public async void ShouldNotUpdateUser()
         {
             // Arrange
-            var userUpdateDto = new UserUpdateDto() {Name = Faker.Name.FullName()};
+            var userUpdateDto = new UserUpdateDto() { Name = Faker.Name.FullName() };
 
             // Assumption
             await AdicionarToken();

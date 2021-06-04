@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Domain.Dtos;
-using Domain.Dtos.Category;
 using Domain.Dtos.Login;
 using Domain.Dtos.User;
-using Domain.Dtos.Wallet;
-using Domain.Entities;
 using Domain.Interfaces.Services;
 using Moq;
 using Xunit;
@@ -60,7 +53,7 @@ namespace Tests.Service
         public async void ShouldNotLogin()
         {
             var email = Faker.Internet.Email();
-            var loginDto = new LoginDto() {};
+            var loginDto = new LoginDto() { };
 
             _serviceMock = new Mock<ILoginService>();
             _serviceMock.Setup(m => m.Login(loginDto));

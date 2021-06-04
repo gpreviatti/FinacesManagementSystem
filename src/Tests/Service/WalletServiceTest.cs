@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Domain.Dtos.Entrance;
 using Domain.Dtos.Wallet;
 using Domain.Dtos.WalletType;
@@ -24,7 +23,8 @@ namespace Tests.Service
         [Trait("Service", "Wallet")]
         public async void ShouldCreateWallet()
         {
-            WalletCreateDto walletCreateDto = new WalletCreateDto() { 
+            WalletCreateDto walletCreateDto = new WalletCreateDto()
+            {
                 Name = _fakerName,
                 CloseDate = _fakerDate,
                 DueDate = _fakerDate,
@@ -117,7 +117,8 @@ namespace Tests.Service
         [Trait("Service", "Wallet")]
         public async void ShouldListWalletById()
         {
-            var walletResultDto = new WalletResultDto() {
+            var walletResultDto = new WalletResultDto()
+            {
                 Id = Guid.NewGuid(),
                 Name = _fakerName,
                 CloseDate = _fakerDate,
@@ -129,7 +130,7 @@ namespace Tests.Service
                 Entrances = new List<EntranceResultDto>(),
                 WalletType = new WalletTypeResultDto()
             };
-            
+
             _serviceMock = new Mock<IWalletService>();
             _serviceMock.Setup(m => m.FindByIdAsync(It.IsAny<Guid>())).ReturnsAsync(walletResultDto);
             _service = _serviceMock.Object;
@@ -146,9 +147,10 @@ namespace Tests.Service
         [Trait("Service", "Wallet")]
         public async void ShouldUpdateWallet()
         {
-            WalletUpdateDto walletTypeUpdateDto = new WalletUpdateDto() {Name = _fakerName};
+            WalletUpdateDto walletTypeUpdateDto = new WalletUpdateDto() { Name = _fakerName };
 
-            WalletResultDto walletResultDto = new WalletResultDto() {
+            WalletResultDto walletResultDto = new WalletResultDto()
+            {
                 Id = Guid.NewGuid(),
                 Name = _fakerName,
                 CreatedAt = _fakerDate,

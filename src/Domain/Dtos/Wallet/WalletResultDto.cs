@@ -10,7 +10,7 @@ namespace Domain.Dtos.Wallet
     public class WalletResultDto : EntityResultDto
     {
         public string Name { get; set; }
-        
+
         public string Description { get; set; }
 
         [Display(Name = "Current Value")]

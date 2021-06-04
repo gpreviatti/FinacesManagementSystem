@@ -7,7 +7,7 @@ namespace Domain.Dtos.User
         [Required(ErrorMessage = "Name is required")]
         [StringLength(60, ErrorMessage = "Name should have {1} caracters")]
         public string Name { get; set; }
-        
+
         [Required(ErrorMessage = "E-mail is required")]
         [StringLength(100, ErrorMessage = "E-mail should have {1} caracters")]
         [EmailAddress(ErrorMessage = "E-mail format invalid")]

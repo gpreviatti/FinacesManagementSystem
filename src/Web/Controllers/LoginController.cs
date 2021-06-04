@@ -18,8 +18,8 @@ namespace Web.Controllers
         private readonly ILoginService _service;
         private readonly IUserService _userService;
         public LoginController(
-            ILogger<LoginController> logger, 
-            ILoginService service, 
+            ILogger<LoginController> logger,
+            ILoginService service,
             IUserService userService
         ) : base(logger)
         {

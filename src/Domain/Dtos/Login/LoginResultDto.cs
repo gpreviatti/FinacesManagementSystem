@@ -1,7 +1,4 @@
-using System;
-using System.ComponentModel;
 using Domain.Dtos.User;
-using Domain.Dtos.Wallet;
 
 namespace Domain.Dtos.Login
 {

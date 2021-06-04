@@ -1,13 +1,13 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Domain.Dtos.Wallet;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
-using Domain.Enums;
 
 namespace Service.Services
 {
@@ -54,13 +54,14 @@ namespace Service.Services
         /// Return wallets values and sum them
         /// </summary>
         /// <returns></returns>
-        public async Task<WalletTotalValuesDto> WalletsTotalValues(Guid userId) 
+        public async Task<WalletTotalValuesDto> WalletsTotalValues(Guid userId)
         {
             var walletsValues = await _repository.FindAsyncWalletsValues(userId);
             var walletTotalValuesDto = new WalletTotalValuesDto();
             walletTotalValuesDto.WalletsValues = walletsValues.ToList();
 
-            walletsValues.ToList().ForEach(w => {
+            walletsValues.ToList().ForEach(w =>
+            {
                 walletTotalValuesDto.TotalIncomes += w.TotalIncomes;
                 walletTotalValuesDto.TotalExpanses += w.TotalExpanses;
             });
@@ -70,7 +71,7 @@ namespace Service.Services
         #endregion
 
         public async Task<WalletResultDto> CreateAsync(WalletCreateDto entityCreateDto, Guid userId)
-        { 
+        {
             if (entityCreateDto.WalletTypeId == Guid.Empty)
                 return null;
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using Domain.Dtos.Entrance;
 using Domain.Interfaces.Services;
 using Moq;
@@ -249,7 +248,7 @@ namespace Tests.Service
                 Debug.WriteLine(e);
                 Assert.True(false);
             }
-            
+
         }
 
         [Fact(DisplayName = "Not Delete entrace")]

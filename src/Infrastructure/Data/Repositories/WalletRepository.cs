@@ -22,7 +22,7 @@ namespace Data.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<WalletValuesDto>> FindAsyncWalletsValues(Guid UserId) 
+        public async Task<IEnumerable<WalletValuesDto>> FindAsyncWalletsValues(Guid UserId)
         {
             return await _dataset
                 .Where(w => w.UserId.Equals(UserId))
