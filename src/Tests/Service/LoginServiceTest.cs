@@ -26,7 +26,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Should Login")]
-        [Trait("Login", "ShouldLogin")]
+        [Trait("Service", "Login")]
         public async void ShouldLogin()
         {
             var email = Faker.Internet.Email();
@@ -56,7 +56,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Should not login")]
-        [Trait("Login", "ShouldNotLogin")]
+        [Trait("Service", "Login")]
         public async void ShouldNotLogin()
         {
             var email = Faker.Internet.Email();

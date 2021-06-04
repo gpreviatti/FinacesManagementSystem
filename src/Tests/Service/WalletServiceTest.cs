@@ -21,7 +21,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Create wallet type")]
-        [Trait("Crud", "ShouldCreateWallet")]
+        [Trait("Service", "Wallet")]
         public async void ShouldCreateWallet()
         {
             WalletCreateDto walletCreateDto = new WalletCreateDto() { 
@@ -62,7 +62,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "List wallet types")]
-        [Trait("Crud", "ShouldListWallets")]
+        [Trait("Service", "Wallet")]
         public async void ShouldListWallet()
         {
             IEnumerable<WalletResultDto> listWalletResultDto = new List<WalletResultDto>
@@ -114,7 +114,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "List wallet type by id")]
-        [Trait("Crud", "ShouldListWalletById")]
+        [Trait("Service", "Wallet")]
         public async void ShouldListWalletById()
         {
             var walletResultDto = new WalletResultDto() {
@@ -143,7 +143,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Update wallet type")]
-        [Trait("Crud", "ShouldUpdateWallet")]
+        [Trait("Service", "Wallet")]
         public async void ShouldUpdateWallet()
         {
             WalletUpdateDto walletTypeUpdateDto = new WalletUpdateDto() {Name = FakerName};
@@ -166,7 +166,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Delete wallet type")]
-        [Trait("Crud", "ShouldDeleteWallet")]
+        [Trait("Service", "Wallet")]
         public async void ShouldDeleteWallet()
         {
             _serviceMock = new Mock<IWalletService>();
@@ -178,7 +178,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Not Delete wallet type")]
-        [Trait("Crud", "ShouldNotDeleteWallet")]
+        [Trait("Service", "Wallet")]
         public async void ShouldNotDeleteWallet()
         {
             _serviceMock = new Mock<IWalletService>();

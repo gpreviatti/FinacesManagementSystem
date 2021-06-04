@@ -48,8 +48,8 @@ namespace Service.Services
 
         public async Task<DatatablesModel<EntranceResultDto>> FindAllAsyncWithCategoryDatatables(DatatablesModel<EntranceResultDto> datatablesModel, Guid userId)
         {
-            var userWalletsIds = _walletService.FindAsyncWalletsUserIds(userId);
-            var entrances = await _repository.FindAllAsyncWithCategory(userWalletsIds);
+            var userWalletsIds = await _walletService.FindAsyncWalletsUserIds(userId);
+            var entrances = await _repository.FindAllAsyncWithCategory(userWalletsIds.ToList());
             var entrancesData = _mapper.Map<IEnumerable<EntranceResultDto>>(entrances);
             datatablesModel.RecordsTotal = entrancesData.Count();
 
@@ -114,14 +114,15 @@ namespace Service.Services
         }
 
         /// <summary>
-        /// Take last ten entraces ordered by CreatedAt field
+        /// Take last five entraces ordered by CreatedAt field
         /// </summary>
         /// <returns></returns>
         public async Task<IEnumerable<EntranceResultDto>> FindAsyncLastFiveEntrancesWithCategories(Guid userId)
         {
-            var userWalletsIds = _walletService.FindAsyncWalletsUserIds(userId);
-            var result = await _repository.FindAsyncLastFiveEntrancesWithCategories(userWalletsIds);
-            return _mapper.Map<IEnumerable<EntranceResultDto>>(result);
+            var userWalletsIds = await _walletService.FindAsyncWalletsUserIds(userId);
+            var result = await _repository.FindAllAsyncWithCategory(userWalletsIds.ToList());
+            var lastFiveEntrances = result.Take(5);
+            return _mapper.Map<IEnumerable<EntranceResultDto>>(lastFiveEntrances);
         }
 
         public List<EntranceTypeResultDto> FindEntranceTypes()

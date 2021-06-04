@@ -21,7 +21,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Create wallet type")]
-        [Trait("Crud", "ShouldCreateWalletType")]
+        [Trait("Service", "WalletType")]
         public async void ShouldCreateWalletType()
         {
             WalletTypeCreateDto walletTypeCreateDto = new WalletTypeCreateDto() { Name = FakerName };
@@ -43,7 +43,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "List wallet types")]
-        [Trait("Crud", "ShouldListWalletTypes")]
+        [Trait("Service", "WalletType")]
         public async void ShouldListWalletType()
         {
             IEnumerable<WalletTypeResultDto> listWalletTypeResultDto = new List<WalletTypeResultDto>
@@ -69,7 +69,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "List wallet type by id")]
-        [Trait("Crud", "ShouldListWalletTypeById")]
+        [Trait("Service", "WalletType")]
         public async void ShouldListWalletTypeById()
         {
             var walletTypeResultDto = new WalletTypeResultDto() { 
@@ -92,7 +92,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Update wallet type")]
-        [Trait("Crud", "ShouldUpdateWalletType")]
+        [Trait("Service", "WalletType")]
         public async void ShouldUpdateWalletType()
         {
             WalletTypeUpdateDto walletTypeUpdateDto = new WalletTypeUpdateDto() {Name = FakerName};
@@ -115,7 +115,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Delete wallet type")]
-        [Trait("Crud", "ShouldDeleteWalletType")]
+        [Trait("Service", "WalletType")]
         public async void ShouldDeleteWalletType()
         {
             _serviceMock = new Mock<IWalletTypeService>();
@@ -127,7 +127,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Not Delete wallet type")]
-        [Trait("Crud", "ShouldNotDeleteWalletType")]
+        [Trait("Service", "WalletType")]
         public async void ShouldNotDeleteWalletType()
         {
             _serviceMock = new Mock<IWalletTypeService>();

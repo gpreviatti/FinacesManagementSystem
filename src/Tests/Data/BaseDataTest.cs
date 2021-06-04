@@ -16,8 +16,9 @@ namespace Tests.Data
         /// </summary>
         public BaseDataTest()
         {
+            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Testing");
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var filename = Directory.GetCurrentDirectory() + $"/../../Web/appsettings.{environment}.json";
+            var filename = Directory.GetCurrentDirectory() + $"/../../../../Web/appsettings.{environment}.json";
 
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile(filename)
@@ -36,7 +37,7 @@ namespace Tests.Data
 
             var serviceProvider = serviceCollection.BuildServiceProvider();
             _context = serviceProvider.GetService<MyContext>();
-            _context.Database.Migrate();
+            _context.Database.EnsureCreated();
         }
     }
 }

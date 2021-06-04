@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Domain.Dtos.Entrance;
 using Domain.Interfaces.Services;
@@ -18,8 +19,8 @@ namespace Tests.Service
 
         }
 
-        [Fact(DisplayName = "Create entrace")]
-        [Trait("Crud", "ShouldCreateEntrance")]
+        [Fact(DisplayName = "Create entrance")]
+        [Trait("Service", "Entrance")]
         public async void ShouldCreateEntrance()
         {
             try
@@ -66,13 +67,13 @@ namespace Tests.Service
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
                 Assert.True(false);
             }
         }
 
         [Fact(DisplayName = "Not Create entrace when wallet is null")]
-        [Trait("Crud", "ShouldNotCreateEntranceWhenWalletIsNull")]
+        [Trait("Service", "Entrance")]
         public async void ShouldNotCreateEntranceWhenWalletIsNull()
         {
             try
@@ -96,13 +97,13 @@ namespace Tests.Service
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
                 Assert.True(false);
             }
         }
 
         [Fact(DisplayName = "Not Create entrace when category is null")]
-        [Trait("Crud", "ShouldNotCreateEntranceWhenCategoryIsNull")]
+        [Trait("Service", "Entrance")]
         public async void ShouldNotCreateEntranceWhenCategoryIsNull()
         {
             try
@@ -126,13 +127,13 @@ namespace Tests.Service
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
                 Assert.True(false);
             }
         }
 
         [Fact(DisplayName = "List categories")]
-        [Trait("Crud", "ShouldListCategories")]
+        [Trait("Service", "Entrance")]
         public async void ShouldListEntrance()
         {
             try
@@ -161,13 +162,13 @@ namespace Tests.Service
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
                 Assert.True(false);
             }
         }
 
         [Fact(DisplayName = "List entrace by id")]
-        [Trait("Crud", "ShouldListEntranceById")]
+        [Trait("Service", "Entrance")]
         public async void ShouldListEntranceById()
         {
             try
@@ -192,13 +193,13 @@ namespace Tests.Service
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
                 Assert.True(false);
             }
         }
 
         [Fact(DisplayName = "Update entrace")]
-        [Trait("Crud", "ShouldUpdateEntrance")]
+        [Trait("Service", "Entrance")]
         public async void ShouldUpdateEntrance()
         {
             try
@@ -225,13 +226,13 @@ namespace Tests.Service
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
                 Assert.True(false);
             }
         }
 
         [Fact(DisplayName = "Delete entrace")]
-        [Trait("Crud", "ShouldDeleteEntrance")]
+        [Trait("Service", "Entrance")]
         public async void ShouldDeleteEntrance()
         {
             try
@@ -245,14 +246,14 @@ namespace Tests.Service
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
                 Assert.True(false);
             }
             
         }
 
         [Fact(DisplayName = "Not Delete entrace")]
-        [Trait("Crud", "ShouldNotDeleteEntrance")]
+        [Trait("Service", "Entrance")]
         public async void ShouldNotDeleteEntrance()
         {
             try
@@ -266,7 +267,7 @@ namespace Tests.Service
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
                 Assert.True(false);
             }
         }

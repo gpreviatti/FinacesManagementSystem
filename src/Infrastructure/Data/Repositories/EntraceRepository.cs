@@ -13,21 +13,24 @@ namespace Data.Repositories
     {
         public EntranceRepository(MyContext context) : base(context) {}
 
-        public async Task<IEnumerable<Entrance>> FindAllAsyncWithCategory(List<Guid> userWallets)
+        public async Task<IEnumerable<Entrance>> FindAllAsyncWithCategory(List<Guid> userWalletsId)
         {
             return await _dataset
                 .Include(e => e.Category)
-                .Where(e => userWallets.Contains(e.WalletId))
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Entrance>> FindAsyncLastFiveEntrancesWithCategories(List<Guid> userWalletsId)
-        {
-            return await _dataset
-                .Include(e => e.Category)
-                .OrderByDescending(e => e.CreatedAt)
+                .Select(e => new Entrance 
+                {
+                    Id = e.Id,
+                    CategoryId = e.CategoryId,
+                    WalletId = e.WalletId,
+                    Description = e.Description,
+                    Type = e.Type,
+                    Value = e.Value,
+                    CreatedAt = e.CreatedAt,
+                    UpdatedAt = e.UpdatedAt,
+                    Category = new Category() { Id = e.Category.Id, Name = e.Category.Name}
+                })
                 .Where(e => userWalletsId.Contains(e.WalletId))
-                .Take(5)
+                .OrderBy(e => e.CreatedAt)
                 .ToListAsync();
         }
     }

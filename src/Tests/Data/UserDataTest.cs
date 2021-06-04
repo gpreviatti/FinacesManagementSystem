@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Data.Context;
 using Data.Repositories;
@@ -30,7 +31,7 @@ namespace Tests.Data
         }
 
         [Fact(DisplayName = "Create User")]
-        [Trait("Crud", "ShouldCreateUser")]
+        [Trait("Data", "User")]
         public async void ShouldCreateUser()
         {
             try
@@ -47,13 +48,13 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
             
         }
 
         [Fact(DisplayName = "List Users")]
-        [Trait("Crud", "ShouldListUser")]
+        [Trait("Data", "User")]
         public async void ShouldListUser()
         {
             try
@@ -68,13 +69,13 @@ namespace Tests.Data
             catch (Exception e)
             {
 
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
                 Assert.True(false);
             }
         }
 
         [Fact(DisplayName = "List User by Id")]
-        [Trait("Crud", "ShouldListUserById")]
+        [Trait("Data", "User")]
         public async void ShouldListUserById()
         {
             try
@@ -93,12 +94,12 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
         }
 
         [Fact(DisplayName = "Find User By Login")]
-        [Trait("Login", "ShouldFindUserByLogin")]
+        [Trait("Data", "User")]
         public async void ShouldFindUserByLogin()
         {
             try
@@ -115,12 +116,12 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
         }
 
         [Fact(DisplayName = "Not Find User By Login")]
-        [Trait("Login", "ShouldNotFindUserByLogin")]
+        [Trait("Data", "User")]
         public async void ShouldNotFindUserByLogin()
         {
             try
@@ -136,12 +137,12 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
         }
 
         [Fact(DisplayName = "Update User")]
-        [Trait("Crud", "ShouldUpdateUser")]
+        [Trait("Data", "User")]
         public async void ShouldUpdateUser()
         {
             try
@@ -159,12 +160,12 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
         }
 
         [Fact(DisplayName = "Delete User")]
-        [Trait("Crud", "ShouldDeleteUser")]
+        [Trait("Data", "User")]
         public async void ShouldDeleteUser()
         {
             try
@@ -179,7 +180,7 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
         }
     }

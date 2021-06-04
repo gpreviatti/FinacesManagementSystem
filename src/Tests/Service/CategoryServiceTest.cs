@@ -21,7 +21,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Create category")]
-        [Trait("Crud", "ShouldCreateCategory")]
+        [Trait("Service", "Category")]
         public async void ShouldCreateCategory()
         {
             CategoryCreateDto categoryCreateDto = new CategoryCreateDto() {
@@ -47,7 +47,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "List categories")]
-        [Trait("Crud", "ShouldListCategories")]
+        [Trait("Service", "Category")]
         public async void ShouldListCategory()
         {
             IEnumerable<CategoryResultDto> listCategoryResultDto = new List<CategoryResultDto>
@@ -74,7 +74,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "List category by id")]
-        [Trait("Crud", "ShouldListCategoryById")]
+        [Trait("Service", "Category")]
         public async void ShouldListCategoryById()
         {
             var categoryResultDto = new CategoryResultDto() {
@@ -97,7 +97,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Update category")]
-        [Trait("Crud", "ShouldUpdateCategory")]
+        [Trait("Service", "Category")]
         public async void ShouldUpdateCategory()
         {
             CategoryUpdateDto categoryUpdateDto = new CategoryUpdateDto()
@@ -123,7 +123,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Delete category")]
-        [Trait("Crud", "ShouldDeleteCategory")]
+        [Trait("Service", "Category")]
         public async void ShouldDeleteCategory()
         {
             _serviceMock = new Mock<ICategoryService>();
@@ -135,7 +135,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Not Delete category")]
-        [Trait("Crud", "ShouldNotDeleteCategory")]
+        [Trait("Service", "Category")]
         public async void ShouldNotDeleteCategory()
         {
             _serviceMock = new Mock<ICategoryService>();

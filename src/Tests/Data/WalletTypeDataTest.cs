@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Data.Repositories;
 using Domain.Entities;
@@ -26,7 +27,7 @@ namespace Tests.Data
         }
 
         [Fact(DisplayName = "Create WalletType")]
-        [Trait("Crud", "ShouldCreateWalletType")]
+        [Trait("Data", "WalletType")]
         public async void ShouldCreateWalletType()
         {
             try
@@ -41,12 +42,12 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
         }
 
         [Fact(DisplayName = "List WalletTypes")]
-        [Trait("Crud", "ShouldListWalletType")]
+        [Trait("Data", "WalletType")]
         public async void ShouldListWalletType()
         {
             try
@@ -61,12 +62,12 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
         }
 
         [Fact(DisplayName = "List WalletType by Id")]
-        [Trait("Crud", "ShouldListWalletTypeById")]
+        [Trait("Data", "WalletType")]
         public async void ShouldListWalletTypeById()
         {
             try
@@ -84,12 +85,12 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
         }
 
         [Fact(DisplayName = "Update WalletType")]
-        [Trait("Crud", "ShouldUpdateWalletType")]
+        [Trait("Data", "WalletType")]
         public async void ShouldUpdateWalletType()
         {
             try
@@ -105,12 +106,12 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
         }
 
         [Fact(DisplayName = "Delete WalletType")]
-        [Trait("Crud", "ShouldDeleteWalletType")]
+        [Trait("Data", "WalletType")]
         public async void ShouldDeleteWalletType()
         {
             try
@@ -125,7 +126,7 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
         }
     }

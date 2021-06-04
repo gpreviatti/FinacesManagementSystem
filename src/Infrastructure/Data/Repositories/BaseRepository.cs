@@ -21,13 +21,10 @@ namespace Data.Repositories
         public async Task<T> CreateAsync(T item)
         {
             if (item.Id == Guid.Empty)
-            {
                 item.Id = Guid.NewGuid();
-            }
 
             _dataset.Add(item);
-
-            await _context.SaveChangesAsync();
+            await SaveChangesAsync();
 
             return item;
         }
@@ -40,12 +37,10 @@ namespace Data.Repositories
         {
             var result = await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(id));
             if (result == null)
-            {
                 return false;
-            }
 
             _dataset.Remove(result);
-            await _context.SaveChangesAsync();
+            await SaveChangesAsync();
             return true;
         }
 

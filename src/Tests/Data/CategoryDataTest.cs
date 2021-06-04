@@ -13,10 +13,7 @@ namespace Tests.Data
     {
         private readonly ICategoryRepository _repository;
 
-        public CategoryDataTest()
-        {
-            _repository = new CategoryRepository(_context);
-        }
+        public CategoryDataTest() => _repository = new CategoryRepository(_context);
 
         public Category CreateCategoryEntity()
         {
@@ -27,7 +24,7 @@ namespace Tests.Data
         }
 
         [Fact(DisplayName = "Create Category")]
-        [Trait("Crud", "ShouldCreateCategory")]
+        [Trait("Data", "Category")]
         public async void ShouldCreateCategory()
         {
             try
@@ -47,7 +44,7 @@ namespace Tests.Data
         }
 
         [Fact(DisplayName = "List Categorys")]
-        [Trait("Crud", "ShouldListCategory")]
+        [Trait("Data", "Category")]
         public async void ShouldListCategory()
         {
             try
@@ -67,7 +64,7 @@ namespace Tests.Data
         }
 
         [Fact(DisplayName = "List Category by Id")]
-        [Trait("Crud", "ShouldListCategoryById")]
+        [Trait("Data", "Category")]
         public async void ShouldListCategoryById()
         {
             try
@@ -90,7 +87,7 @@ namespace Tests.Data
         }
 
         [Fact(DisplayName = "List Common User Categories for Datatables")]
-        [Trait("List", "ShouledFindAsyncAllCommonAndUserCategoriesDatatables")]
+        [Trait("Data", "Category")]
         public async void ShouledFindAsyncAllCommonAndUserCategoriesDatatables()
         {
             try
@@ -115,7 +112,7 @@ namespace Tests.Data
         }
 
         [Fact(DisplayName = "Update Category")]
-        [Trait("Crud", "ShouldUpdateCategory")]
+        [Trait("Data", "Category")]
         public async void ShouldUpdateCategory()
         {
             try
@@ -137,7 +134,7 @@ namespace Tests.Data
         }
 
         [Fact(DisplayName = "Delete Category")]
-        [Trait("Crud", "ShouldDeleteCategory")]
+        [Trait("Data", "Category")]
         public async void ShouldDeleteCategory()
         {
             try

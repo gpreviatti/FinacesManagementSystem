@@ -9,7 +9,7 @@ namespace Tests.AutoMapper
     public class EntranceMapperTest : BaseMapperTest
     {
         [Fact(DisplayName = "Should transform EntranceCreateDto to Entrance")]
-        [Trait("AutoMapper", "EntranceCreateDtoToEntrance")]
+        [Trait("AutoMapper", "Entrance")]
         public void EntranceCreateDtoToEntrance()
         {
             var entityCreateDto = new EntranceCreateDto()
@@ -32,7 +32,7 @@ namespace Tests.AutoMapper
         }
 
         [Fact(DisplayName = "Should transform EntranceUpdateDto to Entrance")]
-        [Trait("AutoMapper", "EntranceCreateDtoToEntrance")]
+        [Trait("AutoMapper", "Entrance")]
         public void EntranceUpdateDtoToEntrance()
         {
             var entityUpdateDto = new EntranceUpdateDto()
@@ -58,7 +58,7 @@ namespace Tests.AutoMapper
         }
 
         [Fact(DisplayName = "Should transform Entrance to EntranceResultDto")]
-        [Trait("AutoMapper", "EntranceCreateDtoToEntrance")]
+        [Trait("AutoMapper", "Entrance")]
         public void EntranceToEntranceResultDto()
         {
             var entity = new Entrance()

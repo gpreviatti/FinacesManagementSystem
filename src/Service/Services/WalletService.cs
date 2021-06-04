@@ -44,8 +44,11 @@ namespace Service.Services
             return wallets;
         }
 
-        public List<Guid> FindAsyncWalletsUserIds(Guid userId) =>
-            _repository.FindAsyncWalletsUser(userId).Result.Select(w => w.Id).ToList();
+        public async Task<IEnumerable<Guid>> FindAsyncWalletsUserIds(Guid userId)
+        {
+            var result = await _repository.FindAsyncWalletsUser(userId);
+            return result.Select(w => w.Id);
+        }
 
         /// <summary>
         /// Return wallets values and sum them

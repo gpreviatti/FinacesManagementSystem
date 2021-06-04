@@ -13,16 +13,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '5.0.x'
 
     - name: Build
-      run: dotnet build ./base-api-netcore-ddd.sln --configuration Release
+      run: dotnet build ./FinancesManagementSystem.sln --configuration Release
 
     - name: Tests
-      run: dotnet test --filter AutoMapper ./base-api-netcore-ddd.sln --configuration Release &&
-           dotnet test --filter Controller ./base-api-netcore-ddd.sln --configuration Release &&
-           dotnet test --filter Service ./base-api-netcore-ddd.sln --configuration Release
+      run: dotnet test --filter AutoMapper ./FinancesManagementSystem.sln --configuration Release &&
+           dotnet test --filter Service ./FinancesManagementSystem.sln --configuration Release
       

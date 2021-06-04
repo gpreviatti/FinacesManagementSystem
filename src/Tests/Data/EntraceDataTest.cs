@@ -1,9 +1,11 @@
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using Data.Repositories;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using System.Linq;
 using Xunit;
+using System.Diagnostics;
 
 namespace Tests.Data
 {
@@ -30,7 +32,7 @@ namespace Tests.Data
         }
 
         [Fact(DisplayName = "Create Entrance")]
-        [Trait("Crud", "ShouldCreateEntrance")]
+        [Trait("Data", "Entrance")]
         public async void ShouldCreateEntrance()
         {
             try
@@ -52,12 +54,12 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
         }
 
         [Fact(DisplayName = "List Entrances")]
-        [Trait("Crud", "ShouldListEntrance")]
+        [Trait("Data", "Entrance")]
         public async void ShouldListEntrance()
         {
             try
@@ -72,12 +74,12 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
         }
 
         [Fact(DisplayName = "List Entrance by Id")]
-        [Trait("Crud", "ShouldListEntranceById")]
+        [Trait("Data", "Entrance")]
         public async void ShouldListEntranceById()
         {
             try
@@ -94,12 +96,42 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
+            }
+        }
+
+        [Fact(DisplayName = "List all user entrances with their categories")]
+        [Trait("Data", "Entrance")]
+        public async void ShouldFindAllAsyncWithCategory()
+        {
+            try
+            {
+                var entranceEntity = CreateEntranceEntity();
+                await _repository.CreateAsync(entranceEntity);
+                var userWallets = new List<Guid> { entranceEntity.WalletId};
+
+                var result = await _repository.FindAllAsyncWithCategory(userWallets);
+
+                Assert.NotNull(result);
+                Assert.IsType<List<Entrance>>(result);
+                Assert.IsType<Guid>(result.FirstOrDefault().Id);
+                Assert.IsType<double>(result.FirstOrDefault().Value);
+                Assert.IsType<string>(result.FirstOrDefault().Description);
+                Assert.IsType<int>(result.FirstOrDefault().Type);
+                Assert.IsType<DateTime>(result.FirstOrDefault().CreatedAt);
+                Assert.IsType<DateTime>(result.FirstOrDefault().UpdatedAt);
+                Assert.NotNull(result.FirstOrDefault().Category);
+                Assert.NotNull(result.FirstOrDefault().Category.Name);
+            }
+            catch (Exception e)
+            {
+                Assert.True(false);
+                Debug.WriteLine(e);
             }
         }
 
         [Fact(DisplayName = "Update Entrance")]
-        [Trait("Crud", "ShouldUpdateEntrance")]
+        [Trait("Data", "Entrance")]
         public async void ShouldUpdateEntrance()
         {
             try
@@ -115,12 +147,12 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
         }
 
         [Fact(DisplayName = "Delete Entrance")]
-        [Trait("Crud", "ShouldDeleteEntrance")]
+        [Trait("Data", "Entrance")]
         public async void ShouldDeleteEntrance()
         {
             try
@@ -135,7 +167,7 @@ namespace Tests.Data
             catch (Exception e)
             {
                 Assert.True(false);
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
             }
         }
     }

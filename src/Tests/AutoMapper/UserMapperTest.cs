@@ -12,7 +12,7 @@ namespace Tests.AutoMapper
     public class UserMapperTest : BaseMapperTest
     {
         [Fact(DisplayName = "Should transform UserCreateDto to User")]
-        [Trait("AutoMapper", "UserCreateDtoToUser")]
+        [Trait("AutoMapper", "User")]
         public void UserCreateDtoToUser()
         {
             var userCreateDto = new UserCreateDto()
@@ -30,7 +30,7 @@ namespace Tests.AutoMapper
         }
 
         [Fact(DisplayName = "Should transform UserUpdateDto to User")]
-        [Trait("AutoMapper", "UserCreateDtoToUser")]
+        [Trait("AutoMapper", "User")]
         public void UserUpdateDtoToUser()
         {
             var userUpdateDto = new UserUpdateDto()
@@ -50,7 +50,7 @@ namespace Tests.AutoMapper
         }
 
         [Fact(DisplayName = "Should transform User to UserResultDto")]
-        [Trait("AutoMapper", "UserCreateDtoToUser")]
+        [Trait("AutoMapper", "User")]
         public void UserToUserResultDto()
         {
             var entity = new User()

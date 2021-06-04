@@ -30,6 +30,7 @@ namespace Data.Repositories
                 {
                     Id = w.Id,
                     Name = w.Name,
+                    CurrentValue = w.CurrentValue,
                     TotalIncomes = w.Entrances.Where(e => e.Type.Equals(1)).Sum(e => e.Value),
                     TotalExpanses = w.Entrances.Where(e => e.Type.Equals(2)).Sum(e => e.Value),
                 })

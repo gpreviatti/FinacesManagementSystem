@@ -12,7 +12,7 @@ namespace Tests.AutoMapper
     public class WalletMapperTest : BaseMapperTest
     {
         [Fact(DisplayName = "Should transform WalletCreateDto to Wallet")]
-        [Trait("AutoMapper", "WalletCreateDtoToWallet")]
+        [Trait("AutoMapper", "Wallet")]
         public void WalletCreateDtoToWallet()
         {
             var entityCreateDto = new WalletCreateDto()
@@ -35,7 +35,7 @@ namespace Tests.AutoMapper
         }
 
         [Fact(DisplayName = "Should transform WalletUpdateDto to Wallet")]
-        [Trait("AutoMapper", "WalletCreateDtoToWallet")]
+        [Trait("AutoMapper", "Wallet")]
         public void WalletUpdateDtoToWallet()
         {
             var entityUpdateDto = new WalletUpdateDto()
@@ -59,7 +59,7 @@ namespace Tests.AutoMapper
         }
 
         [Fact(DisplayName = "Should transform Wallet to WalletResultDto")]
-        [Trait("AutoMapper", "WalletToWalletResultDto")]
+        [Trait("AutoMapper", "Wallet")]
         public void WalletToWalletResultDto()
         {
             var entity = new Wallet()

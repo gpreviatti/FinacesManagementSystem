@@ -24,7 +24,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Create user")]
-        [Trait("Crud", "ShouldCreateUser")]
+        [Trait("Service", "User")]
         public async void ShouldCreateUser()
         {
             var name = Faker.Name.FullName();
@@ -58,7 +58,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "List users")]
-        [Trait("Crud", "ShouldListUsers")]
+        [Trait("Service", "User")]
         public async void ShouldListUser()
         {
             IEnumerable<UserResultDto> listUserResultDto = new List<UserResultDto>
@@ -85,7 +85,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "List user by id")]
-        [Trait("Crud", "ShouldListUserById")]
+        [Trait("Service", "User")]
         public async void ShouldListUserById()
         {
             var userResultDto = new UserResultDto() { 
@@ -110,7 +110,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Update user")]
-        [Trait("Crud", "ShouldUpdateUser")]
+        [Trait("Service", "User")]
         public async void ShouldUpdateUser()
         {
             var name = Faker.Name.FullName();
@@ -141,7 +141,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Delete user")]
-        [Trait("Crud", "ShouldDeleteUser")]
+        [Trait("Service", "User")]
         public async void ShouldDeleteUser()
         {
             _serviceMock = new Mock<IUserService>();
@@ -154,7 +154,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Not Delete user")]
-        [Trait("Crud", "ShouldNotDeleteUser")]
+        [Trait("Service", "User")]
         public async void ShouldNotDeleteUser()
         {
             _serviceMock = new Mock<IUserService>();

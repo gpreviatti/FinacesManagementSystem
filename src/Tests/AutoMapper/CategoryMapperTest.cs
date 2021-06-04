@@ -10,7 +10,7 @@ namespace Tests.AutoMapper
     public class CategoryMapperTest : BaseMapperTest
     {
         [Fact(DisplayName = "Should transform CategoryCreateDto to Category")]
-        [Trait("AutoMapper", "CategoryCreateDtoToCategory")]
+        [Trait("AutoMapper", "Category")]
         public void CategoryCreateDtoToCategory()
         {
             var entityCreateDto = new CategoryCreateDto()
@@ -24,7 +24,7 @@ namespace Tests.AutoMapper
         }
 
         [Fact(DisplayName = "Should transform CategoryUpdateDto to Category")]
-        [Trait("AutoMapper", "CategoryCreateDtoToCategory")]
+        [Trait("AutoMapper", "Category")]
         public void CategoryUpdateDtoToCategory()
         {
             var entityUpdateDto = new CategoryUpdateDto()
@@ -41,7 +41,7 @@ namespace Tests.AutoMapper
         }
 
         [Fact(DisplayName = "Should transform Category to CategoryResultDto")]
-        [Trait("AutoMapper", "CategoryCreateDtoToCategory")]
+        [Trait("AutoMapper", "Category")]
         public void CategoryToCategoryResultDto()
         {
             var entity = new Category()

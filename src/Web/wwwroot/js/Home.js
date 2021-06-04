@@ -35,7 +35,12 @@ RenderWalletsCards = wallets => {
                     ${wallet.name}
                 </div>
                 <div class="card-body">
-                    <canvas id="wallet-${id}"></canvas>
+                    <div class='current-value mb-3'>
+                        Current Value: ${FormatValueAsMoney(wallet.currentValue)}
+                    </div>
+                    <div>
+                        <canvas id="wallet-${id}"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
