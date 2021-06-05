@@ -22,7 +22,9 @@ jobs:
     - name: Build
       run: dotnet build ./FinancesManagementSystem.sln --configuration Release
 
-    - name: Tests
-      run: dotnet test --filter AutoMapper ./FinancesManagementSystem.sln --configuration Release &&
-           dotnet test --filter Service ./FinancesManagementSystem.sln --configuration Release
+    - name: Test AutoMappers
+      run: dotnet test --filter AutoMapper ./FinancesManagementSystem.sln --configuration Release
+
+    - name: Test Services
+      run: dotnet test --filter Service ./FinancesManagementSystem.sln --configuration Release
       
