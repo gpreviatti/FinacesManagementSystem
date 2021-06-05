@@ -1,5 +1,8 @@
 # :moneybag: Finances Management System
 
+![project WorkFlow](https://github.com/gpreviatti/FinancesManagementSystem/actions/workflows/dotnet.yml/badge.svg)
+
+
 This is a simple software to management your finances, I tried to use concepts like **Solid, Clean Code and Domain Driven Design** to define the architecture and implement. If you have any doubt or suggestion let me know or open an issue on project repository.  
 
 
