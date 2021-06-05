@@ -5,6 +5,7 @@ using Domain.Dtos.Category;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
+using Domain.Models;
 using Moq;
 using Service.Services;
 using Xunit;
@@ -106,6 +107,99 @@ namespace Tests.Service
             Assert.True(result.Count() == 10);
             Assert.Equal(listCategoryResultDto.FirstOrDefault().Name, result.FirstOrDefault().Name);
             _repositoryMock.Verify(m => m.FindAsyncAllCommonAndUserCategories(It.IsAny<Guid>()), Times.Once);
+        }
+
+        [Fact(DisplayName = "Setup category update view model")]
+        [Trait("Service", "Category")]
+        public async void ShouldSetupCategoryUpdateViewModel()
+        {
+            // Arrange
+            var categoryId = Guid.NewGuid();
+            var category = new Category { Id = categoryId, Name = Faker.Name.FullName(), UserId = _userAdminId };
+
+            var listCategoryResultDto = new List<Category>
+            {
+                new Category { Id = new Guid(), Name = Faker.Name.FullName()},
+                new Category { Id = new Guid(), Name = Faker.Name.FullName()},
+                new Category { Id = new Guid(), Name = Faker.Name.FullName()},
+                new Category { Id = new Guid(), Name = Faker.Name.FullName()}
+            };
+
+            // Act
+            _repositoryMock.Setup(m => m.FindByIdAsync(categoryId).Result).Returns(category);
+            _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId).Result).Returns(listCategoryResultDto);
+            var result = await _service.SetupCategoryUpdateViewModel(categoryId, _userAdminId);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result.Categories.Count() == listCategoryResultDto.Count());
+            Assert.True(result.Category.Id == category.Id);
+            Assert.True(result.Category.Name == category.Name);
+            _repositoryMock.Verify(m => m.FindByIdAsync(categoryId), Times.Once);
+            _repositoryMock.Verify(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId), Times.Once);
+        }
+
+        [Theory(DisplayName = "Find all common user and categories with datatables format")]
+        [Trait("Service", "Category")]
+        [InlineData("Home", 1)]
+        [InlineData("Salary", 1)]
+        [InlineData("Gasoline", 1)]
+        [InlineData("Health", 0)]
+        public async void ShouldFindAsyncAllCommonAndUserCategoriesDatatables(string search, int quantityData)
+        {
+            // Arrange
+            var listCategoryResultDto = new List<Category>
+            {
+                new Category { Id = new Guid(), Name = Faker.Name.FullName()},
+                new Category { Id = new Guid(), Name = Faker.Name.FullName()},
+                new Category { Id = new Guid(), Name = Faker.Name.FullName()},
+                new Category { Id = new Guid(), Name = Faker.Name.FullName()}
+            };
+
+            var datatablesModel = new DatatablesModel<CategoryResultDto>
+            {
+                Draw = "1",
+                Start = "0",
+                Length = "10",
+                SortColumn = 1,
+                SortColumnDirection = "asc"
+            };
+
+            var listCategoryResultDtoSearch = new List<Category>
+            {
+                new Category { Id = new Guid(), Name = "Home"},
+                new Category { Id = new Guid(), Name = "Salary"},
+                new Category { Id = new Guid(), Name = "Gasoline"},
+                new Category { Id = new Guid(), Name = _fakerName}
+            };
+
+            var datatablesModelSearch = new DatatablesModel<CategoryResultDto>
+            {
+                Draw = "1",
+                Start = "0",
+                Length = "10",
+                SortColumn = 1,
+                SortColumnDirection = "asc",
+                SearchValue = search
+            };
+
+            // Act
+            _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId).Result);
+            var resultNull = await _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModel, _userAdminId);
+
+            _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId).Result).Returns(listCategoryResultDto);
+            var result = await _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModel, _userAdminId);
+
+            _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId).Result).Returns(listCategoryResultDtoSearch);
+            var resultSearch = await _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModelSearch, _userAdminId);
+
+            // Assert
+            Assert.Null(resultNull);
+            Assert.NotNull(result);
+            Assert.NotNull(resultSearch);
+            Assert.True(result.Data.Count().Equals(listCategoryResultDto.Count()));
+            Assert.True(resultSearch.Data.Count().Equals(quantityData));
+            _repositoryMock.Verify(r => r.FindAsyncAllCommonAndUserCategories(_userAdminId), Times.Exactly(3));
         }
 
         [Fact(DisplayName = "Find all common user categories")]

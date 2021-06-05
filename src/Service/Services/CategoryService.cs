@@ -22,6 +22,37 @@ namespace Service.Services
             _mapper = mapper;
         }
 
+        public async Task<CategoryResultDto> CreateAsync(CategoryCreateDto entityCreateDto, Guid userId)
+        {
+            if (entityCreateDto.CategoryId == Guid.Empty || userId == Guid.Empty)
+                throw new ArgumentException("Main Category or User not found");
+
+            entityCreateDto.UserId = userId;
+            var entity = _mapper.Map<Category>(entityCreateDto);
+
+            await _repository.CreateAsync(entity);
+            return _mapper.Map<CategoryResultDto>(entity);
+        }
+
+        public async Task<CategoryResultDto> UpdateAsync(CategoryUpdateDto entityUpdateDto)
+        {
+            var result = await _repository.FindByIdAsync(entityUpdateDto.Id);
+
+            if (result == null)
+                return null;
+
+            var entity = _mapper.Map(entityUpdateDto, result);
+
+            var savedChanges = await _repository.SaveChangesAsync();
+
+            if (savedChanges > 0)
+                return _mapper.Map<CategoryResultDto>(entity);
+
+            return null;
+        }
+
+        public async Task<bool> DeleteAsync(Guid Id) => await _repository.DeleteAsync(Id);
+
         #region Find
         public async Task<CategoryResultDto> FindByIdAsync(Guid Id)
         {
@@ -68,6 +99,9 @@ namespace Service.Services
         public async Task<DatatablesModel<CategoryResultDto>> FindAsyncAllCommonAndUserCategoriesDatatables(DatatablesModel<CategoryResultDto> datatablesModel, Guid userId)
         {
             var result = await _repository.FindAsyncAllCommonAndUserCategories(userId);
+            if (result.Count() == 0)
+                return null;
+
             var categories = _mapper.Map<IEnumerable<CategoryResultDto>>(result);
             foreach (var category in categories)
                 category.Total = category.Entrances.Select(c => c.Value).Sum();
@@ -113,36 +147,5 @@ namespace Service.Services
             }
         }
         #endregion
-
-        public async Task<CategoryResultDto> CreateAsync(CategoryCreateDto entityCreateDto, Guid userId)
-        {
-            if (entityCreateDto.CategoryId == Guid.Empty || userId == Guid.Empty)
-                throw new ArgumentException("Main Category or User not found");
-
-            entityCreateDto.UserId = userId;
-            var entity = _mapper.Map<Category>(entityCreateDto);
-
-            await _repository.CreateAsync(entity);
-            return _mapper.Map<CategoryResultDto>(entity);
-        }
-
-        public async Task<CategoryResultDto> UpdateAsync(CategoryUpdateDto entityUpdateDto)
-        {
-            var result = await _repository.FindByIdAsync(entityUpdateDto.Id);
-
-            if (result == null)
-                return null;
-
-            var entity = _mapper.Map(entityUpdateDto, result);
-
-            var savedChanges = await _repository.SaveChangesAsync();
-
-            if (savedChanges > 0)
-                return _mapper.Map<CategoryResultDto>(entity);
-
-            return null;
-        }
-
-        public async Task<bool> DeleteAsync(Guid Id) => await _repository.DeleteAsync(Id);
     }
 }
