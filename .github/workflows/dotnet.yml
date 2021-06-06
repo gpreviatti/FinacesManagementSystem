@@ -1,4 +1,4 @@
-name: Base DDD Api Build and Test
+name: Build and Tests
 
 on:
   push:
