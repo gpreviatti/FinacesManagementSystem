@@ -13,7 +13,8 @@ namespace CrossCutting.Mappings
         public MappingProfile()
         {
             // User
-            CreateMap<UserCreateDto, User>();
+            CreateMap<UserCreateDto, User>()
+                .ReverseMap();
             // This option will prevent AutoMapper to replace fields that not will be updated to null
             CreateMap<UserUpdateDto, User>()
                 .ReverseMap()
@@ -29,7 +30,8 @@ namespace CrossCutting.Mappings
             CreateMap<Wallet, WalletResultDto>().ReverseMap();
 
             // WalletType
-            CreateMap<WalletTypeCreateDto, WalletType>();
+            CreateMap<WalletTypeCreateDto, WalletType>()
+                .ReverseMap();
             // This option will prevent AutoMapper to replace fields that not will be updated to null
             CreateMap<WalletTypeUpdateDto, WalletType>()
                 .ReverseMap()
@@ -37,7 +39,8 @@ namespace CrossCutting.Mappings
             CreateMap<WalletType, WalletTypeResultDto>().ReverseMap();
 
             // Category
-            CreateMap<CategoryCreateDto, Category>();
+            CreateMap<CategoryCreateDto, Category>()
+                .ReverseMap();
             // This option will prevent AutoMapper to replace fields that not will be updated to null
             CreateMap<CategoryUpdateDto, Category>()
                 .ReverseMap()
@@ -45,7 +48,8 @@ namespace CrossCutting.Mappings
             CreateMap<Category, CategoryResultDto>().ReverseMap();
 
             // Entrance
-            CreateMap<EntranceCreateDto, Entrance>();
+            CreateMap<EntranceCreateDto, Entrance>()
+                .ReverseMap();
             // This option will prevent AutoMapper to replace fields that not will be updated to null
             CreateMap<EntranceUpdateDto, Entrance>()
                 .ReverseMap()

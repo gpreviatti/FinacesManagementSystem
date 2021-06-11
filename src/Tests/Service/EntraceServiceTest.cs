@@ -1,21 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Domain.Dtos.Category;
 using Domain.Dtos.Entrance;
+using Domain.Entities;
+using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Moq;
+using Service.Services;
 using Xunit;
 
 namespace Tests.Service
 {
     public class EntranceServiceTest : BaseServiceTest
     {
+        private Mock<IEntranceRepository> _repositoryMock;
+        private Mock<IWalletService> _walletServiceMock;
+        private Mock<ICategoryService> _categoryServiceMock;
         private IEntranceService _service;
-        private Mock<IEntranceService> _serviceMock;
 
         public EntranceServiceTest()
         {
-
+            _repositoryMock = new Mock<IEntranceRepository>();
+            _walletServiceMock = new Mock<IWalletService>();
+            _categoryServiceMock = new Mock<ICategoryService>();
+            _service = new EntranceService(
+                _mapper, 
+                _repositoryMock.Object,
+                _walletServiceMock.Object,
+                _categoryServiceMock.Object
+            );
         }
 
         [Fact(DisplayName = "Create entrance")]
@@ -24,20 +38,10 @@ namespace Tests.Service
         {
             try
             {
+                // Arrange
                 var categoryId = Guid.NewGuid();
                 var walletId = Guid.NewGuid();
-                EntranceCreateDto entraceCreateDto = new EntranceCreateDto()
-                {
-                    Description = _fakerName,
-                    Observation = _fakerName,
-                    Ticker = "TEST",
-                    Type = 1,
-                    Value = 100,
-                    CategoryId = categoryId,
-                    WalletId = walletId
-                };
-
-                EntranceResultDto entraceResultDto = new EntranceResultDto()
+                var entrance = new Entrance
                 {
                     Id = Guid.NewGuid(),
                     Description = _fakerName,
@@ -46,23 +50,35 @@ namespace Tests.Service
                     Type = 1,
                     Value = 100,
                     CategoryId = categoryId,
-                    WalletId = walletId,
-                    CreatedAt = _fakerDate,
-                    UpdatedAt = _fakerDate,
+                    WalletId = walletId
                 };
-                _serviceMock = new Mock<IEntranceService>();
-                _serviceMock.Setup(m => m.CreateAsync(entraceCreateDto)).ReturnsAsync(entraceResultDto);
-                var _service = _serviceMock.Object;
+                var entranceCreateDto = _mapper.Map<EntranceCreateDto>(entrance);
 
-                var result = await _service.CreateAsync(entraceCreateDto);
+                var categoryResultDto = new CategoryResultDto
+                {
+                    Id = categoryId,
+                    Name = _fakerName
+                };
 
+                // Act
+                _walletServiceMock
+                    .Setup(w => w.UpdateWalletValue(walletId, It.IsAny<int>(), It.IsAny<double>()).Result)
+                    .Returns(1);
+                _categoryServiceMock
+                    .Setup(c => c.FindByIdAsync(categoryId).Result)
+                    .Returns(categoryResultDto);
+
+                _repositoryMock.Setup(m => m.CreateAsync(entrance).Result).Returns(entrance);
+                var result = await _service.CreateAsync(entranceCreateDto);
+
+                // Assert
                 Assert.NotNull(result);
                 Assert.False(result.Id.Equals(Guid.Empty));
-                Assert.Equal(entraceCreateDto.Description, result.Description);
-                Assert.Equal(entraceCreateDto.Observation, result.Observation);
-                Assert.Equal(entraceCreateDto.Ticker, result.Ticker);
-                Assert.Equal(entraceCreateDto.Type, result.Type);
-                Assert.Equal(entraceCreateDto.Value, result.Value);
+                Assert.Equal(entrance.Description, result.Description);
+                Assert.Equal(entrance.Observation, result.Observation);
+                Assert.Equal(entrance.Ticker, result.Ticker);
+                Assert.Equal(entrance.Type, result.Type);
+                Assert.Equal(entrance.Value, result.Value);
             }
             catch (Exception e)
             {
@@ -77,7 +93,8 @@ namespace Tests.Service
         {
             try
             {
-                EntranceCreateDto entraceCreateDto = new EntranceCreateDto()
+                // Arrange
+                var entrance = new Entrance()
                 {
                     Description = _fakerName,
                     Observation = _fakerName,
@@ -86,12 +103,14 @@ namespace Tests.Service
                     Value = 100,
                     CategoryId = Guid.NewGuid(),
                 };
-                _serviceMock = new Mock<IEntranceService>();
-                _serviceMock.Setup(m => m.CreateAsync(entraceCreateDto));
-                var _service = _serviceMock.Object;
+                var entranceCreateDto = _mapper.Map<EntranceCreateDto>(entrance);
 
-                var result = await _service.CreateAsync(entraceCreateDto);
+                // Act
+                _repositoryMock.Setup(m => m.CreateAsync(entrance));
+                
+                var result = await _service.CreateAsync(entranceCreateDto);
 
+                // Assert
                 Assert.Null(result);
             }
             catch (Exception e)
@@ -107,7 +126,8 @@ namespace Tests.Service
         {
             try
             {
-                EntranceCreateDto entraceCreateDto = new EntranceCreateDto()
+                // Arrange
+                var entrance = new Entrance()
                 {
                     Description = _fakerName,
                     Observation = _fakerName,
@@ -116,12 +136,14 @@ namespace Tests.Service
                     Value = 100,
                     WalletId = Guid.NewGuid()
                 };
-                _serviceMock = new Mock<IEntranceService>();
-                _serviceMock.Setup(m => m.CreateAsync(entraceCreateDto));
-                var _service = _serviceMock.Object;
 
+                var entraceCreateDto = _mapper.Map<EntranceCreateDto>(entrance);
+
+                // Act
+                _repositoryMock.Setup(m => m.CreateAsync(entrance));
                 var result = await _service.CreateAsync(entraceCreateDto);
 
+                // Assert
                 Assert.Null(result);
             }
             catch (Exception e)
@@ -131,48 +153,78 @@ namespace Tests.Service
             }
         }
 
-        [Fact(DisplayName = "List categories")]
-        [Trait("Service", "Entrance")]
-        public async void ShouldListEntrance()
-        {
-            try
-            {
-                IEnumerable<EntranceResultDto> listEntranceResultDto = new List<EntranceResultDto>
-            {
-                new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-                new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-                new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-                new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-                new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-                new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-                new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-                new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-                new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-                new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()}
-            };
+        //[Fact(DisplayName = "List categories")]
+        //[Trait("Service", "Entrance")]
+        //public async void ShouldListEntrance()
+        //{
+        //    try
+        //    {
+        //        IEnumerable<EntranceResultDto> listEntranceResultDto = new List<EntranceResultDto>
+        //    {
+        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()}
+        //    };
 
-                //_serviceMock = new Mock<IEntranceService>();
-                //_serviceMock.Setup(m => m.FindAllAsyncWithCategory()).ReturnsAsync(listEntranceResultDto);
-                //_service = _serviceMock.Object;
-                //var result = await _service.FindAllAsyncWithCategory();
+        //        _repositoryMock.Setup(m => m.FindAllAsyncWithCategory()).ReturnsAsync(listEntranceResultDto);
+        //        var result = await _service.FindAllAsyncWithCategoryDatatables();
 
-                //Assert.NotNull(result);
-                //Assert.True(result.Count() == 10);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-                Assert.True(false);
-            }
-        }
+        //        Assert.NotNull(result);
+        //        Assert.True(result.Count() == 10);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Debug.WriteLine(e);
+        //        Assert.True(false);
+        //    }
+        //}
 
-        [Fact(DisplayName = "List entrace by id")]
+        //[Fact(DisplayName = "List entrace by id")]
+        //[Trait("Service", "Entrance")]
+        //public async void ShouldListEntranceById()
+        //{
+        //    try
+        //    {
+        //        // Arrange
+        //        var entrance = new Entrance()
+        //        {
+        //            Id = new Guid(),
+        //            Description = Faker.Name.FullName(),
+        //            CreatedAt = DateTime.Now,
+        //            UpdatedAt = DateTime.Now
+        //        };
+
+        //        // Act
+        //        _repositoryMock.Setup(m => m.FindByIdAsync(It.IsAny<Guid>()).Result).Returns(entrance);
+        //        var result = await _service.FindByIdAsync(It.IsAny<Guid>());
+
+        //        // Assert
+        //        Assert.NotNull(result);
+        //        Assert.Equal(entrance.Id, result.Id);
+        //        Assert.Equal(entrance.CreatedAt, result.CreatedAt);
+        //        Assert.Equal(entrance.UpdatedAt, result.UpdatedAt);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Debug.WriteLine(e);
+        //        Assert.True(false);
+        //    }
+        //}
+
+        [Fact(DisplayName = "List entrace by id and return EntranceUpdateDto")]
         [Trait("Service", "Entrance")]
         public async void ShouldListEntranceById()
         {
             try
             {
-                var entraceResultDto = new EntranceResultDto()
+                var entrance = new Entrance()
                 {
                     Id = new Guid(),
                     Description = Faker.Name.FullName(),
@@ -180,48 +232,11 @@ namespace Tests.Service
                     UpdatedAt = DateTime.Now
                 };
 
-                _serviceMock = new Mock<IEntranceService>();
-                _serviceMock.Setup(m => m.FindByIdAsync(It.IsAny<Guid>())).ReturnsAsync(entraceResultDto);
-                _service = _serviceMock.Object;
-                var result = await _service.FindByIdAsync(It.IsAny<Guid>());
+                _repositoryMock.Setup(m => m.FindByIdAsync(It.IsAny<Guid>()).Result).Returns(entrance);
+                var result = await _service.FindByIdUpdateAsync(It.IsAny<Guid>());
 
                 Assert.NotNull(result);
-                Assert.Equal(entraceResultDto.Id, result.Id);
-                Assert.Equal(entraceResultDto.CreatedAt, result.CreatedAt);
-                Assert.Equal(entraceResultDto.UpdatedAt, result.UpdatedAt);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-                Assert.True(false);
-            }
-        }
-
-        [Fact(DisplayName = "Update entrace")]
-        [Trait("Service", "Entrance")]
-        public async void ShouldUpdateEntrance()
-        {
-            try
-            {
-                EntranceUpdateDto entraceUpdateDto = new EntranceUpdateDto()
-                {
-                    Description = _fakerName,
-                };
-
-                EntranceResultDto entraceResultDto = new EntranceResultDto()
-                {
-                    Description = _fakerName,
-                    CreatedAt = _fakerDate,
-                    UpdatedAt = _fakerDate
-                };
-
-                _serviceMock = new Mock<IEntranceService>();
-                _serviceMock.Setup(m => m.UpdateAsync(entraceUpdateDto)).ReturnsAsync(entraceResultDto);
-                _service = _serviceMock.Object;
-                var result = await _service.UpdateAsync(entraceUpdateDto);
-
-                Assert.NotNull(result);
-                Assert.Equal(_fakerName, result.Description);
+                Assert.Equal(entrance.Id, result.Id);
             }
             catch (Exception e)
             {
@@ -236,9 +251,7 @@ namespace Tests.Service
         {
             try
             {
-                _serviceMock = new Mock<IEntranceService>();
-                _serviceMock.Setup(m => m.DeleteAsync(It.IsAny<Guid>())).ReturnsAsync(true);
-                _service = _serviceMock.Object;
+                _repositoryMock.Setup(m => m.DeleteAsync(It.IsAny<Guid>())).ReturnsAsync(true);
                 var result = await _service.DeleteAsync(Guid.NewGuid());
 
                 Assert.True(result);
@@ -257,9 +270,7 @@ namespace Tests.Service
         {
             try
             {
-                _serviceMock = new Mock<IEntranceService>();
-                _serviceMock.Setup(m => m.DeleteAsync(It.IsAny<Guid>())).ReturnsAsync(false);
-                _service = _serviceMock.Object;
+                _repositoryMock.Setup(m => m.DeleteAsync(It.IsAny<Guid>())).ReturnsAsync(false);
                 var result = await _service.DeleteAsync(Guid.NewGuid());
 
                 Assert.False(result);

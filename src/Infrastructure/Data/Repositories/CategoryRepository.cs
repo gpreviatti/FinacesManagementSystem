@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data.Context;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories
 {
@@ -13,9 +11,9 @@ namespace Data.Repositories
     {
         public CategoryRepository(MyContext context) : base(context) { }
 
-        public async Task<IEnumerable<Category>> FindAsyncAllCommonAndUserCategories(Guid userId)
+        public IQueryable<Category> FindAsyncAllCommonAndUserCategories(Guid userId)
         {
-            return await _dataset
+            return _dataset
                 .Select(c => new Category
                 {
                     Id = c.Id,
@@ -27,8 +25,24 @@ namespace Data.Repositories
                         .Select(e => new Entrance { Value = e.Value })
                 })
                 .OrderBy(c => c.CreatedAt)
-                .Where(c => c.UserId == userId || c.UserId == null)
-                .ToListAsync();
+                .Where(c => c.UserId == userId || c.UserId == null);
+        }
+
+        public async Task<IQueryable<Category>> FindAsyncNameAndIdUserCategories(Guid userId)
+        {
+            return await Task.Run(() =>
+            {
+                return _dataset
+                    .Select(c => new Category
+                    {
+                        Id = c.Id,
+                        Name = c.Name,
+                        UserId = c.UserId,
+                        CreatedAt = c.CreatedAt,
+                    })
+                    .OrderBy(c => c.CreatedAt)
+                    .Where(c => c.UserId == userId || c.UserId == null);
+            });
         }
     }
 }

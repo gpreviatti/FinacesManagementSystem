@@ -35,7 +35,7 @@ namespace Tests.Data
 
             var serviceProvider = serviceCollection.BuildServiceProvider();
             _context = serviceProvider.GetService<MyContext>();
-            _context.Database.EnsureCreated();
+            _context.Database.Migrate();
         }
     }
 }

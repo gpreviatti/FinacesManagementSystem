@@ -11,7 +11,7 @@ namespace Domain.Dtos.Category
     {
         public string Name { get; set; }
 
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
         public UserResultDto User { get; set; }
 
         [DataType(DataType.Currency)]

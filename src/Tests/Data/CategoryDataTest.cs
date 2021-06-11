@@ -1,10 +1,9 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
 using Data.Repositories;
-using Domain.Dtos.Category;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
-using Domain.Models;
 using Xunit;
 
 namespace Tests.Data
@@ -15,13 +14,7 @@ namespace Tests.Data
 
         public CategoryDataTest() => _repository = new CategoryRepository(_context);
 
-        public Category CreateCategoryEntity()
-        {
-            return new Category
-            {
-                Name = Faker.Name.FullName()
-            };
-        }
+        public Category CreateCategoryEntity() => new Category { Name = Faker.Name.FullName() };
 
         [Fact(DisplayName = "Create Category")]
         [Trait("Data", "Category")]
@@ -29,9 +22,13 @@ namespace Tests.Data
         {
             try
             {
+                // Arrange
                 var categoryEntity = CreateCategoryEntity();
+
+                // Act
                 var result = await _repository.CreateAsync(categoryEntity);
 
+                // Assert
                 Assert.NotNull(result);
                 Assert.Equal(categoryEntity.Name, result.Name);
                 Assert.False(result.Id == Guid.Empty);
@@ -49,11 +46,14 @@ namespace Tests.Data
         {
             try
             {
+                // Arrange
                 var categoryEntity = CreateCategoryEntity();
                 await _repository.CreateAsync(categoryEntity);
 
+                // Act
                 var result = await _repository.FindAllAsync();
 
+                // Assert
                 Assert.NotNull(result);
             }
             catch (Exception e)
@@ -69,11 +69,14 @@ namespace Tests.Data
         {
             try
             {
+                // Arrange
                 var categoryEntity = CreateCategoryEntity();
                 await _repository.CreateAsync(categoryEntity);
 
+                // Act
                 var result = _repository.FindByIdAsync(categoryEntity.Id).Result;
 
+                // Assert
                 Assert.NotNull(result);
                 Assert.IsType<Category>(result);
                 Assert.Equal(categoryEntity.Id, result.Id);
@@ -88,21 +91,38 @@ namespace Tests.Data
 
         [Fact(DisplayName = "List Common User Categories for Datatables")]
         [Trait("Data", "Category")]
-        public async void ShouledFindAsyncAllCommonAndUserCategoriesDatatables()
+        public void ShouledFindAsyncAllCommonAndUserCategoriesDatatables()
         {
             try
             {
                 // Arrange
-                var datatatablesModel = new DatatablesModel<CategoryResultDto>
-                {
-
-                };
-                var testUserGuid = Guid.Parse("CB43D078-87F1-4864-853A-E626922B8109");
 
                 // Act
-                var result = await _repository.FindAsyncAllCommonAndUserCategories(testUserGuid);
+                var result = _repository.FindAsyncAllCommonAndUserCategories(_testUser01Id);
 
                 // Assert
+            }
+            catch (Exception exception)
+            {
+                Assert.True(false);
+                Debug.WriteLine(exception);
+            }
+        }
+
+        [Fact(DisplayName = "List name and id User Categories")]
+        [Trait("Data", "Category")]
+        public async void ShouledFindAsyncNameAndIdUserCategories()
+        {
+            try
+            {
+                // Arrange
+
+                // Act
+                var result = await _repository.FindAsyncNameAndIdUserCategories(_testUser01Id);
+
+                // Assert
+                Assert.NotNull(result);
+                Assert.True(result.Count() > 0);
             }
             catch (Exception exception)
             {
@@ -117,12 +137,15 @@ namespace Tests.Data
         {
             try
             {
+                // Arrange
                 var categoryEntity = CreateCategoryEntity();
                 await _repository.CreateAsync(categoryEntity);
 
+                // Act
                 categoryEntity.Name = Faker.Name.FullName();
                 var result = await _repository.SaveChangesAsync();
 
+                // Assert
                 Assert.Equal(1, result);
             }
             catch (Exception e)
@@ -139,11 +162,14 @@ namespace Tests.Data
         {
             try
             {
+                // Arrange
                 var categoryEntity = CreateCategoryEntity();
                 await _repository.CreateAsync(categoryEntity);
 
+                // Act
                 var result = await _repository.DeleteAsync(categoryEntity.Id);
 
+                // Assert
                 Assert.True(result);
             }
             catch (Exception e)

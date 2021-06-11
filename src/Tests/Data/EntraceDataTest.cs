@@ -125,8 +125,8 @@ namespace Tests.Data
             }
             catch (Exception e)
             {
+                Debug.WriteLine(e.Message);
                 Assert.True(false);
-                Debug.WriteLine(e);
             }
         }
 
@@ -166,8 +166,8 @@ namespace Tests.Data
             }
             catch (Exception e)
             {
-                Assert.True(false);
                 Debug.WriteLine(e);
+                Assert.True(false);
             }
         }
     }

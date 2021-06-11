@@ -32,7 +32,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 448, DateTimeKind.Local).AddTicks(405));
+                        .HasDefaultValue(new DateTime(2021, 6, 10, 20, 17, 21, 776, DateTimeKind.Local).AddTicks(7670));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -42,7 +42,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 448, DateTimeKind.Local).AddTicks(676));
+                        .HasDefaultValue(new DateTime(2021, 6, 10, 20, 17, 21, 776, DateTimeKind.Local).AddTicks(7949));
 
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -169,7 +169,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 451, DateTimeKind.Local).AddTicks(7939));
+                        .HasDefaultValue(new DateTime(2021, 6, 10, 20, 17, 21, 780, DateTimeKind.Local).AddTicks(5779));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -190,7 +190,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 451, DateTimeKind.Local).AddTicks(8244));
+                        .HasDefaultValue(new DateTime(2021, 6, 10, 20, 17, 21, 780, DateTimeKind.Local).AddTicks(6069));
 
                     b.Property<double>("Value")
                         .HasColumnType("float");
@@ -235,7 +235,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("TimeStamp")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 454, DateTimeKind.Local).AddTicks(7284));
+                        .HasDefaultValue(new DateTime(2021, 6, 10, 20, 17, 21, 783, DateTimeKind.Local).AddTicks(6010));
 
                     b.HasKey("Id");
 
@@ -252,7 +252,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 426, DateTimeKind.Local).AddTicks(2034));
+                        .HasDefaultValue(new DateTime(2021, 6, 10, 20, 17, 21, 755, DateTimeKind.Local).AddTicks(4351));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -271,7 +271,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 435, DateTimeKind.Local).AddTicks(8677));
+                        .HasDefaultValue(new DateTime(2021, 6, 10, 20, 17, 21, 763, DateTimeKind.Local).AddTicks(52));
 
                     b.HasKey("Id");
 
@@ -287,7 +287,7 @@ namespace Infrastructure.Data.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@admin.com",
                             Name = "Admin",
-                            Password = "$2a$11$yIfE2BBOnJnlOsQu.3rBreXp72vvONrWCdOVNUxd1jVmkjaJK7/CO",
+                            Password = "$2a$11$MKGmrszWSLy8e5JlvTRfjuZT0Mov4LlIKqkG7C4a86Cq9x7TIXJxW",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -296,7 +296,7 @@ namespace Infrastructure.Data.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "testUser01@email.com",
                             Name = "Test-User-01",
-                            Password = "$2a$11$Bw24s/vX.6H3EzOBcViLI.VOtLLBFyE5C7/uOnSo/6/gjusmC3OSK",
+                            Password = "$2a$11$a5Y4Fu507vh4YUTC2HN9wunKxZHW1m25UcVm/d6RkDtwheBz9wdHS",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
@@ -314,7 +314,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 445, DateTimeKind.Local).AddTicks(9881));
+                        .HasDefaultValue(new DateTime(2021, 6, 10, 20, 17, 21, 774, DateTimeKind.Local).AddTicks(3723));
 
                     b.Property<double>("CurrentValue")
                         .ValueGeneratedOnAdd()
@@ -336,7 +336,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 446, DateTimeKind.Local).AddTicks(688));
+                        .HasDefaultValue(new DateTime(2021, 6, 10, 20, 17, 21, 774, DateTimeKind.Local).AddTicks(4963));
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -356,11 +356,11 @@ namespace Infrastructure.Data.Migrations
                         new
                         {
                             Id = new Guid("040cc3ad-2159-4b8e-894e-e700a121b48f"),
-                            CloseDate = new DateTime(2021, 6, 3, 13, 8, 26, 725, DateTimeKind.Local).AddTicks(9398),
+                            CloseDate = new DateTime(2021, 6, 10, 20, 17, 22, 59, DateTimeKind.Local).AddTicks(8436),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrentValue = 0.0,
                             Description = "Main Account",
-                            DueDate = new DateTime(2021, 6, 18, 13, 8, 26, 725, DateTimeKind.Local).AddTicks(9767),
+                            DueDate = new DateTime(2021, 6, 25, 20, 17, 22, 59, DateTimeKind.Local).AddTicks(8769),
                             Name = "Main Card",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"),
@@ -369,11 +369,11 @@ namespace Infrastructure.Data.Migrations
                         new
                         {
                             Id = new Guid("041cc3ad-2159-4b8e-894e-e700a121b48f"),
-                            CloseDate = new DateTime(2021, 6, 3, 13, 8, 26, 726, DateTimeKind.Local).AddTicks(990),
+                            CloseDate = new DateTime(2021, 6, 10, 20, 17, 22, 59, DateTimeKind.Local).AddTicks(9181),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrentValue = 0.0,
                             Description = "Credit Card Account",
-                            DueDate = new DateTime(2021, 6, 18, 13, 8, 26, 726, DateTimeKind.Local).AddTicks(994),
+                            DueDate = new DateTime(2021, 6, 25, 20, 17, 22, 59, DateTimeKind.Local).AddTicks(9185),
                             Name = "Credit",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"),
@@ -382,11 +382,11 @@ namespace Infrastructure.Data.Migrations
                         new
                         {
                             Id = new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f"),
-                            CloseDate = new DateTime(2021, 6, 3, 13, 8, 26, 726, DateTimeKind.Local).AddTicks(1005),
+                            CloseDate = new DateTime(2021, 6, 10, 20, 17, 22, 59, DateTimeKind.Local).AddTicks(9194),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrentValue = 0.0,
                             Description = "My Savings",
-                            DueDate = new DateTime(2021, 6, 18, 13, 8, 26, 726, DateTimeKind.Local).AddTicks(1006),
+                            DueDate = new DateTime(2021, 6, 25, 20, 17, 22, 59, DateTimeKind.Local).AddTicks(9195),
                             Name = "Saving",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"),
@@ -404,7 +404,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 444, DateTimeKind.Local).AddTicks(9327));
+                        .HasDefaultValue(new DateTime(2021, 6, 10, 20, 17, 21, 773, DateTimeKind.Local).AddTicks(169));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -414,7 +414,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 6, 3, 13, 8, 26, 444, DateTimeKind.Local).AddTicks(9612));
+                        .HasDefaultValue(new DateTime(2021, 6, 10, 20, 17, 21, 773, DateTimeKind.Local).AddTicks(536));
 
                     b.HasKey("Id");
 
