@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Domain.Dtos.Category;
 using Domain.Dtos.Entrance;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
+using Domain.Models;
 using Moq;
 using Service.Services;
 using Xunit;
@@ -73,7 +75,6 @@ namespace Tests.Service
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.False(result.Id.Equals(Guid.Empty));
                 Assert.Equal(entrance.Description, result.Description);
                 Assert.Equal(entrance.Observation, result.Observation);
                 Assert.Equal(entrance.Ticker, result.Ticker);
@@ -94,7 +95,7 @@ namespace Tests.Service
             try
             {
                 // Arrange
-                var entrance = new Entrance()
+                var entrance = new Entrance
                 {
                     Description = _fakerName,
                     Observation = _fakerName,
@@ -153,38 +154,80 @@ namespace Tests.Service
             }
         }
 
-        //[Fact(DisplayName = "List categories")]
-        //[Trait("Service", "Entrance")]
-        //public async void ShouldListEntrance()
-        //{
-        //    try
-        //    {
-        //        IEnumerable<EntranceResultDto> listEntranceResultDto = new List<EntranceResultDto>
-        //    {
-        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-        //        new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()}
-        //    };
+        [Fact(DisplayName = "List entrances and return datatables formart")]
+        [Trait("Service", "Entrance")]
+        public async void ShouldListEntrancesAndReturnDatatablesFormat()
+        {
+            try
+            {
+                // Arrange
+                var walletsId = new List<Guid>
+                {
+                    Guid.NewGuid(),
+                    Guid.NewGuid(),
+                    Guid.NewGuid(),
+                    Guid.NewGuid(),
+                    Guid.NewGuid(),
+                };
 
-        //        _repositoryMock.Setup(m => m.FindAllAsyncWithCategory()).ReturnsAsync(listEntranceResultDto);
-        //        var result = await _service.FindAllAsyncWithCategoryDatatables();
+                var listEntranceResultDto = new List<EntranceResultDto>
+                {
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()}
+                }.AsQueryable();
 
-        //        Assert.NotNull(result);
-        //        Assert.True(result.Count() == 10);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Debug.WriteLine(e);
-        //        Assert.True(false);
-        //    }
-        //}
+                var datatablesTenRows = new DatatablesModel<EntranceResultDto> 
+                {
+                    Skip = 0,
+                    Length = "10"
+                };
+
+                // Act
+                _walletServiceMock
+                    .Setup(w => w.FindAsyncWalletsUserIds(It.IsAny<Guid>()).Result);
+
+                var resultDontHasWallets = await _service.FindAllAsyncWithCategoryDatatables(datatablesTenRows, _userAdminId);
+
+                _walletServiceMock
+                    .Setup(w => w.FindAsyncWalletsUserIds(_userAdminId).Result)
+                    .Returns(walletsId);
+
+                _repositoryMock
+                    .Setup(m => m.FindAllAsyncWithCategory(walletsId).Result);
+
+                var resultDontHasEntrances = await _service.FindAllAsyncWithCategoryDatatables(datatablesTenRows, _userAdminId);
+
+                _repositoryMock
+                    .Setup(m => m.FindAllAsyncWithCategory(walletsId).Result)
+                    .Returns(listEntranceResultDto);
+
+                var result = await _service.FindAllAsyncWithCategoryDatatables(datatablesTenRows, _userAdminId);
+
+                // Assert
+                Assert.Null(resultDontHasWallets);
+
+                Assert.Null(resultDontHasEntrances);
+
+                Assert.NotNull(result);
+                Assert.True(result.Data.Count().Equals(listEntranceResultDto.Count()));
+
+                _repositoryMock.Verify(r => r.FindAllAsyncWithCategory(walletsId), Times.Exactly(2));
+                _walletServiceMock.Verify(r => r.FindAsyncWalletsUserIds(_userAdminId), Times.Exactly(3));
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                Assert.True(false);
+            }
+        }
 
         //[Fact(DisplayName = "List entrace by id")]
         //[Trait("Service", "Entrance")]

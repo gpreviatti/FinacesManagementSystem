@@ -54,12 +54,13 @@ namespace Service.Services
             var userWalletsIds = await _walletService
                 .FindAsyncWalletsUserIds(userId);
 
-            if (userWalletsIds == null)
+            if (userWalletsIds == null || userWalletsIds.Count() == 0)
                 return null;
 
-            var entrances = await _repository.FindAllAsyncWithCategory(userWalletsIds.ToList());
+            var entrances = await _repository
+                .FindAllAsyncWithCategory(userWalletsIds.ToList());
 
-            if (entrances == null)
+            if (entrances == null || entrances.Count() == 0)
                 return null;
 
             datatablesModel.RecordsTotal = entrances.Count();
