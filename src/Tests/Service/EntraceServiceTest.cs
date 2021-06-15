@@ -34,60 +34,7 @@ namespace Tests.Service
             );
         }
 
-        [Fact(DisplayName = "Create entrance")]
-        [Trait("Service", "Entrance")]
-        public async void ShouldCreateEntrance()
-        {
-            try
-            {
-                // Arrange
-                var categoryId = Guid.NewGuid();
-                var walletId = Guid.NewGuid();
-                var entrance = new Entrance
-                {
-                    Id = Guid.NewGuid(),
-                    Description = _fakerName,
-                    Observation = _fakerName,
-                    Ticker = "TEST",
-                    Type = 1,
-                    Value = 100,
-                    CategoryId = categoryId,
-                    WalletId = walletId
-                };
-                var entranceCreateDto = _mapper.Map<EntranceCreateDto>(entrance);
-
-                var categoryResultDto = new CategoryResultDto
-                {
-                    Id = categoryId,
-                    Name = _fakerName
-                };
-
-                // Act
-                _walletServiceMock
-                    .Setup(w => w.UpdateWalletValue(walletId, It.IsAny<int>(), It.IsAny<double>()).Result)
-                    .Returns(1);
-                _categoryServiceMock
-                    .Setup(c => c.FindByIdAsync(categoryId).Result)
-                    .Returns(categoryResultDto);
-
-                _repositoryMock.Setup(m => m.CreateAsync(entrance).Result).Returns(entrance);
-                var result = await _service.CreateAsync(entranceCreateDto);
-
-                // Assert
-                Assert.NotNull(result);
-                Assert.Equal(entrance.Description, result.Description);
-                Assert.Equal(entrance.Observation, result.Observation);
-                Assert.Equal(entrance.Ticker, result.Ticker);
-                Assert.Equal(entrance.Type, result.Type);
-                Assert.Equal(entrance.Value, result.Value);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-                Assert.True(false);
-            }
-        }
-
+        #region Find and List Tests
         [Fact(DisplayName = "Not Create entrace when wallet is null")]
         [Trait("Service", "Entrance")]
         public async void ShouldNotCreateEntranceWhenWalletIsNull()
@@ -280,6 +227,143 @@ namespace Tests.Service
 
                 Assert.NotNull(result);
                 Assert.Equal(entrance.Id, result.Id);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                Assert.True(false);
+            }
+        }
+        #endregion
+
+        [Fact(DisplayName = "Create entrance")]
+        [Trait("Service", "Entrance")]
+        public async void ShouldCreateEntrance()
+        {
+            try
+            {
+                // Arrange
+                var categoryId = Guid.NewGuid();
+                var walletId = Guid.NewGuid();
+                var entrance = new Entrance
+                {
+                    Id = Guid.NewGuid(),
+                    Description = _fakerName,
+                    Observation = _fakerName,
+                    Ticker = "TEST",
+                    Type = 1,
+                    Value = 100,
+                    CategoryId = categoryId,
+                    WalletId = walletId
+                };
+                var entranceCreateDto = _mapper.Map<EntranceCreateDto>(entrance);
+
+                var categoryResultDto = new CategoryResultDto
+                {
+                    Id = categoryId,
+                    Name = _fakerName
+                };
+
+                // Act
+                _walletServiceMock
+                    .Setup(w => w.UpdateWalletValue(walletId, It.IsAny<int>(), It.IsAny<double>()).Result)
+                    .Returns(1);
+                _categoryServiceMock
+                    .Setup(c => c.FindByIdAsync(categoryId).Result)
+                    .Returns(categoryResultDto);
+
+                _repositoryMock.Setup(m => m.CreateAsync(entrance).Result).Returns(entrance);
+                var result = await _service.CreateAsync(entranceCreateDto);
+
+                // Assert
+                Assert.NotNull(result);
+                Assert.Equal(entrance.Description, result.Description);
+                Assert.Equal(entrance.Observation, result.Observation);
+                Assert.Equal(entrance.Ticker, result.Ticker);
+                Assert.Equal(entrance.Type, result.Type);
+                Assert.Equal(entrance.Value, result.Value);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                Assert.True(false);
+            }
+        }
+
+        [Fact(DisplayName = "Update entrance")]
+        [Trait("Service", "Entrance")]
+        public async void ShouldUpdateEntrance()
+        {
+            try
+            {
+                // Arrange
+                var entranceId = Guid.NewGuid();
+                var categoryId = Guid.NewGuid();
+                var walletId = Guid.NewGuid();
+                var entrance = new Entrance
+                {
+                    Id = entranceId,
+                    Description = _fakerName,
+                    Observation = _fakerName,
+                    Ticker = "TEST",
+                    Type = 1,
+                    Value = 100,
+                    CategoryId = categoryId,
+                    WalletId = walletId
+                };
+                var entranceUpdateDto = _mapper.Map<EntranceUpdateDto>(entrance);
+
+                var categoryResultDto = new CategoryResultDto
+                {
+                    Id = categoryId,
+                    Name = _fakerName
+                };
+
+                // Act
+                _repositoryMock
+                    .Setup(r => r.FindByIdAsync(entranceId).Result)
+                    .Returns(entrance);
+
+                _walletServiceMock
+                    .Setup(w => w.UpdateWalletValue(walletId, It.IsAny<int>(), It.IsAny<double>()).Result)
+                    .Returns(1);
+
+                _categoryServiceMock
+                    .Setup(c => c.FindByIdAsync(categoryId).Result)
+                    .Returns(categoryResultDto);
+
+                _repositoryMock
+                    .Setup(m => m.SaveChangesAsync().Result)
+                    .Returns(1);
+
+                var result = await _service.UpdateAsync(entranceUpdateDto);
+
+                _categoryServiceMock
+                    .Setup(c => c.FindByIdAsync(categoryId).Result);
+                var resultCategoryNotFound = await _service.UpdateAsync(entranceUpdateDto);
+
+                _repositoryMock.Setup(m => m.SaveChangesAsync().Result);
+                var resultEntranceNotSaved = await _service.UpdateAsync(entranceUpdateDto);
+
+                _walletServiceMock
+                    .Setup(w => w.UpdateWalletValue(walletId, It.IsAny<int>(), It.IsAny<double>()).Result);
+                var resultNotUpdateWallet = await _service.UpdateAsync(entranceUpdateDto);
+
+                _repositoryMock
+                    .Setup(r => r.FindByIdAsync(entranceId).Result);
+                var resultEntranceNotFound = await _service.UpdateAsync(entranceUpdateDto);
+
+                // Assert
+                Assert.NotNull(result);
+                Assert.Null(resultEntranceNotFound);
+                Assert.Null(resultNotUpdateWallet);
+                Assert.Null(resultCategoryNotFound);
+                Assert.Null(resultEntranceNotSaved);
+                Assert.Equal(entrance.Description, result.Description);
+                Assert.Equal(entrance.Observation, result.Observation);
+                Assert.Equal(entrance.Ticker, result.Ticker);
+                Assert.Equal(entrance.Type, result.Type);
+                Assert.Equal(entrance.Value, result.Value);
             }
             catch (Exception e)
             {
