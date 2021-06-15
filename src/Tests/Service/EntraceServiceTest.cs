@@ -338,12 +338,12 @@ namespace Tests.Service
 
                 var result = await _service.UpdateAsync(entranceUpdateDto);
 
+                _repositoryMock.Setup(m => m.SaveChangesAsync().Result);
+                var resultEntranceNotSaved = await _service.UpdateAsync(entranceUpdateDto);
+
                 _categoryServiceMock
                     .Setup(c => c.FindByIdAsync(categoryId).Result);
                 var resultCategoryNotFound = await _service.UpdateAsync(entranceUpdateDto);
-
-                _repositoryMock.Setup(m => m.SaveChangesAsync().Result);
-                var resultEntranceNotSaved = await _service.UpdateAsync(entranceUpdateDto);
 
                 _walletServiceMock
                     .Setup(w => w.UpdateWalletValue(walletId, It.IsAny<int>(), It.IsAny<double>()).Result);
@@ -364,6 +364,10 @@ namespace Tests.Service
                 Assert.Equal(entrance.Ticker, result.Ticker);
                 Assert.Equal(entrance.Type, result.Type);
                 Assert.Equal(entrance.Value, result.Value);
+                _repositoryMock.Verify(r => r.FindByIdAsync(entranceId), Times.Exactly(5));
+                _walletServiceMock.Verify(r => r.UpdateWalletValue(walletId, It.IsAny<int>(), It.IsAny<double>()), Times.Exactly(4));
+                _categoryServiceMock.Verify(r => r.FindByIdAsync(categoryId), Times.Exactly(3));
+                _repositoryMock.Verify(r => r.SaveChangesAsync(), Times.Exactly(2));
             }
             catch (Exception e)
             {
