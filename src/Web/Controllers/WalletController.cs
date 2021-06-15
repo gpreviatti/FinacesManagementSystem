@@ -13,14 +13,11 @@ namespace Web.Controllers
         private readonly IWalletService _service;
         private readonly IWalletTypeService _walletTypeService;
 
-        public WalletController(
-            IWalletService service,
-            IWalletTypeService walletTypeService,
-            ILogger<WalletController> logger
-        ) : base(logger)
+        public WalletController(IServiceProvider serviceProvider, ILogger<WalletController> logger) : 
+            base(serviceProvider, logger)
         {
-            _service = service;
-            _walletTypeService = walletTypeService;
+            _service = GetService<IWalletService>();
+            _walletTypeService = GetService<IWalletTypeService>();
         }
 
         public async Task<ActionResult> Index()

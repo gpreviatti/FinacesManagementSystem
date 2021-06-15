@@ -15,7 +15,8 @@ namespace Web.Controllers
     {
         private readonly IEntranceService _service;
 
-        public EntranceController(IEntranceService service, ILogger<EntranceController> logger) : base(logger) => _service = service;
+        public EntranceController(IServiceProvider serviceProvider, ILogger<EntranceController> logger) : 
+            base(serviceProvider, logger) => _service = GetService<IEntranceService>();
 
         public IActionResult Index() => View();
 

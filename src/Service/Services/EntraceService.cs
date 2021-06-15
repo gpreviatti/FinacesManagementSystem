@@ -33,7 +33,7 @@ namespace Service.Services
             _categoryService = categoryService;
         }
 
-        #region "Find"
+        #region Find
         public async Task<EntranceResultDto> FindByIdAsync(Guid Id)
         {
             var result = await _repository.FindByIdAsync(Id);
@@ -151,6 +151,7 @@ namespace Service.Services
         }
         #endregion
 
+        #region Setup view models
         public async Task<EntranceCreateViewModel> SetupEntranceCreateViewModel(Guid userId)
         {
             var entraceCreateViewModel = new EntranceCreateViewModel();
@@ -176,6 +177,7 @@ namespace Service.Services
             entraceUpdateViewModel.EntranceTypes = FindEntranceTypes();
             return entraceUpdateViewModel;
         }
+        #endregion
 
         public async Task<EntranceResultDto> CreateAsync(EntranceCreateDto entraceCreateDto)
         {
