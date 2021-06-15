@@ -65,17 +65,6 @@ body {
 }
 
 /* My custom css */
-.bg-black {
-    background-color: #000;
-    color: #ffff !important;
-}
-
-.btn-primary, .btn-success {
-    background-color: #000;
-    color: #ffff !important;
-    border: none;
-}
-
 .btn {
     border: none;
 }
@@ -87,23 +76,6 @@ body {
 
 .card:hover {
     transform: scale(1.1);
-}
-
-a {
-    text-decoration: none;
-    color: #ffffff
-}
-
-.form-control, .page-link {
-    background-color: #212529 !important;
-    color: #ffff !important;
-    border: none !important;
-}
-
-.page-item.active .page-link {
-    z-index: 1 !important;
-    color: #fff !important;
-    background-color: #000 !important;
 }
 
 .container {
