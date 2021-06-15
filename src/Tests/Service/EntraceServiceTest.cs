@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using Domain.Dtos.Category;
 using Domain.Dtos.Entrance;
+using Domain.Dtos.Wallet;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
@@ -35,6 +36,123 @@ namespace Tests.Service
         }
 
         #region Find and List Tests
+        [Fact(DisplayName = "Should find an entrance by id")]
+        [Trait("Service", "Entrance")]
+        public async void ShouldFindByIdAsync()
+        {
+            try
+            {
+                // Arrange
+                var entrance = new Entrance
+                {
+                    Description = Faker.Lorem.Paragraph(),
+                    Observation = Faker.Lorem.Paragraph(),
+                    Value = Faker.RandomNumber.Next(100),
+                    CategoryId = Guid.NewGuid(),
+                    WalletId = Guid.NewGuid(),
+                    Ticker = "TEST",
+                    Type = 1
+                };
+                var entranceResultDto = _mapper.Map<EntranceResultDto>(entrance);
+
+                // Act
+                _repositoryMock
+                    .Setup(r => r.FindByIdAsync(_userAdminId).Result)
+                    .Returns(entrance);
+                var result = await _service.FindByIdAsync(_userAdminId);
+
+                // Assert
+                Assert.NotNull(result);
+                Assert.Equal(result.Description, entranceResultDto.Description);
+                Assert.Equal(result.Observation, entranceResultDto.Observation);
+                Assert.Equal(result.Value, entranceResultDto.Value);
+                Assert.Equal(result.CategoryId, entranceResultDto.CategoryId);
+                Assert.Equal(result.WalletId, entranceResultDto.WalletId);
+                Assert.Equal(result.Type, entranceResultDto.Type);
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+                Assert.True(false);
+            }
+        }
+
+        [Fact(DisplayName = "Should find last five entrances with categories")]
+        [Trait("Service", "Entrance")]
+        public async void FindAsyncLastFiveEntrancesWithCategories()
+        {
+            try
+            {
+                // Arrange
+                var walletsId = new List<Guid>
+                {
+                    Guid.NewGuid(),
+                    Guid.NewGuid(),
+                    Guid.NewGuid(),
+                    Guid.NewGuid(),
+                    Guid.NewGuid(),
+                };
+
+                var listEntranceResultDto = new List<EntranceResultDto>
+                {
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
+                    new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()}
+                }.AsQueryable();
+
+                // Act
+                _walletServiceMock
+                    .Setup(w => w.FindAsyncWalletsUserIds(_userAdminId).Result)
+                    .Returns(walletsId);
+
+                _repositoryMock
+                    .Setup(r => r.FindAllAsyncWithCategory(walletsId).Result)
+                    .Returns(listEntranceResultDto);
+
+                var result = await _service.FindAsyncLastFiveEntrancesWithCategories(_userAdminId);
+
+                // Assert
+                Assert.NotNull(result);
+                Assert.True(result.Count().Equals(5));
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+                Assert.True(false);
+            }
+        }
+
+        [Fact(DisplayName = "Should find a list of entrance types")]
+        [Trait("Service", "Entrance")]
+        public void ShouldFindEntranceTypes()
+        {
+            try
+            {
+                // Arrange
+
+                // Act
+                var result = _service.FindEntranceTypes();
+
+                // Assert
+                Assert.NotNull(result);
+                Assert.True(result.FirstOrDefault().Name.Equals("Income"));
+                Assert.True(result.Count().Equals(3));
+
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+                Assert.True(false);
+            }
+        }
+
         [Fact(DisplayName = "Not Create entrace when wallet is null")]
         [Trait("Service", "Entrance")]
         public async void ShouldNotCreateEntranceWhenWalletIsNull()
@@ -231,6 +349,119 @@ namespace Tests.Service
             catch (Exception e)
             {
                 Debug.WriteLine(e);
+                Assert.True(false);
+            }
+        }
+        #endregion
+
+        #region Setup View Models
+        [Fact(DisplayName = "Should setup an entrance to view model")]
+        [Trait("Service", "Entrance")]
+        public async void ShouldSetupEntranceCreateViewModel()
+        {
+            try
+            {
+                // Arrange
+                var walletsResultDto = new List<WalletResultDto>
+                {
+                    new WalletResultDto {},
+                    new WalletResultDto {},
+                    new WalletResultDto {},
+                    new WalletResultDto {},
+                };
+
+                var categoryResultDto = new List<CategoryResultDto>
+                {
+                    new CategoryResultDto {},
+                    new CategoryResultDto {},
+                    new CategoryResultDto {},
+                };
+
+                // Act
+                _walletServiceMock
+                    .Setup(w => w.FindAsyncWalletsUser(_userAdminId).Result)
+                    .Returns(walletsResultDto);
+
+                _categoryServiceMock
+                    .Setup(c => c.FindAsyncNameAndIdUserCategories(_userAdminId).Result)
+                    .Returns(categoryResultDto);
+
+                var result = await _service.SetupEntranceCreateViewModel(_userAdminId);
+
+                // Assert
+                Assert.NotNull(result);
+                Assert.True(result.Wallets.Count().Equals(walletsResultDto.Count()));
+                Assert.True(result.Categories.Count().Equals(categoryResultDto.Count()));
+
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+                Assert.True(false);
+            }
+        }
+
+        [Fact(DisplayName = "Should setup an entrance to view model")]
+        [Trait("Service", "Entrance")]
+        public async void ShouldSetupEntranceUpdateViewModel()
+        {
+            try
+            {
+                // Arrange
+                var entranceId = Guid.NewGuid();
+
+                var walletsResultDto = new List<WalletResultDto>
+                {
+                    new WalletResultDto {},
+                    new WalletResultDto {},
+                    new WalletResultDto {},
+                    new WalletResultDto {},
+                };
+
+                var categoryResultDto = new List<CategoryResultDto>
+                {
+                    new CategoryResultDto {},
+                    new CategoryResultDto {},
+                    new CategoryResultDto {},
+                };
+
+                var entrance = new Entrance
+                {
+                    Id = entranceId,
+                    Description = Faker.Lorem.Paragraph(),
+                    Observation = Faker.Lorem.Paragraph(),
+                    Value = Faker.RandomNumber.Next(100),
+                    CategoryId = Guid.NewGuid(),
+                    WalletId = Guid.NewGuid(),
+                    Ticker = "TEST",
+                    Type = 1
+                };
+
+                // Act
+                _walletServiceMock
+                    .Setup(w => w.FindAsyncWalletsUser(_userAdminId).Result)
+                    .Returns(walletsResultDto);
+
+                _categoryServiceMock
+                    .Setup(c => c.FindAsyncAllCommonAndUserCategories(_userAdminId).Result)
+                    .Returns(categoryResultDto);
+
+                _repositoryMock
+                    .Setup(r => r.FindByIdAsync(entranceId).Result)
+                    .Returns(entrance);
+
+                var result = await _service.SetupEntranceUpdateViewModel(_userAdminId, entranceId);
+
+                // Assert
+                Assert.NotNull(result);
+                Assert.NotNull(result.Entrance);
+                Assert.True(result.Wallets.Count().Equals(walletsResultDto.Count()));
+                Assert.True(result.Categories.Count().Equals(categoryResultDto.Count()));
+                Assert.True(result.EntranceTypes.Count() == 3);
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
                 Assert.True(false);
             }
         }

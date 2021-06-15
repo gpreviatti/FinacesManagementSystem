@@ -157,12 +157,12 @@ namespace Service.Services
             var entraceCreateViewModel = new EntranceCreateViewModel();
             entraceCreateViewModel.Entrance = new EntranceCreateDto();
             entraceCreateViewModel.Wallets = await _walletService.FindAsyncWalletsUser(userId);
-            if (entraceCreateViewModel.Wallets.Count() == 0)
-                throw new Exception("Any Wallet was found");
+            if (entraceCreateViewModel.Wallets == null || entraceCreateViewModel.Wallets.Count() == 0)
+                throw new ArgumentException("Any Wallet was found");
 
             entraceCreateViewModel.Categories = await _categoryService.FindAsyncNameAndIdUserCategories(userId);
-            if (entraceCreateViewModel.Categories.Count() == 0)
-                throw new Exception("Any Category was found");
+            if (entraceCreateViewModel.Categories == null || entraceCreateViewModel.Categories.Count() == 0)
+                throw new ArgumentException("Any Category was found");
 
             entraceCreateViewModel.EntranceTypes = FindEntranceTypes();
             return entraceCreateViewModel;
