@@ -178,41 +178,41 @@ namespace Tests.Service
             }
         }
 
-        [Fact(DisplayName = "Update wallet type")]
-        [Trait("Service", "Wallet")]
-        public async void ShouldUpdateWallet()
-        {
-            try
-            {
-                // Arrange
-                WalletUpdateDto walletTypeUpdateDto = new WalletUpdateDto() { Name = _fakerName };
+        //[Fact(DisplayName = "Update wallet type")]
+        //[Trait("Service", "Wallet")]
+        //public async void ShouldUpdateWallet()
+        //{
+        //    try
+        //    {
+        //        // Arrange
+        //        WalletUpdateDto walletTypeUpdateDto = new WalletUpdateDto() { Name = _fakerName };
 
-                WalletResultDto walletResultDto = new WalletResultDto()
-                {
-                    Id = Guid.NewGuid(),
-                    Name = _fakerName,
-                    CreatedAt = _fakerDate,
-                    UpdatedAt = _fakerDate
-                };
+        //        WalletResultDto walletResultDto = new WalletResultDto()
+        //        {
+        //            Id = Guid.NewGuid(),
+        //            Name = _fakerName,
+        //            CreatedAt = _fakerDate,
+        //            UpdatedAt = _fakerDate
+        //        };
 
-                // Act
-                _repository
-                    .Setup(m => m.SaveChangesAsync().Result)
-                    .Returns(1);
+        //        // Act
+        //        _repository
+        //            .Setup(m => m.SaveChangesAsync().Result)
+        //            .Returns(1);
 
-                var result = await _service.UpdateAsync(walletTypeUpdateDto);
+        //        var result = await _service.UpdateAsync(walletTypeUpdateDto);
 
-                // Assert
-                Assert.NotNull(result);
-                Assert.False(result.Id.Equals(Guid.Empty));
-                Assert.Equal(_fakerName, result.Name);
-            }
-            catch (Exception exception)
-            {
-                Debug.WriteLine(exception);
-                Assert.True(false);
-            }
-        }
+        //        // Assert
+        //        Assert.NotNull(result);
+        //        Assert.False(result.Id.Equals(Guid.Empty));
+        //        Assert.Equal(_fakerName, result.Name);
+        //    }
+        //    catch (Exception exception)
+        //    {
+        //        Debug.WriteLine(exception);
+        //        Assert.True(false);
+        //    }
+        //}
 
         [Fact(DisplayName = "Delete wallet type")]
         [Trait("Service", "Wallet")]
