@@ -100,33 +100,33 @@ namespace Tests.Data
             }
         }
 
-        //[Fact(DisplayName = "List all user entrances with their categories")]
-        //[Trait("Data", "Entrance")]
-        //public async void ShouldFindAllAsyncWithCategory()
-        //{
-        //    try
-        //    {
-        //        var entranceEntity = CreateEntranceEntity();
-        //        await _repository.CreateAsync(entranceEntity);
-        //        var userWallets = new List<Guid> { entranceEntity.WalletId };
+        [Fact(DisplayName = "List all user entrances with their categories")]
+        [Trait("Data", "Entrance")]
+        public async void ShouldFindAllAsyncWithCategory()
+        {
+            try
+            {
+                var entranceEntity = CreateEntranceEntity();
+                await _repository.CreateAsync(entranceEntity);
+                var userWallets = new List<Guid> { entranceEntity.WalletId };
 
-        //        var result = _repository.FindAllAsyncWithCategory(userWallets).Result;
-        //        Assert.NotNull(result);
-        //        Assert.IsType<Guid>(result.FirstOrDefault().Id);
-        //        Assert.IsType<double>(result.FirstOrDefault().Value);
-        //        Assert.IsType<string>(result.FirstOrDefault().Description);
-        //        Assert.IsType<int>(result.FirstOrDefault().Type);
-        //        Assert.IsType<DateTime>(result.FirstOrDefault().CreatedAt);
-        //        Assert.IsType<DateTime>(result.FirstOrDefault().UpdatedAt);
-        //        Assert.NotNull(result.FirstOrDefault().Category);
-        //        Assert.NotNull(result.FirstOrDefault().Category.Name);
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        Debug.WriteLine(exception.Message);
-        //        Assert.True(false);
-        //    }
-        //}
+                var result = _repository.FindAllAsyncWithCategory(userWallets).Result;
+                Assert.NotNull(result);
+                Assert.IsType<Guid>(result.FirstOrDefault().Id);
+                Assert.IsType<double>(result.FirstOrDefault().Value);
+                Assert.IsType<string>(result.FirstOrDefault().Description);
+                Assert.IsType<int>(result.FirstOrDefault().Type);
+                Assert.IsType<DateTime>(result.FirstOrDefault().CreatedAt);
+                Assert.IsType<DateTime>(result.FirstOrDefault().UpdatedAt);
+                Assert.NotNull(result.FirstOrDefault().Category);
+                Assert.NotNull(result.FirstOrDefault().Category.Name);
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception.Message);
+                Assert.True(false);
+            }
+        }
 
         [Fact(DisplayName = "Update Entrance")]
         [Trait("Data", "Entrance")]

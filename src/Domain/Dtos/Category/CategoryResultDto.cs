@@ -9,12 +9,6 @@ namespace Domain.Dtos.Category
 {
     public class CategoryResultDto : EntityResultDto
     {
-        public CategoryResultDto()
-        {
-            CategoryMain = new CategoryResultDto();
-            Entrances = new List<EntranceResultDto>();
-        }
-
         public string Name { get; set; }
 
         public Guid? UserId { get; set; }
