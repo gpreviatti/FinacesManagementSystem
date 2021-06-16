@@ -78,8 +78,8 @@ namespace Service.Services
             if (userId == Guid.Empty)
                 return null;
 
-            entityCreateDto.UserId = userId;
             var entity = _mapper.Map<Wallet>(entityCreateDto);
+            entity.UserId = userId;
 
             await _repository.CreateAsync(entity);
             return _mapper.Map<WalletResultDto>(entity);

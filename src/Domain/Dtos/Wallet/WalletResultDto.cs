@@ -9,6 +9,12 @@ namespace Domain.Dtos.Wallet
 {
     public class WalletResultDto : EntityResultDto
     {
+        public WalletResultDto()
+        {
+            WalletType = new WalletTypeResultDto();
+            Entrances = new List<EntranceResultDto>();
+        }
+
         public string Name { get; set; }
 
         public string Description { get; set; }

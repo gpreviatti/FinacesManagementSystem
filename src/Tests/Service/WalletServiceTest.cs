@@ -1,9 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Domain.Dtos.Entrance;
 using Domain.Dtos.Wallet;
-using Domain.Dtos.WalletType;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
@@ -32,45 +31,40 @@ namespace Tests.Service
             try
             {
                 // Arrange
-                WalletCreateDto walletCreateDto = new WalletCreateDto()
+                var walletCreateDto = new WalletCreateDto()
                 {
                     Name = _fakerName,
                     CloseDate = _fakerDate,
                     DueDate = _fakerDate,
                     Description = _fakerName,
-                    UserId = Guid.NewGuid(),
                     WalletTypeId = Guid.NewGuid()
                 };
 
-                WalletResultDto walletResultDto = new WalletResultDto()
-                {
-                    Id = Guid.NewGuid(),
-                    Name = _fakerName,
-                    CloseDate = _fakerDate,
-                    DueDate = _fakerDate,
-                    CurrentValue = 100,
-                    Description = _fakerName,
-                    CreatedAt = _fakerDate,
-                    UpdatedAt = _fakerDate,
-                    Entrances = new List<EntranceResultDto>(),
-                    WalletType = new WalletTypeResultDto()
-                };
+                var wallet = _mapper.Map<Wallet>(walletCreateDto);
+                wallet.UserId = _userAdminId;
 
                 // Act
                 _repository
-                .Setup(m => m.CreateAsync(walletCreateDto, It.IsAny<Guid>()))
-                .ReturnsAsync(walletResultDto);
+                    .Setup(m => m.CreateAsync(wallet).Result)
+                    .Returns(wallet);
+                var result = await _service.CreateAsync(walletCreateDto, _userAdminId);
+                var resultUserIdNull = await _service.CreateAsync(walletCreateDto, It.IsAny<Guid>());
+
+                walletCreateDto.WalletTypeId = Guid.Empty;
+                _repository
+                    .Setup(m => m.CreateAsync(wallet).Result)
+                    .Returns(wallet);
+
+                var resultWalletTypeIdNull = await _service.CreateAsync(walletCreateDto, It.IsAny<Guid>());
 
                 // Assert
-                var result = await _service.CreateAsync(walletCreateDto, It.IsAny<Guid>());
                 Assert.NotNull(result);
-                Assert.False(result.Id.Equals(Guid.Empty));
+                Assert.Null(resultUserIdNull);
+                Assert.Null(resultWalletTypeIdNull);
                 Assert.Equal(walletCreateDto.Name, result.Name);
                 Assert.Equal(walletCreateDto.CloseDate, result.CloseDate);
                 Assert.Equal(walletCreateDto.DueDate, result.DueDate);
                 Assert.Equal(walletCreateDto.Description, result.Description);
-                Assert.False(result.Entrances.Equals(null));
-                Assert.False(result.WalletType.Equals(null));
             }
             catch (Exception exception)
             {

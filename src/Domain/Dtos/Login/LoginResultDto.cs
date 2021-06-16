@@ -4,6 +4,11 @@ namespace Domain.Dtos.Login
 {
     public class LoginResultDto
     {
+        public LoginResultDto()
+        {
+            User = new UserResultDto();
+        }
+
         public bool Authenticated { get; set; }
         public string Message { get; set; }
         public string AccessToken { get; set; }
