@@ -20,7 +20,6 @@ namespace Data.Repositories
             return await Task.Run(() =>
             {
                 return _dataset
-                    .Include(e => e.Category)
                     .Select(e => new EntranceResultDto
                     {
                         Id = e.Id,

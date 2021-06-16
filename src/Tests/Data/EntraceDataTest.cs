@@ -110,10 +110,8 @@ namespace Tests.Data
                 await _repository.CreateAsync(entranceEntity);
                 var userWallets = new List<Guid> { entranceEntity.WalletId };
 
-                var result = await _repository.FindAllAsyncWithCategory(userWallets);
-
+                var result = _repository.FindAllAsyncWithCategory(userWallets).Result;
                 Assert.NotNull(result);
-                Assert.IsType<List<Entrance>>(result);
                 Assert.IsType<Guid>(result.FirstOrDefault().Id);
                 Assert.IsType<double>(result.FirstOrDefault().Value);
                 Assert.IsType<string>(result.FirstOrDefault().Description);
@@ -123,9 +121,9 @@ namespace Tests.Data
                 Assert.NotNull(result.FirstOrDefault().Category);
                 Assert.NotNull(result.FirstOrDefault().Category.Name);
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                Debug.WriteLine(e.Message);
+                Debug.WriteLine(exception.Message);
                 Assert.True(false);
             }
         }
