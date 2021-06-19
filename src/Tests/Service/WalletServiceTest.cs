@@ -138,9 +138,9 @@ namespace Tests.Service
             }
         }
 
-        [Fact(DisplayName = "List wallet type by id")]
+        [Fact(DisplayName = "List wallet by id")]
         [Trait("Service", "Wallet")]
-        public async void ShouldListWalletById()
+        public async void ShouldFindByIdAsync()
         {
             try
             {
@@ -171,6 +171,83 @@ namespace Tests.Service
                 Assert.Equal(wallet.Id, result.Id);
                 Assert.Equal(wallet.CreatedAt, result.CreatedAt);
                 Assert.Equal(wallet.UpdatedAt, result.UpdatedAt);
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+                Assert.True(false);
+            }
+        }
+
+        [Fact(DisplayName = "List wallet by id and return update dto")]
+        [Trait("Service", "Wallet")]
+        public async void ShouldFindByIdUpdateAsync()
+        {
+            try
+            {
+                // Arrange
+                var wallet = new Wallet()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = _fakerName,
+                    CloseDate = _fakerDate,
+                    DueDate = _fakerDate,
+                    CurrentValue = 100,
+                    Description = _fakerName,
+                    CreatedAt = _fakerDate,
+                    UpdatedAt = _fakerDate,
+                    Entrances = new List<Entrance>(),
+                    WalletType = new WalletType()
+                };
+
+                // Act
+                _repository
+                .Setup(m => m.FindByIdAsync(It.IsAny<Guid>()).Result)
+                .Returns(wallet);
+                var result = await _service.FindByIdUpdateAsync(It.IsAny<Guid>());
+
+                // Assert
+                Assert.NotNull(result);
+                Assert.False(result.Id.Equals(Guid.Empty));
+                Assert.Equal(wallet.Id, result.Id);
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+                Assert.True(false);
+            }
+        }
+
+        [Fact(DisplayName = "Return wallet values aggregated")]
+        [Trait("Service", "Wallet")]
+        public async void WalletsTotalValuesTest()
+        {
+            try
+            {
+                // Arrange
+                var userId = Guid.NewGuid();
+                var walletValuesDto = new List<WalletValuesDto>
+                {
+                    new WalletValuesDto{ TotalIncomes = 100, TotalExpanses = 50},
+                    new WalletValuesDto{ TotalIncomes = 100, TotalExpanses = 50},
+                    new WalletValuesDto{ TotalIncomes = 100, TotalExpanses = 50},
+                    new WalletValuesDto{ TotalIncomes = 100, TotalExpanses = 50},
+                    new WalletValuesDto{ TotalIncomes = 100, TotalExpanses = 50},
+                };
+
+                // Act
+                _repository
+                .Setup(m => m.FindAsyncWalletsValues(_userAdminId).Result)
+                .Returns(walletValuesDto);
+
+                var result = await _service.WalletsTotalValues(_userAdminId);
+
+                // Assert
+                Assert.NotNull(result);
+                Assert.True(result.WalletsValues.Count().Equals(walletValuesDto.Count()));
+                Assert.True(result.TotalIncomes.Equals(500));
+                Assert.True(result.TotalExpanses.Equals(250));
+                _repository.Verify(r => r.FindAsyncWalletsValues(_userAdminId).Result, Times.Exactly(1));
             }
             catch (Exception exception)
             {
