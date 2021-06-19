@@ -294,38 +294,6 @@ namespace Tests.Service
             }
         }
 
-        //[Fact(DisplayName = "List entrace by id")]
-        //[Trait("Service", "Entrance")]
-        //public async void ShouldListEntranceById()
-        //{
-        //    try
-        //    {
-        //        // Arrange
-        //        var entrance = new Entrance()
-        //        {
-        //            Id = new Guid(),
-        //            Description = Faker.Name.FullName(),
-        //            CreatedAt = DateTime.Now,
-        //            UpdatedAt = DateTime.Now
-        //        };
-
-        //        // Act
-        //        _repositoryMock.Setup(m => m.FindByIdAsync(It.IsAny<Guid>()).Result).Returns(entrance);
-        //        var result = await _service.FindByIdAsync(It.IsAny<Guid>());
-
-        //        // Assert
-        //        Assert.NotNull(result);
-        //        Assert.Equal(entrance.Id, result.Id);
-        //        Assert.Equal(entrance.CreatedAt, result.CreatedAt);
-        //        Assert.Equal(entrance.UpdatedAt, result.UpdatedAt);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Debug.WriteLine(e);
-        //        Assert.True(false);
-        //    }
-        //}
-
         [Fact(DisplayName = "List entrace by id and return EntranceUpdateDto")]
         [Trait("Service", "Entrance")]
         public async void ShouldListEntranceById()

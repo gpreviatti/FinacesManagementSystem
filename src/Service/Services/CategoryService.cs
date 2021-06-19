@@ -102,7 +102,7 @@ namespace Service.Services
         {
             var categories = await Task.Run(() => _repository.FindAsyncAllCommonAndUserCategories(userId));
 
-            if (categories.Count() == 0)
+            if (!categories.Any())
                 return null;
 
             datatablesModel.RecordsTotal = categories.Count();

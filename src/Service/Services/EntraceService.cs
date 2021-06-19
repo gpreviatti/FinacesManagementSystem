@@ -54,13 +54,13 @@ namespace Service.Services
             var userWalletsIds = await _walletService
                 .FindAsyncWalletsUserIds(userId);
 
-            if (userWalletsIds == null || userWalletsIds.Count() == 0)
+            if (!userWalletsIds.Any())
                 return null;
 
             var entrances = await _repository
                 .FindAllAsyncWithCategory(userWalletsIds.ToList());
 
-            if (entrances == null || entrances.Count() == 0)
+            if (!entrances.Any())
                 return null;
 
             datatablesModel.RecordsTotal = entrances.Count();
@@ -97,33 +97,28 @@ namespace Service.Services
             {
                 case 0:
                     if (sortDirection.Equals("asc"))
-                    {
                         return entrancesData.OrderBy(e => e.Description);
-                    }
+
                     return entrancesData.OrderByDescending(e => e.Description);
                 case 1:
                     if (sortDirection.Equals("asc"))
-                    {
                         return entrancesData = entrancesData.OrderBy(e => e.Type);
-                    }
+
                     return entrancesData.OrderByDescending(e => e.Type);
                 case 2:
                     if (sortDirection.Equals("asc"))
-                    {
                         return entrancesData.OrderBy(e => e.Value);
-                    }
+
                     return entrancesData.OrderByDescending(e => e.Value);
                 case 3:
                     if (sortDirection.Equals("asc"))
-                    {
                         return entrancesData.OrderBy(e => e.Category.Name);
-                    }
+
                     return entrancesData.OrderByDescending(e => e.Category.Name);
                 default:
                     if (sortDirection.Equals("asc"))
-                    {
                         return entrancesData.OrderBy(e => e.CreatedAt);
-                    }
+
                     return entrancesData.OrderByDescending(e => e.CreatedAt);
             }
         }

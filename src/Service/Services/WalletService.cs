@@ -37,7 +37,7 @@ namespace Service.Services
         public async Task<IEnumerable<WalletResultDto>> FindAsyncWalletsUser(Guid userId)
         {
             var result = await _repository.FindAsyncWalletsUser(userId);
-            if (result == null)
+            if (!result.Any())
                 return null;
 
             var wallets = _mapper.Map<IEnumerable<WalletResultDto>>(result);
@@ -116,6 +116,7 @@ namespace Service.Services
                 case (int) EntranceType.Expanse:
                     if (value > wallet.CurrentValue)
                         throw new Exception("Insuficient founds :(");
+
                     wallet.CurrentValue = wallet.CurrentValue - value;
                     break;
                 default:
