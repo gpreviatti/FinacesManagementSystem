@@ -1,4 +1,4 @@
-name: CI/CD
+name: CI
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build, test and analyze code
+    name: Test
     runs-on: ubuntu-latest
 
     steps:
@@ -27,9 +27,3 @@ jobs:
 
     - name: Test Services
       run: dotnet test --filter Service ./FinancesManagementSystem.sln --configuration Release
-
-    - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
