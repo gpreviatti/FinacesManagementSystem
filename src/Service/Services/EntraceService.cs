@@ -34,9 +34,9 @@ namespace Service.Services
         }
 
         #region Find
-        public async Task<EntranceResultDto> FindByIdAsync(Guid Id)
+        public async Task<EntranceResultDto> FindByIdAsync(Guid id)
         {
-            var result = await _repository.FindByIdAsync(Id);
+            var result = await _repository.FindByIdAsync(id);
             return _mapper.Map<EntranceResultDto>(result);
         }
 
@@ -183,7 +183,7 @@ namespace Service.Services
         {
             var updateWalletValue = await _walletService
                 .UpdateWalletValue(entraceCreateDto.WalletId, entraceCreateDto.Type, entraceCreateDto.Value);
-            if (updateWalletValue == 0)
+            if (updateWalletValue == null)
                 return null;
 
             var category = await _categoryService.FindByIdAsync(entraceCreateDto.CategoryId);
@@ -205,7 +205,7 @@ namespace Service.Services
 
             var updateWalletValue = await _walletService
                 .UpdateWalletValue(entraceUpdateDto.WalletId, entraceUpdateDto.Type, entraceUpdateDto.Value);
-            if (updateWalletValue == 0)
+            if (updateWalletValue == null)
                 return null;
 
             if (await _categoryService.FindByIdAsync(entraceUpdateDto.CategoryId) == null)
@@ -220,6 +220,6 @@ namespace Service.Services
             return null;
         }
 
-        public async Task<bool> DeleteAsync(Guid Id) => await _repository.DeleteAsync(Id);
+        public async Task<bool> DeleteAsync(Guid id) => await _repository.DeleteAsync(id);
     }
 }

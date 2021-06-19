@@ -5,17 +5,13 @@ using Domain.Dtos.Login;
 using Domain.Dtos.User;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
-using Domain.Security;
 using Helpers;
-using Microsoft.Extensions.Configuration;
 
 namespace Service.Services
 {
     public class LoginService : BaseService, ILoginService
     {
         private readonly IUserRepository _repository;
-        private readonly SigningConfigurations _signingConfigurations;
-        private IConfiguration _configuration { get; }
 
         public LoginService(IUserRepository repository, IMapper mapper)
         {

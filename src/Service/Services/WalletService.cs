@@ -22,9 +22,9 @@ namespace Service.Services
         }
 
         #region Find
-        public async Task<WalletResultDto> FindByIdAsync(Guid Id)
+        public async Task<WalletResultDto> FindByIdAsync(Guid id)
         {
-            var result = await _repository.FindByIdAsync(Id);
+            var result = await _repository.FindByIdAsync(id);
             return _mapper.Map<WalletResultDto>(result);
         }
 
@@ -58,7 +58,6 @@ namespace Service.Services
         {
             var walletsValues = await _repository.FindAsyncWalletsValues(userId);
             var walletTotalValuesDto = new WalletTotalValuesDto();
-            walletTotalValuesDto.WalletsValues = walletsValues.ToList();
 
             walletsValues.ToList().ForEach(w =>
             {
@@ -66,6 +65,7 @@ namespace Service.Services
                 walletTotalValuesDto.TotalExpanses += w.TotalExpanses;
             });
 
+            walletTotalValuesDto.WalletsValues = walletsValues;
             return walletTotalValuesDto;
         }
         #endregion
@@ -102,11 +102,11 @@ namespace Service.Services
             return null;
         }
 
-        public async Task<int> UpdateWalletValue(Guid id, int type, double value)
+        public async Task<WalletResultDto> UpdateWalletValue(Guid id, int type, double value)
         {
             var wallet = await _repository.FindByIdAsync(id);
             if (wallet == null)
-                return 0;
+                return null;
 
             switch (type)
             {
@@ -122,9 +122,10 @@ namespace Service.Services
                     wallet.CurrentValue = wallet.CurrentValue;
                     break;
             }
-            return await _repository.SaveChangesAsync();
+            await _repository.SaveChangesAsync();
+            return _mapper.Map<WalletResultDto>(wallet);
         }
 
-        public async Task<bool> DeleteAsync(Guid Id) => await _repository.DeleteAsync(Id);
+        public async Task<bool> DeleteAsync(Guid id) => await _repository.DeleteAsync(id);
     }
 }

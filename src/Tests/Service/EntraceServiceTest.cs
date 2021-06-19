@@ -489,6 +489,18 @@ namespace Tests.Service
                 };
                 var entranceCreateDto = _mapper.Map<EntranceCreateDto>(entrance);
 
+                var wallet = new WalletResultDto()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = _fakerName,
+                    CloseDate = _fakerDate,
+                    DueDate = _fakerDate,
+                    CurrentValue = 200,
+                    Description = _fakerName,
+                    CreatedAt = _fakerDate,
+                    UpdatedAt = _fakerDate
+                };
+
                 var categoryResultDto = new CategoryResultDto
                 {
                     Id = categoryId,
@@ -498,7 +510,8 @@ namespace Tests.Service
                 // Act
                 _walletServiceMock
                     .Setup(w => w.UpdateWalletValue(walletId, It.IsAny<int>(), It.IsAny<double>()).Result)
-                    .Returns(1);
+                    .Returns(wallet);
+
                 _categoryServiceMock
                     .Setup(c => c.FindByIdAsync(categoryId).Result)
                     .Returns(categoryResultDto);
@@ -550,6 +563,18 @@ namespace Tests.Service
                     Name = _fakerName
                 };
 
+                var wallet = new WalletResultDto()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = _fakerName,
+                    CloseDate = _fakerDate,
+                    DueDate = _fakerDate,
+                    CurrentValue = 200,
+                    Description = _fakerName,
+                    CreatedAt = _fakerDate,
+                    UpdatedAt = _fakerDate
+                };
+
                 // Act
                 _repositoryMock
                     .Setup(r => r.FindByIdAsync(entranceId).Result)
@@ -557,7 +582,7 @@ namespace Tests.Service
 
                 _walletServiceMock
                     .Setup(w => w.UpdateWalletValue(walletId, It.IsAny<int>(), It.IsAny<double>()).Result)
-                    .Returns(1);
+                    .Returns(wallet);
 
                 _categoryServiceMock
                     .Setup(c => c.FindByIdAsync(categoryId).Result)

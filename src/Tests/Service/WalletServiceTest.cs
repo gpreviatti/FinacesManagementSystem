@@ -9,6 +9,7 @@ using Domain.Interfaces.Services;
 using Moq;
 using Service.Services;
 using Xunit;
+using Domain.Enums;
 
 namespace Tests.Service
 {
@@ -178,6 +179,61 @@ namespace Tests.Service
             }
         }
 
+        [Theory(DisplayName = "update wallet values")]
+        [Trait("Service", "Wallet")]
+        [InlineData(EntranceType.Income, 10, 210)]
+        [InlineData(EntranceType.Expanse, 10, 190)]
+        [InlineData(EntranceType.Income, 20, 220)]
+        [InlineData(EntranceType.Income, 80, 280)]
+        [InlineData(EntranceType.Expanse, 100, 100)]
+        public async void ShouldUpdateWalletValues(EntranceType type, double value, double expectedValue)
+        {
+            try
+            {
+                // Arrange
+                var id = Guid.NewGuid();
+                var wallet = new Wallet()
+                {
+                    Id = id,
+                    Name = _fakerName,
+                    CloseDate = _fakerDate,
+                    DueDate = _fakerDate,
+                    CurrentValue = 200,
+                    Description = _fakerName,
+                    CreatedAt = _fakerDate,
+                    UpdatedAt = _fakerDate,
+                    Entrances = new List<Entrance>(),
+                    WalletType = new WalletType()
+                };
+
+
+                // Act
+                _repository
+                .Setup(m => m.FindByIdAsync(It.IsAny<Guid>()).Result);
+
+                var resultWalletNotFound = await _service.UpdateWalletValue(id, (int) type, value);
+
+                _repository
+                .Setup(m => m.FindByIdAsync(It.IsAny<Guid>()).Result)
+                .Returns(wallet);
+
+                _repository.Setup(r => r.SaveChangesAsync().Result).Returns(1);
+
+                var result = await _service.UpdateWalletValue(id, (int)type, value);
+
+                // Assert
+                Assert.Null(resultWalletNotFound);
+                Assert.NotNull(result);
+                Assert.True(result.CurrentValue.Equals(expectedValue));
+                _repository.Verify(r => r.FindByIdAsync(id).Result, Times.Exactly(2));
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+                Assert.True(false);
+            }
+        }
+
         [Fact(DisplayName = "Update wallet type")]
         [Trait("Service", "Wallet")]
         public async void ShouldUpdateWallet()
@@ -185,22 +241,27 @@ namespace Tests.Service
             try
             {
                 // Arrange
-                WalletUpdateDto walletTypeUpdateDto = new WalletUpdateDto() { Name = _fakerName };
+                var walletId = Guid.NewGuid();
 
-                WalletResultDto walletResultDto = new WalletResultDto()
+                var wallet = new Wallet()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = walletId,
                     Name = _fakerName,
                     CreatedAt = _fakerDate,
                     UpdatedAt = _fakerDate
                 };
+                var walletUpdateDto = _mapper.Map<WalletUpdateDto>(wallet);
 
                 // Act
+                _repository
+                .Setup(m => m.FindByIdAsync(walletId).Result)
+                .Returns(wallet);
+
                 _repository
                     .Setup(m => m.SaveChangesAsync().Result)
                     .Returns(1);
 
-                var result = await _service.UpdateAsync(walletTypeUpdateDto);
+                var result = await _service.UpdateAsync(walletUpdateDto);
 
                 // Assert
                 Assert.NotNull(result);

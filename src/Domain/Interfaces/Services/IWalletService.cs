@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Dtos.Wallet;
+using Domain.Entities;
 
 namespace Domain.Interfaces.Services
 {
@@ -14,7 +15,7 @@ namespace Domain.Interfaces.Services
         Task<WalletTotalValuesDto> WalletsTotalValues(Guid userId);
         Task<WalletResultDto> CreateAsync(WalletCreateDto wallet, Guid userId);
         Task<WalletResultDto> UpdateAsync(WalletUpdateDto wallet);
-        Task<int> UpdateWalletValue(Guid id, int type, double value);
+        Task<WalletResultDto> UpdateWalletValue(Guid id, int type, double value);
         Task<bool> DeleteAsync(Guid id);
     }
 }

@@ -51,18 +51,18 @@ namespace Service.Services
             return null;
         }
 
-        public async Task<bool> DeleteAsync(Guid Id) => await _repository.DeleteAsync(Id);
+        public async Task<bool> DeleteAsync(Guid id) => await _repository.DeleteAsync(id);
 
         #region Find
-        public async Task<CategoryResultDto> FindByIdAsync(Guid Id)
+        public async Task<CategoryResultDto> FindByIdAsync(Guid id)
         {
-            var result = await _repository.FindByIdAsync(Id);
+            var result = await _repository.FindByIdAsync(id);
             return _mapper.Map<CategoryResultDto>(result);
         }
 
-        public async Task<CategoryUpdateDto> FindByIdUpdateAsync(Guid Id)
+        public async Task<CategoryUpdateDto> FindByIdUpdateAsync(Guid id)
         {
-            var result = await _repository.FindByIdAsync(Id);
+            var result = await _repository.FindByIdAsync(id);
             return _mapper.Map<CategoryUpdateDto>(result);
         }
 
