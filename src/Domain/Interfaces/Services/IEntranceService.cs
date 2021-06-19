@@ -15,7 +15,7 @@ namespace Domain.Interfaces.Services
         Task<DatatablesModel<EntranceResultDto>> FindAllAsyncWithCategoryDatatables(DatatablesModel<EntranceResultDto> paginationModel, Guid userId);
         Task<IEnumerable<EntranceResultDto>> FindAsyncLastFiveEntrancesWithCategories(Guid userId);
         List<EntranceTypeResultDto> FindEntranceTypes();
-        
+
         Task<EntranceCreateViewModel> SetupEntranceCreateViewModel(Guid userId);
         Task<EntranceUpdateViewModel> SetupEntranceUpdateViewModel(Guid userId, Guid id);
 

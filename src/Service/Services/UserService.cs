@@ -20,9 +20,9 @@ namespace Service.Services
             _mapper = mapper;
         }
 
-        public async Task<UserResultDto> FindByIdAsync(Guid Id)
+        public async Task<UserResultDto> FindByIdAsync(Guid id)
         {
-            var result = await _repository.FindByIdAsync(Id);
+            var result = await _repository.FindByIdAsync(id);
             return _mapper.Map<UserResultDto>(result);
         }
 
@@ -61,6 +61,6 @@ namespace Service.Services
             return null;
         }
 
-        public async Task<bool> DeleteAsync(Guid Id) => await _repository.DeleteAsync(Id);
+        public async Task<bool> DeleteAsync(Guid id) => await _repository.DeleteAsync(id);
     }
 }

@@ -17,14 +17,11 @@ namespace Web.Controllers
     {
         private readonly ILoginService _service;
         private readonly IUserService _userService;
-        public LoginController(
-            ILogger<LoginController> logger, 
-            ILoginService service, 
-            IUserService userService
-        ) : base(logger)
+        public LoginController(IServiceProvider serviceProvider, ILogger<LoginController> logger) : 
+            base(serviceProvider, logger)
         {
-            _service = service;
-            _userService = userService;
+            _service = GetService<ILoginService>();
+            _userService = GetService<IUserService>();
         }
 
         public IActionResult Index() => View();

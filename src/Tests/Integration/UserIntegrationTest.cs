@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Domain.Dtos.User;
-using Domain.Entities;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -30,8 +28,8 @@ namespace Tests.Integration
             return JsonConvert.DeserializeObject<UserResultDto>(postResult);
         }
 
-        [Fact]
-        [Trait("Crud", "ShouldListUser")]
+        [Fact(DisplayName = "Should List User")]
+        [Trait("Integration", "User")]
         public async void ShouldListUser()
         {
             // Arrange
@@ -44,8 +42,8 @@ namespace Tests.Integration
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
-        [Fact]
-        [Trait("Crud", "ShouldCreateUser")]
+        [Fact(DisplayName = "Should Create User")]
+        [Trait("Integration", "User")]
         public async void ShouldCreateUser()
         {
             // Arrange
@@ -70,11 +68,11 @@ namespace Tests.Integration
         }
 
         [Fact]
-        [Trait("Crud", "ShouldNotCreateUser")]
+        [Trait("Integration", "User")]
         public async void ShouldNotCreateUser()
         {
             // Arrange
-            var userCreateDto = new UserCreateDto() {Name = Faker.Name.First()};
+            var userCreateDto = new UserCreateDto() { Name = Faker.Name.First() };
 
             // Assumption
             await AdicionarToken();
@@ -85,8 +83,8 @@ namespace Tests.Integration
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
-        [Fact]
-        [Trait("Crud", "ShouldUpdateUser")]
+        [Fact(DisplayName = "Should Update User")]
+        [Trait("Integration", "User")]
         public async void ShouldUpdateUser()
         {
             // Arrange
@@ -109,12 +107,12 @@ namespace Tests.Integration
             Assert.True(updatedUser.Id != default(Guid));
         }
 
-        [Fact]
-        [Trait("Crud", "ShouldNotUpdateUser")]
+        [Fact(DisplayName = "Should Not Update User")]
+        [Trait("Integration", "User")]
         public async void ShouldNotUpdateUser()
         {
             // Arrange
-            var userUpdateDto = new UserUpdateDto() {Name = Faker.Name.FullName()};
+            var userUpdateDto = new UserUpdateDto() { Name = Faker.Name.FullName() };
 
             // Assumption
             await AdicionarToken();
@@ -125,8 +123,8 @@ namespace Tests.Integration
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
-        [Fact]
-        [Trait("Crud", "ShouldDeleteUser")]
+        [Fact(DisplayName = "Should Delete User")]
+        [Trait("Integration", "User")]
         public async void ShouldDeleteUser()
         {
             // Arrange
@@ -140,8 +138,8 @@ namespace Tests.Integration
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
-        [Fact]
-        [Trait("Crud", "ShouldNotDeleteUser")]
+        [Fact(DisplayName = "Should Not Delete User")]
+        [Trait("Integration", "User")]
         public async void ShouldNotDeleteUser()
         {
             // Arrange

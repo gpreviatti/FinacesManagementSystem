@@ -1,16 +1,16 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Domain.Dtos.Entrance;
+using Domain.Dtos.EntranceTypeDto;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Domain.Models;
 using Domain.ViewModels;
-using Domain.Dtos.EntranceTypeDto;
-using Domain.Enums;
 
 namespace Service.Services
 {
@@ -33,10 +33,10 @@ namespace Service.Services
             _categoryService = categoryService;
         }
 
-        #region "Find"
-        public async Task<EntranceResultDto> FindByIdAsync(Guid Id)
+        #region Find
+        public async Task<EntranceResultDto> FindByIdAsync(Guid id)
         {
-            var result = await _repository.FindByIdAsync(Id);
+            var result = await _repository.FindByIdAsync(id);
             return _mapper.Map<EntranceResultDto>(result);
         }
 
@@ -46,82 +46,93 @@ namespace Service.Services
             return _mapper.Map<EntranceUpdateDto>(result);
         }
 
-        public async Task<DatatablesModel<EntranceResultDto>> FindAllAsyncWithCategoryDatatables(DatatablesModel<EntranceResultDto> datatablesModel, Guid userId)
+        public async Task<DatatablesModel<EntranceResultDto>> FindAllAsyncWithCategoryDatatables(
+            DatatablesModel<EntranceResultDto> datatablesModel, 
+            Guid userId
+        )
         {
-            var userWalletsIds = _walletService.FindAsyncWalletsUserIds(userId);
-            var entrances = await _repository.FindAllAsyncWithCategory(userWalletsIds);
-            var entrancesData = _mapper.Map<IEnumerable<EntranceResultDto>>(entrances);
-            datatablesModel.RecordsTotal = entrancesData.Count();
+            var userWalletsIds = await _walletService
+                .FindAsyncWalletsUserIds(userId);
+
+            if (!userWalletsIds.Any())
+                return null;
+
+            var entrances = await _repository
+                .FindAllAsyncWithCategory(userWalletsIds.ToList());
+
+            if (!entrances.Any())
+                return null;
+
+            datatablesModel.RecordsTotal = entrances.Count();
 
             if (!string.IsNullOrEmpty(datatablesModel.SearchValue))
             {
-                entrancesData = entrancesData
-                .Where(
-                    m => m.Description.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase) ||
-                    m.Observation.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase) ||
-                    m.Category.Name.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase)
+                entrances = entrances.Where(
+                    m => m.Description.Contains(datatablesModel.SearchValue) ||
+                         m.Observation.Contains(datatablesModel.SearchValue) ||
+                         m.Category.Name.Contains(datatablesModel.SearchValue) ||
+                         m.Value.Equals(datatablesModel.SearchValue)
                 );
             }
 
             if (!string.IsNullOrEmpty(datatablesModel.SortColumnDirection))
-                entrancesData = SortDatatables(datatablesModel, entrancesData);
+                entrances = SortDatatables(datatablesModel, entrances);
 
-            datatablesModel.RecordsFiltered = entrancesData.Count();
-            datatablesModel.Data = entrancesData
-                .Skip(datatablesModel.Skip)
-                .Take(datatablesModel.PageSize)
-                .ToList();
+            datatablesModel.RecordsFiltered = entrances.Count();
+
+            datatablesModel.Data = entrances
+            .Skip(datatablesModel.Skip)
+            .Take(datatablesModel.PageSize);
 
             return datatablesModel;
         }
 
-        private static IEnumerable<EntranceResultDto> SortDatatables(DatatablesModel<EntranceResultDto> datatablesModel, IEnumerable<EntranceResultDto> entrancesData)
+        private static IQueryable<EntranceResultDto> SortDatatables(
+            DatatablesModel<EntranceResultDto> datatablesModel,
+            IQueryable<EntranceResultDto> entrancesData
+        )
         {
             var sortDirection = datatablesModel.SortColumnDirection;
             switch (datatablesModel.SortColumn)
             {
                 case 0:
                     if (sortDirection.Equals("asc"))
-                    {
                         return entrancesData.OrderBy(e => e.Description);
-                    }
+
                     return entrancesData.OrderByDescending(e => e.Description);
                 case 1:
                     if (sortDirection.Equals("asc"))
-                    {
                         return entrancesData = entrancesData.OrderBy(e => e.Type);
-                    }
+
                     return entrancesData.OrderByDescending(e => e.Type);
                 case 2:
                     if (sortDirection.Equals("asc"))
-                    {
                         return entrancesData.OrderBy(e => e.Value);
-                    }
+
                     return entrancesData.OrderByDescending(e => e.Value);
                 case 3:
                     if (sortDirection.Equals("asc"))
-                    {
                         return entrancesData.OrderBy(e => e.Category.Name);
-                    }
+
                     return entrancesData.OrderByDescending(e => e.Category.Name);
                 default:
                     if (sortDirection.Equals("asc"))
-                    {
                         return entrancesData.OrderBy(e => e.CreatedAt);
-                    }
+
                     return entrancesData.OrderByDescending(e => e.CreatedAt);
             }
         }
 
         /// <summary>
-        /// Take last ten entraces ordered by CreatedAt field
+        /// Take last five entraces ordered by CreatedAt field
         /// </summary>
         /// <returns></returns>
         public async Task<IEnumerable<EntranceResultDto>> FindAsyncLastFiveEntrancesWithCategories(Guid userId)
         {
-            var userWalletsIds = _walletService.FindAsyncWalletsUserIds(userId);
-            var result = await _repository.FindAsyncLastFiveEntrancesWithCategories(userWalletsIds);
-            return _mapper.Map<IEnumerable<EntranceResultDto>>(result);
+            var userWalletsIds = await _walletService.FindAsyncWalletsUserIds(userId);
+            var result = await _repository.FindAllAsyncWithCategory(userWalletsIds.ToList());
+            var lastFiveEntrances = result.Take(5);
+            return _mapper.Map<IEnumerable<EntranceResultDto>>(lastFiveEntrances);
         }
 
         public List<EntranceTypeResultDto> FindEntranceTypes()
@@ -131,21 +142,22 @@ namespace Service.Services
                 new EntranceTypeResultDto() { Value = (int) EntranceType.Income, Name = "Income"},
                 new EntranceTypeResultDto() { Value = (int) EntranceType.Expanse, Name = "Expanse"},
                 new EntranceTypeResultDto() { Value = (int) EntranceType.Transference, Name = "Transference"},
-            };  
+            };
         }
         #endregion
 
+        #region Setup view models
         public async Task<EntranceCreateViewModel> SetupEntranceCreateViewModel(Guid userId)
         {
             var entraceCreateViewModel = new EntranceCreateViewModel();
             entraceCreateViewModel.Entrance = new EntranceCreateDto();
             entraceCreateViewModel.Wallets = await _walletService.FindAsyncWalletsUser(userId);
-            if (entraceCreateViewModel.Wallets.Count() == 0)
-                throw new Exception("Any Wallet was found");
+            if (entraceCreateViewModel.Wallets == null || entraceCreateViewModel.Wallets.Count() == 0)
+                throw new ArgumentException("Any Wallet was found");
 
             entraceCreateViewModel.Categories = await _categoryService.FindAsyncNameAndIdUserCategories(userId);
-            if (entraceCreateViewModel.Categories == null)
-                throw new Exception("Any Category was found");
+            if (entraceCreateViewModel.Categories == null || entraceCreateViewModel.Categories.Count() == 0)
+                throw new ArgumentException("Any Category was found");
 
             entraceCreateViewModel.EntranceTypes = FindEntranceTypes();
             return entraceCreateViewModel;
@@ -160,12 +172,13 @@ namespace Service.Services
             entraceUpdateViewModel.EntranceTypes = FindEntranceTypes();
             return entraceUpdateViewModel;
         }
+        #endregion
 
         public async Task<EntranceResultDto> CreateAsync(EntranceCreateDto entraceCreateDto)
         {
             var updateWalletValue = await _walletService
                 .UpdateWalletValue(entraceCreateDto.WalletId, entraceCreateDto.Type, entraceCreateDto.Value);
-            if (updateWalletValue == 0)
+            if (updateWalletValue == null)
                 return null;
 
             var category = await _categoryService.FindByIdAsync(entraceCreateDto.CategoryId);
@@ -187,7 +200,7 @@ namespace Service.Services
 
             var updateWalletValue = await _walletService
                 .UpdateWalletValue(entraceUpdateDto.WalletId, entraceUpdateDto.Type, entraceUpdateDto.Value);
-            if (updateWalletValue == 0)
+            if (updateWalletValue == null)
                 return null;
 
             if (await _categoryService.FindByIdAsync(entraceUpdateDto.CategoryId) == null)
@@ -202,6 +215,6 @@ namespace Service.Services
             return null;
         }
 
-        public async Task<bool> DeleteAsync(Guid Id) => await _repository.DeleteAsync(Id);
+        public async Task<bool> DeleteAsync(Guid id) => await _repository.DeleteAsync(id);
     }
 }

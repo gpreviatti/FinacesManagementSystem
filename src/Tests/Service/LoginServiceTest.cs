@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Domain.Dtos;
-using Domain.Dtos.Category;
 using Domain.Dtos.Login;
 using Domain.Dtos.User;
-using Domain.Dtos.Wallet;
-using Domain.Entities;
 using Domain.Interfaces.Services;
 using Moq;
 using Xunit;
@@ -26,7 +19,7 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Should Login")]
-        [Trait("Login", "ShouldLogin")]
+        [Trait("Service", "Login")]
         public async void ShouldLogin()
         {
             var email = Faker.Internet.Email();
@@ -40,8 +33,8 @@ namespace Tests.Service
             {
                 AccessToken = "12231312312312",
                 Authenticated = true,
-                CreatedAt = FakerDate.ToString("yyyy/mm/dd"),
-                Expiration = FakerDate.AddHours(8).ToString("yyyy/mm/dd"),
+                CreatedAt = _fakerDate.ToString("yyyy/mm/dd"),
+                Expiration = _fakerDate.AddHours(8).ToString("yyyy/mm/dd"),
                 Message = "Authenticated",
                 User = new UserResultDto() { Id = Guid.NewGuid(), Email = email, Name = Faker.Name.First() }
             };
@@ -56,11 +49,11 @@ namespace Tests.Service
         }
 
         [Fact(DisplayName = "Should not login")]
-        [Trait("Login", "ShouldNotLogin")]
+        [Trait("Service", "Login")]
         public async void ShouldNotLogin()
         {
             var email = Faker.Internet.Email();
-            var loginDto = new LoginDto() {};
+            var loginDto = new LoginDto() { };
 
             _serviceMock = new Mock<ILoginService>();
             _serviceMock.Setup(m => m.Login(loginDto));

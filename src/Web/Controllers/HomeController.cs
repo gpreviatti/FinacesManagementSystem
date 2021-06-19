@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Domain.Dtos.Wallet;
 using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,10 +16,11 @@ namespace Web.Controllers
         private readonly IEntranceService _entraceService;
         private readonly IWalletService _walletService;
 
-        public HomeController(IEntranceService entraceService, IWalletService walletService, ILogger<HomeController> logger) : base(logger)
+        public HomeController(IServiceProvider serviceProvider, ILogger<HomeController> logger) : 
+            base(serviceProvider, logger)
         {
-            _entraceService = entraceService;
-            _walletService = walletService;
+            _entraceService = GetService<IEntranceService>();
+            _walletService = GetService<IWalletService>();
         }
 
         public async Task<IActionResult> Index()

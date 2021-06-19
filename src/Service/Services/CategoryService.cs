@@ -22,105 +22,10 @@ namespace Service.Services
             _mapper = mapper;
         }
 
-        #region Find
-        public async Task<CategoryResultDto> FindByIdAsync(Guid Id)
-        {
-            var result = await _repository.FindByIdAsync(Id);
-            return _mapper.Map<CategoryResultDto>(result);
-        }
-        public async Task<CategoryUpdateDto> FindByIdUpdateAsync(Guid Id)
-        {
-            var result = await _repository.FindByIdAsync(Id);
-            return _mapper.Map<CategoryUpdateDto>(result);
-        }
-
-        public async Task<IEnumerable<CategoryResultDto>> FindAsyncNameAndIdUserCategories(Guid userId)
-        {
-            var categories = await _repository.FindAsyncAllCommonAndUserCategories(userId);
-            var result = categories.Select(c => new CategoryResultDto { Id = c.Id, Name = c.Name }).ToList();
-            return _mapper.Map<IEnumerable<CategoryResultDto>>(result);
-        }
-
-        /// <summary>
-        /// Return common categories and users categories
-        /// </summary>
-        /// <returns></returns>
-        public async Task<IEnumerable<CategoryResultDto>> FindAsyncAllCommonAndUserCategories(Guid userId)
-        {
-            var result = await _repository.FindAsyncAllCommonAndUserCategories(userId);
-            return _mapper.Map<IEnumerable<CategoryResultDto>>(result);
-        }
-
-        public async Task<CategoryUpdateViewModel> SetupCategoryUpdateViewModel(Guid id, Guid userId)
-        {
-            return new CategoryUpdateViewModel
-            {
-                Category = await FindByIdUpdateAsync(id),
-                Categories = await FindAsyncAllCommonAndUserCategories(userId)
-            };
-        }
-
-        /// <summary>
-        /// Return common categories and users categories on datatables format
-        /// </summary>
-        /// <param name="datatablesModel"></param>
-        /// <returns></returns>
-        public async Task<DatatablesModel<CategoryResultDto>> FindAsyncAllCommonAndUserCategoriesDatatables(DatatablesModel<CategoryResultDto> datatablesModel, Guid userId)
-        {
-            var result = await _repository.FindAsyncAllCommonAndUserCategories(userId);
-            var categories = _mapper.Map<IEnumerable<CategoryResultDto>>(result);
-            foreach (var category in categories)
-                category.Total = category.Entrances.Select(c => c.Value).Sum();
-
-            datatablesModel.RecordsTotal = categories.Count();
-
-            if (!string.IsNullOrEmpty(datatablesModel.SearchValue))
-                categories = categories
-                .Where(m => m.Name.Contains(datatablesModel.SearchValue, StringComparison.OrdinalIgnoreCase));
-
-            if (!string.IsNullOrEmpty(datatablesModel.SortColumnDirection))
-                categories = SortDatatables(datatablesModel, categories);
-
-            datatablesModel.RecordsFiltered = categories.Count();
-            datatablesModel.Data = categories
-                .Skip(datatablesModel.Skip)
-                .Take(datatablesModel.PageSize)
-                .ToList();
-
-            return datatablesModel;
-        }
-        #endregion
-
-        private static IEnumerable<CategoryResultDto> SortDatatables(DatatablesModel<CategoryResultDto> datatablesModel, IEnumerable<CategoryResultDto> entrancesData)
-        {
-            var sortDirection = datatablesModel.SortColumnDirection;
-            switch (datatablesModel.SortColumn)
-            {
-                case 0:
-                    if (sortDirection.Equals("asc"))
-                        return entrancesData.OrderBy(e => e.Name);
-
-                    return entrancesData.OrderByDescending(e => e.Name);
-                case 1:
-                    if (sortDirection.Equals("asc"))
-                        return entrancesData.OrderBy(e => e.Total);
-
-                    return entrancesData.OrderByDescending(e => e.Total);
-                default:
-                    if (sortDirection.Equals("asc"))
-                        return entrancesData.OrderBy(e => e.CreatedAt);
-
-                    return entrancesData.OrderByDescending(e => e.CreatedAt);
-            }
-        }
-
         public async Task<CategoryResultDto> CreateAsync(CategoryCreateDto entityCreateDto, Guid userId)
         {
-            if (entityCreateDto.CategoryId == Guid.Empty)
-                return null;
-
-            if (userId == Guid.Empty)
-                return null;
+            if (entityCreateDto.CategoryId == Guid.Empty || userId == Guid.Empty)
+                throw new ArgumentException("Main Category or User not found");
 
             entityCreateDto.UserId = userId;
             var entity = _mapper.Map<Category>(entityCreateDto);
@@ -146,6 +51,108 @@ namespace Service.Services
             return null;
         }
 
-        public async Task<bool> DeleteAsync(Guid Id) => await _repository.DeleteAsync(Id);
+        public async Task<bool> DeleteAsync(Guid id) => await _repository.DeleteAsync(id);
+
+        #region Find
+        public async Task<CategoryResultDto> FindByIdAsync(Guid id)
+        {
+            var result = await _repository.FindByIdAsync(id);
+            return _mapper.Map<CategoryResultDto>(result);
+        }
+
+        public async Task<CategoryUpdateDto> FindByIdUpdateAsync(Guid id)
+        {
+            var result = await _repository.FindByIdAsync(id);
+            return _mapper.Map<CategoryUpdateDto>(result);
+        }
+
+        public async Task<IEnumerable<CategoryResultDto>> FindAsyncNameAndIdUserCategories(Guid userId) {
+                var result = await _repository.FindAsyncNameAndIdUserCategories(userId);
+                return _mapper.Map<IEnumerable<CategoryResultDto>>(result.ToList());
+        }
+
+        /// <summary>
+        /// Return common categories and users categories
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<CategoryResultDto>> FindAsyncAllCommonAndUserCategories(Guid userId)
+        {
+            var result = await Task.Run(() => _repository.FindAsyncAllCommonAndUserCategories(userId));
+            return _mapper.Map<IEnumerable<CategoryResultDto>>(result);
+        }
+
+        public async Task<CategoryUpdateViewModel> SetupCategoryUpdateViewModel(Guid id, Guid userId)
+        {
+            return new CategoryUpdateViewModel
+            {
+                Category = await FindByIdUpdateAsync(id),
+                Categories = await FindAsyncAllCommonAndUserCategories(userId)
+            };
+        }
+
+        /// <summary>
+        /// Return common categories and users categories on datatables format
+        /// </summary>
+        /// <param name="datatablesModel"></param>
+        /// <returns></returns>
+        public async Task<DatatablesModel<CategoryResultDto>> FindAsyncAllCommonAndUserCategoriesDatatables(
+            DatatablesModel<CategoryResultDto> datatablesModel, 
+            Guid userId
+        )
+        {
+            var categories = await Task.Run(() => _repository.FindAsyncAllCommonAndUserCategories(userId));
+
+            if (!categories.Any())
+                return null;
+
+            datatablesModel.RecordsTotal = categories.Count();
+
+            if (!string.IsNullOrEmpty(datatablesModel.SearchValue))
+                categories = categories.Where(m => m.Name.Contains(datatablesModel.SearchValue));
+
+            var categoriesData = _mapper.Map<IEnumerable<CategoryResultDto>>(categories);
+
+            foreach (var category in categoriesData)
+                category.Total = category.Entrances.Select(c => c.Value).Sum();
+
+            
+            if (!string.IsNullOrEmpty(datatablesModel.SortColumnDirection))
+                categoriesData = SortDatatables(datatablesModel, categoriesData);
+
+            datatablesModel.RecordsFiltered = categoriesData.Count();
+            await Task.Run(() => {
+                datatablesModel.Data = categoriesData
+                .Skip(datatablesModel.Skip)
+                .Take(datatablesModel.PageSize);
+            });
+            return datatablesModel;
+        }
+
+        private static IEnumerable<CategoryResultDto> SortDatatables(
+            DatatablesModel<CategoryResultDto> datatablesModel, 
+            IEnumerable<CategoryResultDto> categories
+        )
+        {
+            var sortDirection = datatablesModel.SortColumnDirection;
+            switch (datatablesModel.SortColumn)
+            {
+                case 0:
+                    if (sortDirection.Equals("asc"))
+                        return categories.OrderBy(e => e.Name);
+
+                    return categories.OrderByDescending(e => e.Name);
+                case 1:
+                    if (sortDirection.Equals("asc"))
+                        return categories.OrderBy(e => e.Total);
+
+                    return categories.OrderByDescending(e => e.Total);
+                default:
+                    if (sortDirection.Equals("asc"))
+                        return categories.OrderBy(e => e.CreatedAt);
+
+                    return categories.OrderByDescending(e => e.CreatedAt);
+            }
+        }
+        #endregion
     }
 }

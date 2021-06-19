@@ -1,12 +1,10 @@
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain.Dtos;
+using Domain.Dtos.Login;
+using Domain.Dtos.User;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
-using Domain.Security;
-using Microsoft.Extensions.Configuration;
-using Domain.Dtos.Login;
-using AutoMapper;
-using Domain.Dtos.User;
 using Helpers;
 
 namespace Service.Services
@@ -14,8 +12,6 @@ namespace Service.Services
     public class LoginService : BaseService, ILoginService
     {
         private readonly IUserRepository _repository;
-        private readonly SigningConfigurations _signingConfigurations;
-        private IConfiguration _configuration { get; }
 
         public LoginService(IUserRepository repository, IMapper mapper)
         {

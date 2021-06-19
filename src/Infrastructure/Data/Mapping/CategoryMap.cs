@@ -5,7 +5,7 @@ namespace Data.Mapping
 {
     public class CategoryMap : BaseMap<Category>
     {
-        public CategoryMap() : base("Categories") {}
+        public CategoryMap() : base("Categories") { }
 
         public override void Configure(EntityTypeBuilder<Category> builder)
         {

@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using Domain.Dtos.Entrance;
-using Domain.Dtos.EntranceTypeDto;
-using Domain.Interfaces.Services;
-using Microsoft.AspNetCore.Mvc;
-using Domain.Models;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using Domain.Dtos.Entrance;
+using Domain.Interfaces.Services;
+using Domain.Models;
 using Domain.ViewModels;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Web.Controllers
 {
@@ -17,7 +15,8 @@ namespace Web.Controllers
     {
         private readonly IEntranceService _service;
 
-        public EntranceController(IEntranceService service, ILogger<EntranceController> logger) : base(logger) => _service = service;
+        public EntranceController(IServiceProvider serviceProvider, ILogger<EntranceController> logger) : 
+            base(serviceProvider, logger) => _service = GetService<IEntranceService>();
 
         public IActionResult Index() => View();
 

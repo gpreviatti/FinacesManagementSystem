@@ -5,7 +5,7 @@ namespace Data.Mapping
 {
     public class UserMap : BaseMap<User>
     {
-        public UserMap() : base("Users") {}
+        public UserMap() : base("Users") { }
 
         public override void Configure(EntityTypeBuilder<User> builder)
         {

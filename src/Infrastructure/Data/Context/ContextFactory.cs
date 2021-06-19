@@ -10,8 +10,9 @@ namespace Data.Context
     {
         public MyContext CreateDbContext(string[] args)
         {
+            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var filename = Directory.GetCurrentDirectory() + $"/../../Web/appsettings.Development.json";
+            var filename = Directory.GetCurrentDirectory() + $"/../../Web/appsettings.{environment}.json";
 
             // Add config file
             var configuration = new ConfigurationBuilder()

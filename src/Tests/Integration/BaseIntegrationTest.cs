@@ -16,7 +16,7 @@ using Web;
 
 namespace Tests.Integration
 {
-    public abstract class BaseIntegrationTest : IDisposable
+    public abstract class BaseIntegrationTest : BaseTest, IDisposable
     {
         protected readonly IMapper _mapper;
         private static HttpClient _client;
@@ -28,7 +28,7 @@ namespace Tests.Integration
             _hostApi = "http://localhost/";
 
             var builder = new WebHostBuilder()
-               .UseEnvironment("Testing")
+               .UseEnvironment(_environment)
                .UseStartup<Startup>();
 
             var server = new TestServer(builder);
@@ -45,7 +45,6 @@ namespace Tests.Integration
         public IMapper GetMapper()
         {
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfile()));
-
             return config.CreateMapper();
         }
 

@@ -8,6 +8,12 @@ namespace Domain.Dtos.Entrance
 {
     public class EntranceResultDto : EntityResultDto
     {
+        public EntranceResultDto()
+        {
+            Wallet = new WalletResultDto();
+            Category = new CategoryResultDto();
+        }
+
         public string Description { get; set; }
 
         public string Ticker { get; set; }

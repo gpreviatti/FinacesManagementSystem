@@ -7,21 +7,12 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
-    <style>
-        .login-div {
-            position: center;
-            float: right;
-            padding: 5%;
-            transition: all .2s ease-in-out;
-            box-shadow: 0 2px 20px rgb(0 0 0 / 50%);
-        }
-    </style>
-    <div class="container">
+<body class="bg-black">
+    <div class="container bg-black">
         <main role="main" style="margin-top: 230px">
             <div class="row">
                 <div class="col-lg-6"></div>
-                <div class="col-lg-6 login-div rounded">
+                <div class="col-lg-6 login-div rounded bg-dark text-light">
                     <h3 class="mb-3">Finances Management System</h3>
                     @RenderBody()
                 </div>
@@ -29,7 +20,7 @@
         </main>
     </div>
 
-    <footer class="footer text-muted mt-3">
+    <footer class="footer text-muted mt-3 bg-black text-light">
         <div class="container">
             &copy; 2021 - Powered by <b>Giovanni Brunno Previatti</b> |
             <a href="https://github.com/gpreviatti/FinancesManagementSystem/issues/new?assignees=gpreviatti&labels=enhancement&template=feature_request.md&title=" target="_blank">Sugestions ?</a> |

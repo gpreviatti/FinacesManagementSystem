@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using Data.Context;
 using Microsoft.EntityFrameworkCore;
@@ -7,17 +6,13 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Tests.Data
 {
-    public abstract class BaseDataTest
+    public abstract class BaseDataTest : BaseTest
     {
         protected MyContext _context;
 
-        /// <summary>
-        /// Add Config file and set environment
-        /// </summary>
         public BaseDataTest()
         {
-            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var filename = Directory.GetCurrentDirectory() + $"/../../Web/appsettings.{environment}.json";
+            var filename = Directory.GetCurrentDirectory() + $"/../../../../Web/appsettings.{_environment}.json";
 
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile(filename)
@@ -26,6 +21,10 @@ namespace Tests.Data
             SetupDatabase(configuration);
         }
 
+        /// <summary>
+        /// Setup Database connection and context
+        /// </summary>
+        /// <param name="configuration"></param>
         public void SetupDatabase(IConfigurationRoot configuration)
         {
             var serviceCollection = new ServiceCollection();

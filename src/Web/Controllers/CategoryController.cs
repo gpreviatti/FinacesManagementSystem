@@ -15,7 +15,8 @@ namespace Web.Controllers
     {
         private readonly ICategoryService _service;
 
-        public CategoryController(ICategoryService service, ILogger<CategoryController> logger) : base(logger) =>  _service = service;
+        public CategoryController(IServiceProvider serviceProvider, ILogger<CategoryController> logger) : 
+            base(serviceProvider, logger) => _service = GetService<ICategoryService>();
 
         public IActionResult Index() => View();
 
@@ -42,7 +43,7 @@ namespace Web.Controllers
             }
         }
 
-        public async Task <ActionResult> Create()
+        public async Task<ActionResult> Create()
         {
             try
             {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Domain.Dtos.Wallet;
 using Domain.Interfaces.Services;
 using Domain.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -14,14 +13,11 @@ namespace Web.Controllers
         private readonly IWalletService _service;
         private readonly IWalletTypeService _walletTypeService;
 
-        public WalletController(
-            IWalletService service, 
-            IWalletTypeService walletTypeService,
-            ILogger<WalletController> logger
-        ) : base(logger)
+        public WalletController(IServiceProvider serviceProvider, ILogger<WalletController> logger) : 
+            base(serviceProvider, logger)
         {
-            _service = service;
-            _walletTypeService = walletTypeService;
+            _service = GetService<IWalletService>();
+            _walletTypeService = GetService<IWalletTypeService>();
         }
 
         public async Task<ActionResult> Index()
@@ -37,7 +33,7 @@ namespace Web.Controllers
                 LoggingExceptions(exception);
                 return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
             }
-            
+
         }
 
         public async Task<ActionResult> Create()
@@ -66,7 +62,7 @@ namespace Web.Controllers
             {
                 GetClaims();
                 var result = await _service.CreateAsync(walletCreateViewModel.Wallet, UserId);
-                
+
                 if (result == null)
                     return BadRequest(ModelState);
 

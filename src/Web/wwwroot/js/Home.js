@@ -30,12 +30,17 @@ RenderWalletsCards = wallets => {
     wallets.forEach(wallet => {
         let id = wallet.id
         divWallets.innerHTML += `<div class="col-lg-6">
-            <div class="card mb-3">
-                <div class="card-header">
+            <div class="card mb-3 bg-dark text-light">
+                <div class="card-header bg-black">
                     ${wallet.name}
                 </div>
                 <div class="card-body">
-                    <canvas id="wallet-${id}"></canvas>
+                    <div class='current-value mb-3'>
+                        Current Value: ${FormatValueAsMoney(wallet.currentValue)}
+                    </div>
+                    <div>
+                        <canvas id="wallet-${id}"></canvas>
+                    </div>
                 </div>
             </div>
         </div>

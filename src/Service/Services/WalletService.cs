@@ -1,13 +1,13 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Domain.Dtos.Wallet;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
-using Domain.Enums;
 
 namespace Service.Services
 {
@@ -22,9 +22,9 @@ namespace Service.Services
         }
 
         #region Find
-        public async Task<WalletResultDto> FindByIdAsync(Guid Id)
+        public async Task<WalletResultDto> FindByIdAsync(Guid id)
         {
-            var result = await _repository.FindByIdAsync(Id);
+            var result = await _repository.FindByIdAsync(id);
             return _mapper.Map<WalletResultDto>(result);
         }
 
@@ -37,45 +37,49 @@ namespace Service.Services
         public async Task<IEnumerable<WalletResultDto>> FindAsyncWalletsUser(Guid userId)
         {
             var result = await _repository.FindAsyncWalletsUser(userId);
-            if (result == null)
+            if (!result.Any())
                 return null;
 
             var wallets = _mapper.Map<IEnumerable<WalletResultDto>>(result);
             return wallets;
         }
 
-        public List<Guid> FindAsyncWalletsUserIds(Guid userId) =>
-            _repository.FindAsyncWalletsUser(userId).Result.Select(w => w.Id).ToList();
+        public async Task<IEnumerable<Guid>> FindAsyncWalletsUserIds(Guid userId)
+        {
+            var result = await _repository.FindAsyncWalletsUser(userId);
+            return result.Select(w => w.Id);
+        }
 
         /// <summary>
         /// Return wallets values and sum them
         /// </summary>
         /// <returns></returns>
-        public async Task<WalletTotalValuesDto> WalletsTotalValues(Guid userId) 
+        public async Task<WalletTotalValuesDto> WalletsTotalValues(Guid userId)
         {
             var walletsValues = await _repository.FindAsyncWalletsValues(userId);
             var walletTotalValuesDto = new WalletTotalValuesDto();
-            walletTotalValuesDto.WalletsValues = walletsValues.ToList();
 
-            walletsValues.ToList().ForEach(w => {
+            walletsValues.ToList().ForEach(w =>
+            {
                 walletTotalValuesDto.TotalIncomes += w.TotalIncomes;
                 walletTotalValuesDto.TotalExpanses += w.TotalExpanses;
             });
 
+            walletTotalValuesDto.WalletsValues = walletsValues;
             return walletTotalValuesDto;
         }
         #endregion
 
         public async Task<WalletResultDto> CreateAsync(WalletCreateDto entityCreateDto, Guid userId)
-        { 
+        {
             if (entityCreateDto.WalletTypeId == Guid.Empty)
                 return null;
 
             if (userId == Guid.Empty)
                 return null;
 
-            entityCreateDto.UserId = userId;
             var entity = _mapper.Map<Wallet>(entityCreateDto);
+            entity.UserId = userId;
 
             await _repository.CreateAsync(entity);
             return _mapper.Map<WalletResultDto>(entity);
@@ -98,11 +102,11 @@ namespace Service.Services
             return null;
         }
 
-        public async Task<int> UpdateWalletValue(Guid id, int type, double value)
+        public async Task<WalletResultDto> UpdateWalletValue(Guid id, int type, double value)
         {
             var wallet = await _repository.FindByIdAsync(id);
             if (wallet == null)
-                return 0;
+                return null;
 
             switch (type)
             {
@@ -112,15 +116,17 @@ namespace Service.Services
                 case (int) EntranceType.Expanse:
                     if (value > wallet.CurrentValue)
                         throw new Exception("Insuficient founds :(");
+
                     wallet.CurrentValue = wallet.CurrentValue - value;
                     break;
                 default:
                     wallet.CurrentValue = wallet.CurrentValue;
                     break;
             }
-            return await _repository.SaveChangesAsync();
+            await _repository.SaveChangesAsync();
+            return _mapper.Map<WalletResultDto>(wallet);
         }
 
-        public async Task<bool> DeleteAsync(Guid Id) => await _repository.DeleteAsync(Id);
+        public async Task<bool> DeleteAsync(Guid id) => await _repository.DeleteAsync(id);
     }
 }
