@@ -1,15 +1,15 @@
 ﻿<!DOCTYPE html>
-<html lang="en" class="bg-black">
+<html lang="en">
 <head class="bg-dark">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FMS - @ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/flatly/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body class="bg-dark">
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+        <nav class="navbar navbar-expand-lg">
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                 <span class="navbar-toggler-icon"></span>
@@ -39,26 +39,26 @@
         </nav>
     </header>
 
-    <div class="container rounded bg-dark text-light">
+    <div class="container rounded">
         <main role="main" class="pb-3 mt-3">
             <div class="row mb-3">
                 <h1>@ViewData["Title"]</h1>
                 <hr />
             </div>
-            <div class="row bg-dark">
+            <div class="row">
                 @RenderBody()
             </div>
         </main>
     </div>
 
-    <footer class="footer text-muted mt-3 navbar-dark bg-black text-light">
+    <footer class="footer text-muted mt-3 navbar-dark">
         <div class="container">
             &copy; 2021 - Powered by <b>Giovanni Brunno Previatti</b> |
             <a href="https://github.com/gpreviatti/FinancesManagementSystem/issues/new?assignees=gpreviatti&labels=enhancement&template=feature_request.md&title=" target="_blank">Sugestions ?</a> |
             <a href="https://github.com/gpreviatti/FinancesManagementSystem/issues/new?assignees=gpreviatti&labels=bug&template=bug_report.md&title=" target="_blank">Problems ?</a> |
         </div>
     </footer>
-
+    
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

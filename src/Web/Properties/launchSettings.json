@@ -8,19 +8,12 @@
     }
   },
   "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "sqlDebugging": false
-    },
     "Web": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DATABASE_CONNECTION_STRING": "Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=FmsDB"
       },
       "dotnetRunMessages": "true",
       "applicationUrl": "http://localhost:5000"

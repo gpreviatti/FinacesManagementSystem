@@ -9,7 +9,10 @@ namespace CrossCutting.DependencyInjection
 {
     public class ConfigureRepository
     {
-        public static void ConfigureDependenciesRepository(IServiceCollection service, IConfiguration configuration)
+        public static void ConfigureDependenciesRepository(
+            IServiceCollection service, 
+            IConfiguration configuration
+        )
         {
             // Add Dependency Injection for repositories below
             service.AddScoped<IUserRepository, UserRepository>();
@@ -20,7 +23,7 @@ namespace CrossCutting.DependencyInjection
 
             // Connection Configs
             service.AddDbContext<MyContext>(
-                options => options.UseSqlServer(configuration.GetConnectionString("App"))
+                options => options.UseNpgsql(configuration.GetSection("ConnectionString").Value)
             );
         }
     }
