@@ -6,17 +6,19 @@ This is a simple software to management your finances, I tried to use concepts l
 
 ## :computer: Technologies
 
-- .Net Core (5.0.4)
+- Razor Pages
+
+- .Net (5.0.4)
 
 - Entity Framework Core
-
-- Local Db (MSSQL server based)
-
-- Razor Pages
 
 - XUnit
 
 - AutoMapper
+
+- Postgres
+
+- Docker
 
 ## :runner: How  to run
 
