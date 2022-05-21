@@ -14,26 +14,26 @@ namespace Data.Mapping
             builder.HasKey(l => l.Id);
 
             builder.Property(l => l.Message)
-                .HasColumnType("nvarchar(max)")
+                .HasColumnType("VARCHAR(255)")
                 .IsRequired(false);
 
             builder.Property(l => l.MessageTemplate)
-                .HasColumnType("nvarchar(max)")
+                .HasColumnType("VARCHAR(255)")
                 .IsRequired(false);
 
             builder.Property(l => l.Level)
-                .HasColumnType("nvarchar(max)")
+                .HasColumnType("VARCHAR(255)")
                 .IsRequired(false);
 
             builder.Property(l => l.Exception)
-                .HasColumnType("nvarchar(max)")
+                .HasColumnType("VARCHAR(255)")
                 .IsRequired(false);
 
             builder.Property(l => l.TimeStamp)
                 .HasDefaultValue(DateTime.Now);
 
             builder.Property(l => l.Propperties)
-                .HasColumnType("nvarchar(max)")
+                .HasColumnType("VARCHAR(255)")
                 .IsRequired(false);
         }
     }

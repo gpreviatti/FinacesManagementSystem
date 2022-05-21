@@ -21,7 +21,7 @@ namespace Data.Context
 
             var builder = new DbContextOptionsBuilder<MyContext>();
 
-            builder.UseSqlServer(configuration.GetSection("ConnectionString").Value);
+            builder.UseNpgsql(configuration.GetSection("ConnectionString").Value);
 
             return new MyContext(builder.Options);
         }

@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Infrastructure.Data.Migrations
 {
-    public partial class create_tables : Migration
+    public partial class Create_Tables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,14 +12,14 @@ namespace Infrastructure.Data.Migrations
                 name: "Logs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MessageTemplate = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Level = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 10, 20, 17, 21, 783, DateTimeKind.Local).AddTicks(6010)),
-                    Exception = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Propperties = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Message = table.Column<string>(type: "VARCHAR(255)", nullable: true),
+                    MessageTemplate = table.Column<string>(type: "VARCHAR(255)", nullable: true),
+                    Level = table.Column<string>(type: "VARCHAR(255)", nullable: true),
+                    TimeStamp = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2022, 5, 21, 17, 9, 33, 362, DateTimeKind.Local).AddTicks(2751)),
+                    Exception = table.Column<string>(type: "VARCHAR(255)", nullable: true),
+                    Propperties = table.Column<string>(type: "VARCHAR(255)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -29,12 +30,12 @@ namespace Infrastructure.Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 10, 20, 17, 21, 755, DateTimeKind.Local).AddTicks(4351)),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 10, 20, 17, 21, 763, DateTimeKind.Local).AddTicks(52))
+                    Id = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
+                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2022, 5, 21, 17, 9, 33, 324, DateTimeKind.Local).AddTicks(6803)),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2022, 5, 21, 17, 9, 33, 334, DateTimeKind.Local).AddTicks(2293))
                 },
                 constraints: table =>
                 {
@@ -45,10 +46,10 @@ namespace Infrastructure.Data.Migrations
                 name: "WalletTypes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 10, 20, 17, 21, 773, DateTimeKind.Local).AddTicks(169)),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 10, 20, 17, 21, 773, DateTimeKind.Local).AddTicks(536))
+                    Id = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
+                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2022, 5, 21, 17, 9, 33, 343, DateTimeKind.Local).AddTicks(5062)),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2022, 5, 21, 17, 9, 33, 343, DateTimeKind.Local).AddTicks(5528))
                 },
                 constraints: table =>
                 {
@@ -59,12 +60,12 @@ namespace Infrastructure.Data.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 10, 20, 17, 21, 776, DateTimeKind.Local).AddTicks(7670)),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 10, 20, 17, 21, 776, DateTimeKind.Local).AddTicks(7949))
+                    Id = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
+                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2022, 5, 21, 17, 9, 33, 348, DateTimeKind.Local).AddTicks(7912)),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2022, 5, 21, 17, 9, 33, 348, DateTimeKind.Local).AddTicks(8346))
                 },
                 constraints: table =>
                 {
@@ -87,16 +88,16 @@ namespace Infrastructure.Data.Migrations
                 name: "Wallets",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    CurrentValue = table.Column<double>(type: "float", nullable: false, defaultValue: 0.0),
-                    DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CloseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    WalletTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 10, 20, 17, 21, 774, DateTimeKind.Local).AddTicks(3723)),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 10, 20, 17, 21, 774, DateTimeKind.Local).AddTicks(4963))
+                    Id = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
+                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    CurrentValue = table.Column<double>(type: "double precision", nullable: false, defaultValue: 0.0),
+                    DueDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    CloseDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    WalletTypeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2022, 5, 21, 17, 9, 33, 345, DateTimeKind.Local).AddTicks(2223)),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2022, 5, 21, 17, 9, 33, 345, DateTimeKind.Local).AddTicks(3656))
                 },
                 constraints: table =>
                 {
@@ -119,16 +120,16 @@ namespace Infrastructure.Data.Migrations
                 name: "Entrances",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 36, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    Ticker = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    Observation = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    Value = table.Column<double>(type: "float", nullable: false),
-                    WalletId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 10, 20, 17, 21, 780, DateTimeKind.Local).AddTicks(5779)),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2021, 6, 10, 20, 17, 21, 780, DateTimeKind.Local).AddTicks(6069))
+                    Id = table.Column<Guid>(type: "uuid", maxLength: 36, nullable: false),
+                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
+                    Ticker = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: true),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Observation = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    Value = table.Column<double>(type: "double precision", nullable: false),
+                    WalletId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2022, 5, 21, 17, 9, 33, 356, DateTimeKind.Local).AddTicks(6670)),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2022, 5, 21, 17, 9, 33, 356, DateTimeKind.Local).AddTicks(7265))
                 },
                 constraints: table =>
                 {
@@ -172,8 +173,8 @@ namespace Infrastructure.Data.Migrations
                 columns: new[] { "Id", "Email", "Name", "Password" },
                 values: new object[,]
                 {
-                    { new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), "admin@admin.com", "Admin", "$2a$11$MKGmrszWSLy8e5JlvTRfjuZT0Mov4LlIKqkG7C4a86Cq9x7TIXJxW" },
-                    { new Guid("cb43d078-87f1-4864-853a-e626922b8109"), "testUser01@email.com", "Test-User-01", "$2a$11$a5Y4Fu507vh4YUTC2HN9wunKxZHW1m25UcVm/d6RkDtwheBz9wdHS" }
+                    { new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), "admin@admin.com", "Admin", "$2a$11$c.SIFTETbDiPYleF/XoVAuKjtJ26SNK7lfeAdSXmugTr4e/N0B7sC" },
+                    { new Guid("cb43d078-87f1-4864-853a-e626922b8109"), "testUser01@email.com", "Test-User-01", "$2a$11$7J.2vbWhQHkLXa0T.PSddu8Nmz5uUA6ljP4N9gpMTSv3dcYpwbRV2" }
                 });
 
             migrationBuilder.InsertData(
@@ -191,17 +192,12 @@ namespace Infrastructure.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Wallets",
                 columns: new[] { "Id", "CloseDate", "Description", "DueDate", "Name", "UserId", "WalletTypeId" },
-                values: new object[] { new Guid("040cc3ad-2159-4b8e-894e-e700a121b48f"), new DateTime(2021, 6, 10, 20, 17, 22, 59, DateTimeKind.Local).AddTicks(8436), "Main Account", new DateTime(2021, 6, 25, 20, 17, 22, 59, DateTimeKind.Local).AddTicks(8769), "Main Card", new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), new Guid("ad4ac47f-0888-4d60-81f9-964153b13e37") });
-
-            migrationBuilder.InsertData(
-                table: "Wallets",
-                columns: new[] { "Id", "CloseDate", "Description", "DueDate", "Name", "UserId", "WalletTypeId" },
-                values: new object[] { new Guid("041cc3ad-2159-4b8e-894e-e700a121b48f"), new DateTime(2021, 6, 10, 20, 17, 22, 59, DateTimeKind.Local).AddTicks(9181), "Credit Card Account", new DateTime(2021, 6, 25, 20, 17, 22, 59, DateTimeKind.Local).AddTicks(9185), "Credit", new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), new Guid("ad4ac47f-0888-4d60-81f9-964153b13e38") });
-
-            migrationBuilder.InsertData(
-                table: "Wallets",
-                columns: new[] { "Id", "CloseDate", "Description", "DueDate", "Name", "UserId", "WalletTypeId" },
-                values: new object[] { new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f"), new DateTime(2021, 6, 10, 20, 17, 22, 59, DateTimeKind.Local).AddTicks(9194), "My Savings", new DateTime(2021, 6, 25, 20, 17, 22, 59, DateTimeKind.Local).AddTicks(9195), "Saving", new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), new Guid("ad4ac47f-0888-4d60-81f9-964153b13e39") });
+                values: new object[,]
+                {
+                    { new Guid("040cc3ad-2159-4b8e-894e-e700a121b48f"), new DateTime(2022, 5, 21, 17, 9, 33, 763, DateTimeKind.Local).AddTicks(2367), "Main Account", new DateTime(2022, 6, 5, 17, 9, 33, 763, DateTimeKind.Local).AddTicks(2769), "Main Card", new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), new Guid("ad4ac47f-0888-4d60-81f9-964153b13e37") },
+                    { new Guid("041cc3ad-2159-4b8e-894e-e700a121b48f"), new DateTime(2022, 5, 21, 17, 9, 33, 763, DateTimeKind.Local).AddTicks(3262), "Credit Card Account", new DateTime(2022, 6, 5, 17, 9, 33, 763, DateTimeKind.Local).AddTicks(3267), "Credit", new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), new Guid("ad4ac47f-0888-4d60-81f9-964153b13e38") },
+                    { new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f"), new DateTime(2022, 5, 21, 17, 9, 33, 763, DateTimeKind.Local).AddTicks(3281), "My Savings", new DateTime(2022, 6, 5, 17, 9, 33, 763, DateTimeKind.Local).AddTicks(3283), "Saving", new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"), new Guid("ad4ac47f-0888-4d60-81f9-964153b13e39") }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_CategoryId",
@@ -221,8 +217,7 @@ namespace Infrastructure.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Entrances_Id_CategoryId",
                 table: "Entrances",
-                columns: new[] { "Id", "CategoryId" })
-                .Annotation("SqlServer:Clustered", false);
+                columns: new[] { "Id", "CategoryId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Entrances_WalletId",
