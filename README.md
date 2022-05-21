@@ -2,21 +2,31 @@
 
 ![CI](https://github.com/gpreviatti/FinancesManagementSystem/actions/workflows/dotnet.yml/badge.svg) ![Sonar](https://github.com/gpreviatti/FinancesManagementSystem/actions/workflows/sonar.yml/badge.svg)
 
-This is a simple software to management your finances, I tried to use concepts like **Solid, Clean Code and Domain Driven Design** to define the architecture and implement. If you have any doubt or suggestion let me know or open an issue on project repository.  
+This is a simple software to management your finances, I use concepts like: 
+
+- Solid 
+
+- Clean Code and 
+
+- Domain Driven Design
+
+If you have any doubt or suggestion let me know or open an issue on project repository.  
 
 ## :computer: Technologies
 
-- .Net Core (5.0.4)
+- Razor Pages
+
+- .Net (5.0.4)
 
 - Entity Framework Core
-
-- Local Db (MSSQL server based)
-
-- Razor Pages
 
 - XUnit
 
 - AutoMapper
+
+- Postgres
+
+- Docker
 
 ## :runner: How  to run
 
