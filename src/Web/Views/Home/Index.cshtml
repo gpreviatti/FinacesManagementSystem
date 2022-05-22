@@ -24,9 +24,9 @@
 </div>
 
 <div class="col-lg-6">
-    @Html.ActionLink("Create Entrance", "Create", "Entrance", null, new { @class = "btn btn-primary btn-sm btn-block mb-3" })
+    @Html.ActionLink("Create Entrance", "Create", "Entrance", null, new { @class = "btn btn-primary btn-sm btn-block mb-3 mt-3 col-sm-12" })
 
-    <table class="table table-dark text-light table-hover">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Description</th>
@@ -49,19 +49,19 @@
                                 switch (item.Type)
                                 {
                                     case 1:
-                                        @Html.Label("", "Income", htmlAttributes: new { @class = "badge badge-pill badge-success" });
+                                        @Html.Label("", "Income", htmlAttributes: new { @class = "badge bg-success" });
                                         break;
                                     case 2:
-                                        @Html.Label("", "Expanse", htmlAttributes: new { @class = "badge badge-pill badge-danger" });
+                                        @Html.Label("", "Expanse", htmlAttributes: new { @class = "badge bg-danger" });
                                         break;
                                     default:
-                                        @Html.Label("", "Unknown", htmlAttributes: new { @class = "badge badge-pill badge-secondary" });
+                                        @Html.Label("", "Unknown", htmlAttributes: new { @class = "badge bg-warning" });
                                         break;
                                 }
                             }
                         </td>
                         <td>@Html.DisplayFor(modelItem => item.Value)</td>
-                        <td>@Html.Label("", item.Category.Name, htmlAttributes: new { @class = "badge badge-pill badge-primary" })</td>
+                        <td>@Html.Label("", item.Category.Name, htmlAttributes: new { @class = "badge bg-primary" })</td>
                         <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
                         <td>
                             @Html.ActionLink("Edit", "Edit", "Entrance", new { id = item.Id }, htmlAttributes: new { @class = "btn btn-primary btn-sm" })

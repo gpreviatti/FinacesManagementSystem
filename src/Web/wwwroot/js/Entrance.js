@@ -20,11 +20,11 @@
                 data: data => {
                     switch (data.type) {
                         case 1:
-                            return `<label class="badge badge-pill badge-success">Income</label>`
+                            return `<label class="badge bg-success">Income</label>`
                         case 2:
-                            return `<label class="badge badge-pill badge-danger">Expanse</label>`
+                            return `<label class="badge bg-danger">Expanse</label>`
                         default:
-                            return `<label class="badge badge-pill badge-secondary">Unknown</label>`
+                            return `<label class="badge bg-warning">Unknown</label>`
                     }
                 }
             },
@@ -36,7 +36,7 @@
             {
                 title: "Category",
                 autoWidth: true,
-                data: data => `<label class="badge badge-pill badge-primary">${data.category.name}</label>`,
+                data: data => `<label class="badge bg-primary">${data.category.name}</label>`,
             },
             {
                 title: "Created At",

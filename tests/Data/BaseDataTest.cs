@@ -12,7 +12,7 @@ namespace Tests.Data
 
         public BaseDataTest()
         {
-            var filename = Directory.GetCurrentDirectory() + $"/../../../../src/Web/appsettings.{_environment}.json";
+            var filename = Directory.GetCurrentDirectory() + $"/../../../../src/Web/appsettings.Development.json";
 
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile(filename)
@@ -30,7 +30,7 @@ namespace Tests.Data
             var serviceCollection = new ServiceCollection();
 
             serviceCollection.AddDbContext<MyContext>(
-                options => options.UseSqlServer(configuration.GetConnectionString("App"))
+                options => options.UseNpgsql(configuration.GetSection("ConnectionString").Value)
             );
 
             var serviceProvider = serviceCollection.BuildServiceProvider();

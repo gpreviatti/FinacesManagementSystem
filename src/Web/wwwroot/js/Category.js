@@ -7,7 +7,7 @@ CreateChart = (canvasId, labels, data) => {
         data: {
             labels,
             datasets: [{
-                backgroundColor: ["#000"],
+                backgroundColor: ["#2780e3"],
                 data
             }]
         }
