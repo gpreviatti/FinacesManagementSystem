@@ -28,9 +28,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\Infrastructure\Data\Infrastructure.Data.csproj" />
-    <ProjectReference Include="..\Infrastructure\Helpers\Infrastructure.Helpers.csproj" />
-    <ProjectReference Include="..\Infrastructure\CrossCutting\Infrastructure.CrossCutting.csproj" />
+    <ProjectReference Include="..\Data\Infrastructure.Data.csproj" />
+    <ProjectReference Include="..\Helpers\Infrastructure.Helpers.csproj" />
+    <ProjectReference Include="..\CrossCutting\Infrastructure.CrossCutting.csproj" />
     <ProjectReference Include="..\Service\Service.csproj" />
     <ProjectReference Include="..\Web\Web.csproj" />
   </ItemGroup>
