@@ -1,0 +1,28 @@
+name: Base DDD Api Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Build
+      run: dotnet build ./FinancesManagementSystem.sln --configuration Release
+
+    - name: Tests
+      run: dotnet test --filter AutoMapper ./FinancesManagementSystem.sln --configuration Release &&
+           dotnet test --filter Controller ./FinancesManagementSystem.sln --configuration Release &&
+           dotnet test --filter Service ./FinancesManagementSystem.sln --configuration Release
+      
