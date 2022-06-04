@@ -19,10 +19,10 @@ jobs:
         dotnet-version: '6.0.x'
 
     - name: Build
-      run: dotnet build ./FinancesManagementSystem.sln --configuration Release
+      run: dotnet build ./src/FinancesManagementSystem.sln --configuration Release
 
     - name: Tests
-      run: dotnet test --filter AutoMapper ./FinancesManagementSystem.sln --configuration Release &&
-           dotnet test --filter Controller ./FinancesManagementSystem.sln --configuration Release &&
-           dotnet test --filter Service ./FinancesManagementSystem.sln --configuration Release
+      run: dotnet test --filter AutoMapper ./src/FinancesManagementSystem.sln --configuration Release &&
+           dotnet test --filter Controller ./src/FinancesManagementSystem.sln --configuration Release &&
+           dotnet test --filter Service ./src/FinancesManagementSystem.sln --configuration Release
       
