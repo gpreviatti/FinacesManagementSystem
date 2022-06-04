@@ -1,12 +1,10 @@
 # :moneybag: Finances Management System
 
-![CI](https://github.com/gpreviatti/FinancesManagementSystem/actions/workflows/dotnet.yml/badge.svg) ![Sonar](https://github.com/gpreviatti/FinancesManagementSystem/actions/workflows/sonar.yml/badge.svg)
+This is a simple software to management your finances, I use concepts like:
 
-This is a simple software to management your finances, I use concepts like: 
+- Solid
 
-- Solid 
-
-- Clean Code and 
+- Clean Code and
 
 - Domain Driven Design
 

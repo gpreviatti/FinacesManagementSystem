@@ -12,7 +12,7 @@ namespace Tests.Data
 
         public BaseDataTest()
         {
-            var filename = Directory.GetCurrentDirectory() + $"/../../../../src/Web/appsettings.Development.json";
+            var filename = Directory.GetCurrentDirectory() + $"/../../../../../src/Web/appsettings.Development.json";
 
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile(filename)

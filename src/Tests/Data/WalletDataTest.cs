@@ -21,8 +21,6 @@ namespace Tests.Data
             return new Wallet()
             {
                 Name = Faker.Name.First(),
-                CloseDate = DateTime.Now,
-                DueDate = DateTime.Now.AddDays(15),
                 Description = Faker.Name.First(),
                 CurrentValue = 1000,
                 WalletType = new WalletTypeDataTest().CreateWalletTypeEntity(),
