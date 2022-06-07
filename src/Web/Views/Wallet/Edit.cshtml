@@ -40,6 +40,7 @@
             <input asp-for="@Model.Wallet.CloseDate" class="form-control" type="date" />
             <span asp-validation-for="@Model.Wallet.CloseDate" class="text-danger"></span>
         </div>
+        <br>
         <div class="form-group">
             <input type="submit" value="Create" class="btn btn-sm btn-success" />
             @Html.ActionLink("Delete", "Delete", new { id = @Model.Wallet.Id }, htmlAttributes: new { @class = "btn btn-danger btn-sm" })

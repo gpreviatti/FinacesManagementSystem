@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Data.Context;
 using Microsoft.EntityFrameworkCore;
@@ -12,25 +13,23 @@ namespace Tests.Data
 
         public BaseDataTest()
         {
-            var filename = Directory.GetCurrentDirectory() + $"/../../../../../src/Web/appsettings.Development.json";
-
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile(filename)
-                .Build();
-
-            SetupDatabase(configuration);
+            SetupDatabase();
         }
 
         /// <summary>
         /// Setup Database connection and context
         /// </summary>
-        /// <param name="configuration"></param>
-        public void SetupDatabase(IConfigurationRoot configuration)
+        public void SetupDatabase()
         {
             var serviceCollection = new ServiceCollection();
 
+            Environment.SetEnvironmentVariable(
+                "DB_CONNECTION", 
+                "Host=localhost;Port=5432;Database=FinancesManagementSystem;User ID=postgres;Password=admin"
+            );
+
             serviceCollection.AddDbContext<MyContext>(
-                options => options.UseNpgsql(configuration.GetSection("ConnectionString").Value)
+                options => options.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION"))
             );
 
             var serviceProvider = serviceCollection.BuildServiceProvider();

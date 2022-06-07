@@ -17,6 +17,7 @@
             @Html.DropDownListFor(Model => Model.Category.CategoryId, new SelectList(@Model.Categories, "Id", "Name"), new { @class = "form-control" })
             <span asp-validation-for="@Model.Category.CategoryId" class="text-danger"></span>
         </div>
+        <br>
         <div class="form-group">
             <input type="submit" value="Create" class="btn btn-success btn-sm" />
             @Html.ActionLink("Back to List", "Index", "Category", null, new { @class = "btn btn-secondary btn-sm" })

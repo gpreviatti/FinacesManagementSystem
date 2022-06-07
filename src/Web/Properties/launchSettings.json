@@ -8,21 +8,30 @@
     }
   },
   "profiles": {
-    "Web": {
+    "Local": {
       "commandName": "Project",
-      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "DATABASE_CONNECTION_STRING": "Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=FmsDB"
+        "DB_CONNECTION": "Host=localhost;Port=5432;Database=FinancesManagementSystem;User ID=postgres;Password=admin"
+      },
+      "applicationUrl": "http://localhost:5000;https://localhost:5001",
+      "dotnetRunMessages": "true"
+    },
+    "Docker": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DB_CONNECTION": "Host=db;Port=5432;Database=FinancesManagementSystem;User ID=postgres;Password=admin"
       },
       "applicationUrl": "http://localhost:5000",
       "dotnetRunMessages": "true"
     },
-    "Docker": {
-      "commandName": "Docker",
-      "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      "publishAllPorts": true
+    "Production": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production",
+        "DB_CONNECTION": ""
+      }
     }
   }
 }

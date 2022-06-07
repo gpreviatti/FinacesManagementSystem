@@ -10,18 +10,14 @@ namespace Data.Context
     {
         public MyContext CreateDbContext(string[] args)
         {
-            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
-            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var filename = Directory.GetCurrentDirectory() + $"/../Web/appsettings.{environment}.json";
-
-            // Add config file
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile(filename)
-                .Build();
-
             var builder = new DbContextOptionsBuilder<MyContext>();
 
-            builder.UseNpgsql(configuration.GetSection("ConnectionString").Value);
+            Environment.SetEnvironmentVariable(
+                "DB_CONNECTION", 
+                "Host=localhost;Port=5432;Database=FinancesManagementSystem;User ID=postgres;Password=admin"
+            );
+
+            builder.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION"));
 
             return new MyContext(builder.Options);
         }

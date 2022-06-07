@@ -20,6 +20,7 @@
             @Html.DropDownListFor(Model => Model.Category.CategoryId, new SelectList(@Model.Categories, "Id", "Name"), new { @class = "form-control" })
             <span asp-validation-for="@Model.Category.CategoryId" class="text-danger"></span>
         </div>
+        <br>
         <div class="form-group">
             <input type="submit" value="Update" class="btn btn-success btn-sm" />
             @Html.ActionLink("Delete", "Delete", new { id = @Model.Category.Id }, htmlAttributes: new { @class = "btn btn-danger btn-sm" })

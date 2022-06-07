@@ -45,6 +45,18 @@ html {
   min-height: 100%;
 }
 
+.bg-primary, .btn-primary, .paginate_button, input, .form-control  {
+  background-color: black !important;
+  color: white !important;
+  border-color: black !important;
+}
+
+ul > li > .paginate_button {
+  background-color: black !important;
+  color: white !important;
+  border-color: black !important;
+}
+
 .footer {
   position: absolute;
   bottom: 0;

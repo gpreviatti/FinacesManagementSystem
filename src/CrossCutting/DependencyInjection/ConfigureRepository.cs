@@ -1,3 +1,4 @@
+using System;
 using Data.Context;
 using Data.Repositories;
 using Domain.Interfaces.Repositories;
@@ -9,10 +10,7 @@ namespace CrossCutting.DependencyInjection
 {
     public class ConfigureRepository
     {
-        public static void ConfigureDependenciesRepository(
-            IServiceCollection service, 
-            IConfiguration configuration
-        )
+        public static void ConfigureDependenciesRepository(IServiceCollection service)
         {
             // Add Dependency Injection for repositories below
             service.AddScoped<IUserRepository, UserRepository>();
@@ -23,7 +21,7 @@ namespace CrossCutting.DependencyInjection
 
             // Connection Configs
             service.AddDbContext<MyContext>(
-                options => options.UseNpgsql(configuration.GetSection("ConnectionString").Value)
+                options => options.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION"))
             );
         }
     }

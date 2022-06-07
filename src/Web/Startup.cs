@@ -23,7 +23,7 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureService.ConfigureDependenciesService(services);
-            ConfigureRepository.ConfigureDependenciesRepository(services, Configuration);
+            ConfigureRepository.ConfigureDependenciesRepository(services);
             ConfigureAutoMapper.ConfigureDepencenciesAutoMapper(services);
 
             // Authorization settings.  
