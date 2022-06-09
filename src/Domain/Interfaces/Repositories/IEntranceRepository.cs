@@ -9,6 +9,6 @@ namespace Domain.Interfaces.Repositories
 {
     public interface IEntranceRepository : IBaseRepository<Entrance>
     {
-        Task<IQueryable<EntranceResultDto>> FindAllAsyncWithCategory(List<Guid> userWallets);
+        Task<IQueryable<EntranceResultDto>> FindAllAsyncWithCategory(List<Guid> userWalletsId);
     }
 }

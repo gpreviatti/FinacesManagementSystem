@@ -15,8 +15,8 @@ namespace Domain.Interfaces.Services
         Task<IEnumerable<CategoryResultDto>> FindAsyncAllCommonAndUserCategories(Guid userId);
         Task<DatatablesModel<CategoryResultDto>> FindAsyncAllCommonAndUserCategoriesDatatables(DatatablesModel<CategoryResultDto> datatablesModel, Guid userId);
         Task<CategoryUpdateViewModel> SetupCategoryUpdateViewModel(Guid id, Guid userId);
-        Task<CategoryResultDto> CreateAsync(CategoryCreateDto category, Guid userId);
-        Task<CategoryResultDto> UpdateAsync(CategoryUpdateDto category);
+        Task<CategoryResultDto> CreateAsync(CategoryCreateDto entityCreateDto, Guid userId);
+        Task<CategoryResultDto> UpdateAsync(CategoryUpdateDto entityUpdateDto);
         Task<bool> DeleteAsync(Guid id);
     }
 }

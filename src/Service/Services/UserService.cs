@@ -32,13 +32,14 @@ namespace Service.Services
             return _mapper.Map<IEnumerable<UserResultDto>>(result);
         }
 
-        public async Task<UserResultDto> CreateAsync(UserCreateDto userDto)
+        public async Task<UserResultDto> CreateAsync(UserCreateDto userCreateDto)
         {
-            var user = _mapper.Map<User>(userDto);
+            var user = _mapper.Map<User>(userCreateDto);
             user.Password = EncryptHelper.HashField(user.Password);
 
             var result = await _repository.CreateAsync(user);
-            return _mapper.Map<UserResultDto>(user);
+            
+            return _mapper.Map<UserResultDto>(result);
         }
 
         public async Task<UserResultDto> UpdateAsync(UserUpdateDto userUpdateDto)

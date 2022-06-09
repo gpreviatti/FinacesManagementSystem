@@ -9,8 +9,8 @@ namespace Domain.Interfaces.Services
     {
         Task<UserResultDto> FindByIdAsync(Guid id);
         Task<IEnumerable<UserResultDto>> FindAllAsync();
-        Task<UserResultDto> CreateAsync(UserCreateDto entity);
-        Task<UserResultDto> UpdateAsync(UserUpdateDto user);
+        Task<UserResultDto> CreateAsync(UserCreateDto userCreateDto);
+        Task<UserResultDto> UpdateAsync(UserUpdateDto userUpdateDto);
         Task<bool> DeleteAsync(Guid id);
     }
 }

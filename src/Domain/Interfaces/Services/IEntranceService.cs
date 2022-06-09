@@ -12,15 +12,15 @@ namespace Domain.Interfaces.Services
     {
         Task<EntranceResultDto> FindByIdAsync(Guid id);
         Task<EntranceUpdateDto> FindByIdUpdateAsync(Guid id);
-        Task<DatatablesModel<EntranceResultDto>> FindAllAsyncWithCategoryDatatables(DatatablesModel<EntranceResultDto> paginationModel, Guid userId);
+        Task<DatatablesModel<EntranceResultDto>> FindAllAsyncWithCategoryDatatables(DatatablesModel<EntranceResultDto> datatablesModel, Guid userId);
         Task<IEnumerable<EntranceResultDto>> FindAsyncLastFiveEntrancesWithCategories(Guid userId);
         List<EntranceTypeResultDto> FindEntranceTypes();
 
         Task<EntranceCreateViewModel> SetupEntranceCreateViewModel(Guid userId);
         Task<EntranceUpdateViewModel> SetupEntranceUpdateViewModel(Guid userId, Guid id);
 
-        Task<EntranceResultDto> CreateAsync(EntranceCreateDto entrace);
-        Task<EntranceResultDto> UpdateAsync(EntranceUpdateDto entrace);
+        Task<EntranceResultDto> CreateAsync(EntranceCreateDto entraceCreateDto);
+        Task<EntranceResultDto> UpdateAsync(EntranceUpdateDto entraceUpdateDto);
         Task<bool> DeleteAsync(Guid id);
     }
 }

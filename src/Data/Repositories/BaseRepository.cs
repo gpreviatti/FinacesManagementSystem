@@ -18,15 +18,15 @@ namespace Data.Repositories
             _dataset = _context.Set<T>();
         }
 
-        public async Task<T> CreateAsync(T item)
+        public async Task<T> CreateAsync(T entity)
         {
-            if (item.Id == Guid.Empty)
-                item.Id = Guid.NewGuid();
+            if (entity.Id == Guid.Empty)
+                entity.Id = Guid.NewGuid();
 
-            _dataset.Add(item);
+            _dataset.Add(entity);
             await SaveChangesAsync();
 
-            return item;
+            return entity;
         }
 
         public async Task<T> FindByIdAsync(Guid id) => await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(id));

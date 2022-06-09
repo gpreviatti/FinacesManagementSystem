@@ -70,29 +70,29 @@ namespace Service.Services
         }
         #endregion
 
-        public async Task<WalletResultDto> CreateAsync(WalletCreateDto entityCreateDto, Guid userId)
+        public async Task<WalletResultDto> CreateAsync(WalletCreateDto walletCreateDto, Guid userId)
         {
-            if (entityCreateDto.WalletTypeId == Guid.Empty)
+            if (walletCreateDto.WalletTypeId == Guid.Empty)
                 return null;
 
             if (userId == Guid.Empty)
                 return null;
 
-            var entity = _mapper.Map<Wallet>(entityCreateDto);
+            var entity = _mapper.Map<Wallet>(walletCreateDto);
             entity.UserId = userId;
 
             await _repository.CreateAsync(entity);
             return _mapper.Map<WalletResultDto>(entity);
         }
 
-        public async Task<WalletResultDto> UpdateAsync(WalletUpdateDto entityUpdateDto)
+        public async Task<WalletResultDto> UpdateAsync(WalletUpdateDto walletUpdateDto)
         {
-            var result = await _repository.FindByIdAsync(entityUpdateDto.Id);
+            var result = await _repository.FindByIdAsync(walletUpdateDto.Id);
 
             if (result == null)
                 return null;
 
-            var entity = _mapper.Map(entityUpdateDto, result);
+            var entity = _mapper.Map(walletUpdateDto, result);
 
             var savedChanges = await _repository.SaveChangesAsync();
 
@@ -111,13 +111,13 @@ namespace Service.Services
             switch (type)
             {
                 case (int) EntranceType.Income:
-                    wallet.CurrentValue = wallet.CurrentValue + value;
+                    wallet.CurrentValue += value;
                     break;
                 case (int) EntranceType.Expanse:
                     if (value > wallet.CurrentValue)
                         throw new Exception("Insuficient founds :(");
 
-                    wallet.CurrentValue = wallet.CurrentValue - value;
+                    wallet.CurrentValue -= value;
                     break;
                 default:
                     wallet.CurrentValue = wallet.CurrentValue;
