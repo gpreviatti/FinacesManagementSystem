@@ -31,6 +31,12 @@ jobs:
     name: SonarScanner
     # needs: [test]
     steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+
       - uses: highbyte/sonarscan-dotnet@v2.1.2
         with:
           # The key of the SonarQube project
