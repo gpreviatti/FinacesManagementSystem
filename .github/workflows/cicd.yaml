@@ -40,10 +40,8 @@ jobs:
       - name: Build
         run: dotnet build ./src/FinancesManagementSystem.sln --configuration Release
 
-      - name: Go to project folder
-        run: cd ./src/
-
       - uses: highbyte/sonarscan-dotnet@v2.1.2
+        run: cd ./src/
         with:
           # The key of the SonarQube project
           sonarProjectKey: gpreviatti_FinancesManagementSystem
