@@ -69,7 +69,7 @@ jobs:
   deploy-to-heroku:
     runs-on: ubuntu-latest
     name: Deploy to Heroku
-    # needs: [push-to-docker]
+    needs: [push-to-docker]
     steps:
       # Check-out your repository.
       - name: Checkout
