@@ -32,7 +32,6 @@ jobs:
     # needs: [test]
     steps:
       - uses: highbyte/sonarscan-dotnet@v2.1.2
-        run: cd ./src/
         with:
           # The key of the SonarQube project
           sonarProjectKey: gpreviatti_FinancesManagementSystem
