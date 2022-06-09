@@ -28,7 +28,7 @@ jobs:
   push-to-docker:
     runs-on: ubuntu-latest
     name: Push to docker
-    needs: [tests]
+    needs: [test]
     steps:
       - uses: actions/checkout@v2
 
