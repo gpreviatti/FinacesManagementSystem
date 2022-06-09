@@ -26,10 +26,23 @@ jobs:
            dotnet test --filter Controller ./src/FinancesManagementSystem.sln --configuration Release &&
            dotnet test --filter Service ./src/FinancesManagementSystem.sln --configuration Release
 
-  sonarcloud:
+  sonarscanner:
     runs-on: ubuntu-latest
-    name: SonarScanner for .NET 6 with pull request decoration support
+    name: SonarScanner
+    needs: [test]
     steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+
+      - name: Build
+        run: dotnet build ./src/FinancesManagementSystem.sln --configuration Release
+
+      - name: Go to project folder
+        run: cd ./src/
+
       - uses: highbyte/sonarscan-dotnet@v2.1.2
         with:
           # The key of the SonarQube project
@@ -65,8 +78,10 @@ jobs:
             giov3nn10/finances-management-system:latest
             giov3nn10/finances-management-system:${{ github.run_number }}
 
-  # deploy-to-heroku:
-  #   runs-on: ubuntu-latest
-  #   name: Deploy to Heroku
-  #   needs: [push-to-docker]
+  deploy-to-heroku:
+    runs-on: ubuntu-latest
+    name: Deploy to Heroku
+    needs: [push-to-docker, sonarscanner]
+    steps: 
+     - run: echo "WIP"
       
