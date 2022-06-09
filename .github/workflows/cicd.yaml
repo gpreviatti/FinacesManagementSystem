@@ -46,6 +46,9 @@ jobs:
           # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
           sonarOrganization: gpreviatti
           dotnetBuildArguments: ./src/FinancesManagementSystem.sln --configuration Release
+          dotnetTestArguments: --filter AutoMapper ./src/FinancesManagementSystem.sln --configuration Release &&
+                dotnet test --filter Controller ./src/FinancesManagementSystem.sln --configuration Release &&
+                dotnet test --filter Service ./src/FinancesManagementSystem.sln --configuration Release
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
