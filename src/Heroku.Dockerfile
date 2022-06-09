@@ -24,6 +24,5 @@ RUN apk add tzdata \
 
 COPY --from=build /app/publish .
 
-EXPOSE 80
-
-ENTRYPOINT ["dotnet", "Web.dll"]
+# Use the following instead for Heroku
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet Web.dll

@@ -9,62 +9,62 @@ env:
 
 jobs:
 
-  # sonarscanner:
-  #   runs-on: ubuntu-latest
-  #   name: Test and SonarScanner 
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Setup .NET
-  #       uses: actions/setup-dotnet@v1
-  #       with:
-  #         dotnet-version: '6.0.x'
+  sonarscanner:
+    runs-on: ubuntu-latest
+    name: Test and SonarScanner 
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
 
-  #     - uses: highbyte/sonarscan-dotnet@v2.1.2
-  #       with:
-  #         # The key of the SonarQube project
-  #         sonarProjectKey: gpreviatti_FinancesManagementSystem
-  #         # The name of the SonarQube project
-  #         sonarProjectName:  FinancesManagementSystem
-  #         # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
-  #         sonarOrganization: gpreviatti
+      - uses: highbyte/sonarscan-dotnet@v2.1.2
+        with:
+          # The key of the SonarQube project
+          sonarProjectKey: gpreviatti_FinancesManagementSystem
+          # The name of the SonarQube project
+          sonarProjectName:  FinancesManagementSystem
+          # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
+          sonarOrganization: gpreviatti
 
-  #         # Optional command arguments to 'dotnet build'
-  #         dotnetBuildArguments: ${{ env.SOLUTION_PATH }} --configuration Release
+          # Optional command arguments to 'dotnet build'
+          dotnetBuildArguments: ${{ env.SOLUTION_PATH }} --configuration Release
 
-  #         # Optional command arguments to 'dotnet test'
-  #         dotnetTestArguments: |
-  #             --filter AutoMapper ${{ env.SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover &&
-  #               dotnet test --filter Controller ${{ env.SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover &&
-  #               dotnet test --filter Service ${{ env.SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+          # Optional command arguments to 'dotnet test'
+          dotnetTestArguments: |
+              --filter AutoMapper ${{ env.SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover &&
+                dotnet test --filter Controller ${{ env.SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover &&
+                dotnet test --filter Service ${{ env.SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
-  #         # Optional extra command arguments the the SonarScanner 'begin' command
-  #         sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
-  #   env:
-  #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Optional extra command arguments the the SonarScanner 'begin' command
+          sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # push-to-docker:
-  #   runs-on: ubuntu-latest
-  #   name: Push to docker
-  #   needs: [sonarscanner]
-  #   steps:
-  #     - uses: actions/checkout@v2
+  push-to-docker:
+    runs-on: ubuntu-latest
+    name: Push to docker
+    needs: [sonarscanner]
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: Docker Login
-  #       uses: docker/login-action@v1.10.0
-  #       with:
-  #         username: ${{ secrets.DOCKERHUB_USER }}
-  #         password: ${{ secrets.DOCKERHUB_PWD }}
+      - name: Docker Login
+        uses: docker/login-action@v1.10.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PWD }}
 
-  #     - name: Docker Build and Push Docker registry
-  #       uses: docker/build-push-action@v2.7.0
-  #       with:
-  #         context: ./src
-  #         file: ./src/Dockerfile
-  #         push: true
-  #         tags: |
-  #           giov3nn10/finances-management-system:latest
-  #           giov3nn10/finances-management-system:${{ github.run_number }}
+      - name: Docker Build and Push Docker registry
+        uses: docker/build-push-action@v2.7.0
+        with:
+          context: ./src
+          file: ./src/Dockerfile
+          push: true
+          tags: |
+            giov3nn10/finances-management-system:latest
+            giov3nn10/finances-management-system:${{ github.run_number }}
 
   deploy-to-heroku:
     runs-on: ubuntu-latest
@@ -99,7 +99,7 @@ jobs:
 
           # (Optional, default: "Dockerfile")
           # Dockerfile name.
-          dockerfile_name: Dockerfile
+          dockerfile_name: Heroku.Dockerfile
 
           # (Optional, default: "")
           # Additional options of docker build command.
