@@ -12,6 +12,18 @@ services:
     networks:
       - fms-network
 
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "16543:80"
+    depends_on:
+      - db
+    networks:
+      - fms-network
+
   app:
     container_name: app
     build:

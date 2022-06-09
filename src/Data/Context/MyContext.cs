@@ -9,7 +9,9 @@ namespace Data.Context
     {
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {
-            //Database.Migrate();
+            // Every time that had a new migration in the project,
+            // this command will be updated your database
+            Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

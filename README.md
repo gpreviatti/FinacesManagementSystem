@@ -8,13 +8,13 @@ This is a simple software to management your finances, I use concepts like:
 
 - Domain Driven Design
 
-If you have any doubt or suggestion let me know or open an issue on project repository.  
+If you have any doubt or suggestion let me know or open an issue on project repository.
 
 ## :computer: Technologies
 
 - Razor Pages
 
-- .Net (5.0.4)
+- .Net (6.0.0)
 
 - Entity Framework Core
 
@@ -33,9 +33,5 @@ Clone the repository
 Than run the following commands
 
 `dotnet build`
-
-`cd src/Infrastructure/Data`
-
-`dotnet ef database update`
 
 `dotnet run`
