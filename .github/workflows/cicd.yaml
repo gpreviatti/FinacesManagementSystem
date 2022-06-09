@@ -39,7 +39,7 @@ jobs:
           sonarProjectName:  FinancesManagementSystem
           # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
           sonarOrganization: gpreviatti
-          dotnetBuildArguments: ./src
+          dotnetBuildArguments: ./src/Web
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
