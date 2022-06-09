@@ -1,0 +1,52 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Build
+      run: dotnet build ./src/FinancesManagementSystem.sln --configuration Release
+
+    - name: Tests
+      run: dotnet test --filter AutoMapper ./src/FinancesManagementSystem.sln --configuration Release &&
+           dotnet test --filter Controller ./src/FinancesManagementSystem.sln --configuration Release &&
+           dotnet test --filter Service ./src/FinancesManagementSystem.sln --configuration Release
+  push-to-docker:
+    runs-on: ubuntu-latest
+    needs: [tests]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Docker Login
+        uses: docker/login-action@v1.10.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PWD }}
+
+      - name: Docker Build and Push Docker registry
+        uses: docker/build-push-action@v2.7.0
+        with:
+          context: ./Backend
+          file: ./Backend/Dockerfile
+          push: true
+          tags: |
+            giov3nn10/finances-management-system:latest
+            giov3nn10/finances-management-system:${{ github.run_number }}
+  # deploy-to-heroku:
+  #   runs-on: ubuntu-latest
+  #   needs: [push-to-docker]
+      
