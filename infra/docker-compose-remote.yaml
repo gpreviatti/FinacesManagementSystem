@@ -28,8 +28,7 @@ services:
 
   app:
     container_name: app
-    build:
-      context: ../src/
+    image: giov3nn10/finances-management-system:latest
     networks:
       - fms-network
     ports:
