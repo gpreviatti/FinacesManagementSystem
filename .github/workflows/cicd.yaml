@@ -7,29 +7,10 @@ on:
     branches: [ main ]
 
 jobs:
-  # test:
-
-    # runs-on: ubuntu-latest
-    # name: Tests
-    # steps:
-    # - uses: actions/checkout@v2
-    # - name: Setup .NET
-    #   uses: actions/setup-dotnet@v1
-    #   with:
-    #     dotnet-version: '6.0.x'
-
-    # - name: Build
-    #   run: dotnet build ./src/FinancesManagementSystem.sln --configuration Release
-
-    # - name: Tests
-    #   run: dotnet test --filter AutoMapper ./src/FinancesManagementSystem.sln --configuration Release &&
-    #        dotnet test --filter Controller ./src/FinancesManagementSystem.sln --configuration Release &&
-    #        dotnet test --filter Service ./src/FinancesManagementSystem.sln --configuration Release
 
   sonarscanner:
     runs-on: ubuntu-latest
-    name: SonarScanner
-    # needs: [test]
+    name: Test and SonarScanner 
     steps:
       - uses: actions/checkout@v2
       - name: Setup .NET
@@ -45,10 +26,12 @@ jobs:
           sonarProjectName:  FinancesManagementSystem
           # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
           sonarOrganization: gpreviatti
+
           dotnetBuildArguments: ./src/FinancesManagementSystem.sln --configuration Release
-          dotnetTestArguments: --filter AutoMapper ./src/FinancesManagementSystem.sln --configuration Release &&
-                dotnet test --filter Controller ./src/FinancesManagementSystem.sln --configuration Release &&
-                dotnet test --filter Service ./src/FinancesManagementSystem.sln --configuration Release
+
+          dotnetTestArguments: --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover --filter AutoMapper ./src/FinancesManagementSystem.sln --configuration Release &&
+                dotnet test --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover --filter Controller ./src/FinancesManagementSystem.sln --configuration Release &&
+                dotnet test --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover --filter Service ./src/FinancesManagementSystem.sln --configuration Release
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -56,7 +39,7 @@ jobs:
   # push-to-docker:
   #   runs-on: ubuntu-latest
   #   name: Push to docker
-  #   needs: [test]
+  #   needs: [sonarscanner]
   #   steps:
   #     - uses: actions/checkout@v2
 
@@ -79,7 +62,7 @@ jobs:
   # deploy-to-heroku:
   #   runs-on: ubuntu-latest
   #   name: Deploy to Heroku
-  #   needs: [push-to-docker, sonarscanner]
+  #   needs: [push-to-docker]
   #   steps: 
   #    - run: echo "WIP"
       
