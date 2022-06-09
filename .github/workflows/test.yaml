@@ -1,0 +1,42 @@
+name: Test Pull Request
+
+on: [push, pull_request]
+
+env:
+  SOLUTION_PATH: "./src/FinancesManagementSystem.sln"
+
+jobs:
+
+  sonarscanner:
+    runs-on: ubuntu-latest
+    name: Test and SonarScanner 
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+
+      - uses: highbyte/sonarscan-dotnet@v2.1.2
+        with:
+          # The key of the SonarQube project
+          sonarProjectKey: gpreviatti_FinancesManagementSystem
+          # The name of the SonarQube project
+          sonarProjectName:  FinancesManagementSystem
+          # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
+          sonarOrganization: gpreviatti
+
+          # Optional command arguments to 'dotnet build'
+          dotnetBuildArguments: ${{ env.SOLUTION_PATH }} --configuration Release
+
+          # Optional command arguments to 'dotnet test'
+          dotnetTestArguments: |
+              --filter AutoMapper ${{ env.SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover &&
+                dotnet test --filter Controller ${{ env.SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover &&
+                dotnet test --filter Service ${{ env.SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
+          # Optional extra command arguments the the SonarScanner 'begin' command
+          sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
