@@ -1,5 +1,8 @@
 # :moneybag: Finances Management System
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gpreviatti_FinancesManagementSystem&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gpreviatti_FinancesManagementSystem)
+
+
 This is a simple software to management your finances, I use concepts like:
 
 - Solid
