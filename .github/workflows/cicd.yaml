@@ -29,9 +29,9 @@ jobs:
 
           dotnetBuildArguments: ./src/FinancesManagementSystem.sln --configuration Release
 
-          dotnetTestArguments: --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover --filter AutoMapper ./src/FinancesManagementSystem.sln --configuration Release &&
-                dotnet test --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover --filter Controller ./src/FinancesManagementSystem.sln --configuration Release &&
-                dotnet test --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover --filter Service ./src/FinancesManagementSystem.sln --configuration Release
+          dotnetTestArguments: --filter AutoMapper ./src/FinancesManagementSystem.sln --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover &&
+                dotnet test --filter Controller ./src/FinancesManagementSystem.sln --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover &&
+                dotnet test --filter Service ./src/FinancesManagementSystem.sln --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
