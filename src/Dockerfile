@@ -24,4 +24,6 @@ RUN apk add tzdata \
 
 COPY --from=build /app/publish .
 
-EXPOSE 5001
+EXPOSE 80
+
+ENTRYPOINT ["dotnet", "Web.dll"]

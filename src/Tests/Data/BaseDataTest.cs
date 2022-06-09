@@ -23,13 +23,9 @@ namespace Tests.Data
         {
             var serviceCollection = new ServiceCollection();
 
-            Environment.SetEnvironmentVariable(
-                "DB_CONNECTION", 
-                "Host=localhost;Port=5432;Database=FinancesManagementSystem;User ID=postgres;Password=admin"
-            );
-
             serviceCollection.AddDbContext<MyContext>(
-                options => options.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION"))
+                options => options
+                .UseNpgsql("Host=localhost;Port=5432;Database=FinancesManagementSystem;User ID=postgres;Password=admin")
             );
 
             var serviceProvider = serviceCollection.BuildServiceProvider();
