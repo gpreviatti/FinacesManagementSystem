@@ -7,10 +7,10 @@ on:
     branches: [ main ]
 
 jobs:
-  tests:
+  test:
 
     runs-on: ubuntu-latest
-
+    name: Tests
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
@@ -27,6 +27,7 @@ jobs:
            dotnet test --filter Service ./src/FinancesManagementSystem.sln --configuration Release
   push-to-docker:
     runs-on: ubuntu-latest
+    name: Push to docker
     needs: [tests]
     steps:
       - uses: actions/checkout@v2
@@ -40,13 +41,14 @@ jobs:
       - name: Docker Build and Push Docker registry
         uses: docker/build-push-action@v2.7.0
         with:
-          context: ./Backend
-          file: ./Backend/Dockerfile
+          context: ./src
+          file: ./src/Web/Dockerfile
           push: true
           tags: |
             giov3nn10/finances-management-system:latest
             giov3nn10/finances-management-system:${{ github.run_number }}
   # deploy-to-heroku:
   #   runs-on: ubuntu-latest
+  #   name: Deploy to Heroku
   #   needs: [push-to-docker]
       
