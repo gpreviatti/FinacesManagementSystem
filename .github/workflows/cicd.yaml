@@ -30,11 +30,11 @@ jobs:
           # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
           sonarOrganization: gpreviatti
 
-          dotnetBuildArguments: ${{ SOLUTION_PATH }} --configuration Release
+          dotnetBuildArguments: ${{ env.SOLUTION_PATH }} --configuration Release
 
-          dotnetTestArguments: --filter AutoMapper ${{ SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover &&
-                dotnet test --filter Controller ${{ SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover &&
-                dotnet test --filter Service ${{ SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+          dotnetTestArguments: --filter AutoMapper ${{ env.SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover &&
+                dotnet test --filter Controller ${{ env.SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover &&
+                dotnet test --filter Service ${{ env.SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
           # Optional extra command arguments the the SonarScanner 'begin' command
           sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
