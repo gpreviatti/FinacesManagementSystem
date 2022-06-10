@@ -11,14 +11,14 @@ namespace Domain.Models
         public string SortColumnDirection { get; set; }
         public string SearchValue { get; set; }
 
-        public int pageSize;
+        private int pageSize;
         public int PageSize
         {
             get { return Length != null ? int.Parse(Length) : 0; }
             set { pageSize = value; }
         }
 
-        public int skip;
+        private int skip;
         public int Skip
         {
             get { return Start != null ? int.Parse(Start) : 0; }
