@@ -8,6 +8,7 @@ using Domain.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using X.PagedList;
 
 namespace Web.Controllers
 {
@@ -18,7 +19,44 @@ namespace Web.Controllers
         public EntranceController(IServiceProvider serviceProvider, ILogger<EntranceController> logger) : 
             base(serviceProvider, logger) => _service = GetService<IEntranceService>();
 
-        public IActionResult Index() => View();
+        [HttpGet("Entrance")]
+        public ViewResult Index(
+            string currentSort, 
+            string currentFilter, 
+            string searchString, 
+            int? page
+        )
+        {
+            ViewBag.CurrentSort = currentSort;
+            ViewBag.NameSortParm = string.IsNullOrEmpty(currentSort) ? "name_desc" : "";
+            ViewBag.DateSortParm = currentSort == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;            
+            
+            GetClaims();
+
+            var entrances = _service.FindAllWithCategory(
+                currentSort,
+                currentFilter,
+                searchString,
+                page,
+                UserId
+            ).GetAwaiter().GetResult();
+
+            int pageSize = 2;
+            int pageNumber = page ?? 1;
+
+            return View(entrances?.ToPagedList(pageNumber, pageSize));
+        }
 
         [HttpPost("Entrances/Datatables")]
         public async Task<IActionResult> GetEntrancesDatatables(DatatablesModel<EntranceResultDto> datatablesModel)

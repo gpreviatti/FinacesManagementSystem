@@ -123,6 +123,76 @@ namespace Service.Services
             }
         }
 
+        public async Task<IEnumerable<EntranceResultDto>> FindAllWithCategory(
+            string currentSort, 
+            string currentFilter, 
+            string searchString, 
+            int? page,
+            Guid userId
+        )
+        {
+            var userWalletsIds = await _walletService.FindAsyncWalletsUserIds(userId);
+
+            if (!userWalletsIds.Any())
+                return null;
+
+            var entrances = await _repository
+                .FindAllAsyncWithCategory(userWalletsIds.ToList());
+
+            if (!entrances.Any())
+                return null;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                entrances = entrances.Where(
+                    m => m.Description.Contains(searchString) ||
+                         m.Observation.Contains(searchString) ||
+                         m.Category.Name.Contains(searchString) ||
+                         m.Value.Equals(searchString)
+                );
+            }
+
+            //if (!string.IsNullOrEmpty(currentSort))
+            //    entrances = SortDatatables(datatablesModel, entrances);
+
+            return entrances;
+        }
+
+        //private static IQueryable<EntranceResultDto> SortColumnDirection(
+        //    string currentSort,
+        //    IQueryable<EntranceResultDto> entrancesData
+        //)
+        //{
+        //    switch (sortOrder)
+        //    {
+        //        case 0:
+        //            if (sortDirection.Equals("asc"))
+        //                return entrancesData.OrderBy(e => e.Description);
+
+        //            return entrancesData.OrderByDescending(e => e.Description);
+        //        case 1:
+        //            if (sortDirection.Equals("asc"))
+        //                return entrancesData = entrancesData.OrderBy(e => e.Type);
+
+        //            return entrancesData.OrderByDescending(e => e.Type);
+        //        case 2:
+        //            if (sortDirection.Equals("asc"))
+        //                return entrancesData.OrderBy(e => e.Value);
+
+        //            return entrancesData.OrderByDescending(e => e.Value);
+        //        case 3:
+        //            if (sortDirection.Equals("asc"))
+        //                return entrancesData.OrderBy(e => e.Category.Name);
+
+        //            return entrancesData.OrderByDescending(e => e.Category.Name);
+        //        default:
+        //            if (sortDirection.Equals("asc"))
+        //                return entrancesData.OrderBy(e => e.CreatedAt);
+
+        //            return entrancesData.OrderByDescending(e => e.CreatedAt);
+        //    }
+        //}
+
         /// <summary>
         /// Take last five entraces ordered by CreatedAt field
         /// </summary>
@@ -149,14 +219,16 @@ namespace Service.Services
         #region Setup view models
         public async Task<EntranceCreateViewModel> SetupEntranceCreateViewModel(Guid userId)
         {
-            var entraceCreateViewModel = new EntranceCreateViewModel();
-            entraceCreateViewModel.Entrance = new EntranceCreateDto();
-            entraceCreateViewModel.Wallets = await _walletService.FindAsyncWalletsUser(userId);
-            if (entraceCreateViewModel.Wallets == null || entraceCreateViewModel.Wallets.Count() == 0)
+            var entraceCreateViewModel = new EntranceCreateViewModel
+            {
+                Entrance = new EntranceCreateDto(),
+                Wallets = await _walletService.FindAsyncWalletsUser(userId)
+            };
+            if (entraceCreateViewModel.Wallets == null || !entraceCreateViewModel.Wallets.Any())
                 throw new ArgumentException("Any Wallet was found");
 
             entraceCreateViewModel.Categories = await _categoryService.FindAsyncNameAndIdUserCategories(userId);
-            if (entraceCreateViewModel.Categories == null || entraceCreateViewModel.Categories.Count() == 0)
+            if (entraceCreateViewModel.Categories == null || !entraceCreateViewModel.Categories.Any())
                 throw new ArgumentException("Any Category was found");
 
             entraceCreateViewModel.EntranceTypes = FindEntranceTypes();
@@ -165,11 +237,13 @@ namespace Service.Services
 
         public async Task<EntranceUpdateViewModel> SetupEntranceUpdateViewModel(Guid userId, Guid id)
         {
-            var entraceUpdateViewModel = new EntranceUpdateViewModel();
-            entraceUpdateViewModel.Entrance = await FindByIdUpdateAsync(id);
-            entraceUpdateViewModel.Wallets = await _walletService.FindAsyncWalletsUser(userId);
-            entraceUpdateViewModel.Categories = await _categoryService.FindAsyncAllCommonAndUserCategories(userId);
-            entraceUpdateViewModel.EntranceTypes = FindEntranceTypes();
+            var entraceUpdateViewModel = new EntranceUpdateViewModel
+            {
+                Entrance = await FindByIdUpdateAsync(id),
+                Wallets = await _walletService.FindAsyncWalletsUser(userId),
+                Categories = await _categoryService.FindAsyncAllCommonAndUserCategories(userId),
+                EntranceTypes = FindEntranceTypes()
+            };
             return entraceUpdateViewModel;
         }
         #endregion

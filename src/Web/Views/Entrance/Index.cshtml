@@ -1,15 +1,86 @@
-﻿@{
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common
+@model X.PagedList.IPagedList<Domain.Dtos.Entrance.EntranceResultDto>
+
+@{
     ViewData["Title"] = "Entrances";
 }
 
 @Html.ActionLink("Create Entrance", "Create", null, htmlAttributes: new { @class = "btn btn-primary btn-sm btn-block mb-2" })
 
 <div class="col-lg-12 mt-3">
-    <table id="datatableEntrances" class="table table-hover"></table>
-</div>
 
-@section Scripts
-{
-    @{await Html.RenderPartialAsync("_DatatablesScriptsPartial");}
-    <script src="~/js/Entrance.js"></script>
-}
+    <div class="form-group mt-3 mb-3">
+        @using (Html.BeginForm("Index", "Entrance", FormMethod.Get))
+        {
+            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class= "form-control"})
+            <input type="submit" value="Search" class="btn btn-primary btn-block mt-2"/>
+        }
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.ActionLink("Description", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter="Description" })
+            </th>
+            <th>
+                @Html.ActionLink("Value", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter="Value" })
+            </th>
+            <th>
+                @Html.ActionLink("Category", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter="Category" })
+            </th>
+            <th>
+                @Html.ActionLink("Type", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter="Category" })
+            </th>
+            <th></th>
+        </tr>
+
+        @if (Model != null)
+        {
+            @foreach (var entrance in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => entrance.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => entrance.Value)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => entrance.Category.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => entrance.Type)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id=entrance.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id=entrance.Id })
+                    </td>
+                </tr>
+            }
+        }
+
+    </table>
+
+    <br/>
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    <br/>
+
+    @Html.PagedListPager(
+        Model, 
+        page => Url.Action(
+            "Index",
+            "Entrance", 
+            new { page, sortOrder = ViewBag?.CurrentSort, currentFilter = ViewBag?.CurrentFilter }
+        ), 
+        new PagedListRenderOptions {                       
+            DisplayLinkToIndividualPages = true,
+            DisplayPageCountAndCurrentLocation = false,
+            MaximumPageNumbersToDisplay = 10,
+            LiElementClasses = new string[] { "page-item" },
+            PageClasses = new string[] { "page-link" },
+        }
+    )
+</div>
