@@ -52,3 +52,13 @@ html {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+ul > li > .paginate_button, .page-item > a {
+  background-color: #375a7f !important;
+  color: white;
+}
+
+.form-control {
+  background-color: #404040 !important;
+  color: white !important;
+}
