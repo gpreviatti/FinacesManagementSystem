@@ -28,12 +28,33 @@ If you have any doubt or suggestion let me know or open an issue on project repo
 
 - Docker
 
-## :runner: How  to run
+## :runner: How to run locally
 
 Clone the repository
 
 Than run the following commands
 
+Initialize database with docker
+
+`cd ./infra`
+
+`docker compose up db`
+
+Running application
+
+`cd ../src/Web`
+
 `dotnet build`
 
 `dotnet run`
+
+## :runner: How to run with docker
+
+`cd ./infra`
+
+`docker compose up`
+
+## Default user
+
+Email: admin@admin.com
+Pwd: admin
