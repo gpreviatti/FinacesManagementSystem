@@ -1,6 +1,9 @@
 # :moneybag: Finances Management System
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gpreviatti_FinancesManagementSystem&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gpreviatti_FinancesManagementSystem)[![CI-CD](https://github.com/gpreviatti/FinancesManagementSystem/actions/workflows/cicd.yaml/badge.svg?branch=main)](https://github.com/gpreviatti/FinancesManagementSystem/actions/workflows/cicd.yaml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gpreviatti_FinancesManagementSystem&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gpreviatti_FinancesManagementSystem)
+[![CI-CD](https://github.com/gpreviatti/FinancesManagementSystem/actions/workflows/cicd.yaml/badge.svg?branch=main)](https://github.com/gpreviatti/FinancesManagementSystem/actions/workflows/cicd.yaml)
+[![Heroku App Status](http://heroku-shields.herokuapp.com/finances-management-system)](https://finances-management-system.herokuapp.com)
+
 
 This is a simple software to management your finances, I use concepts like:
 
