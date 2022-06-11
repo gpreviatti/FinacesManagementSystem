@@ -59,7 +59,18 @@
                                 @Html.DisplayFor(modelItem => entrance.Category.Name)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => entrance.Type)
+                                @switch (entrance.Type)
+                                {
+                                    case 1:
+                                        <label class="badge bg-success">Income</label>
+                                    break;
+                                    case 2:
+                                        <label class="badge bg-danger">Expanse</label>
+                                    break;
+                                    default:
+                                        <label class="badge bg-warning">Unknown</label>
+                                    break;
+                                }
                             </td>
                             <td>
                                 @Html.ActionLink("Edit", "Edit", new { id=entrance.Id}, new { @class= "btn btn-sm btn-primary" })
