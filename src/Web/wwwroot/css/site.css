@@ -54,7 +54,9 @@ html {
 }
 
 ul > li > .paginate_button, .page-item > a {
-  background-color: #375a7f !important;
+  background-color: #000 !important;
+  border-color: #000 !important;
+  color: white !important;
 }
 
 .form-control {
