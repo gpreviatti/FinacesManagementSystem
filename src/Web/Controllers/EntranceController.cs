@@ -21,28 +21,25 @@ namespace Web.Controllers
 
         [HttpGet("Entrance")]
         public ViewResult Index(
-            string currentSort, 
+            string currentSort,
             string searchString, 
-            int? page
+            int? page,
+            int pageSize = 10
         )
         {
+            currentSort = string.IsNullOrEmpty(currentSort) ? "" : currentSort;
 
-            ViewBag.CurrentSort = currentSort;
-            if (currentSort != null)
-            {
-                ViewBag.DescriptionSort = currentSort == "description" ? "description_desc" : "description";
-                ViewBag.ValueSort = currentSort == "value" ? "value_desc" : "value";
-                ViewBag.CategorySort = currentSort == "category" ? "category_desc" : "category";
-                ViewBag.TypeSort = currentSort == "type" ? "type_desc" : "type";
-            }
-
+            ViewBag.ValueSort = currentSort == "value" ? "value_desc" : "value";
+            ViewBag.DescriptionSort = currentSort == "description" ? "description_desc" : "description";
+            ViewBag.CategorySort = currentSort == "category" ? "category_desc" : "category";
+            ViewBag.TypeSort = currentSort == "type" ? "type_desc" : "type";
+            ViewBag.CreatedAtSort = currentSort == "createdAt" ? "" : "createdAt";
 
             if (searchString != null)
-            {
                 page = 1;
-            }
 
             ViewBag.SearchString = searchString;
+            ViewBag.PageSize = pageSize;
             
             GetClaims();
 
@@ -53,33 +50,9 @@ namespace Web.Controllers
                 UserId
             ).GetAwaiter().GetResult();
 
-            int pageSize = 2;
             int pageNumber = page ?? 1;
 
             return View(entrances?.ToPagedList(pageNumber, pageSize));
-        }
-
-        [HttpPost("Entrances/Datatables")]
-        public async Task<IActionResult> GetEntrancesDatatables(DatatablesModel<EntranceResultDto> datatablesModel)
-        {
-            try
-            {
-                GetClaims();
-                datatablesModel.Draw = Request.Form["draw"].FirstOrDefault();
-                datatablesModel.Start = Request.Form["start"].FirstOrDefault();
-                datatablesModel.Length = Request.Form["length"].FirstOrDefault();
-                datatablesModel.SortColumn = int.Parse(Request.Form["order[0][column]"].FirstOrDefault());
-                datatablesModel.SortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
-                datatablesModel.SearchValue = Request.Form["search[value]"].FirstOrDefault();
-
-                datatablesModel = await _service.FindAllAsyncWithCategoryDatatables(datatablesModel, UserId);
-                return Ok(datatablesModel);
-            }
-            catch (Exception exception)
-            {
-                LoggingExceptions(exception);
-                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
-            }
         }
 
         [HttpGet]
@@ -112,7 +85,7 @@ namespace Web.Controllers
                     return BadRequest(ModelState);
 
                 LoggingWarning($"Entrance {result.Id} created with success");
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Entrance");
             }
             catch (Exception exception)
             {
@@ -151,7 +124,7 @@ namespace Web.Controllers
                     return BadRequest(ModelState);
 
                 LoggingWarning($"Entrance {result.Id} updated with success");
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Entrance");
             }
             catch (Exception exception)
             {
@@ -173,7 +146,7 @@ namespace Web.Controllers
                     return BadRequest(ModelState);
 
                 LoggingWarning($"Entrance {id} deleted with success");
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Entrance");
             }
             catch (Exception exception)
             {

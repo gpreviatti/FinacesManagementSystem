@@ -46,83 +46,6 @@ namespace Service.Services
             return _mapper.Map<EntranceUpdateDto>(result);
         }
 
-        public async Task<DatatablesModel<EntranceResultDto>> FindAllAsyncWithCategoryDatatables(
-            DatatablesModel<EntranceResultDto> datatablesModel, 
-            Guid userId
-        )
-        {
-            var userWalletsIds = await _walletService
-                .FindAsyncWalletsUserIds(userId);
-
-            if (!userWalletsIds.Any())
-                return null;
-
-            var entrances = await _repository
-                .FindAllAsyncWithCategory(userWalletsIds.ToList());
-
-            if (!entrances.Any())
-                return null;
-
-            datatablesModel.RecordsTotal = entrances.Count();
-
-            if (!string.IsNullOrEmpty(datatablesModel.SearchValue))
-            {
-                entrances = entrances.Where(
-                    m => m.Description.Contains(datatablesModel.SearchValue) ||
-                         m.Observation.Contains(datatablesModel.SearchValue) ||
-                         m.Category.Name.Contains(datatablesModel.SearchValue) ||
-                         m.Value.Equals(datatablesModel.SearchValue)
-                );
-            }
-
-            if (!string.IsNullOrEmpty(datatablesModel.SortColumnDirection))
-                entrances = SortDatatables(datatablesModel, entrances);
-
-            datatablesModel.RecordsFiltered = entrances.Count();
-
-            datatablesModel.Data = entrances
-            .Skip(datatablesModel.Skip)
-            .Take(datatablesModel.PageSize);
-
-            return datatablesModel;
-        }
-
-        private static IQueryable<EntranceResultDto> SortDatatables(
-            DatatablesModel<EntranceResultDto> datatablesModel,
-            IQueryable<EntranceResultDto> entrancesData
-        )
-        {
-            var sortDirection = datatablesModel.SortColumnDirection;
-            switch (datatablesModel.SortColumn)
-            {
-                case 0:
-                    if (sortDirection.Equals("asc"))
-                        return entrancesData.OrderBy(e => e.Description);
-
-                    return entrancesData.OrderByDescending(e => e.Description);
-                case 1:
-                    if (sortDirection.Equals("asc"))
-                        return entrancesData = entrancesData.OrderBy(e => e.Type);
-
-                    return entrancesData.OrderByDescending(e => e.Type);
-                case 2:
-                    if (sortDirection.Equals("asc"))
-                        return entrancesData.OrderBy(e => e.Value);
-
-                    return entrancesData.OrderByDescending(e => e.Value);
-                case 3:
-                    if (sortDirection.Equals("asc"))
-                        return entrancesData.OrderBy(e => e.Category.Name);
-
-                    return entrancesData.OrderByDescending(e => e.Category.Name);
-                default:
-                    if (sortDirection.Equals("asc"))
-                        return entrancesData.OrderBy(e => e.CreatedAt);
-
-                    return entrancesData.OrderByDescending(e => e.CreatedAt);
-            }
-        }
-
         public async Task<IEnumerable<EntranceResultDto>> FindAllWithCategory(
             string currentSort,  
             string searchString,
@@ -162,7 +85,6 @@ namespace Service.Services
             IQueryable<EntranceResultDto> entrancesData
         )
         {
-            
             switch (currentSort)
             {
                 case "description":
@@ -177,6 +99,8 @@ namespace Service.Services
                         return entrancesData.OrderBy(e => e.Category.Name);
                 case "category_desc":
                     return entrancesData.OrderByDescending(e => e.Category.Name);
+                case "createdAt":
+                    return entrancesData.OrderBy(e => e.CreatedAt);
                 default:
                     return entrancesData.OrderByDescending(e => e.CreatedAt);
             }
