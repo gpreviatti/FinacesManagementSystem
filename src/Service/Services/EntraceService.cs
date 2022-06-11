@@ -124,9 +124,8 @@ namespace Service.Services
         }
 
         public async Task<IEnumerable<EntranceResultDto>> FindAllWithCategory(
-            string currentSort, 
-            string currentFilter, 
-            string searchString, 
+            string currentSort,  
+            string searchString,
             int? page,
             Guid userId
         )
@@ -152,46 +151,36 @@ namespace Service.Services
                 );
             }
 
-            //if (!string.IsNullOrEmpty(currentSort))
-            //    entrances = SortDatatables(datatablesModel, entrances);
+            if (!string.IsNullOrEmpty(currentSort))
+                entrances = SortColumnDirection(currentSort, entrances);
 
             return entrances;
         }
 
-        //private static IQueryable<EntranceResultDto> SortColumnDirection(
-        //    string currentSort,
-        //    IQueryable<EntranceResultDto> entrancesData
-        //)
-        //{
-        //    switch (sortOrder)
-        //    {
-        //        case 0:
-        //            if (sortDirection.Equals("asc"))
-        //                return entrancesData.OrderBy(e => e.Description);
-
-        //            return entrancesData.OrderByDescending(e => e.Description);
-        //        case 1:
-        //            if (sortDirection.Equals("asc"))
-        //                return entrancesData = entrancesData.OrderBy(e => e.Type);
-
-        //            return entrancesData.OrderByDescending(e => e.Type);
-        //        case 2:
-        //            if (sortDirection.Equals("asc"))
-        //                return entrancesData.OrderBy(e => e.Value);
-
-        //            return entrancesData.OrderByDescending(e => e.Value);
-        //        case 3:
-        //            if (sortDirection.Equals("asc"))
-        //                return entrancesData.OrderBy(e => e.Category.Name);
-
-        //            return entrancesData.OrderByDescending(e => e.Category.Name);
-        //        default:
-        //            if (sortDirection.Equals("asc"))
-        //                return entrancesData.OrderBy(e => e.CreatedAt);
-
-        //            return entrancesData.OrderByDescending(e => e.CreatedAt);
-        //    }
-        //}
+        private static IQueryable<EntranceResultDto> SortColumnDirection(
+            string currentSort,
+            IQueryable<EntranceResultDto> entrancesData
+        )
+        {
+            
+            switch (currentSort)
+            {
+                case "description":
+                        return entrancesData.OrderBy(e => e.Description);
+                case "description_desc":
+                    return entrancesData.OrderByDescending(e => e.Type);
+                case "value":
+                    return entrancesData.OrderBy(e => e.Value);
+                case "value_desc":
+                    return entrancesData.OrderByDescending(e => e.Value);
+                case "category":
+                        return entrancesData.OrderBy(e => e.Category.Name);
+                case "category_desc":
+                    return entrancesData.OrderByDescending(e => e.Category.Name);
+                default:
+                    return entrancesData.OrderByDescending(e => e.CreatedAt);
+            }
+        }
 
         /// <summary>
         /// Take last five entraces ordered by CreatedAt field

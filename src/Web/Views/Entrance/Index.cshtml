@@ -13,7 +13,7 @@
     <div class="form-group mt-3 mb-3">
         @using (Html.BeginForm("Index", "Entrance", FormMethod.Get))
         {
-            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class= "form-control"})
+            @Html.TextBox("SearchString", ViewBag.SearchString as string, new { @class= "form-control"})
             <input type="submit" value="Search" class="btn btn-primary btn-block mt-2"/>
         }
     </div>
@@ -21,16 +21,16 @@
     <table class="table">
         <tr>
             <th>
-                @Html.ActionLink("Description", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter="Description" })
+                @Html.ActionLink("Description", "Index", new { currentSort = ViewBag.DescriptionSort  })
             </th>
             <th>
-                @Html.ActionLink("Value", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter="Value" })
+                @Html.ActionLink("Value", "Index", new { currentSort = ViewBag.ValueSort  })
             </th>
             <th>
-                @Html.ActionLink("Category", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter="Category" })
+                @Html.ActionLink("Category", "Index", new { currentSort = ViewBag.CategorySort })
             </th>
             <th>
-                @Html.ActionLink("Type", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter="Category" })
+                @Html.ActionLink("Type", "Index", new { currentSort = ViewBag.TypeSort })
             </th>
             <th></th>
         </tr>

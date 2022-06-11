@@ -22,31 +22,32 @@ namespace Web.Controllers
         [HttpGet("Entrance")]
         public ViewResult Index(
             string currentSort, 
-            string currentFilter, 
             string searchString, 
             int? page
         )
         {
+
             ViewBag.CurrentSort = currentSort;
-            ViewBag.NameSortParm = string.IsNullOrEmpty(currentSort) ? "name_desc" : "";
-            ViewBag.DateSortParm = currentSort == "Date" ? "date_desc" : "Date";
+            if (currentSort != null)
+            {
+                ViewBag.DescriptionSort = currentSort == "description" ? "description_desc" : "description";
+                ViewBag.ValueSort = currentSort == "value" ? "value_desc" : "value";
+                ViewBag.CategorySort = currentSort == "category" ? "category_desc" : "category";
+                ViewBag.TypeSort = currentSort == "type" ? "type_desc" : "type";
+            }
+
 
             if (searchString != null)
             {
                 page = 1;
             }
-            else
-            {
-                searchString = currentFilter;
-            }
 
-            ViewBag.CurrentFilter = searchString;            
+            ViewBag.SearchString = searchString;
             
             GetClaims();
 
             var entrances = _service.FindAllWithCategory(
                 currentSort,
-                currentFilter,
                 searchString,
                 page,
                 UserId

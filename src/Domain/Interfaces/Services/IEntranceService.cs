@@ -16,7 +16,6 @@ namespace Domain.Interfaces.Services
 
         Task<IEnumerable<EntranceResultDto>> FindAllWithCategory(
             string currentSort,
-            string currentFilter,
             string searchString,
             int? page,
             Guid userId
