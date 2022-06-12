@@ -46,11 +46,10 @@ namespace Web.Controllers
             var entrances = _service.FindAllWithCategory(
                 currentSort,
                 searchString,
-                page,
                 UserId
             ).GetAwaiter().GetResult();
 
-            int pageNumber = page ?? 1;
+            var pageNumber = page ?? 1;
 
             return View(entrances?.ToPagedList(pageNumber, pageSize));
         }

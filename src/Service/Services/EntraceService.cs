@@ -49,7 +49,6 @@ namespace Service.Services
         public async Task<IEnumerable<EntranceResultDto>> FindAllWithCategory(
             string currentSort,  
             string searchString,
-            int? page,
             Guid userId
         )
         {
@@ -58,8 +57,7 @@ namespace Service.Services
             if (!userWalletsIds.Any())
                 return null;
 
-            var entrances = await _repository
-                .FindAllAsyncWithCategory(userWalletsIds.ToList());
+            var entrances = await _repository.FindAllAsyncWithCategory(userWalletsIds.ToList());
 
             if (!entrances.Any())
                 return null;
@@ -75,12 +73,12 @@ namespace Service.Services
             }
 
             if (!string.IsNullOrEmpty(currentSort))
-                entrances = SortColumnDirection(currentSort, entrances);
+                entrances = SortEntrances(currentSort, entrances);
 
             return entrances;
         }
 
-        private static IQueryable<EntranceResultDto> SortColumnDirection(
+        private static IQueryable<EntranceResultDto> SortEntrances(
             string currentSort,
             IQueryable<EntranceResultDto> entrancesData
         )

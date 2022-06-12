@@ -8,139 +8,165 @@ using Domain.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using X.PagedList;
 
-namespace Web.Controllers
+namespace Web.Controllers;
+
+public class CategoryController : BaseController<CategoryController>
 {
-    public class CategoryController : BaseController<CategoryController>
+    private readonly ICategoryService _service;
+
+    public CategoryController(IServiceProvider serviceProvider, ILogger<CategoryController> logger) : 
+        base(serviceProvider, logger) => _service = GetService<ICategoryService>();
+
+    [HttpGet("Category")]
+    public ViewResult Index(
+        string currentSort,
+        string searchString,
+        int? page,
+        int pageSize = 10
+    )
     {
-        private readonly ICategoryService _service;
+        currentSort = string.IsNullOrEmpty(currentSort) ? "" : currentSort;
 
-        public CategoryController(IServiceProvider serviceProvider, ILogger<CategoryController> logger) : 
-            base(serviceProvider, logger) => _service = GetService<ICategoryService>();
+        ViewBag.NameSort = currentSort == "name" ? "name_desc" : "name";
+        ViewBag.TotalSort = currentSort == "total" ? "total_desc" : "total";
+        ViewBag.CreatedAtSort = currentSort == "createdAt" ? "" : "createdAt";
 
-        public IActionResult Index() => View();
+        if (searchString != null)
+            page = 1;
 
-        [HttpPost("Categories/Datatables")]
-        public async Task<IActionResult> GetDatatables(DatatablesModel<CategoryResultDto> datatablesModel)
+        ViewBag.SearchString = searchString;
+        ViewBag.PageSize = pageSize;
+
+        GetClaims();
+
+        var categories = _service.FindAllAndUserCategories(
+            currentSort,
+            searchString,
+            UserId
+        ).GetAwaiter().GetResult();
+
+        var pageNumber = page ?? 1;
+
+        return View(categories?.ToPagedList(pageNumber, pageSize));
+    }
+
+    [HttpGet("Categories/Chart")]
+    public async Task<IActionResult> GetCategories()
+    {
+        try
         {
-            try
-            {
-                GetClaims();
-                datatablesModel.Draw = Request.Form["draw"].FirstOrDefault();
-                datatablesModel.Start = Request.Form["start"].FirstOrDefault();
-                datatablesModel.Length = Request.Form["length"].FirstOrDefault();
-                datatablesModel.SortColumn = int.Parse(Request.Form["order[0][column]"].FirstOrDefault());
-                datatablesModel.SortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
-                datatablesModel.SearchValue = Request.Form["search[value]"].FirstOrDefault();
+            GetClaims();
 
-                datatablesModel = await _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModel, UserId);
-                return Ok(datatablesModel);
-            }
-            catch (Exception exception)
-            {
-                LoggingExceptions(exception);
-                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
-            }
+            var categories = await _service.FindAllAndUserCategories("", "", UserId);
+
+            return Ok(categories);
         }
-
-        public async Task<ActionResult> Create()
+        catch (Exception exception)
         {
-            try
-            {
-                GetClaims();
-                var categoryCreateViewModel = new CategoryCreateViewModel();
-                categoryCreateViewModel.Categories = await _service.FindAsyncAllCommonAndUserCategories(UserId);
-                return View(categoryCreateViewModel);
-            }
-            catch (Exception exception)
-            {
-                LoggingExceptions(exception);
-                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
-            }
+            LoggingExceptions(exception);
+            return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
         }
+    }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CategoryCreateViewModel categoryCreateViewModel)
+    public async Task<ActionResult> Create()
+    {
+        try
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
-                GetClaims();
-                var result = await _service.CreateAsync(categoryCreateViewModel.Category, UserId);
-                if (result == null)
-                    return BadRequest(ModelState);
-
-                LoggingWarning($"Category {result.Id} created with success");
-                return RedirectToAction("Index", "Category");
-            }
-            catch (Exception exception)
-            {
-                LoggingExceptions(exception);
-                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
-            }
+            GetClaims();
+            var categoryCreateViewModel = new CategoryCreateViewModel();
+            categoryCreateViewModel.Categories = await _service.FindAsyncAllCommonAndUserCategories(UserId);
+            return View(categoryCreateViewModel);
         }
-
-        [HttpGet("Categories/Edit/{id}")]
-        public async Task<ActionResult> Edit(Guid id)
+        catch (Exception exception)
         {
-            try
-            {
-                GetClaims();
-                var categoryUpdateViewModel = await _service.SetupCategoryUpdateViewModel(id, UserId);
-                return View(categoryUpdateViewModel);
-            }
-            catch (Exception exception)
-            {
-                LoggingExceptions(exception);
-                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
-            }
+            LoggingExceptions(exception);
+            return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
         }
+    }
 
-        [HttpPost("Categories/Edit/{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Guid id, CategoryUpdateViewModel categoryUpdateView)
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Create(CategoryCreateViewModel categoryCreateViewModel)
+    {
+        try
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-                var result = await _service.UpdateAsync(categoryUpdateView.Category);
-                if (result == null)
-                    return BadRequest(ModelState);
+            GetClaims();
+            var result = await _service.CreateAsync(categoryCreateViewModel.Category, UserId);
+            if (result == null)
+                return BadRequest(ModelState);
 
-                LoggingWarning($"Category {result.Id} updated with success");
-                return RedirectToAction("Index", "Category");
-            }
-            catch (Exception exception)
-            {
-                LoggingExceptions(exception);
-                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
-            }
+            LoggingWarning($"Category {result.Id} created with success");
+            return RedirectToAction("Index", "Category");
         }
-
-        public async Task<ActionResult> Delete(Guid id)
+        catch (Exception exception)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
+            LoggingExceptions(exception);
+            return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+        }
+    }
 
-                var result = await _service.DeleteAsync(id);
-                if (result.Equals(null))
-                    return BadRequest(ModelState);
+    [HttpGet("Categories/Edit/{id}")]
+    public async Task<ActionResult> Edit(Guid id)
+    {
+        try
+        {
+            GetClaims();
+            var categoryUpdateViewModel = await _service.SetupCategoryUpdateViewModel(id, UserId);
+            return View(categoryUpdateViewModel);
+        }
+        catch (Exception exception)
+        {
+            LoggingExceptions(exception);
+            return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+        }
+    }
 
-                LoggingWarning($"Category {id} deleted with success");
-                return RedirectToAction("Index", "Category");
-            }
-            catch (Exception exception)
-            {
-                LoggingExceptions(exception);
-                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
-            }
+    [HttpPost("Categories/Edit/{id}")]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Edit(Guid id, CategoryUpdateViewModel categoryUpdateView)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _service.UpdateAsync(categoryUpdateView.Category);
+            if (result == null)
+                return BadRequest(ModelState);
+
+            LoggingWarning($"Category {result.Id} updated with success");
+            return RedirectToAction("Index", "Category");
+        }
+        catch (Exception exception)
+        {
+            LoggingExceptions(exception);
+            return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
+        }
+    }
+
+    public async Task<ActionResult> Delete(Guid id)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _service.DeleteAsync(id);
+            if (result.Equals(null))
+                return BadRequest(ModelState);
+
+            LoggingWarning($"Category {id} deleted with success");
+            return RedirectToAction("Index", "Category");
+        }
+        catch (Exception exception)
+        {
+            LoggingExceptions(exception);
+            return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
         }
     }
 }
