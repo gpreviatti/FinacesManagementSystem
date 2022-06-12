@@ -149,206 +149,206 @@ namespace Tests.Service
             _repositoryMock.Verify(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId), Times.Once);
         }
 
-        [Theory(DisplayName = "Find all common user and categories with datatables format")]
-        [Trait("Service", "Category")]
-        [InlineData("Home", 1)]
-        [InlineData("Salary", 1)]
-        [InlineData("Gasoline", 1)]
-        [InlineData("Health", 0)]
-        public async void ShouldFindAsyncAllCommonAndUserCategoriesDatatables(string search, int quantityData)
-        {
-            try
-            {
-                // Arrange
-                var listCategoryResultDto = new List<Category>
-                {
-                    new Category { Id = new Guid(), Name = Faker.Name.FullName()},
-                    new Category { Id = new Guid(), Name = Faker.Name.FullName()},
-                    new Category { Id = new Guid(), Name = Faker.Name.FullName()},
-                    new Category { Id = new Guid(), Name = Faker.Name.FullName()}
-                }.AsQueryable();
+        //[Theory(DisplayName = "Find all common user and categories with datatables format")]
+        //[Trait("Service", "Category")]
+        //[InlineData("Home", 1)]
+        //[InlineData("Salary", 1)]
+        //[InlineData("Gasoline", 1)]
+        //[InlineData("Health", 0)]
+        //public async void ShouldFindAsyncAllCommonAndUserCategoriesDatatables(string search, int quantityData)
+        //{
+        //    try
+        //    {
+        //        // Arrange
+        //        var listCategoryResultDto = new List<Category>
+        //        {
+        //            new Category { Id = new Guid(), Name = Faker.Name.FullName()},
+        //            new Category { Id = new Guid(), Name = Faker.Name.FullName()},
+        //            new Category { Id = new Guid(), Name = Faker.Name.FullName()},
+        //            new Category { Id = new Guid(), Name = Faker.Name.FullName()}
+        //        }.AsQueryable();
 
-                var datatablesModel = new DatatablesModel<CategoryResultDto>
-                {
-                    Draw = "1",
-                    Start = "0",
-                    Length = "10",
-                    SortColumn = 1,
-                    SortColumnDirection = "asc"
-                };
+        //        var datatablesModel = new DatatablesModel<CategoryResultDto>
+        //        {
+        //            Draw = "1",
+        //            Start = "0",
+        //            Length = "10",
+        //            SortColumn = 1,
+        //            SortColumnDirection = "asc"
+        //        };
 
-                var listCategoryResultDtoSearch = new List<Category>
-                {
-                    new Category { Id = new Guid(), Name = "Home"},
-                    new Category { Id = new Guid(), Name = "Salary"},
-                    new Category { Id = new Guid(), Name = "Gasoline"},
-                    new Category { Id = new Guid(), Name = _fakerName}
-                }.AsQueryable();
+        //        var listCategoryResultDtoSearch = new List<Category>
+        //        {
+        //            new Category { Id = new Guid(), Name = "Home"},
+        //            new Category { Id = new Guid(), Name = "Salary"},
+        //            new Category { Id = new Guid(), Name = "Gasoline"},
+        //            new Category { Id = new Guid(), Name = _fakerName}
+        //        }.AsQueryable();
 
-                var datatablesModelSearch = new DatatablesModel<CategoryResultDto>
-                {
-                    Draw = "1",
-                    Start = "0",
-                    Length = "10",
-                    SortColumn = 1,
-                    SortColumnDirection = "asc",
-                    SearchValue = search
-                };
+        //        var datatablesModelSearch = new DatatablesModel<CategoryResultDto>
+        //        {
+        //            Draw = "1",
+        //            Start = "0",
+        //            Length = "10",
+        //            SortColumn = 1,
+        //            SortColumnDirection = "asc",
+        //            SearchValue = search
+        //        };
 
-                // Act
-                _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId));
-                var resultNull = await _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModel, _userAdminId);
+        //        // Act
+        //        _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId));
+        //        var resultNull = await _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModel, _userAdminId);
 
-                _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId)).Returns(listCategoryResultDto);
-                var result = await _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModel, _userAdminId);
+        //        _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId)).Returns(listCategoryResultDto);
+        //        var result = await _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModel, _userAdminId);
 
-                _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId)).Returns(listCategoryResultDtoSearch);
-                var resultSearch = await _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModelSearch, _userAdminId);
+        //        _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId)).Returns(listCategoryResultDtoSearch);
+        //        var resultSearch = await _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModelSearch, _userAdminId);
 
-                // Assert
-                Assert.Null(resultNull);
-                Assert.NotNull(result);
-                Assert.NotNull(resultSearch);
-                Assert.True(result.Data.Count().Equals(listCategoryResultDto.Count()));
-                Assert.True(resultSearch.Data.Count().Equals(quantityData));
-                _repositoryMock.Verify(r => r.FindAsyncAllCommonAndUserCategories(_userAdminId), Times.Exactly(3));
-            }
-            catch (Exception exception)
-            {
-                Debug.WriteLine(exception.Message);
-                Assert.True(false);
-            }
-        }
+        //        // Assert
+        //        Assert.Null(resultNull);
+        //        Assert.NotNull(result);
+        //        Assert.NotNull(resultSearch);
+        //        Assert.True(result.Data.Count().Equals(listCategoryResultDto.Count()));
+        //        Assert.True(resultSearch.Data.Count().Equals(quantityData));
+        //        _repositoryMock.Verify(r => r.FindAsyncAllCommonAndUserCategories(_userAdminId), Times.Exactly(3));
+        //    }
+        //    catch (Exception exception)
+        //    {
+        //        Debug.WriteLine(exception.Message);
+        //        Assert.True(false);
+        //    }
+        //}
 
-        [Fact(DisplayName = "Find all common user and categories with datatables format with sort data")]
-        [Trait("Service", "Category")]
-        public async void ShouldFindAsyncAllCommonAndUserCategoriesDatatablesSortTest()
-        {
-            try
-            {
-                // Arrange
+        //[Fact(DisplayName = "Find all common user and categories with datatables format with sort data")]
+        //[Trait("Service", "Category")]
+        //public async void ShouldFindAsyncAllCommonAndUserCategoriesDatatablesSortTest()
+        //{
+        //    try
+        //    {
+        //        // Arrange
 
-                // Arrange sort name
-                var sortName = "Education";
-                var datatablesModelSortName = new DatatablesModel<CategoryResultDto>
-                {
-                    Draw = "1",
-                    Start = "0",
-                    Length = "10",
-                    SortColumnDirection = "asc",
-                    SortColumn = 0
-                };
+        //        // Arrange sort name
+        //        var sortName = "Education";
+        //        var datatablesModelSortName = new DatatablesModel<CategoryResultDto>
+        //        {
+        //            Draw = "1",
+        //            Start = "0",
+        //            Length = "10",
+        //            SortColumnDirection = "asc",
+        //            SortColumn = 0
+        //        };
 
-                var listCategorySortName = new List<Category>
-                {
-                    new Category { Id = new Guid(), Name = "Food"},
-                    new Category { Id = new Guid(), Name = "Salary"},
-                    new Category { Id = new Guid(), Name = sortName},
-                    new Category { Id = new Guid(), Name = "Groceries"}
-                }.AsQueryable();
+        //        var listCategorySortName = new List<Category>
+        //        {
+        //            new Category { Id = new Guid(), Name = "Food"},
+        //            new Category { Id = new Guid(), Name = "Salary"},
+        //            new Category { Id = new Guid(), Name = sortName},
+        //            new Category { Id = new Guid(), Name = "Groceries"}
+        //        }.AsQueryable();
 
-                // Arrange sort total
-                var total = 5.00;
-                var datatablesModelSortTotal = new DatatablesModel<CategoryResultDto>
-                {
-                    Draw = "1",
-                    Start = "0",
-                    Length = "10",
-                    SortColumnDirection = "asc",
-                    SortColumn = 1
-                };
-                datatablesModelSortTotal.SortColumn = 1;
+        //        // Arrange sort total
+        //        var total = 5.00;
+        //        var datatablesModelSortTotal = new DatatablesModel<CategoryResultDto>
+        //        {
+        //            Draw = "1",
+        //            Start = "0",
+        //            Length = "10",
+        //            SortColumnDirection = "asc",
+        //            SortColumn = 1
+        //        };
+        //        datatablesModelSortTotal.SortColumn = 1;
 
-                var listCategorySortTotal = new List<Category>
-                {
-                    new Category {
-                        Id = new Guid(),
-                        Name = "Food",
-                        Entrances = new List<Entrance> { new Entrance { Value = 30 } }
-                    },
-                    new Category {
-                        Id = new Guid(),
-                        Name = "Salary",
-                        Entrances = new List<Entrance> { new Entrance { Value = 10 } }
-                    },
-                    new Category {
-                        Id = new Guid(),
-                        Name = "Education",
-                        Entrances = new List<Entrance> { new Entrance { Value = 10 } }
-                    },
-                    new Category {
-                        Id = new Guid(),
-                        Name = "Groceries",
-                        Entrances = new List<Entrance> { new Entrance { Value = 5 } }
-                    }
-                }.AsQueryable();
+        //        var listCategorySortTotal = new List<Category>
+        //        {
+        //            new Category {
+        //                Id = new Guid(),
+        //                Name = "Food",
+        //                Entrances = new List<Entrance> { new Entrance { Value = 30 } }
+        //            },
+        //            new Category {
+        //                Id = new Guid(),
+        //                Name = "Salary",
+        //                Entrances = new List<Entrance> { new Entrance { Value = 10 } }
+        //            },
+        //            new Category {
+        //                Id = new Guid(),
+        //                Name = "Education",
+        //                Entrances = new List<Entrance> { new Entrance { Value = 10 } }
+        //            },
+        //            new Category {
+        //                Id = new Guid(),
+        //                Name = "Groceries",
+        //                Entrances = new List<Entrance> { new Entrance { Value = 5 } }
+        //            }
+        //        }.AsQueryable();
 
-                // Arrange sort created at
-                var createdAt = DateTime.Now;
-                var datatablesModelCreatedAt = new DatatablesModel<CategoryResultDto>
-                {
-                    Draw = "1",
-                    Start = "0",
-                    Length = "10",
-                    SortColumnDirection = "asc",
-                    SortColumn = 2
-                };
+        //        // Arrange sort created at
+        //        var createdAt = DateTime.Now;
+        //        var datatablesModelCreatedAt = new DatatablesModel<CategoryResultDto>
+        //        {
+        //            Draw = "1",
+        //            Start = "0",
+        //            Length = "10",
+        //            SortColumnDirection = "asc",
+        //            SortColumn = 2
+        //        };
 
-                var listCategorySortCreatedAt = new List<Category>
-                {
-                    new Category {
-                        Id = new Guid(),
-                        Name = "Food",
-                        CreatedAt = DateTime.Now.AddHours(1)
-                    },
-                    new Category {
-                        Id = new Guid(),
-                        Name = "Salary",
-                        CreatedAt = DateTime.Now.AddHours(2)
-                    },
-                    new Category {
-                        Id = new Guid(),
-                        Name = "Education",
-                        CreatedAt = createdAt
-                    },
-                    new Category {
-                        Id = new Guid(),
-                        Name = "Groceries",
-                        CreatedAt = DateTime.Now.AddHours(4)
-                    }
-                }.AsQueryable();
+        //        var listCategorySortCreatedAt = new List<Category>
+        //        {
+        //            new Category {
+        //                Id = new Guid(),
+        //                Name = "Food",
+        //                CreatedAt = DateTime.Now.AddHours(1)
+        //            },
+        //            new Category {
+        //                Id = new Guid(),
+        //                Name = "Salary",
+        //                CreatedAt = DateTime.Now.AddHours(2)
+        //            },
+        //            new Category {
+        //                Id = new Guid(),
+        //                Name = "Education",
+        //                CreatedAt = createdAt
+        //            },
+        //            new Category {
+        //                Id = new Guid(),
+        //                Name = "Groceries",
+        //                CreatedAt = DateTime.Now.AddHours(4)
+        //            }
+        //        }.AsQueryable();
 
-                // Act
-                _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId)).Returns(listCategorySortName);
-                var resultSortName = await _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModelSortName, _userAdminId);
+        //        // Act
+        //        _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId)).Returns(listCategorySortName);
+        //        var resultSortName = await _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModelSortName, _userAdminId);
 
-                _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId)).Returns(listCategorySortTotal);
-                var resultSortTotal = await _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModelSortTotal, _userAdminId);
+        //        _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId)).Returns(listCategorySortTotal);
+        //        var resultSortTotal = await _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModelSortTotal, _userAdminId);
 
-                _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId)).Returns(listCategorySortCreatedAt);
-                var resultSortCreatedAt = await _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModelCreatedAt, _userAdminId);
+        //        _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId)).Returns(listCategorySortCreatedAt);
+        //        var resultSortCreatedAt = await _service.FindAsyncAllCommonAndUserCategoriesDatatables(datatablesModelCreatedAt, _userAdminId);
 
-                // Assert
-                Assert.NotNull(resultSortName);
-                Assert.True(resultSortName.Data.FirstOrDefault().Name == sortName);
-                Assert.True(resultSortName.Data.Count().Equals(listCategorySortName.Count()));
+        //        // Assert
+        //        Assert.NotNull(resultSortName);
+        //        Assert.True(resultSortName.Data.FirstOrDefault().Name == sortName);
+        //        Assert.True(resultSortName.Data.Count().Equals(listCategorySortName.Count()));
 
-                Assert.NotNull(resultSortTotal);
-                Assert.True(resultSortTotal.Data.FirstOrDefault().Total == total);
-                Assert.True(resultSortTotal.Data.Count().Equals(listCategorySortTotal.Count()));
+        //        Assert.NotNull(resultSortTotal);
+        //        Assert.True(resultSortTotal.Data.FirstOrDefault().Total == total);
+        //        Assert.True(resultSortTotal.Data.Count().Equals(listCategorySortTotal.Count()));
 
-                Assert.NotNull(resultSortCreatedAt);
-                Assert.True(resultSortCreatedAt.Data.FirstOrDefault().CreatedAt == createdAt);
-                Assert.True(resultSortCreatedAt.Data.Count().Equals(listCategorySortCreatedAt.Count()));
+        //        Assert.NotNull(resultSortCreatedAt);
+        //        Assert.True(resultSortCreatedAt.Data.FirstOrDefault().CreatedAt == createdAt);
+        //        Assert.True(resultSortCreatedAt.Data.Count().Equals(listCategorySortCreatedAt.Count()));
 
-                _repositoryMock.Verify(r => r.FindAsyncAllCommonAndUserCategories(_userAdminId), Times.Exactly(3));
-            }
-            catch (Exception exception)
-            {
-                Debug.WriteLine(exception.Message);
-                Assert.True(false);
-            }
-        }
+        //        _repositoryMock.Verify(r => r.FindAsyncAllCommonAndUserCategories(_userAdminId), Times.Exactly(3));
+        //    }
+        //    catch (Exception exception)
+        //    {
+        //        Debug.WriteLine(exception.Message);
+        //        Assert.True(false);
+        //    }
+        //}
 
         [Fact(DisplayName = "Find all common user categories")]
         [Trait("Service", "Category")]

@@ -18,6 +18,7 @@ namespace Web.Controllers
         private readonly ILoginService _service;
         private readonly IUserService _userService;
         public LoginController(IServiceProvider serviceProvider, ILogger<LoginController> logger) : 
+           
             base(serviceProvider, logger)
         {
             _service = GetService<ILoginService>();

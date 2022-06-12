@@ -8,6 +8,7 @@ using Domain.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using X.PagedList;
 
 namespace Web.Controllers
 {
@@ -18,29 +19,39 @@ namespace Web.Controllers
         public EntranceController(IServiceProvider serviceProvider, ILogger<EntranceController> logger) : 
             base(serviceProvider, logger) => _service = GetService<IEntranceService>();
 
-        public IActionResult Index() => View();
-
-        [HttpPost("Entrances/Datatables")]
-        public async Task<IActionResult> GetEntrancesDatatables(DatatablesModel<EntranceResultDto> datatablesModel)
+        [HttpGet("Entrance")]
+        public ViewResult Index(
+            string currentSort,
+            string searchString, 
+            int? page,
+            int pageSize = 10
+        )
         {
-            try
-            {
-                GetClaims();
-                datatablesModel.Draw = Request.Form["draw"].FirstOrDefault();
-                datatablesModel.Start = Request.Form["start"].FirstOrDefault();
-                datatablesModel.Length = Request.Form["length"].FirstOrDefault();
-                datatablesModel.SortColumn = int.Parse(Request.Form["order[0][column]"].FirstOrDefault());
-                datatablesModel.SortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
-                datatablesModel.SearchValue = Request.Form["search[value]"].FirstOrDefault();
+            currentSort = string.IsNullOrEmpty(currentSort) ? "" : currentSort;
 
-                datatablesModel = await _service.FindAllAsyncWithCategoryDatatables(datatablesModel, UserId);
-                return Ok(datatablesModel);
-            }
-            catch (Exception exception)
-            {
-                LoggingExceptions(exception);
-                return StatusCode(StatusCodes.Status500InternalServerError, exception.Message);
-            }
+            ViewBag.ValueSort = currentSort == "value" ? "value_desc" : "value";
+            ViewBag.DescriptionSort = currentSort == "description" ? "description_desc" : "description";
+            ViewBag.CategorySort = currentSort == "category" ? "category_desc" : "category";
+            ViewBag.TypeSort = currentSort == "type" ? "type_desc" : "type";
+            ViewBag.CreatedAtSort = currentSort == "createdAt" ? "" : "createdAt";
+
+            if (searchString != null)
+                page = 1;
+
+            ViewBag.SearchString = searchString;
+            ViewBag.PageSize = pageSize;
+            
+            GetClaims();
+
+            var entrances = _service.FindAllWithCategory(
+                currentSort,
+                searchString,
+                UserId
+            ).GetAwaiter().GetResult();
+
+            var pageNumber = page ?? 1;
+
+            return View(entrances?.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpGet]
@@ -73,7 +84,7 @@ namespace Web.Controllers
                     return BadRequest(ModelState);
 
                 LoggingWarning($"Entrance {result.Id} created with success");
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Entrance");
             }
             catch (Exception exception)
             {
@@ -112,7 +123,7 @@ namespace Web.Controllers
                     return BadRequest(ModelState);
 
                 LoggingWarning($"Entrance {result.Id} updated with success");
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Entrance");
             }
             catch (Exception exception)
             {
@@ -134,7 +145,7 @@ namespace Web.Controllers
                     return BadRequest(ModelState);
 
                 LoggingWarning($"Entrance {id} deleted with success");
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Entrance");
             }
             catch (Exception exception)
             {

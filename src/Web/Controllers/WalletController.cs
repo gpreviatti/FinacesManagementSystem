@@ -40,8 +40,10 @@ namespace Web.Controllers
         {
             try
             {
-                var walletCreateViewModel = new WalletCreateViewModel();
-                walletCreateViewModel.WalletTypes = await _walletTypeService.FindAllAsync();
+                var walletCreateViewModel = new WalletCreateViewModel
+                {
+                    WalletTypes = await _walletTypeService.FindAllAsync()
+                };
                 return View(walletCreateViewModel);
             }
             catch (Exception exception)
@@ -80,9 +82,11 @@ namespace Web.Controllers
         {
             try
             {
-                var walletUpdateViewModel = new WalletUpdateViewModel();
-                walletUpdateViewModel.Wallet = await _service.FindByIdUpdateAsync(id);
-                walletUpdateViewModel.WalletTypes = await _walletTypeService.FindAllAsync();
+                var walletUpdateViewModel = new WalletUpdateViewModel
+                {
+                    Wallet = await _service.FindByIdUpdateAsync(id),
+                    WalletTypes = await _walletTypeService.FindAllAsync()
+                };
                 return View(walletUpdateViewModel);
             }
             catch (Exception exception)

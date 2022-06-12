@@ -1,4 +1,8 @@
-﻿@{
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common
+@model X.PagedList.IPagedList<Domain.Dtos.Category.CategoryResultDto>
+
+@{
     ViewData["Title"] = "Categories";
 }
 
@@ -8,13 +12,83 @@
 
 @Html.ActionLink("Create Category", "Create", null, htmlAttributes: new { @class = "btn btn-primary btn-sm btn-block mb-3" })
 
-<div class="col-lg-12">
-    <table id="datatableCategories" class="table table-hover"></table>
-</div>
+
+@if (Model != null && Model.Count > 0 && Model.Any())
+{
+    <div class="mt-3">
+
+        <div class="row mt-3 mb-3">
+            @using (Html.BeginForm("Index", "Category", FormMethod.Get))
+            {
+                @Html.TextBox("SearchString", ViewBag.SearchString as string)
+                <input type="submit" value="Search" class="btn btn-sm btn-primary"/>
+            }
+        </div>
+
+        <div class="col-lg-12">
+
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.ActionLink("Name", "Index", new { currentSort = ViewBag.NameSort, searchString = ViewBag.SearchString, pageSize = ViewBag.PageSize  })
+                        </th>
+                        <th>
+                            @Html.ActionLink("Total", "Index", new { currentSort = ViewBag.TotalSort, searchString = ViewBag.SearchString, pageSize = ViewBag.PageSize  })
+                        </th>
+                        <th>
+                            @Html.ActionLink("Created At", "Index", new { currentSort = ViewBag.CreatedAtSort, searchString = ViewBag.SearchString, pageSize = ViewBag.PageSize  })
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var category in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => category.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => category.Total)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => category.CreatedAt)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id=category.Id}, new { @class= "btn btn-sm btn-primary" })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+
+                <br/>
+
+                @Html.Label("Showing " + (Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) + " to " + Model.PageCount + " of " + Model.TotalItemCount + " entries")
+            
+                <br/>
+
+                @Html.PagedListPager(
+                    Model, 
+                    page => Url.Action(
+                        "Index",
+                        "Category", 
+                        new { page, searchString = ViewBag?.SearchString, pageSize = ViewBag.PageSize }
+                    ), 
+                    new PagedListRenderOptions {                       
+                        DisplayLinkToIndividualPages = true,
+                        DisplayPageCountAndCurrentLocation = false,
+                        MaximumPageNumbersToDisplay = 10,
+                        LiElementClasses = new string[] { "page-item" },
+                        PageClasses = new string[] { "page-link" },
+                    }
+                )
+        
+        </div>
+    </div>
+}
 
 @section Scripts
 {
     @{await Html.RenderPartialAsync("_ChartJsScriptsPartial");}
-    @{await Html.RenderPartialAsync("_DatatablesScriptsPartial");}
     <script src="~/js/Category.js"></script>
 }

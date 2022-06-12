@@ -3,19 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{92251F2E-A506-4879-BD5A-2FBFD94539C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{92251F2E-A506-4879-BD5A-2FBFD94539C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{21B83061-A7D0-4067-86DB-DE00748901AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{21B83061-A7D0-4067-86DB-DE00748901AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{C131D93C-2DC8-4221-BCAC-64F7FDA91C7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{C131D93C-2DC8-4221-BCAC-64F7FDA91C7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{4B0C2641-6660-42B2-9697-5398C6751F85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{4B0C2641-6660-42B2-9697-5398C6751F85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Data", "Data\Infrastructure.Data.csproj", "{74D52B9E-4BB8-4C1B-8E5C-64DD83F70D81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Data", "Data\Infrastructure.Data.csproj", "{74D52B9E-4BB8-4C1B-8E5C-64DD83F70D81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.CrossCutting", "CrossCutting\Infrastructure.CrossCutting.csproj", "{20584623-FE7A-44AE-8979-A61CC92A0789}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.CrossCutting", "CrossCutting\Infrastructure.CrossCutting.csproj", "{20584623-FE7A-44AE-8979-A61CC92A0789}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Helpers", "Helpers\Infrastructure.Helpers.csproj", "{1F4DCD2E-1193-4F59-8781-43EBBD8D033C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Helpers", "Helpers\Infrastructure.Helpers.csproj", "{1F4DCD2E-1193-4F59-8781-43EBBD8D033C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A238E7A8-6CB3-4268-8266-5317FE1E8EF5}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
