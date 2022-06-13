@@ -1,44 +1,43 @@
+﻿using Domain.Dtos.WalletType;
+using Domain.Interfaces.Repositories;
+using Domain.Interfaces.Services;
+using Domain.Mappers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
-using Domain.Dtos.WalletType;
-using Domain.Entities;
-using Domain.Interfaces.Repositories;
-using Domain.Interfaces.Services;
 
-namespace Service.Services;
+namespace Domain.Services;
 
-public class WalletTypeService : BaseService, IWalletTypeService
+public class WalletTypeService : IWalletTypeService
 {
     private readonly IWalletTypeRepository _repository;
 
-    public WalletTypeService(IWalletTypeRepository repository, IMapper mapper)
+    public WalletTypeService(IWalletTypeRepository repository)
     {
         _repository = repository;
-        _mapper = mapper;
     }
 
     public async Task<WalletTypeResultDto> FindByIdAsync(Guid id)
     {
         var result = await _repository.FindByIdAsync(id);
 
-        return _mapper.Map<WalletTypeResultDto>(result);
+        return result.MapperResultDto();
     }
 
     public async Task<IEnumerable<WalletTypeResultDto>> FindAllAsync()
     {
         var result = await _repository.FindAllAsync();
-        return _mapper.Map<IEnumerable<WalletTypeResultDto>>(result);
+
+        return result.MapperResultDto();
     }
 
     public WalletTypeResultDto CreateAsync(WalletTypeCreateDto entityCreateDto)
     {
-        var entity = _mapper.Map<WalletType>(entityCreateDto);
+        var entity = entityCreateDto.Mapper();
 
         _ = _repository.CreateAsync(entity);
 
-        return _mapper.Map<WalletTypeResultDto>(entity);
+        return entity.MapperResultDto();
     }
 
     public async Task<WalletTypeResultDto> UpdateAsync(WalletTypeUpdateDto entityUpdateDto)
@@ -48,11 +47,11 @@ public class WalletTypeService : BaseService, IWalletTypeService
         if (result == null)
             return null;
 
-        var entity = _mapper.Map(entityUpdateDto, result);
+        var entity = entityUpdateDto.Mapper();
 
         _ = _repository.SaveChangesAsync();
 
-        return _mapper.Map<WalletTypeResultDto>(entity);
+        return entity.MapperResultDto();
     }
 
     public async Task<bool> DeleteAsync(Guid id) => await _repository.DeleteAsync(id);

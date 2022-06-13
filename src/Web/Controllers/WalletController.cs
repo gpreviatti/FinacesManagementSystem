@@ -57,7 +57,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(WalletCreateViewModel walletCreateViewModel)
+        public ActionResult Create(WalletCreateViewModel walletCreateViewModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -65,7 +65,8 @@ namespace Web.Controllers
             try
             {
                 GetClaims();
-                var result = await _service.CreateAsync(walletCreateViewModel.Wallet, UserId);
+
+                var result = _service.CreateAsync(walletCreateViewModel.Wallet, UserId);
 
                 if (result == null)
                     return BadRequest(ModelState);
