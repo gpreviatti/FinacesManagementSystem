@@ -18,6 +18,14 @@ public class CategoryController : BaseController<CategoryController>
     public CategoryController(IServiceProvider serviceProvider, ILogger<CategoryController> logger) : 
         base(serviceProvider, logger) => _service = GetService<ICategoryService>();
 
+    /// <summary>
+    /// Index view with paginate
+    /// </summary>
+    /// <param name="currentSort"></param>
+    /// <param name="searchString"></param>
+    /// <param name="page"></param>
+    /// <param name="pageSize"></param>
+    /// <returns></returns>
     [HttpGet("Category")]
     public ViewResult Index(
         string currentSort,
@@ -51,6 +59,10 @@ public class CategoryController : BaseController<CategoryController>
         return View(categories?.ToPagedList(pageNumber, pageSize));
     }
 
+    /// <summary>
+    /// Return categories for generate a chart
+    /// </summary>
+    /// <returns></returns>
     [HttpGet("Categories/Chart")]
     public async Task<IActionResult> GetCategories()
     {
@@ -85,6 +97,11 @@ public class CategoryController : BaseController<CategoryController>
         }
     }
 
+    /// <summary>
+    /// Create category
+    /// </summary>
+    /// <param name="categoryCreateViewModel"></param>
+    /// <returns></returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Create(CategoryCreateViewModel categoryCreateViewModel)
@@ -125,6 +142,12 @@ public class CategoryController : BaseController<CategoryController>
         }
     }
 
+    /// <summary>
+    /// Update a category
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="categoryUpdateView"></param>
+    /// <returns></returns>
     [HttpPost("Categories/Edit/{id}")]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> Edit(Guid id, CategoryUpdateViewModel categoryUpdateView)
@@ -148,6 +171,11 @@ public class CategoryController : BaseController<CategoryController>
         }
     }
 
+    /// <summary>
+    /// Delete a category
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public async Task<ActionResult> Delete(Guid id)
     {
         try

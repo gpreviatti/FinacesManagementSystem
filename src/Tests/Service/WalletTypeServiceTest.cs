@@ -22,9 +22,9 @@ namespace Tests.Service
         [Trait("Service", "WalletType")]
         public async void ShouldCreateWalletType()
         {
-            WalletTypeCreateDto walletTypeCreateDto = new WalletTypeCreateDto() { Name = _fakerName };
+            WalletTypeCreateDto walletTypeCreateDto = new() { Name = _fakerName };
 
-            WalletTypeResultDto userResultDto = new WalletTypeResultDto()
+            WalletTypeResultDto userResultDto = new()
             {
                 Id = Guid.NewGuid(),
                 Name = _fakerName,
@@ -94,9 +94,9 @@ namespace Tests.Service
         [Trait("Service", "WalletType")]
         public async void ShouldUpdateWalletType()
         {
-            WalletTypeUpdateDto walletTypeUpdateDto = new WalletTypeUpdateDto() { Name = _fakerName };
+            WalletTypeUpdateDto walletTypeUpdateDto = new() { Name = _fakerName };
 
-            WalletTypeResultDto walletTypeResultDto = new WalletTypeResultDto()
+            WalletTypeResultDto walletTypeResultDto = new()
             {
                 Id = Guid.NewGuid(),
                 Name = _fakerName,

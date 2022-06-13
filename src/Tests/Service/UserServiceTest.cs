@@ -26,14 +26,14 @@ namespace Tests.Service
             var email = Faker.Internet.Email();
             var password = "123456789";
 
-            UserCreateDto userCreateDto = new UserCreateDto()
+            UserCreateDto userCreateDto = new()
             {
                 Email = email,
                 Name = name,
                 Password = password
             };
 
-            UserResultDto loginResultDto = new UserResultDto()
+            UserResultDto loginResultDto = new()
             {
                 Id = Guid.NewGuid(),
                 Email = email,
@@ -114,14 +114,14 @@ namespace Tests.Service
             var email = Faker.Internet.Email();
             var password = "123456789";
 
-            UserUpdateDto userUpdateDto = new UserUpdateDto()
+            UserUpdateDto userUpdateDto = new()
             {
                 Email = email,
                 Name = name,
                 Password = password
             };
 
-            UserResultDto userResultDto = new UserResultDto()
+            UserResultDto userResultDto = new()
             {
                 Email = email,
                 Name = name,
