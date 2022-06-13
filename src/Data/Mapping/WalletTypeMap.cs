@@ -12,7 +12,7 @@ namespace Data.Mapping
 
             builder.Property(wt => wt.Name)
                 .IsRequired()
-                .HasMaxLength(255);
+                .HasMaxLength(50);
 
             builder.HasMany(wt => wt.Wallets)
                 .WithOne(w => w.WalletType);

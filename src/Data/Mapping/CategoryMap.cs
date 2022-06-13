@@ -13,7 +13,7 @@ namespace Data.Mapping
 
             builder.Property(c => c.Name)
                 .IsRequired()
-                .HasMaxLength(255);
+                .HasMaxLength(100);
 
             builder.HasMany(c => c.Entrances)
                 .WithOne(e => e.Category);

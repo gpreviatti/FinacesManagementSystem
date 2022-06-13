@@ -14,10 +14,10 @@ namespace Data.Mapping
 
             builder.Property(e => e.Description)
                 .IsRequired()
-                .HasMaxLength(500);
+                .HasMaxLength(250);
 
             builder.Property(e => e.Observation)
-                .HasMaxLength(500);
+                .HasMaxLength(250);
 
             builder.Property(e => e.Type)
                 .IsRequired();

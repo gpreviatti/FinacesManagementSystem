@@ -22,9 +22,11 @@ namespace Data.Mapping
                 .HasMaxLength(36);
 
             builder.Property(x => x.CreatedAt)
+                .HasColumnType("timestamp without time zone")
                 .HasDefaultValue(DateTime.Now);
-
+            
             builder.Property(x => x.UpdatedAt)
+                .HasColumnType("timestamp without time zone")
                 .HasDefaultValue(DateTime.Now);
         }
     }

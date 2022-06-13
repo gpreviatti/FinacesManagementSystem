@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
+#nullable disable
+
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(MyContext))]
@@ -15,9 +17,10 @@ namespace Infrastructure.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.17")
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
@@ -32,17 +35,17 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2022, 5, 21, 17, 9, 33, 348, DateTimeKind.Local).AddTicks(7912));
+                        .HasDefaultValue(new DateTime(2022, 6, 13, 9, 33, 28, 32, DateTimeKind.Local).AddTicks(5241));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2022, 5, 21, 17, 9, 33, 348, DateTimeKind.Local).AddTicks(8346));
+                        .HasDefaultValue(new DateTime(2022, 6, 13, 9, 33, 28, 32, DateTimeKind.Local).AddTicks(5407));
 
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uuid");
@@ -53,7 +56,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
 
                     b.HasData(
                         new
@@ -169,16 +172,16 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2022, 5, 21, 17, 9, 33, 356, DateTimeKind.Local).AddTicks(6670));
+                        .HasDefaultValue(new DateTime(2022, 6, 13, 9, 33, 28, 32, DateTimeKind.Local).AddTicks(8399));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<string>("Observation")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<string>("Ticker")
                         .HasMaxLength(10)
@@ -190,7 +193,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2022, 5, 21, 17, 9, 33, 356, DateTimeKind.Local).AddTicks(7265));
+                        .HasDefaultValue(new DateTime(2022, 6, 13, 9, 33, 28, 32, DateTimeKind.Local).AddTicks(8581));
 
                     b.Property<double>("Value")
                         .HasColumnType("double precision");
@@ -207,39 +210,45 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex("Id", "CategoryId")
                         .HasAnnotation("SqlServer:Clustered", false);
 
-                    b.ToTable("Entrances");
+                    b.ToTable("Entrances", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Log", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Exception")
-                        .HasColumnType("VARCHAR(255)");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
 
                     b.Property<string>("Level")
-                        .HasColumnType("VARCHAR(255)");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Message")
-                        .HasColumnType("VARCHAR(255)");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("MessageTemplate")
-                        .HasColumnType("VARCHAR(255)");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Propperties")
-                        .HasColumnType("VARCHAR(255)");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime>("TimeStamp")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2022, 5, 21, 17, 9, 33, 362, DateTimeKind.Local).AddTicks(2751));
+                        .HasDefaultValue(new DateTime(2022, 6, 13, 9, 33, 28, 33, DateTimeKind.Local).AddTicks(6206));
 
                     b.HasKey("Id");
 
-                    b.ToTable("Logs");
+                    b.ToTable("Logs", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
@@ -252,7 +261,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2022, 5, 21, 17, 9, 33, 324, DateTimeKind.Local).AddTicks(6803));
+                        .HasDefaultValue(new DateTime(2022, 6, 13, 9, 33, 28, 31, DateTimeKind.Local).AddTicks(9365));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -271,14 +280,14 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2022, 5, 21, 17, 9, 33, 334, DateTimeKind.Local).AddTicks(2293));
+                        .HasDefaultValue(new DateTime(2022, 6, 13, 9, 33, 28, 31, DateTimeKind.Local).AddTicks(9544));
 
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new
@@ -287,7 +296,7 @@ namespace Infrastructure.Data.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@admin.com",
                             Name = "Admin",
-                            Password = "$2a$11$c.SIFTETbDiPYleF/XoVAuKjtJ26SNK7lfeAdSXmugTr4e/N0B7sC",
+                            Password = "$2a$11$JoJWaWcq5ZNT4e7ttAKOPuC8hLRhav4CSb0vjiXIYkHDVdcfZaA9O",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -296,7 +305,7 @@ namespace Infrastructure.Data.Migrations
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "testUser01@email.com",
                             Name = "Test-User-01",
-                            Password = "$2a$11$7J.2vbWhQHkLXa0T.PSddu8Nmz5uUA6ljP4N9gpMTSv3dcYpwbRV2",
+                            Password = "$2a$11$jAKIc2UR6so.2Jd2h4rMDOyJgRoaXDEddfBN8TbBj11FCE1krMslq",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
@@ -314,7 +323,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2022, 5, 21, 17, 9, 33, 345, DateTimeKind.Local).AddTicks(2223));
+                        .HasDefaultValue(new DateTime(2022, 6, 13, 9, 33, 28, 32, DateTimeKind.Local).AddTicks(3269));
 
                     b.Property<double>("CurrentValue")
                         .ValueGeneratedOnAdd()
@@ -322,21 +331,21 @@ namespace Infrastructure.Data.Migrations
                         .HasDefaultValue(0.0);
 
                     b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2022, 5, 21, 17, 9, 33, 345, DateTimeKind.Local).AddTicks(3656));
+                        .HasDefaultValue(new DateTime(2022, 6, 13, 9, 33, 28, 32, DateTimeKind.Local).AddTicks(3430));
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -350,17 +359,17 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasIndex("WalletTypeId");
 
-                    b.ToTable("Wallets");
+                    b.ToTable("Wallets", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("040cc3ad-2159-4b8e-894e-e700a121b48f"),
-                            CloseDate = new DateTime(2022, 5, 21, 17, 9, 33, 763, DateTimeKind.Local).AddTicks(2367),
+                            CloseDate = new DateTime(2022, 6, 13, 9, 33, 28, 291, DateTimeKind.Local).AddTicks(9633),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrentValue = 0.0,
                             Description = "Main Account",
-                            DueDate = new DateTime(2022, 6, 5, 17, 9, 33, 763, DateTimeKind.Local).AddTicks(2769),
+                            DueDate = new DateTime(2022, 6, 28, 9, 33, 28, 291, DateTimeKind.Local).AddTicks(9650),
                             Name = "Main Card",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"),
@@ -369,11 +378,11 @@ namespace Infrastructure.Data.Migrations
                         new
                         {
                             Id = new Guid("041cc3ad-2159-4b8e-894e-e700a121b48f"),
-                            CloseDate = new DateTime(2022, 5, 21, 17, 9, 33, 763, DateTimeKind.Local).AddTicks(3262),
+                            CloseDate = new DateTime(2022, 6, 13, 9, 33, 28, 291, DateTimeKind.Local).AddTicks(9669),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrentValue = 0.0,
                             Description = "Credit Card Account",
-                            DueDate = new DateTime(2022, 6, 5, 17, 9, 33, 763, DateTimeKind.Local).AddTicks(3267),
+                            DueDate = new DateTime(2022, 6, 28, 9, 33, 28, 291, DateTimeKind.Local).AddTicks(9669),
                             Name = "Credit",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"),
@@ -382,11 +391,11 @@ namespace Infrastructure.Data.Migrations
                         new
                         {
                             Id = new Guid("042cc3ad-2159-4b8e-894e-e700a121b48f"),
-                            CloseDate = new DateTime(2022, 5, 21, 17, 9, 33, 763, DateTimeKind.Local).AddTicks(3281),
+                            CloseDate = new DateTime(2022, 6, 13, 9, 33, 28, 291, DateTimeKind.Local).AddTicks(9672),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CurrentValue = 0.0,
                             Description = "My Savings",
-                            DueDate = new DateTime(2022, 6, 5, 17, 9, 33, 763, DateTimeKind.Local).AddTicks(3283),
+                            DueDate = new DateTime(2022, 6, 28, 9, 33, 28, 291, DateTimeKind.Local).AddTicks(9672),
                             Name = "Saving",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = new Guid("430e0144-289f-4a95-8f14-bacfabb3fe8a"),
@@ -404,21 +413,21 @@ namespace Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2022, 5, 21, 17, 9, 33, 343, DateTimeKind.Local).AddTicks(5062));
+                        .HasDefaultValue(new DateTime(2022, 6, 13, 9, 33, 28, 32, DateTimeKind.Local).AddTicks(1959));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2022, 5, 21, 17, 9, 33, 343, DateTimeKind.Local).AddTicks(5528));
+                        .HasDefaultValue(new DateTime(2022, 6, 13, 9, 33, 28, 32, DateTimeKind.Local).AddTicks(2113));
 
                     b.HasKey("Id");
 
-                    b.ToTable("WalletTypes");
+                    b.ToTable("WalletTypes", (string)null);
 
                     b.HasData(
                         new

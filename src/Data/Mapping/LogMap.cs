@@ -14,26 +14,27 @@ namespace Data.Mapping
             builder.HasKey(l => l.Id);
 
             builder.Property(l => l.Message)
-                .HasColumnType("VARCHAR(255)")
+                .HasMaxLength(100)
                 .IsRequired(false);
 
             builder.Property(l => l.MessageTemplate)
-                .HasColumnType("VARCHAR(255)")
+                .HasMaxLength(100)
                 .IsRequired(false);
 
             builder.Property(l => l.Level)
-                .HasColumnType("VARCHAR(255)")
+                .HasMaxLength(50)
                 .IsRequired(false);
 
             builder.Property(l => l.Exception)
-                .HasColumnType("VARCHAR(255)")
+                .HasMaxLength(255)
                 .IsRequired(false);
 
             builder.Property(l => l.TimeStamp)
+                .HasColumnType("timestamp without time zone")
                 .HasDefaultValue(DateTime.Now);
 
             builder.Property(l => l.Propperties)
-                .HasColumnType("VARCHAR(255)")
+                .HasMaxLength(100)
                 .IsRequired(false);
         }
     }
