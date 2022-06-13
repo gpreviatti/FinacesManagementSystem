@@ -109,9 +109,9 @@ public class EntranceService : IEntranceService
     {
         return new List<EntranceTypeResultDto>
         {
-            new EntranceTypeResultDto() { Value = (int) EntranceType.Income, Name = "Income"},
-            new EntranceTypeResultDto() { Value = (int) EntranceType.Expanse, Name = "Expanse"},
-            new EntranceTypeResultDto() { Value = (int) EntranceType.Transference, Name = "Transference"},
+            new () { Value = (int) EntranceType.Income, Name = "Income"},
+            new () { Value = (int) EntranceType.Expanse, Name = "Expanse"},
+            new () { Value = (int) EntranceType.Transference, Name = "Transference"},
         };
     }
     #endregion
