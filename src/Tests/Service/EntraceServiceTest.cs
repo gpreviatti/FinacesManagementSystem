@@ -8,7 +8,6 @@ using Domain.Dtos.Wallet;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
-using Domain.Models;
 using Moq;
 using Service.Services;
 using Xunit;
