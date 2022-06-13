@@ -1,9 +1,11 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Data.Mapping
 {
+    [ExcludeFromCodeCoverage]
     public class EntranceMap : BaseMap<Entrance>
     {
         public EntranceMap() : base("Entrances") { }

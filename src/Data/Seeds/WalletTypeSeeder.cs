@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Domain.Entities;
 using Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Seeds
 {
+    [ExcludeFromCodeCoverage]
     public class WalletTypeSeeder
     {
         public static void WalletTypes(ModelBuilder modelBuilder)

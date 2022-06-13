@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.Mapping
 {
+    [ExcludeFromCodeCoverage]
     public class LogMap : IEntityTypeConfiguration<Log>
     {
         public void Configure(EntityTypeBuilder<Log> builder)

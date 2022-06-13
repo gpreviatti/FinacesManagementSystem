@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Seeds
 {
+    [ExcludeFromCodeCoverage]
     public class EntraceSeeder
     {
         public static void Entrance(ModelBuilder modelBuilder)

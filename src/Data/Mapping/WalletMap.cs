@@ -1,9 +1,11 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Data.Mapping
 {
+    [ExcludeFromCodeCoverage]
     public class WalletMap : BaseMap<Wallet>
     {
         public WalletMap() : base("Wallets") { }

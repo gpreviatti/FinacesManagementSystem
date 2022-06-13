@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.Mapping
 {
+    [ExcludeFromCodeCoverage]
     public abstract class BaseMap<T> : IEntityTypeConfiguration<T> where T : Entity
     {
         private readonly string _tableName;

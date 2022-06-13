@@ -1,8 +1,10 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Data.Mapping
 {
+    [ExcludeFromCodeCoverage]
     public class CategoryMap : BaseMap<Category>
     {
         public CategoryMap() : base("Categories") { }
