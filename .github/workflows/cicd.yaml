@@ -9,9 +9,9 @@ env:
 
 jobs:
 
-  sonarscanner:
+  continous-integration:
     runs-on: ubuntu-latest
-    name: Test and SonarScanner 
+    name: Continous Integration
     steps:
       - uses: actions/checkout@v2
       - name: Setup .NET
@@ -43,10 +43,10 @@ jobs:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  deploy-to-heroku:
+  continous-deployment:
     runs-on: ubuntu-latest
-    name: Deploy to Heroku
-    needs: [sonarscanner]
+    name: Continous Deployment
+    needs: [continous-integration]
     steps:
       # Check-out your repository.
       - name: Checkout
