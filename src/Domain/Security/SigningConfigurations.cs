@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Domain.Security
 {
+    [ExcludeFromCodeCoverage]
     public class SigningConfigurations
     {
         public SigningConfigurations()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +11,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Authorize]
     public class HomeController : BaseController<HomeController>
     {

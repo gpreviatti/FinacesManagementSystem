@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Web.Controllers;
 
+[ExcludeFromCodeCoverage]
 public class BaseController<T> : Controller
 {
     protected readonly IServiceProvider _serviceProvider;

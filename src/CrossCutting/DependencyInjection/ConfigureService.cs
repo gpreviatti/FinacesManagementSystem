@@ -1,10 +1,12 @@
 using Domain.Interfaces.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Service.Services;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CrossCutting.DependencyInjection
 {
-    public class ConfigureService
+    [ExcludeFromCodeCoverage]
+    public static class ConfigureService
     {
         public static void ConfigureDependenciesService(IServiceCollection service)
         {

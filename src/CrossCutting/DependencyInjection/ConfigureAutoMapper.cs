@@ -1,10 +1,12 @@
 using AutoMapper;
 using CrossCutting.Mappings;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CrossCutting.DependencyInjection
 {
-    public class ConfigureAutoMapper
+    [ExcludeFromCodeCoverage]
+    public static class ConfigureAutoMapper
     {
         public static void ConfigureDepencenciesAutoMapper(IServiceCollection service)
         {

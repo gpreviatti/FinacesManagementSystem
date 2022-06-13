@@ -1,14 +1,15 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Data.Context;
 using Data.Repositories;
 using Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CrossCutting.DependencyInjection
 {
-    public class ConfigureRepository
+    [ExcludeFromCodeCoverage]
+    public static class ConfigureRepository
     {
         public static void ConfigureDependenciesRepository(IServiceCollection service)
         {
