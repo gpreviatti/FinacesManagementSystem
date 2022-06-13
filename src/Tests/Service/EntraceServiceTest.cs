@@ -16,10 +16,10 @@ namespace Tests.Service
 {
     public class EntranceServiceTest : BaseServiceTest
     {
-        private Mock<IEntranceRepository> _repositoryMock;
-        private Mock<IWalletService> _walletServiceMock;
-        private Mock<ICategoryService> _categoryServiceMock;
-        private IEntranceService _service;
+        private readonly Mock<IEntranceRepository> _repositoryMock;
+        private readonly Mock<IWalletService> _walletServiceMock;
+        private readonly Mock<ICategoryService> _categoryServiceMock;
+        private readonly IEntranceService _service;
 
         public EntranceServiceTest()
         {
@@ -142,7 +142,7 @@ namespace Tests.Service
                 // Assert
                 Assert.NotNull(result);
                 Assert.True(result.FirstOrDefault().Name.Equals("Income"));
-                Assert.True(result.Count().Equals(3));
+                Assert.True(result.Count.Equals(3));
 
             }
             catch (Exception exception)
@@ -357,8 +357,8 @@ namespace Tests.Service
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.True(result.Wallets.Count().Equals(walletsResultDto.Count()));
-                Assert.True(result.Categories.Count().Equals(categoryResultDto.Count()));
+                Assert.True(result.Wallets.Count().Equals(walletsResultDto.Count));
+                Assert.True(result.Categories.Count().Equals(categoryResultDto.Count));
 
             }
             catch (Exception exception)
@@ -422,8 +422,8 @@ namespace Tests.Service
                 // Assert
                 Assert.NotNull(result);
                 Assert.NotNull(result.Entrance);
-                Assert.True(result.Wallets.Count().Equals(walletsResultDto.Count()));
-                Assert.True(result.Categories.Count().Equals(categoryResultDto.Count()));
+                Assert.True(result.Wallets.Count().Equals(walletsResultDto.Count));
+                Assert.True(result.Categories.Count().Equals(categoryResultDto.Count));
                 Assert.True(result.EntranceTypes.Count() == 3);
             }
             catch (Exception exception)

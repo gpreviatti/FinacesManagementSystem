@@ -16,15 +16,15 @@ namespace Tests.Data
             _repository = new WalletRepository(_context);
         }
 
-        public Wallet CreateWalletEntity()
+        public static Wallet CreateWalletEntity()
         {
             return new Wallet()
             {
                 Name = Faker.Name.First(),
                 Description = Faker.Name.First(),
                 CurrentValue = 1000,
-                WalletType = new WalletTypeDataTest().CreateWalletTypeEntity(),
-                User = new UserDataTest().CreateUserEntity()
+                WalletType = WalletTypeDataTest.CreateWalletTypeEntity(),
+                User = UserDataTest.CreateUserEntity()
             };
         }
 

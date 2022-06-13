@@ -16,7 +16,7 @@ namespace Tests.Data
             _repository = new WalletTypeRepository(_context);
         }
 
-        public WalletType CreateWalletTypeEntity()
+        public static WalletType CreateWalletTypeEntity()
         {
             return new WalletType()
             {

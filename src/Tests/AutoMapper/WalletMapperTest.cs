@@ -72,7 +72,6 @@ namespace Tests.AutoMapper
                 Entrances = new List<Entrance>()
             };
 
-            var entityWalletTypeMapper = _mapper.Map<WalletTypeResultDto>(entity.WalletType);
             var entityEntranceMapper = _mapper.Map<IEnumerable<EntranceResultDto>>(entity.Entrances);
 
             var entityResultDto = _mapper.Map<WalletResultDto>(entity);

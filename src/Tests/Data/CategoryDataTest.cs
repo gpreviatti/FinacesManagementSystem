@@ -14,7 +14,7 @@ namespace Tests.Data
 
         public CategoryDataTest() => _repository = new CategoryRepository(_context);
 
-        public Category CreateCategoryEntity() => new Category { Name = Faker.Name.FullName() };
+        public static Category CreateCategoryEntity() => new() { Name = Faker.Name.FullName() };
 
         [Fact(DisplayName = "Create Category")]
         [Trait("Data", "Category")]
@@ -122,7 +122,7 @@ namespace Tests.Data
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.True(result.Count() > 0);
+                Assert.True(result.Any());
             }
             catch (Exception exception)
             {

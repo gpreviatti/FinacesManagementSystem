@@ -14,8 +14,8 @@ namespace Tests.Service
 {
     public class CategoryServiceTest : BaseServiceTest
     {
-        private ICategoryService _service;
-        private Mock<ICategoryRepository> _repositoryMock = new Mock<ICategoryRepository>();
+        private readonly ICategoryService _service;
+        private readonly Mock<ICategoryRepository> _repositoryMock = new();
 
         public CategoryServiceTest()
         {

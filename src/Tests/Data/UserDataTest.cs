@@ -16,9 +16,9 @@ namespace Tests.Data
             _repository = new UserRepository(_context);
         }
 
-        public User CreateUserEntity()
+        public static User CreateUserEntity()
         {
-            return new User()
+            return new ()
             {
                 Name = Faker.Name.FullName(),
                 Email = Faker.Internet.Email(),

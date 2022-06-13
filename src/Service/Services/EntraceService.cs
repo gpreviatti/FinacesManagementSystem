@@ -82,25 +82,17 @@ public class EntranceService : BaseService, IEntranceService
         IQueryable<EntranceResultDto> entrancesData
     )
     {
-        switch (currentSort)
+        return currentSort switch
         {
-            case "description":
-                    return entrancesData.OrderBy(e => e.Description);
-            case "description_desc":
-                return entrancesData.OrderByDescending(e => e.Type);
-            case "value":
-                return entrancesData.OrderBy(e => e.Value);
-            case "value_desc":
-                return entrancesData.OrderByDescending(e => e.Value);
-            case "category":
-                    return entrancesData.OrderBy(e => e.Category.Name);
-            case "category_desc":
-                return entrancesData.OrderByDescending(e => e.Category.Name);
-            case "createdAt":
-                return entrancesData.OrderBy(e => e.CreatedAt);
-            default:
-                return entrancesData.OrderByDescending(e => e.CreatedAt);
-        }
+            "description" => entrancesData.OrderBy(e => e.Description),
+            "description_desc" => entrancesData.OrderByDescending(e => e.Type),
+            "value" => entrancesData.OrderBy(e => e.Value),
+            "value_desc" => entrancesData.OrderByDescending(e => e.Value),
+            "category" => entrancesData.OrderBy(e => e.Category.Name),
+            "category_desc" => entrancesData.OrderByDescending(e => e.Category.Name),
+            "createdAt" => entrancesData.OrderBy(e => e.CreatedAt),
+            _ => entrancesData.OrderByDescending(e => e.CreatedAt),
+        };
     }
 
     /// <summary>

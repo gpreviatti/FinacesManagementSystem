@@ -37,8 +37,8 @@ namespace Data.Seeds
 
             for (int i = 1; i <= 500; i++)
             {
-                var randonCategory = random.Next(categoriesGuid.Count());
-                var randonWallet = random.Next(walletsGuid.Count());
+                var randonCategory = random.Next(categoriesGuid.Count);
+                var randonWallet = random.Next(walletsGuid.Count);
                 entrances.Add(new Entrance
                 {
                     Id = Guid.NewGuid(),
