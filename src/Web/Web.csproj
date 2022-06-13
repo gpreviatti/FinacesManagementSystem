@@ -35,9 +35,4 @@
     <Folder Include="wwwroot\lib\bootstrap\dist\js\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="appsettings.Testing.json" />
-    <None Include="appsettings.Development.json" />
-  </ItemGroup>
-
 </Project>

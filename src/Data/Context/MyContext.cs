@@ -2,7 +2,6 @@ using Data.Mapping;
 using Data.Seeds;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace Data.Context
 {
