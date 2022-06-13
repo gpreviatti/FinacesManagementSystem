@@ -1,5 +1,7 @@
 ﻿using Domain.Dtos.Entrance;
 using Domain.Entities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Domain.Mappers;
 
@@ -20,6 +22,14 @@ public static class EntranceMapper
             CreatedAt = entity.CreatedAt,
             UpdatedAt = entity.UpdatedAt
         };
+    }
+
+    public static IEnumerable<EntranceResultDto> MapperToResultDto(this IEnumerable<Entrance> entity)
+    {
+        if (entity == null || !entity.Any())
+            return new List<EntranceResultDto>();
+
+        return entity.Select(x => x.MapperToResultDto());
     }
 
     public static EntranceUpdateDto MapperToUpateDto(this Entrance entity)

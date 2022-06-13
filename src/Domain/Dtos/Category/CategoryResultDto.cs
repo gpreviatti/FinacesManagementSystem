@@ -17,7 +17,7 @@ namespace Domain.Dtos.Category
         [DataType(DataType.Currency)]
         public double Total { get; set; }
 
-        public Guid CategoryId { get; set; }
+        public Guid? CategoryId { get; set; }
         public CategoryResultDto CategoryMain { get; set; }
 
         public IEnumerable<EntranceResultDto> Entrances { get; set; }

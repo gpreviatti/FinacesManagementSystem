@@ -1,35 +1,36 @@
+﻿using Domain.Dtos.Category;
+using Domain.Interfaces.Repositories;
+using Domain.Interfaces.Services;
+using Domain.Mappers;
+using Domain.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using Domain.Dtos.Category;
-using Domain.Entities;
-using Domain.Interfaces.Repositories;
-using Domain.Interfaces.Services;
-using Domain.ViewModels;
 
-namespace Service.Services;
-public class CategoryService : BaseService, ICategoryService
+namespace Domain.Services;
+
+public class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository _repository;
 
-    public CategoryService(ICategoryRepository repository, IMapper mapper)
+    public CategoryService(ICategoryRepository repository)
     {
         _repository = repository;
-        _mapper = mapper;
     }
 
-    public async Task<CategoryResultDto> CreateAsync(CategoryCreateDto entityCreateDto, Guid userId)
+    public CategoryResultDto CreateAsync(CategoryCreateDto entityCreateDto, Guid userId)
     {
         if (entityCreateDto.CategoryId == Guid.Empty || userId == Guid.Empty)
             throw new ArgumentException("Main Category or User not found");
 
         entityCreateDto.UserId = userId;
-        var entity = _mapper.Map<Category>(entityCreateDto);
 
-        await _repository.CreateAsync(entity);
-        return _mapper.Map<CategoryResultDto>(entity);
+        var entity = entityCreateDto.MapperToCreateDto();
+
+        _ = _repository.CreateAsync(entity);
+
+        return entity.MapperToResultDto();
     }
 
     public async Task<CategoryResultDto> UpdateAsync(CategoryUpdateDto entityUpdateDto)
@@ -39,14 +40,11 @@ public class CategoryService : BaseService, ICategoryService
         if (result == null)
             return null;
 
-        var entity = _mapper.Map(entityUpdateDto, result);
+        _ = entityUpdateDto.Mapper();
 
-        var savedChanges = await _repository.SaveChangesAsync();
+        _ = _repository.SaveChangesAsync();
 
-        if (savedChanges > 0)
-            return _mapper.Map<CategoryResultDto>(entity);
-
-        return null;
+        return result.MapperToResultDto();
     }
 
     public async Task<bool> DeleteAsync(Guid id) => await _repository.DeleteAsync(id);
@@ -55,18 +53,20 @@ public class CategoryService : BaseService, ICategoryService
     public async Task<CategoryResultDto> FindByIdAsync(Guid id)
     {
         var result = await _repository.FindByIdAsync(id);
-        return _mapper.Map<CategoryResultDto>(result);
+        return result.MapperToResultDto();
     }
 
     public async Task<CategoryUpdateDto> FindByIdUpdateAsync(Guid id)
     {
         var result = await _repository.FindByIdAsync(id);
-        return _mapper.Map<CategoryUpdateDto>(result);
+        return result.MapperToUpdateDto();
     }
 
-    public async Task<IEnumerable<CategoryResultDto>> FindAsyncNameAndIdUserCategories(Guid userId) {
-            var result = await _repository.FindAsyncNameAndIdUserCategories(userId);
-            return _mapper.Map<IEnumerable<CategoryResultDto>>(result.ToList());
+    public async Task<IEnumerable<CategoryResultDto>> FindAsyncNameAndIdUserCategories(Guid userId)
+    {
+        var result = await _repository.FindAsyncNameAndIdUserCategories(userId);
+
+        return result.MapperToResultDto();
     }
 
     /// <summary>
@@ -76,12 +76,13 @@ public class CategoryService : BaseService, ICategoryService
     public async Task<IEnumerable<CategoryResultDto>> FindAsyncAllCommonAndUserCategories(Guid userId)
     {
         var result = await Task.Run(() => _repository.FindAsyncAllCommonAndUserCategories(userId));
-        return _mapper.Map<IEnumerable<CategoryResultDto>>(result);
+
+        return result.MapperToResultDto();
     }
 
     public async Task<CategoryUpdateViewModel> SetupCategoryUpdateViewModel(Guid id, Guid userId)
     {
-        return new ()
+        return new()
         {
             Category = await FindByIdUpdateAsync(id),
             Categories = await FindAsyncAllCommonAndUserCategories(userId)
@@ -107,7 +108,7 @@ public class CategoryService : BaseService, ICategoryService
         if (!string.IsNullOrEmpty(searchString))
             categories = categories.Where(m => m.Name.Contains(searchString));
 
-        var categoriesData = _mapper.Map<IEnumerable<CategoryResultDto>>(categories);
+        var categoriesData = categories.MapperToResultDto();
 
         foreach (var category in categoriesData)
             category.Total = category.Entrances.Select(c => c.Value).Sum();

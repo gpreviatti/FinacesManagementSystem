@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Domain.Dtos.Category;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Moq;
-using Service.Services;
 using Xunit;
+using Domain.Mappers;
+using Domain.Services;
 
 namespace Tests.Service
 {
@@ -19,98 +19,98 @@ namespace Tests.Service
 
         public CategoryServiceTest()
         {
-            _service = new CategoryService(_repositoryMock.Object, _mapper);
+            _service = new CategoryService(_repositoryMock.Object);
         }
 
         [Fact(DisplayName = "Create category")]
         [Trait("Service", "Category")]
-        public async void ShouldCreateCategory()
+        public void ShouldCreateCategory()
         {
-            try
+            // Arrange
+            var mainCategoryGuid = Guid.NewGuid();
+            var categoryCreateDto = new CategoryCreateDto { 
+                Name = _fakerName, CategoryId = mainCategoryGuid 
+            };
+            
+            var category = categoryCreateDto.MapperToCreateDto();
+
+            var categoryResult = new Category
             {
-                var mainCategoryGuid = Guid.NewGuid();
-                var categoryCreateDto = new CategoryCreateDto { Name = _fakerName, CategoryId = mainCategoryGuid };
-                var category = _mapper.Map<Category>(categoryCreateDto);
+                Id = Guid.NewGuid(),
+                CategoryId = mainCategoryGuid,
+                Name = _fakerName,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                UserId = _userAdminId
+            };
 
-                var categoryResult = new Category
-                {
-                    Id = Guid.NewGuid(),
-                    CategoryId = mainCategoryGuid,
-                    Name = _fakerName,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now,
-                    UserId = _userAdminId
-                };
+            _repositoryMock.Setup(r => r.CreateAsync(category).Result).Returns(categoryResult);
+            
+            // Act
+            var result = _service.CreateAsync(categoryCreateDto, _userAdminId);
 
-                _repositoryMock.Setup(r => r.CreateAsync(category).Result).Returns(categoryResult);
-                var result = await _service.CreateAsync(categoryCreateDto, _userAdminId);
-
-                Assert.NotNull(result);
-                Assert.False(result.UserId.Equals(Guid.Empty));
-                Assert.Equal(_fakerName, result.Name);
-            }
-            catch (Exception exception)
-            {
-                Assert.True(false, exception.Message);
-            }
+            // Assert
+            Assert.NotNull(result);
+            Assert.False(result.UserId.Equals(Guid.Empty));
+            Assert.Equal(_fakerName, result.Name);
         }
 
         [Fact(DisplayName = "Find name and id of all common user categories")]
         [Trait("Service", "Category")]
         public async void ShouldFindAsyncNameAndIdUserCategories()
         {
-            try
+            // Arrange
+            var listCategoryResultDto = new List<Category>
             {
-                var listCategoryResultDto = new List<Category>
-                {
-                    new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                    new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                    new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                    new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                    new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                    new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                    new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                    new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                    new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                    new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                }.AsQueryable();
+                new () { Id = new (), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
+            }.AsQueryable();
 
-                _repositoryMock.Setup(m => m.FindAsyncNameAndIdUserCategories(_userAdminId).Result).Returns(listCategoryResultDto);
-                var result = await _service.FindAsyncNameAndIdUserCategories(_userAdminId);
+            _repositoryMock.Setup(m => m.FindAsyncNameAndIdUserCategories(_userAdminId).Result).Returns(listCategoryResultDto);
+            
+            // Act
+            var result = await _service.FindAsyncNameAndIdUserCategories(_userAdminId);
 
-                Assert.NotNull(result);
-                Assert.True(result.Count() == 10);
-                Assert.Equal(listCategoryResultDto.FirstOrDefault().Name, result.FirstOrDefault().Name);
-                _repositoryMock.Verify(m => m.FindAsyncNameAndIdUserCategories(It.IsAny<Guid>()), Times.Once);
-            }
-            catch (Exception exception)
-            {
-                Debug.WriteLine(exception.Message);
-                Assert.True(false);
-            }   
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result.Count() == 10);
+            Assert.Equal(listCategoryResultDto.FirstOrDefault().Name, result.FirstOrDefault().Name);
+            _repositoryMock.Verify(m => m.FindAsyncNameAndIdUserCategories(It.IsAny<Guid>()), Times.Once);
         }
 
         [Fact(DisplayName = "Find all common user categories")]
         [Trait("Service", "Category")]
         public async void ShouldFindAsyncAllCommonAndUserCategories()
         {
+            // Arrange
             var listCategoryResultDto = new List<Category>
             {
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
+                new () { Id = new (), Name = Faker.Name.FullName()},
             };
 
             _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId)).Returns(listCategoryResultDto.AsQueryable());
+
+            // Act            
             var result = await _service.FindAsyncAllCommonAndUserCategories(_userAdminId);
 
+            // Assert
             Assert.NotNull(result);
             Assert.True(result.Count() == 10);
             Assert.Equal(listCategoryResultDto.FirstOrDefault().Name, result.FirstOrDefault().Name);
@@ -352,23 +352,27 @@ namespace Tests.Service
         [Trait("Service", "Category")]
         public async void ShouldFindAllCommonUserCategories()
         {
+            // Arrange
             var listCategory = new List<Category>
             {
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName(), UserId = _userAdminId},
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName(), UserId = _userAdminId},
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName(), UserId = _userAdminId},
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName(), UserId = _userAdminId},
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName(), UserId = _userAdminId},
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName(), UserId = _userAdminId},
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName(), UserId = _userAdminId},
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName(), UserId = _userAdminId},
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName(), UserId = _userAdminId},
-                new Category{ Id = new Guid(), Name = Faker.Name.FullName(), UserId = _userAdminId},
+                new () { Id = new (), Name = Faker.Name.FullName(), UserId = _userAdminId},
+                new () { Id = new (), Name = Faker.Name.FullName(), UserId = _userAdminId},
+                new () { Id = new (), Name = Faker.Name.FullName(), UserId = _userAdminId},
+                new () { Id = new (), Name = Faker.Name.FullName(), UserId = _userAdminId},
+                new () { Id = new (), Name = Faker.Name.FullName(), UserId = _userAdminId},
+                new () { Id = new (), Name = Faker.Name.FullName(), UserId = _userAdminId},
+                new () { Id = new (), Name = Faker.Name.FullName(), UserId = _userAdminId},
+                new () { Id = new (), Name = Faker.Name.FullName(), UserId = _userAdminId},
+                new () { Id = new (), Name = Faker.Name.FullName(), UserId = _userAdminId},
+                new () { Id = new (), Name = Faker.Name.FullName(), UserId = _userAdminId},
             }.AsQueryable();
 
             _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId)).Returns(listCategory);
+
+            // Act
             var result = await _service.FindAsyncAllCommonAndUserCategories(_userAdminId);
 
+            // Assert
             Assert.NotNull(result);
             Assert.True(result.Count() == 10);
             Assert.Equal(listCategory.FirstOrDefault().Name, result.FirstOrDefault().Name);
@@ -381,144 +385,125 @@ namespace Tests.Service
         [Trait("Service", "Category")]
         public async void ShouldListCategoryById()
         {
-            try
+            // Arrange
+            var categoryResultDto = new Category()
             {
-                var categoryResultDto = new Category()
-                {
-                    Id = new Guid(),
-                    Name = Faker.Name.FullName(),
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now,
-                    Entrances = new List<Entrance>()
-                };
+                Id = new Guid(),
+                Name = Faker.Name.FullName(),
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Entrances = new List<Entrance>()
+            };
 
-                _repositoryMock.Setup(m => m.FindByIdAsync(It.IsAny<Guid>()).Result).Returns(categoryResultDto);
-                var result = await _service.FindByIdAsync(It.IsAny<Guid>());
+            _repositoryMock.Setup(m => m.FindByIdAsync(It.IsAny<Guid>()).Result).Returns(categoryResultDto);
 
-                Assert.NotNull(result);
-                Assert.Equal(categoryResultDto.Id, result.Id);
-                Assert.Equal(categoryResultDto.CreatedAt, result.CreatedAt);
-                Assert.Equal(categoryResultDto.UpdatedAt, result.UpdatedAt);
-                _repositoryMock.Verify(m => m.FindByIdAsync(It.IsAny<Guid>()), Times.Once);
-            }
-            catch (Exception exception)
-            {
-                Assert.True(false, exception.Message);
-            }
+            // Act
+            var result = await _service.FindByIdAsync(It.IsAny<Guid>());
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(categoryResultDto.Id, result.Id);
+            Assert.Equal(categoryResultDto.CreatedAt, result.CreatedAt);
+            Assert.Equal(categoryResultDto.UpdatedAt, result.UpdatedAt);
+            _repositoryMock.Verify(m => m.FindByIdAsync(It.IsAny<Guid>()), Times.Once);
         }
 
         [Fact(DisplayName = "Find Category by id with an CategoryUpdateDto as result")]
         [Trait("Service", "Category")]
         public async void ShouldFindByIdUpdateAsync()
         {
-            try
+            // Arrange
+            var categoryId = Guid.NewGuid();
+            var categoryResultDto = new Category()
             {
-                // Arrange
-                var categoryId = Guid.NewGuid();
-                var categoryResultDto = new Category()
-                {
-                    Id = categoryId,
-                    Name = Faker.Name.FullName(),
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now,
-                    Entrances = new List<Entrance>()
-                };
+                Id = categoryId,
+                Name = Faker.Name.FullName(),
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Entrances = new List<Entrance>()
+            };
 
-                // Act
-                _repositoryMock.Setup(m => m.FindByIdAsync(categoryId).Result).Returns(categoryResultDto);
-                var result = await _service.FindByIdUpdateAsync(categoryId);
+            // Act
+            _repositoryMock.Setup(m => m.FindByIdAsync(categoryId).Result).Returns(categoryResultDto);
+            var result = await _service.FindByIdUpdateAsync(categoryId);
 
-                // Assert
-                Assert.NotNull(result);
-                Assert.Equal(categoryId, result.Id);
-                _repositoryMock.Verify(m => m.FindByIdAsync(It.IsAny<Guid>()), Times.Once);
-            }
-            catch (Exception exception)
-            {
-                Assert.True(false, exception.Message);
-            }
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(categoryId, result.Id);
+            _repositoryMock.Verify(m => m.FindByIdAsync(It.IsAny<Guid>()), Times.Once);
         }
 
         [Fact(DisplayName = "Update category")]
         [Trait("Service", "Category")]
         public async void ShouldUpdateCategory()
         {
-            try
+            // Arrange
+            var categoryId = Guid.NewGuid();
+            var categoryToUpdate = new CategoryUpdateDto { 
+                Id = categoryId, 
+                Name = Faker.Name.FullName() 
+            };
+
+            var category = new Category
             {
-                var categoryId = Guid.NewGuid();
-                var categoryToUpdate = new CategoryUpdateDto { Id = categoryId, Name = Faker.Name.FullName() };
+                Id = categoryId,
+                Name = _fakerName,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Entrances = new List<Entrance>()
+            };
 
-                var category = new Category
-                {
-                    Id = categoryId,
-                    Name = _fakerName,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now,
-                    Entrances = new List<Entrance>()
-                };
+            // Act
+            _repositoryMock.Setup(m => m.FindByIdAsync(categoryId).Result).Returns(category);
+            _repositoryMock.Setup(m => m.SaveChangesAsync().Result).Returns(1);
+            var result = await _service.UpdateAsync(categoryToUpdate);
 
-                _repositoryMock.Setup(m => m.FindByIdAsync(categoryId).Result).Returns(category);
-                _repositoryMock.Setup(m => m.SaveChangesAsync().Result).Returns(1);
-                var result = await _service.UpdateAsync(categoryToUpdate);
+            _repositoryMock.Setup(m => m.FindByIdAsync(categoryId).Result);
+            var resultCategoryNotFound = await _service.UpdateAsync(categoryToUpdate);
 
-                _repositoryMock.Setup(m => m.FindByIdAsync(categoryId).Result);
-                var resultCategoryNotFound = await _service.UpdateAsync(categoryToUpdate);
-
-                _repositoryMock.Setup(m => m.FindByIdAsync(categoryId).Result).Returns(category);
-                _repositoryMock.Setup(m => m.SaveChangesAsync().Result);
-                var resultCategoryNotUpdated = await _service.UpdateAsync(categoryToUpdate);
-
-                Assert.NotNull(result);
-                Assert.NotNull(result.Name);
-                Assert.NotNull(result.Entrances);
-                Assert.NotEqual(_fakerName, result.Name);
-                Assert.Equal(category.CreatedAt, result.CreatedAt);
-                Assert.Equal(category.UpdatedAt, result.UpdatedAt);
-                Assert.Null(resultCategoryNotFound);
-                Assert.Null(resultCategoryNotUpdated);
-                _repositoryMock.Verify(m => m.FindByIdAsync(categoryId), Times.Exactly(3));
-                _repositoryMock.Verify(m => m.SaveChangesAsync(), Times.Exactly(2));
-            }
-            catch (Exception exception)
-            {
-                Assert.True(false, exception.Message);
-            }
+            // Assert
+            Assert.NotNull(result);
+            Assert.NotNull(result.Name);
+            Assert.NotNull(result.Entrances);
+            Assert.Equal(_fakerName, result.Name);
+            Assert.Equal(category.CreatedAt, result.CreatedAt);
+            Assert.Equal(category.UpdatedAt, result.UpdatedAt);
+            
+            Assert.Null(resultCategoryNotFound);
+            
+            _repositoryMock.Verify(m => m.FindByIdAsync(categoryId), Times.Exactly(2));
+            _repositoryMock.Verify(m => m.SaveChangesAsync(), Times.Exactly(1));
         }
 
         [Fact(DisplayName = "Delete category")]
         [Trait("Service", "Category")]
         public async void ShouldDeleteCategory()
         {
-            try
-            {
-                _repositoryMock.Setup(m => m.DeleteAsync(It.IsAny<Guid>()).Result).Returns(true);
-                var result = await _service.DeleteAsync(Guid.NewGuid());
+            // Arrange
+            _repositoryMock.Setup(m => m.DeleteAsync(It.IsAny<Guid>()).Result).Returns(true);
 
-                Assert.True(result);
-                _repositoryMock.Verify(m => m.DeleteAsync(It.IsAny<Guid>()), Times.Once);
-            }
-            catch (Exception exception)
-            {
-                Assert.True(false, exception.Message);
-            }
+            // Act
+            var result = await _service.DeleteAsync(Guid.NewGuid());
+
+            // Assert
+            Assert.True(result);
+            _repositoryMock.Verify(m => m.DeleteAsync(It.IsAny<Guid>()), Times.Once);
         }
 
         [Fact(DisplayName = "Not Delete category")]
         [Trait("Service", "Category")]
         public async void ShouldNotDeleteCategory()
         {
-            try
-            {
-                _repositoryMock.Setup(m => m.DeleteAsync(It.IsAny<Guid>()).Result).Returns(false);
-                var result = await _service.DeleteAsync(Guid.NewGuid());
+            // Arrange
+            _repositoryMock.Setup(m => m.DeleteAsync(It.IsAny<Guid>()).Result).Returns(false);
 
-                Assert.False(result);
-                _repositoryMock.Verify(m => m.DeleteAsync(It.IsAny<Guid>()), Times.Once);
-            }
-            catch (Exception exception)
-            {
-                Assert.True(false, exception.Message);
-            }
+            // Act
+            var result = await _service.DeleteAsync(Guid.NewGuid());
+
+            // Assert
+            Assert.False(result);
+
+            _repositoryMock.Verify(m => m.DeleteAsync(It.IsAny<Guid>()), Times.Once);
         }
     }
 }

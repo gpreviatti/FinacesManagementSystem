@@ -104,7 +104,7 @@ public class CategoryController : BaseController<CategoryController>
     /// <returns></returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Create(CategoryCreateViewModel categoryCreateViewModel)
+    public ActionResult Create(CategoryCreateViewModel categoryCreateViewModel)
     {
         try
         {
@@ -112,7 +112,9 @@ public class CategoryController : BaseController<CategoryController>
                 return BadRequest(ModelState);
 
             GetClaims();
-            var result = await _service.CreateAsync(categoryCreateViewModel.Category, UserId);
+            
+            var result = _service.CreateAsync(categoryCreateViewModel.Category, UserId);
+            
             if (result == null)
                 return BadRequest(ModelState);
 

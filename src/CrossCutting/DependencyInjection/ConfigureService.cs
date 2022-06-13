@@ -15,8 +15,8 @@ namespace CrossCutting.DependencyInjection
             service.AddTransient<IUserService, UserService>();
             service.AddTransient<IWalletTypeService, WalletTypeService>();
             service.AddTransient<IWalletService, WalletService>();
+            
             service.AddTransient<ICategoryService, CategoryService>();
-
             service.AddTransient<IEntranceService, EntranceService>();
         }
     }

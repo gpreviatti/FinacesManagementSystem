@@ -14,7 +14,7 @@ public interface ICategoryService : IBaseService
     Task<IEnumerable<CategoryResultDto>> FindAsyncAllCommonAndUserCategories(Guid userId);
     Task<IEnumerable<CategoryResultDto>> FindAllAndUserCategories(string currentSort, string searchString, Guid userId);
     Task<CategoryUpdateViewModel> SetupCategoryUpdateViewModel(Guid id, Guid userId);
-    Task<CategoryResultDto> CreateAsync(CategoryCreateDto entityCreateDto, Guid userId);
+    CategoryResultDto CreateAsync(CategoryCreateDto entityCreateDto, Guid userId);
     Task<CategoryResultDto> UpdateAsync(CategoryUpdateDto entityUpdateDto);
     Task<bool> DeleteAsync(Guid id);
 }
