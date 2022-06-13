@@ -1,8 +1,5 @@
 # :moneybag: Finances Management System
 
-[![CI-CD](https://github.com/gpreviatti/FinancesManagementSystem/actions/workflows/cicd.yaml/badge.svg?branch=main)](https://github.com/gpreviatti/FinancesManagementSystem/actions/workflows/cicd.yaml)
-[![Heroku App Status](http://heroku-shields.herokuapp.com/finances-management-system)](https://finances-management-system.herokuapp.com)
-
 ## Sonar Badges
 
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=gpreviatti_FinancesManagementSystem&metric=bugs)](https://sonarcloud.io/dashboard?id=gpreviatti_FinancesManagementSystem)
@@ -16,6 +13,11 @@
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=gpreviatti_FinancesManagementSystem&metric=security_rating)](https://sonarcloud.io/dashboard?id=gpreviatti_FinancesManagementSystem)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=gpreviatti_FinancesManagementSystem&metric=sqale_index)](https://sonarcloud.io/dashboard?id=gpreviatti_FinancesManagementSystem)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=gpreviatti_FinancesManagementSystem&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=gpreviatti_FinancesManagementSystem)
+
+## Other Badges
+
+[![CI-CD](https://github.com/gpreviatti/FinancesManagementSystem/actions/workflows/cicd.yaml/badge.svg?branch=main)](https://github.com/gpreviatti/FinancesManagementSystem/actions/workflows/cicd.yaml)
+[![Heroku App Status](http://heroku-shields.herokuapp.com/finances-management-system)](https://finances-management-system.herokuapp.com)
 
 This is a simple software to management your finances, I use concepts like:
 
