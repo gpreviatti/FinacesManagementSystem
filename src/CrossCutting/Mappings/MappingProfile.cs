@@ -46,15 +46,6 @@ namespace CrossCutting.Mappings
                 .ReverseMap()
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<Category, CategoryResultDto>().ReverseMap();
-
-            // Entrance
-            CreateMap<EntranceCreateDto, Entrance>()
-                .ReverseMap();
-            // This option will prevent AutoMapper to replace fields that not will be updated to null
-            CreateMap<EntranceUpdateDto, Entrance>()
-                .ReverseMap()
-                .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
-            CreateMap<Entrance, EntranceResultDto>().ReverseMap();
         }
     }
 }
