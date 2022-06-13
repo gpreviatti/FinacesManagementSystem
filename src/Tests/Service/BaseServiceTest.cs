@@ -14,7 +14,7 @@ namespace Tests.Service
 
         public BaseServiceTest() => _mapper = GetMapper();
 
-        public IMapper GetMapper()
+        public static IMapper GetMapper()
         {
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfile()));
             return config.CreateMapper();

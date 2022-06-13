@@ -1,8 +1,10 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Data.Mapping
 {
+    [ExcludeFromCodeCoverage]
     public class CategoryMap : BaseMap<Category>
     {
         public CategoryMap() : base("Categories") { }
@@ -13,7 +15,7 @@ namespace Data.Mapping
 
             builder.Property(c => c.Name)
                 .IsRequired()
-                .HasMaxLength(255);
+                .HasMaxLength(100);
 
             builder.HasMany(c => c.Entrances)
                 .WithOne(e => e.Category);

@@ -1,19 +1,23 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Domain.Entities;
 using Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Seeds
 {
+    [ExcludeFromCodeCoverage]
     public class WalletSeeder
     {
         public static void Wallet(ModelBuilder modelBuilder)
         {
-            var walletTypes = new List<Wallet>();
-            walletTypes.Add(CreateWallet("Main Card", "Main Account", WalletTypeHelper.CheckingAccount, "040CC3AD-2159-4B8E-894E-E700A121B48F"));
-            walletTypes.Add(CreateWallet("Credit", "Credit Card Account", WalletTypeHelper.Credit, "041CC3AD-2159-4B8E-894E-E700A121B48F"));
-            walletTypes.Add(CreateWallet("Saving", "My Savings", WalletTypeHelper.Saving, "042CC3AD-2159-4B8E-894E-E700A121B48F"));
+            var walletTypes = new List<Wallet>
+            {
+                CreateWallet("Main Card", "Main Account", WalletTypeHelper.CheckingAccount, "040CC3AD-2159-4B8E-894E-E700A121B48F"),
+                CreateWallet("Credit", "Credit Card Account", WalletTypeHelper.Credit, "041CC3AD-2159-4B8E-894E-E700A121B48F"),
+                CreateWallet("Saving", "My Savings", WalletTypeHelper.Saving, "042CC3AD-2159-4B8E-894E-E700A121B48F")
+            };
 
             modelBuilder.Entity<Wallet>().HasData(walletTypes);
         }

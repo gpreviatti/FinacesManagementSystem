@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.Mapping
 {
+    [ExcludeFromCodeCoverage]
     public abstract class BaseMap<T> : IEntityTypeConfiguration<T> where T : Entity
     {
         private readonly string _tableName;
@@ -22,9 +24,11 @@ namespace Data.Mapping
                 .HasMaxLength(36);
 
             builder.Property(x => x.CreatedAt)
+                .HasColumnType("timestamp without time zone")
                 .HasDefaultValue(DateTime.Now);
-
+            
             builder.Property(x => x.UpdatedAt)
+                .HasColumnType("timestamp without time zone")
                 .HasDefaultValue(DateTime.Now);
         }
     }

@@ -1,16 +1,15 @@
 using BC = BCrypt.Net.BCrypt;
 
-namespace Helpers
+namespace Helpers;
+
+public static class EncryptHelper
 {
-    public class EncryptHelper
+    public static string HashField(string field)
     {
-        public static string HashField(string field)
-        {
-            return BC.HashPassword(field);
-        }
-        public static bool CheckHashedField(string field, string hash)
-        {
-            return BC.Verify(field, hash);
-        }
+        return BC.HashPassword(field);
+    }
+    public static bool CheckHashedField(string field, string hash)
+    {
+        return BC.Verify(field, hash);
     }
 }

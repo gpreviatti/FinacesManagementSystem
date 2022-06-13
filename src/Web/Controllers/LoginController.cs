@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Domain.Dtos;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Web.Controllers
 {
+    [ExcludeFromCodeCoverage]
     public class LoginController : BaseController<LoginController>
     {
         private readonly ILoginService _service;

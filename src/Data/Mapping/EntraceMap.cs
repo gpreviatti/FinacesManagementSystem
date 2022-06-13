@@ -1,9 +1,11 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Data.Mapping
 {
+    [ExcludeFromCodeCoverage]
     public class EntranceMap : BaseMap<Entrance>
     {
         public EntranceMap() : base("Entrances") { }
@@ -14,10 +16,10 @@ namespace Data.Mapping
 
             builder.Property(e => e.Description)
                 .IsRequired()
-                .HasMaxLength(500);
+                .HasMaxLength(250);
 
             builder.Property(e => e.Observation)
-                .HasMaxLength(500);
+                .HasMaxLength(250);
 
             builder.Property(e => e.Type)
                 .IsRequired();

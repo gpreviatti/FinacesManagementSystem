@@ -1,8 +1,10 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Data.Mapping
 {
+    [ExcludeFromCodeCoverage]
     public class WalletTypeMap : BaseMap<WalletType>
     {
         public WalletTypeMap() : base("WalletTypes") { }
@@ -12,7 +14,7 @@ namespace Data.Mapping
 
             builder.Property(wt => wt.Name)
                 .IsRequired()
-                .HasMaxLength(255);
+                .HasMaxLength(50);
 
             builder.HasMany(wt => wt.Wallets)
                 .WithOne(w => w.WalletType);

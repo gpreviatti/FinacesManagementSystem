@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using Domain.Dtos.Entrance;
 using Domain.Interfaces.Services;
-using Domain.Models;
 using Domain.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +10,7 @@ using X.PagedList;
 
 namespace Web.Controllers
 {
+    [ExcludeFromCodeCoverage]
     public class EntranceController : BaseController<EntranceController>
     {
         private readonly IEntranceService _service;

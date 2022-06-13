@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Domain.Interfaces.Services;
 using Domain.ViewModels;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Web.Controllers
 {
+    [ExcludeFromCodeCoverage]
     public class WalletController : BaseController<WalletController>
     {
         private readonly IWalletService _service;

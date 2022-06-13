@@ -123,21 +123,15 @@ public class CategoryService : BaseService, ICategoryService
         IEnumerable<CategoryResultDto> categories
     )
     {
-        switch (currentSort)
+        return currentSort switch
         {
-            case "name":
-                return categories.OrderBy(e => e.Name);
-            case "name_desc":
-                return categories.OrderByDescending(e => e.Name);
-            case "total":
-                    return categories.OrderBy(e => e.Total);
-            case "total_desc":
-                return categories.OrderByDescending(e => e.Total);
-            case "createdAt":
-                return categories.OrderBy(e => e.CreatedAt);
-            default:
-                return categories.OrderByDescending(e => e.CreatedAt);
-        }
+            "name" => categories.OrderBy(e => e.Name),
+            "name_desc" => categories.OrderByDescending(e => e.Name),
+            "total" => categories.OrderBy(e => e.Total),
+            "total_desc" => categories.OrderByDescending(e => e.Total),
+            "createdAt" => categories.OrderBy(e => e.CreatedAt),
+            _ => categories.OrderByDescending(e => e.CreatedAt),
+        };
     }
     #endregion
 }

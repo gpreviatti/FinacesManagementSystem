@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Seeds
 {
+    [ExcludeFromCodeCoverage]
     public class EntraceSeeder
     {
         public static void Entrance(ModelBuilder modelBuilder)
@@ -33,10 +35,10 @@ namespace Data.Seeds
                 "042CC3AD-2159-4B8E-894E-E700A121B48F"
             };
 
-            for (int i = 1; i <= 2000; i++)
+            for (int i = 1; i <= 500; i++)
             {
-                var randonCategory = random.Next(categoriesGuid.Count());
-                var randonWallet = random.Next(walletsGuid.Count());
+                var randonCategory = random.Next(categoriesGuid.Count);
+                var randonWallet = random.Next(walletsGuid.Count);
                 entrances.Add(new Entrance
                 {
                     Id = Guid.NewGuid(),

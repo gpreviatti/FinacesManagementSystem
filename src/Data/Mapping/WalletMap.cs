@@ -1,9 +1,11 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Data.Mapping
 {
+    [ExcludeFromCodeCoverage]
     public class WalletMap : BaseMap<Wallet>
     {
         public WalletMap() : base("Wallets") { }
@@ -13,13 +15,19 @@ namespace Data.Mapping
 
             builder.Property(w => w.Name)
                 .IsRequired()
-                .HasMaxLength(255);
+                .HasMaxLength(50);
 
             builder.Property(w => w.Description)
-                .HasMaxLength(500);
+                .HasMaxLength(100);
 
             builder.Property(w => w.CurrentValue)
                 .HasDefaultValue(0);
+
+            builder.Property(w => w.CloseDate)
+                .HasColumnType("timestamp without time zone");
+
+            builder.Property(w => w.DueDate)
+                .HasColumnType("timestamp without time zone");
 
             builder.HasOne(w => w.User)
                 .WithMany(u => u.Wallets);

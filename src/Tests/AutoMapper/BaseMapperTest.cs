@@ -11,7 +11,7 @@ namespace Tests.AutoMapper
             _mapper = GetMapper();
         }
 
-        public IMapper GetMapper()
+        public static IMapper GetMapper()
         {
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfile()));
 

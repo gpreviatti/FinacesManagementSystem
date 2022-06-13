@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Seeds
 {
+    [ExcludeFromCodeCoverage]
     public class CategorySeeder
     {
         public static void Categories(ModelBuilder modelBuilder)

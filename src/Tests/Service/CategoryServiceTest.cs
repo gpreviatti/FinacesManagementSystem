@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Domain.Dtos.Category;
-using Domain.Dtos.Entrance;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
-using Domain.Models;
 using Moq;
 using Service.Services;
 using Xunit;
@@ -16,8 +14,8 @@ namespace Tests.Service
 {
     public class CategoryServiceTest : BaseServiceTest
     {
-        private ICategoryService _service;
-        private Mock<ICategoryRepository> _repositoryMock = new Mock<ICategoryRepository>();
+        private readonly ICategoryService _service;
+        private readonly Mock<ICategoryRepository> _repositoryMock = new();
 
         public CategoryServiceTest()
         {

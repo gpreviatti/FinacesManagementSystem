@@ -17,7 +17,7 @@ namespace Tests.Data
             _repository = new EntranceRepository(_context);
         }
 
-        private Entrance CreateEntranceEntity()
+        private static Entrance CreateEntranceEntity()
         {
             return new Entrance()
             {
@@ -26,8 +26,8 @@ namespace Tests.Data
                 Ticker = "TEST",
                 Type = 1,
                 Value = 100,
-                Category = new CategoryDataTest().CreateCategoryEntity(),
-                Wallet = new WalletDataTest().CreateWalletEntity(),
+                Category = CategoryDataTest.CreateCategoryEntity(),
+                Wallet = WalletDataTest.CreateWalletEntity(),
             };
         }
 

@@ -8,7 +8,7 @@ namespace Data.Context
     public class MyContext : DbContext
     {
         public MyContext(DbContextOptions<MyContext> options) : base(options)
-        {
+        {   
             // Every time that had a new migration in the project,
             // this command will be updated your database
             Database.Migrate();

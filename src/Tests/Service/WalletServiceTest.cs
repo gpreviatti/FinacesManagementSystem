@@ -15,8 +15,8 @@ namespace Tests.Service
 {
     public class WalletServiceTest : BaseServiceTest
     {
-        private IWalletService _service;
-        private Mock<IWalletRepository> _repository;
+        private readonly IWalletService _service;
+        private readonly Mock<IWalletRepository> _repository;
 
         
         public WalletServiceTest()
@@ -244,7 +244,7 @@ namespace Tests.Service
 
                 // Assert
                 Assert.NotNull(result);
-                Assert.True(result.WalletsValues.Count().Equals(walletValuesDto.Count()));
+                Assert.True(result.WalletsValues.Count().Equals(walletValuesDto.Count));
                 Assert.True(result.TotalIncomes.Equals(500));
                 Assert.True(result.TotalExpanses.Equals(250));
                 _repository.Verify(r => r.FindAsyncWalletsValues(_userAdminId).Result, Times.Exactly(1));
