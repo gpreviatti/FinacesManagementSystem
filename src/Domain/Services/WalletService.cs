@@ -88,41 +88,28 @@ public class WalletService : IWalletService
 
     public async Task<WalletResultDto> UpdateAsync(WalletUpdateDto walletUpdateDto)
     {
-        var result = await _repository.FindByIdAsync(walletUpdateDto.Id);
+        var result = await _repository.FindByIdAsync(walletUpdateDto.Id, true);
 
         if (result == null)
             return null;
 
         var entity = walletUpdateDto.Mapper();
 
-        _ = _repository.SaveChangesAsync();
+        _ = await _repository.SaveChangesAsync();
 
         return entity.MapperResultDto();
     }
 
     public async Task<WalletResultDto> UpdateWalletValue(Guid id, int type, double value)
     {
-        var wallet = await _repository.FindByIdAsync(id);
+        var wallet = await _repository.FindByIdAsync(id, true);
+
         if (wallet == null)
             return null;
 
-        switch (type)
-        {
-            case (int)EntranceType.Income:
-                wallet.CurrentValue += value;
-                break;
-            case (int)EntranceType.Expanse:
-                if (value > wallet.CurrentValue)
-                    throw new Exception("Insuficient founds :(");
+        wallet.UpdateValue(type, value);
 
-                wallet.CurrentValue -= value;
-                break;
-            default:
-                wallet.CurrentValue = wallet.CurrentValue;
-                break;
-        }
-
-        _ = _repository.SaveChangesAsync();
+        _ = await _repository.SaveChangesAsync();
 
         return wallet.MapperResultDto();
     }

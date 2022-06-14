@@ -53,7 +53,7 @@ public class EntranceServiceTest : BaseServiceTest
         var entranceResultDto = entrance.MapperToResultDto();
                 
         _repositoryMock
-            .Setup(r => r.FindByIdAsync(_userAdminId).Result)
+            .Setup(r => r.FindByIdAsync(_userAdminId, It.IsAny<bool>()).Result)
             .Returns(entrance);
 
         // Act
@@ -266,7 +266,7 @@ public class EntranceServiceTest : BaseServiceTest
             UpdatedAt = DateTime.Now
         };
 
-        _repositoryMock.Setup(m => m.FindByIdAsync(It.IsAny<Guid>()).Result).Returns(entrance);
+        _repositoryMock.Setup(m => m.FindByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>()).Result).Returns(entrance);
         var result = await _service.FindByIdUpdateAsync(It.IsAny<Guid>());
 
         Assert.NotNull(result);
@@ -356,7 +356,7 @@ public class EntranceServiceTest : BaseServiceTest
             .Returns(categoryResultDto);
 
         _repositoryMock
-            .Setup(r => r.FindByIdAsync(entranceId).Result)
+            .Setup(r => r.FindByIdAsync(entranceId, It.IsAny<bool>()).Result)
             .Returns(entrance);
 
         var result = await _service.SetupEntranceUpdateViewModel(_userAdminId, entranceId);
@@ -473,7 +473,7 @@ public class EntranceServiceTest : BaseServiceTest
 
         // Act
         _repositoryMock
-            .Setup(r => r.FindByIdAsync(entranceId).Result)
+            .Setup(r => r.FindByIdAsync(entranceId, It.IsAny<bool>()).Result)
             .Returns(entrance);
 
         _walletServiceMock
@@ -503,7 +503,7 @@ public class EntranceServiceTest : BaseServiceTest
         var resultNotUpdateWallet = await _service.UpdateAsync(entranceUpdateDto);
 
         _repositoryMock
-            .Setup(r => r.FindByIdAsync(entranceId).Result);
+            .Setup(r => r.FindByIdAsync(entranceId, It.IsAny<bool>()).Result);
         
         var resultEntranceNotFound = await _service.UpdateAsync(entranceUpdateDto);
 
@@ -519,7 +519,7 @@ public class EntranceServiceTest : BaseServiceTest
         Assert.Equal(entrance.Type, result.Type);
         Assert.Equal(entrance.Value, result.Value);
         
-        _repositoryMock.Verify(r => r.FindByIdAsync(entranceId), Times.Exactly(5));
+        _repositoryMock.Verify(r => r.FindByIdAsync(entranceId, It.IsAny<bool>()), Times.Exactly(5));
         
         _walletServiceMock.Verify(r => r.UpdateWalletValue(walletId, It.IsAny<int>(), It.IsAny<double>()), Times.Exactly(4));
         

@@ -42,7 +42,7 @@ public class WalletTypeService : IWalletTypeService
 
     public async Task<WalletTypeResultDto> UpdateAsync(WalletTypeUpdateDto entityUpdateDto)
     {
-        var result = await _repository.FindByIdAsync(entityUpdateDto.Id);
+        var result = await _repository.FindByIdAsync(entityUpdateDto.Id, true);
 
         if (result == null)
             return null;

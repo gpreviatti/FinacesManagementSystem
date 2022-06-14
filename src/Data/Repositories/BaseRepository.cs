@@ -31,9 +31,16 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : Entity
         return entity;
     }
 
-    public async Task<T> FindByIdAsync(Guid id) => await _dataset
-        .AsNoTracking()
-        .SingleOrDefaultAsync(p => p.Id.Equals(id));
+    public async Task<T> FindByIdAsync(Guid id, bool tracking = false) {
+        var result = _dataset;
+
+        if (tracking)
+            result.AsNoTracking();
+
+        return await result
+            .SingleOrDefaultAsync(p => p.Id.Equals(id));
+    }
+
 
     public async Task<IEnumerable<T>> FindAllAsync() => await _dataset
         .AsNoTracking()

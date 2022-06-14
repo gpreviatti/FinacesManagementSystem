@@ -135,7 +135,7 @@ public class CategoryServiceTest : BaseServiceTest
         }.AsQueryable();
 
         // Act
-        _repositoryMock.Setup(m => m.FindByIdAsync(categoryId).Result).Returns(category);
+        _repositoryMock.Setup(m => m.FindByIdAsync(categoryId, It.IsAny<bool>()).Result).Returns(category);
         _repositoryMock.Setup(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId)).Returns(listCategoryResultDto);
         var result = await _service.SetupCategoryUpdateViewModel(categoryId, _userAdminId);
 
@@ -144,7 +144,7 @@ public class CategoryServiceTest : BaseServiceTest
         Assert.True(result.Categories.Count() == listCategoryResultDto.Count());
         Assert.True(result.Category.Id == category.Id);
         Assert.True(result.Category.Name == category.Name);
-        _repositoryMock.Verify(m => m.FindByIdAsync(categoryId), Times.Once);
+        _repositoryMock.Verify(m => m.FindByIdAsync(categoryId, It.IsAny<bool>()), Times.Once);
         _repositoryMock.Verify(m => m.FindAsyncAllCommonAndUserCategories(_userAdminId), Times.Once);
     }
 
@@ -396,7 +396,7 @@ public class CategoryServiceTest : BaseServiceTest
             Entrances = new List<Entrance>()
         };
 
-        _repositoryMock.Setup(m => m.FindByIdAsync(It.IsAny<Guid>()).Result).Returns(categoryResultDto);
+        _repositoryMock.Setup(m => m.FindByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>()).Result).Returns(categoryResultDto);
 
         // Act
         var result = await _service.FindByIdAsync(It.IsAny<Guid>());
@@ -406,7 +406,7 @@ public class CategoryServiceTest : BaseServiceTest
         Assert.Equal(categoryResultDto.Id, result.Id);
         Assert.Equal(categoryResultDto.CreatedAt, result.CreatedAt);
         Assert.Equal(categoryResultDto.UpdatedAt, result.UpdatedAt);
-        _repositoryMock.Verify(m => m.FindByIdAsync(It.IsAny<Guid>()), Times.Once);
+        _repositoryMock.Verify(m => m.FindByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>()), Times.Once);
     }
 
     [Fact(DisplayName = "Find Category by id with an CategoryUpdateDto as result")]
@@ -425,13 +425,13 @@ public class CategoryServiceTest : BaseServiceTest
         };
 
         // Act
-        _repositoryMock.Setup(m => m.FindByIdAsync(categoryId).Result).Returns(categoryResultDto);
+        _repositoryMock.Setup(m => m.FindByIdAsync(categoryId, It.IsAny<bool>()).Result).Returns(categoryResultDto);
         var result = await _service.FindByIdUpdateAsync(categoryId);
 
         // Assert
         Assert.NotNull(result);
         Assert.Equal(categoryId, result.Id);
-        _repositoryMock.Verify(m => m.FindByIdAsync(It.IsAny<Guid>()), Times.Once);
+        _repositoryMock.Verify(m => m.FindByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>()), Times.Once);
     }
 
     [Fact(DisplayName = "Update category")]
@@ -455,11 +455,11 @@ public class CategoryServiceTest : BaseServiceTest
         };
 
         // Act
-        _repositoryMock.Setup(m => m.FindByIdAsync(categoryId).Result).Returns(category);
+        _repositoryMock.Setup(m => m.FindByIdAsync(categoryId, It.IsAny<bool>()).Result).Returns(category);
         _repositoryMock.Setup(m => m.SaveChangesAsync().Result).Returns(1);
         var result = await _service.UpdateAsync(categoryToUpdate);
 
-        _repositoryMock.Setup(m => m.FindByIdAsync(categoryId).Result);
+        _repositoryMock.Setup(m => m.FindByIdAsync(categoryId, It.IsAny<bool>()).Result);
         var resultCategoryNotFound = await _service.UpdateAsync(categoryToUpdate);
 
         // Assert
@@ -472,7 +472,7 @@ public class CategoryServiceTest : BaseServiceTest
         
         Assert.Null(resultCategoryNotFound);
         
-        _repositoryMock.Verify(m => m.FindByIdAsync(categoryId), Times.Exactly(2));
+        _repositoryMock.Verify(m => m.FindByIdAsync(categoryId, It.IsAny<bool>()), Times.Exactly(2));
         _repositoryMock.Verify(m => m.SaveChangesAsync(), Times.Exactly(1));
     }
 

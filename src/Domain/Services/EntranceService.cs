@@ -33,12 +33,14 @@ public class EntranceService : IEntranceService
     public async Task<EntranceResultDto> FindByIdAsync(Guid id)
     {
         var result = await _repository.FindByIdAsync(id);
+
         return result.MapperToResultDto();
     }
 
     public async Task<EntranceUpdateDto> FindByIdUpdateAsync(Guid id)
     {
         var result = await _repository.FindByIdAsync(id);
+
         return result.MapperToUpateDto();
     }
 
@@ -171,14 +173,14 @@ public class EntranceService : IEntranceService
 
     public async Task<EntranceResultDto> UpdateAsync(EntranceUpdateDto entraceUpdateDto)
     {
-        var result = await _repository.FindByIdAsync(entraceUpdateDto.Id);
+        var result = await _repository.FindByIdAsync(entraceUpdateDto.Id, true);
 
         if (result == null)
             return null;
 
         var updateWalletValue = await _walletService
-
             .UpdateWalletValue(entraceUpdateDto.WalletId, entraceUpdateDto.Type, entraceUpdateDto.Value);
+
         if (updateWalletValue == null)
             return null;
 

@@ -21,14 +21,14 @@ public class CategoryService : ICategoryService
 
     public async Task<CategoryResultDto> CreateAsync(CategoryCreateDto entityCreateDto, Guid userId)
     {
-        if (entityCreateDto.CategoryId == Guid.Empty || userId == Guid.Empty)
+        if (entityCreateDto.CategoryId == Guid.Empty || userId == default(Guid))
             throw new ArgumentException("Main Category or User not found");
 
         entityCreateDto.UserId = userId;
 
         var entity = entityCreateDto.MapperToCreateDto();
 
-        await _repository.SaveChangesAsync();
+        _ = await _repository.CreateAsync(entity);
 
         return entity.MapperToResultDto();
     }
@@ -53,6 +53,7 @@ public class CategoryService : ICategoryService
     public async Task<CategoryResultDto> FindByIdAsync(Guid id)
     {
         var result = await _repository.FindByIdAsync(id);
+
         return result.MapperToResultDto();
     }
 
