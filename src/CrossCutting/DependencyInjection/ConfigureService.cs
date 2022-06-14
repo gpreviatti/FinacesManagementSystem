@@ -10,13 +10,15 @@ namespace CrossCutting.DependencyInjection;
 public static class ConfigureService
 {
     public static void ConfigureDependenciesService(IServiceCollection service)
-    {
-        service.AddTransient<ILoginService, LoginService>();
-        service.AddTransient<IUserService, UserService>();
+    {   
+        // Domain Services
         service.AddTransient<IWalletTypeService, WalletTypeService>();
         service.AddTransient<IWalletService, WalletService>();
-        
         service.AddTransient<ICategoryService, CategoryService>();
         service.AddTransient<IEntranceService, EntranceService>();
+
+        // Application Services
+        service.AddTransient<ILoginService, LoginService>();
+        service.AddTransient<IUserService, UserService>();
     }
 }

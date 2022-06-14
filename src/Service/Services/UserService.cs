@@ -2,10 +2,11 @@
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Domain.Mappers;
+using Helpers;
 using System;
 using System.Threading.Tasks;
 
-namespace Domain.Services;
+namespace Service.Services;
 
 public class UserService : IUserService
 {
@@ -27,7 +28,7 @@ public class UserService : IUserService
     {
         var user = userCreateDto.Mapper();
 
-        //user.Password = EncryptHelper.HashField(user.Password);
+        user.Password = EncryptHelper.HashField(user.Password);
 
         await _repository.CreateAsync(user);
 
@@ -36,8 +37,8 @@ public class UserService : IUserService
 
     public async Task<UserResultDto> UpdateAsync(UserUpdateDto userUpdateDto)
     {
-        //if (userUpdateDto.Password != null)
-        //    userUpdateDto.Password = EncryptHelper.HashField(userUpdateDto.Password);
+        if (userUpdateDto.Password != null)
+            userUpdateDto.Password = EncryptHelper.HashField(userUpdateDto.Password);
 
         var result = await _repository.FindByIdAsync(userUpdateDto.Id);
 
