@@ -13,9 +13,9 @@ namespace Tests.Service
 {
     public class WalletTypeServiceTest : BaseServiceTest
     {
-        private IWalletTypeService _service;
+        private readonly IWalletTypeService _service;
 
-        private Mock<IWalletTypeRepository> _repositoryMock;
+        private readonly Mock<IWalletTypeRepository> _repositoryMock;
 
         public WalletTypeServiceTest()
         {

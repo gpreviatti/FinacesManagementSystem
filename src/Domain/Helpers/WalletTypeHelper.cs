@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Helpers;
+namespace Domain.Helpers;
 
 public static class WalletTypeHelper
 {

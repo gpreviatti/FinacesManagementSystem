@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Domain.Dtos.User;
+using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
+using Domain.Mappers;
+using Domain.Services;
 using Moq;
 using Xunit;
 
@@ -11,79 +12,46 @@ namespace Tests.Service;
 
 public class UserServiceTest : BaseServiceTest
 {
-    private Mock<IUserRepository> _repositoryMock;
+    private readonly Mock<IUserRepository> _repositoryMock;
 
-    private IUserService _service;
+    private readonly IUserService _service;
 
     public UserServiceTest()
     {
         _repositoryMock = new Mock<IUserRepository>();
+
+        _service = new UserService(_repositoryMock.Object);
     }
 
     [Fact(DisplayName = "Create user")]
     [Trait("Service", "User")]
-    public async void ShouldCreateUser()
+    public void ShouldCreateUser()
     {
         // Arrange
         var name = Faker.Name.FullName();
         var email = Faker.Internet.Email();
         var password = "123456789";
 
-        UserCreateDto userCreateDto = new()
+        var userCreateDto = new UserCreateDto()
         {
             Email = email,
             Name = name,
             Password = password
         };
 
-        UserResultDto loginResultDto = new()
-        {
-            Id = Guid.NewGuid(),
-            Email = email,
-            Name = name,
-            CreatedAt = DateTime.Now,
-            UpdatedAt = DateTime.Now
-        };
-
-        _repositoryMock.Setup(m => m.CreateAsync(userCreateDto)).ReturnsAsync(loginResultDto);
+        _repositoryMock
+            .Setup(m => m.CreateAsync(It.IsAny<User>()))
+            .ReturnsAsync(It.IsAny<User>());
 
         // Act
-        var result = await _service.CreateAsync(userCreateDto);
+        var result = _service.CreateAsync(userCreateDto);
 
         // Assert
         Assert.NotNull(result);
-        Assert.False(result.Id.Equals(Guid.Empty));
         Assert.Equal(name, result.Name);
         Assert.Equal(email, result.Email);
-    }
 
-    [Fact(DisplayName = "List users")]
-    [Trait("Service", "User")]
-    public async void ShouldListUser()
-    {
-        // Arrange
-        IEnumerable<UserResultDto> listUserResultDto = new List<UserResultDto>
-        {
-            new () { Id = new (), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()},
-            new () { Id = new (), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()},
-            new () { Id = new (), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()},
-            new () { Id = new (), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()},
-            new () { Id = new (), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()},
-            new () { Id = new (), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()},
-            new () { Id = new (), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()},
-            new () { Id = new (), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()},
-            new () { Id = new (), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()},
-            new () { Id = new (), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()}
-        };
-
-        _repositoryMock.Setup(m => m.FindAllAsync()).ReturnsAsync(listUserResultDto);
-
-        // Act
-        var result = await _service.FindAllAsync();
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.True(result.Count() == 10);
+        _repositoryMock.Verify(m => m.CreateAsync(It.IsAny<User>()), Times.Once);
     }
 
     [Fact(DisplayName = "List user by id")]
@@ -91,7 +59,7 @@ public class UserServiceTest : BaseServiceTest
     public async void ShouldListUserById()
     {
         // Arrange
-        var userResultDto = new UserResultDto()
+        var user = new User()
         {
             Id = new Guid(),
             Email = Faker.Internet.Email(),
@@ -100,17 +68,19 @@ public class UserServiceTest : BaseServiceTest
             UpdatedAt = DateTime.Now
         };
 
-        _repositoryMock.Setup(m => m.FindByIdAsync(It.IsAny<Guid>())).ReturnsAsync(userResultDto);
+        _repositoryMock
+            .Setup(m => m.FindByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(user);
 
         // Act
         var result = await _service.FindByIdAsync(It.IsAny<Guid>());
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(userResultDto.Id, result.Id);
-        Assert.Equal(userResultDto.Email, result.Email);
-        Assert.Equal(userResultDto.CreatedAt, result.CreatedAt);
-        Assert.Equal(userResultDto.UpdatedAt, result.UpdatedAt);
+        Assert.Equal(user.Id, result.Id);
+        Assert.Equal(user.Email, result.Email);
+        Assert.Equal(user.CreatedAt, result.CreatedAt);
+        Assert.Equal(user.UpdatedAt, result.UpdatedAt);
     }
 
     [Fact(DisplayName = "Update user")]
@@ -122,20 +92,21 @@ public class UserServiceTest : BaseServiceTest
         var email = Faker.Internet.Email();
         var password = "123456789";
 
-        UserUpdateDto userUpdateDto = new()
+        var userUpdateDto = new UserUpdateDto()
         {
             Email = email,
             Name = name,
             Password = password
         };
 
-        UserResultDto userResultDto = new()
-        {
-            Email = email,
-            Name = name,
-        };
+        var user = userUpdateDto.Mapper();
 
-        _repositoryMock.Setup(m => m.UpdateAsync(userUpdateDto)).ReturnsAsync(userResultDto);
+        _repositoryMock
+            .Setup(m => m.FindByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(user);
+
+        _repositoryMock.Setup(m => m.SaveChangesAsync())
+            .ReturnsAsync(1);
 
         // Act
         var result = await _service.UpdateAsync(userUpdateDto);
@@ -144,6 +115,8 @@ public class UserServiceTest : BaseServiceTest
         Assert.NotNull(result);
         Assert.Equal(name, result.Name);
         Assert.Equal(email, result.Email);
+
+        _repositoryMock.Verify(m => m.SaveChangesAsync(), Times.Once);
     }
 
     [Fact(DisplayName = "Delete user")]

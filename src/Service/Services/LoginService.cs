@@ -1,63 +1,62 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using AutoMapper;
 using Domain.Dtos;
 using Domain.Dtos.Login;
-using Domain.Dtos.User;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
+using Domain.Mappers;
 using Helpers;
 
-namespace Service.Services
+namespace Service.Services;
+
+[ExcludeFromCodeCoverage]
+public class LoginService : ILoginService
 {
-    public class LoginService : BaseService, ILoginService
+    private readonly IUserRepository _repository;
+
+    public LoginService(IUserRepository repository)
     {
-        private readonly IUserRepository _repository;
+        _repository = repository;
+    }
 
-        public LoginService(IUserRepository repository, IMapper mapper)
+    public async Task<LoginResultDto> Login(LoginDto loginDto)
+    {
+        if (loginDto == null || string.IsNullOrWhiteSpace(loginDto.Email) || string.IsNullOrWhiteSpace(loginDto.Password))
         {
-            _repository = repository;
-            _mapper = mapper;
-        }
-
-        public async Task<LoginResultDto> Login(LoginDto loginDto)
-        {
-            if (loginDto == null || string.IsNullOrWhiteSpace(loginDto.Email) || string.IsNullOrWhiteSpace(loginDto.Password))
+            return new LoginResultDto()
             {
-                return new LoginResultDto()
-                {
-                    Authenticated = false,
-                    Message = "Please check your User informations"
-                };
-            }
-
-            var user = await _repository.FindByLogin(loginDto.Email);
-
-            if (user == null)
-            {
-                return new LoginResultDto()
-                {
-                    Authenticated = false,
-                    Message = "Incorrect Email"
-                };
-            }
-
-            var checkPassword = EncryptHelper.CheckHashedField(loginDto.Password, user.Password);
-            if (!checkPassword)
-            {
-                return new LoginResultDto()
-                {
-                    Authenticated = false,
-                    Message = "Incorrect Password"
-                };
-            }
-
-            var loginResultDto = new LoginResultDto()
-            {
-                Authenticated = true,
-                Message = "Authenticated With Success",
-                User = _mapper.Map<UserResultDto>(user),
+                Authenticated = false,
+                Message = "Please check your User informations"
             };
-            return loginResultDto;
         }
+
+        var user = await _repository.FindByLogin(loginDto.Email);
+
+        if (user == null)
+        {
+            return new LoginResultDto()
+            {
+                Authenticated = false,
+                Message = "Incorrect Email"
+            };
+        }
+
+        var checkPassword = EncryptHelper.CheckHashedField(loginDto.Password, user.Password);
+        if (!checkPassword)
+        {
+            return new LoginResultDto()
+            {
+                Authenticated = false,
+                Message = "Incorrect Password"
+            };
+        }
+
+        var loginResultDto = new LoginResultDto
+        {
+            Authenticated = true,
+            Message = "Authenticated With Success",
+            User = user.MapperResultDto()
+        };
+        return loginResultDto;
     }
 }
