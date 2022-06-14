@@ -491,6 +491,7 @@ public class EntranceServiceTest : BaseServiceTest
         var result = await _service.UpdateAsync(entranceUpdateDto);
 
         _repositoryMock.Setup(m => m.SaveChangesAsync().Result);
+
         var resultEntranceNotSaved = await _service.UpdateAsync(entranceUpdateDto);
 
         _categoryServiceMock
@@ -503,6 +504,7 @@ public class EntranceServiceTest : BaseServiceTest
 
         _repositoryMock
             .Setup(r => r.FindByIdAsync(entranceId).Result);
+        
         var resultEntranceNotFound = await _service.UpdateAsync(entranceUpdateDto);
 
         // Assert
@@ -510,15 +512,19 @@ public class EntranceServiceTest : BaseServiceTest
         Assert.Null(resultEntranceNotFound);
         Assert.Null(resultNotUpdateWallet);
         Assert.Null(resultCategoryNotFound);
-        Assert.Null(resultEntranceNotSaved);
+        
         Assert.Equal(entrance.Description, result.Description);
         Assert.Equal(entrance.Observation, result.Observation);
         Assert.Equal(entrance.Ticker, result.Ticker);
         Assert.Equal(entrance.Type, result.Type);
         Assert.Equal(entrance.Value, result.Value);
+        
         _repositoryMock.Verify(r => r.FindByIdAsync(entranceId), Times.Exactly(5));
+        
         _walletServiceMock.Verify(r => r.UpdateWalletValue(walletId, It.IsAny<int>(), It.IsAny<double>()), Times.Exactly(4));
+        
         _categoryServiceMock.Verify(r => r.FindByIdAsync(categoryId), Times.Exactly(3));
+        
         _repositoryMock.Verify(r => r.SaveChangesAsync(), Times.Exactly(2));
     }
 

@@ -9,76 +9,74 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Web
+namespace Web;
+
+[ExcludeFromCodeCoverage]
+public class Startup
 {
-    [ExcludeFromCodeCoverage]
-    public class Startup
+    public Startup(IConfiguration configuration)
     {
-        public Startup(IConfiguration configuration)
+        Configuration = configuration;
+    }
+
+    public IConfiguration Configuration { get; }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
+    {
+        ConfigureService.ConfigureDependenciesService(services);
+        ConfigureRepository.ConfigureDependenciesRepository(services);
+
+        // Authorization settings.  
+        services.AddAuthentication(options =>
         {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+            options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        }).AddCookie(options =>
         {
-            ConfigureService.ConfigureDependenciesService(services);
-            ConfigureRepository.ConfigureDependenciesRepository(services);
-            ConfigureAutoMapper.ConfigureDepencenciesAutoMapper(services);
+            options.LoginPath = new PathString("/Login");
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(5.0);
+        });
 
-            // Authorization settings.  
-            services.AddAuthentication(options =>
-            {
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            }).AddCookie(options =>
-            {
-                options.LoginPath = new PathString("/Login");
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5.0);
-            });
-
-            // Authorization settings.  
-            services.AddMvc().AddRazorPagesOptions(options =>
-            {
-                options.Conventions.AuthorizeFolder("/");
-                options.Conventions.AllowAnonymousToPage("/Login");
-            });
-
-            services.AddControllersWithViews()
-                .AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        // Authorization settings.  
+        services.AddMvc().AddRazorPagesOptions(options =>
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-            app.UseStaticFiles();
+            options.Conventions.AuthorizeFolder("/");
+            options.Conventions.AllowAnonymousToPage("/Login");
+        });
 
-            //Register simple authorization.
-            app.UseAuthentication();
+        services.AddControllersWithViews()
+            .AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+        );
+    }
 
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Login}/{action=Index}");
-            });
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
         }
+        else
+        {
+            app.UseExceptionHandler("/Home/Error");
+        }
+        app.UseStaticFiles();
+
+        //Register simple authorization.
+        app.UseAuthentication();
+
+        app.UseRouting();
+
+        app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Login}/{action=Index}");
+        });
     }
 }

@@ -162,10 +162,12 @@ public class CategoryController : BaseController<CategoryController>
                 return BadRequest(ModelState);
 
             var result = await _service.UpdateAsync(categoryUpdateView.Category);
+            
             if (result == null)
                 return BadRequest(ModelState);
 
             LoggingWarning($"Category {result.Id} updated with success");
+            
             return RedirectToAction("Index", "Category");
         }
         catch (Exception exception)
@@ -188,10 +190,12 @@ public class CategoryController : BaseController<CategoryController>
                 return BadRequest(ModelState);
 
             var result = await _service.DeleteAsync(id);
+            
             if (result.Equals(null))
                 return BadRequest(ModelState);
 
             LoggingWarning($"Category {id} deleted with success");
+            
             return RedirectToAction("Index", "Category");
         }
         catch (Exception exception)

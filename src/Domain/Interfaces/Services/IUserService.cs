@@ -8,7 +8,7 @@ namespace Domain.Interfaces.Services
     public interface IUserService : IBaseService
     {
         Task<UserResultDto> FindByIdAsync(Guid id);
-        UserResultDto CreateAsync(UserCreateDto userCreateDto);
+        Task<UserResultDto> CreateAsync(UserCreateDto userCreateDto);
         Task<UserResultDto> UpdateAsync(UserUpdateDto userUpdateDto);
         Task<bool> DeleteAsync(Guid id);
     }

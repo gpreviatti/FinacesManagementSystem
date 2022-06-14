@@ -11,6 +11,7 @@ using Xunit;
 using Domain.Enums;
 using Domain.Mappers;
 using Domain.Services;
+using System.Threading.Tasks;
 
 namespace Tests.Service;
 
@@ -28,7 +29,7 @@ public class WalletServiceTest : BaseServiceTest
 
     [Fact(DisplayName = "Create wallet type")]
     [Trait("Service", "Wallet")]
-    public void ShouldCreateWallet()
+    public async Task ShouldCreateWallet()
     {
         // Arrange
         var walletCreateDto = new WalletCreateDto()
@@ -48,17 +49,18 @@ public class WalletServiceTest : BaseServiceTest
             .Setup(m => m.CreateAsync(wallet).Result)
             .Returns(wallet);
 
-        var result = _service.CreateAsync(walletCreateDto, _userAdminId);
+        var result = await _service.CreateAsync(walletCreateDto, _userAdminId);
             
-        var resultUserIdNull = _service.CreateAsync(walletCreateDto, It.IsAny<Guid>());
+        var resultUserIdNull = await _service.CreateAsync(walletCreateDto, It.IsAny<Guid>());
 
         walletCreateDto.WalletTypeId = Guid.Empty;
+
         _repository
             .Setup(m => m.CreateAsync(wallet).Result)
             .Returns(wallet);
 
         // Act
-        var resultWalletTypeIdNull = _service.CreateAsync(walletCreateDto, It.IsAny<Guid>());
+        var resultWalletTypeIdNull = await _service.CreateAsync(walletCreateDto, It.IsAny<Guid>());
 
         // Assert
         Assert.NotNull(result);

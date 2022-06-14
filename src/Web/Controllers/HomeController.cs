@@ -30,7 +30,9 @@ namespace Web.Controllers
             try
             {
                 GetClaims();
+                
                 var entrances = await _entraceService.FindAsyncLastFiveEntrancesWithCategories(UserId);
+                
                 return View(entrances);
             }
             catch (Exception exception)
@@ -46,7 +48,9 @@ namespace Web.Controllers
             try
             {
                 GetClaims();
+                
                 var walletIndexDto = await _walletService.WalletsTotalValues(UserId);
+                
                 return Ok(walletIndexDto);
             }
             catch (Exception exception)

@@ -59,7 +59,9 @@ namespace Web.Controllers
             try
             {
                 GetClaims();
+                
                 var result = await _service.SetupEntranceCreateViewModel(UserId);
+                
                 return View(result);
             }
             catch (Exception exception)
@@ -79,10 +81,12 @@ namespace Web.Controllers
                     return BadRequest(ModelState);
 
                 var result = await _service.CreateAsync(entraceCreateViewModel.Entrance);
+                
                 if (result == null)
                     return BadRequest(ModelState);
 
                 LoggingWarning($"Entrance {result.Id} created with success");
+                
                 return RedirectToAction("Index", "Entrance");
             }
             catch (Exception exception)
@@ -98,7 +102,9 @@ namespace Web.Controllers
             try
             {
                 GetClaims();
+                
                 var result = await _service.SetupEntranceUpdateViewModel(UserId, id);
+                
                 return View(result);
             }
             catch (Exception exception)
@@ -122,6 +128,7 @@ namespace Web.Controllers
                     return BadRequest(ModelState);
 
                 LoggingWarning($"Entrance {result.Id} updated with success");
+                
                 return RedirectToAction("Index", "Entrance");
             }
             catch (Exception exception)
@@ -144,6 +151,7 @@ namespace Web.Controllers
                     return BadRequest(ModelState);
 
                 LoggingWarning($"Entrance {id} deleted with success");
+                
                 return RedirectToAction("Index", "Entrance");
             }
             catch (Exception exception)

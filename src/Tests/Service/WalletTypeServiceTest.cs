@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Domain.Dtos.WalletType;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
@@ -26,7 +27,7 @@ namespace Tests.Service
 
         [Fact(DisplayName = "Create wallet type")]
         [Trait("Service", "WalletType")]
-        public void ShouldCreateWalletType()
+        public async Task ShouldCreateWalletType()
         {
             // Arrange
             WalletTypeCreateDto walletTypeCreateDto = new() { Name = _fakerName };
@@ -46,7 +47,7 @@ namespace Tests.Service
                 .ReturnsAsync(wallet);
 
             // Act
-            var result = _service.CreateAsync(walletTypeCreateDto);
+            var result = await _service.CreateAsync(walletTypeCreateDto);
             
             // Assert
             Assert.NotNull(result);

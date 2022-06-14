@@ -61,12 +61,14 @@ namespace Web.Controllers
         private async Task SignInUser(UserResultDto user, bool isPersistent)
         {
             // Initialization.  
-            var claims = new List<Claim>();
+            var claims = new List<Claim>
+            {
+                // Setting
+                new Claim(ClaimTypes.Sid, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name, user.Name)
+            };
 
-            // Setting
-            claims.Add(new Claim(ClaimTypes.Sid, user.Id.ToString()));
-            claims.Add(new Claim(ClaimTypes.Email, user.Email));
-            claims.Add(new Claim(ClaimTypes.Name, user.Name));
             var claimIdentities = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var mainClaim = new ClaimsPrincipal(claimIdentities);
             var authenticationManager = Request.HttpContext;
@@ -111,10 +113,12 @@ namespace Web.Controllers
                     return BadRequest(ModelState);
 
                 var user = await _userService.CreateAsync(userCreateDto);
+
                 if (user == null)
                     return BadRequest(ModelState);
 
                 await SignInUser(user, false);
+                
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception exception)

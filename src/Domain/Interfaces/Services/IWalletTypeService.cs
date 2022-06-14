@@ -9,7 +9,7 @@ public interface IWalletTypeService : IBaseService
 {
     Task<WalletTypeResultDto> FindByIdAsync(Guid id);
     Task<IEnumerable<WalletTypeResultDto>> FindAllAsync();
-    WalletTypeResultDto CreateAsync(WalletTypeCreateDto walletType);
+    Task<WalletTypeResultDto> CreateAsync(WalletTypeCreateDto walletType);
     Task<WalletTypeResultDto> UpdateAsync(WalletTypeUpdateDto walletType);
     Task<bool> DeleteAsync(Guid id);
 }

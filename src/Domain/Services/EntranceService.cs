@@ -134,6 +134,7 @@ public class EntranceService : IEntranceService
             throw new ArgumentException("Any Category was found");
 
         entraceCreateViewModel.EntranceTypes = FindEntranceTypes();
+
         return entraceCreateViewModel;
     }
 
@@ -152,8 +153,8 @@ public class EntranceService : IEntranceService
     public async Task<EntranceResultDto> CreateAsync(EntranceCreateDto entraceCreateDto)
     {
         var updateWalletValue = await _walletService
-
             .UpdateWalletValue(entraceCreateDto.WalletId, entraceCreateDto.Type, entraceCreateDto.Value);
+        
         if (updateWalletValue == null)
             return null;
 
@@ -162,7 +163,8 @@ public class EntranceService : IEntranceService
             return null;
 
         var entrance = entraceCreateDto.Mapper();
-        _ = _repository.CreateAsync(entrance);
+
+        _ = await _repository.CreateAsync(entrance);
 
         return entrance.MapperToResultDto();
     }
@@ -185,12 +187,9 @@ public class EntranceService : IEntranceService
 
         var entrace = entraceUpdateDto.Mapper();
 
-        var savedChanges = await _repository.SaveChangesAsync();
+        _ = await _repository.SaveChangesAsync();
 
-        if (savedChanges > 0)
-            return entrace.MapperToResultDto();
-
-        return null;
+        return entrace.MapperToResultDto();
     }
 
     public async Task<bool> DeleteAsync(Guid id) => await _repository.DeleteAsync(id);

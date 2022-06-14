@@ -1,183 +1,150 @@
 using System;
-using System.Diagnostics;
 using Data.Repositories;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Xunit;
 
-namespace Tests.Data
+namespace Tests.Data;
+
+public class UserDataTest : BaseDataTest
 {
-    public class UserDataTest : BaseDataTest
+    private readonly IUserRepository _repository;
+
+    public UserDataTest()
     {
-        private readonly IUserRepository _repository;
+        _repository = new UserRepository(_context);
+    }
 
-        public UserDataTest()
+    public static User CreateUserEntity()
+    {
+        return new ()
         {
-            _repository = new UserRepository(_context);
-        }
+            Name = Faker.Name.FullName(),
+            Email = Faker.Internet.Email(),
+            Password = "12345678"
+        };
+    }
 
-        public static User CreateUserEntity()
-        {
-            return new ()
-            {
-                Name = Faker.Name.FullName(),
-                Email = Faker.Internet.Email(),
-                Password = "12345678"
-            };
-        }
+    [Fact(DisplayName = "Create User")]
+    [Trait("Data", "User")]
+    public async void ShouldCreateUser()
+    {
+        // Arrange
+        var userEntity = CreateUserEntity();
 
-        [Fact(DisplayName = "Create User")]
-        [Trait("Data", "User")]
-        public async void ShouldCreateUser()
-        {
-            try
-            {
-                var userEntity = CreateUserEntity();
-                var result = await _repository.CreateAsync(userEntity);
+        // Act
+        var result = await _repository.CreateAsync(userEntity);
 
-                Assert.NotNull(result);
-                Assert.False(result.Id == Guid.Empty);
-                Assert.Equal(userEntity.Name, result.Name);
-                Assert.Equal(userEntity.Email, result.Email);
-                Assert.Equal(userEntity.Password, result.Password);
-            }
-            catch (Exception e)
-            {
-                Assert.True(false);
-                Debug.WriteLine(e);
-            }
+        // Assert
+        Assert.NotNull(result);
+        Assert.False(result.Id == Guid.Empty);
+        Assert.Equal(userEntity.Name, result.Name);
+        Assert.Equal(userEntity.Email, result.Email);
+        Assert.Equal(userEntity.Password, result.Password);
 
-        }
+    }
 
-        [Fact(DisplayName = "List Users")]
-        [Trait("Data", "User")]
-        public async void ShouldListUser()
-        {
-            try
-            {
-                var userEntity = CreateUserEntity();
-                await _repository.CreateAsync(userEntity);
+    [Fact(DisplayName = "List Users")]
+    [Trait("Data", "User")]
+    public async void ShouldListUser()
+    {
+        // Arrange
+        var userEntity = CreateUserEntity();
 
-                var result = _repository.FindAllAsync().Result;
+        await _repository.CreateAsync(userEntity);
 
-                Assert.NotNull(result);
-            }
-            catch (Exception e)
-            {
+        // Act
+        var result = await _repository.FindAllAsync();
 
-                Debug.WriteLine(e);
-                Assert.True(false);
-            }
-        }
+        // Assert
+        Assert.NotNull(result);
+    }
 
-        [Fact(DisplayName = "List User by Id")]
-        [Trait("Data", "User")]
-        public async void ShouldListUserById()
-        {
-            try
-            {
-                var userEntity = CreateUserEntity();
-                await _repository.CreateAsync(userEntity);
+    [Fact(DisplayName = "List User by Id")]
+    [Trait("Data", "User")]
+    public async void ShouldListUserById()
+    {
+        // Arrange
+        var userEntity = CreateUserEntity();
 
-                var result = _repository.FindByIdAsync(userEntity.Id).Result;
+        await _repository.CreateAsync(userEntity);
 
-                Assert.NotNull(result);
-                Assert.IsType<User>(result);
-                Assert.Equal(userEntity.Id, result.Id);
-                Assert.Equal(userEntity.Name, result.Name);
-                Assert.Equal(userEntity.Email, result.Email);
-            }
-            catch (Exception e)
-            {
-                Assert.True(false);
-                Debug.WriteLine(e);
-            }
-        }
+        // Act
+        var result = await _repository.FindByIdAsync(userEntity.Id);
 
-        [Fact(DisplayName = "Find User By Login")]
-        [Trait("Data", "User")]
-        public async void ShouldFindUserByLogin()
-        {
-            try
-            {
-                var userEntity = CreateUserEntity();
+        // Assert
+        Assert.NotNull(result);
+        Assert.IsType<User>(result);
+        Assert.Equal(userEntity.Id, result.Id);
+        Assert.Equal(userEntity.Name, result.Name);
+        Assert.Equal(userEntity.Email, result.Email);
+    }
 
-                await _repository.CreateAsync(userEntity);
+    [Fact(DisplayName = "Find User By Login")]
+    [Trait("Data", "User")]
+    public async void ShouldFindUserByLogin()
+    {
+        // Arrange
+        var userEntity = CreateUserEntity();
 
-                var result = await _repository.FindByLogin(userEntity.Email);
+        await _repository.CreateAsync(userEntity);
 
-                Assert.True(result != null);
-                Assert.Equal(userEntity.Email, result.Email);
-            }
-            catch (Exception e)
-            {
-                Assert.True(false);
-                Debug.WriteLine(e);
-            }
-        }
+        // Act
+        var result = await _repository.FindByLogin(userEntity.Email);
 
-        [Fact(DisplayName = "Not Find User By Login")]
-        [Trait("Data", "User")]
-        public async void ShouldNotFindUserByLogin()
-        {
-            try
-            {
-                var userEntity = CreateUserEntity();
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(userEntity.Email, result.Email);
+    }
 
-                await _repository.CreateAsync(userEntity);
+    [Fact(DisplayName = "Not Find User By Login")]
+    [Trait("Data", "User")]
+    public async void ShouldNotFindUserByLogin()
+    {
+        // Arrange
+        var userEntity = CreateUserEntity();
 
-                var result = await _repository.FindByLogin(Faker.Internet.Email());
+        await _repository.CreateAsync(userEntity);
 
-                Assert.True(result == null);
-            }
-            catch (Exception e)
-            {
-                Assert.True(false);
-                Debug.WriteLine(e);
-            }
-        }
+        // Act
+        var result = await _repository.FindByLogin(Faker.Internet.Email());
 
-        [Fact(DisplayName = "Update User")]
-        [Trait("Data", "User")]
-        public async void ShouldUpdateUser()
-        {
-            try
-            {
-                var userEntity = CreateUserEntity();
-                await _repository.CreateAsync(userEntity);
+        // Assert
+        Assert.Null(result);
+    }
 
-                userEntity.Name = Faker.Name.FullName();
-                userEntity.Email = Faker.Internet.Email();
+    [Fact(DisplayName = "Update User")]
+    [Trait("Data", "User")]
+    public async void ShouldUpdateUser()
+    {
+        // Arrange
+        var userEntity = CreateUserEntity();
 
-                var result = await _repository.SaveChangesAsync();
+        await _repository.CreateAsync(userEntity);
 
-                Assert.Equal(1, result);
-            }
-            catch (Exception e)
-            {
-                Assert.True(false);
-                Debug.WriteLine(e);
-            }
-        }
+        userEntity.Name = Faker.Name.FullName();
+        userEntity.Email = Faker.Internet.Email();
 
-        [Fact(DisplayName = "Delete User")]
-        [Trait("Data", "User")]
-        public async void ShouldDeleteUser()
-        {
-            try
-            {
-                var userEntity = CreateUserEntity();
-                await _repository.CreateAsync(userEntity);
+        // Act
+        var result = await _repository.SaveChangesAsync();
 
-                var result = await _repository.DeleteAsync(userEntity.Id);
+        // Assert
+        Assert.Equal(1, result);
+    }
 
-                Assert.True(result);
-            }
-            catch (Exception e)
-            {
-                Assert.True(false);
-                Debug.WriteLine(e);
-            }
-        }
+    [Fact(DisplayName = "Delete User")]
+    [Trait("Data", "User")]
+    public async void ShouldDeleteUser()
+    {
+        // Arrange
+        var userEntity = CreateUserEntity();
+
+        await _repository.CreateAsync(userEntity);
+        
+        // Act
+        var result = await _repository.DeleteAsync(userEntity.Id);
+
+        // Assert
+        Assert.True(result);
     }
 }

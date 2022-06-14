@@ -12,7 +12,7 @@ namespace Domain.Interfaces.Services
         Task<IEnumerable<WalletResultDto>> FindAsyncWalletsUser(Guid userId);
         Task<IEnumerable<Guid>> FindAsyncWalletsUserIds(Guid userId);
         Task<WalletTotalValuesDto> WalletsTotalValues(Guid userId);
-        WalletResultDto CreateAsync(WalletCreateDto walletCreateDto, Guid userId);
+        Task<WalletResultDto> CreateAsync(WalletCreateDto walletCreateDto, Guid userId);
         Task<WalletResultDto> UpdateAsync(WalletUpdateDto walletUpdateDto);
         Task<WalletResultDto> UpdateWalletValue(Guid id, int type, double value);
         Task<bool> DeleteAsync(Guid id);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Domain.Dtos.User;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
@@ -25,7 +26,7 @@ public class UserServiceTest : BaseServiceTest
 
     [Fact(DisplayName = "Create user")]
     [Trait("Service", "User")]
-    public void ShouldCreateUser()
+    public async Task ShouldCreateUser()
     {
         // Arrange
         var name = Faker.Name.FullName();
@@ -44,7 +45,7 @@ public class UserServiceTest : BaseServiceTest
             .ReturnsAsync(It.IsAny<User>());
 
         // Act
-        var result = _service.CreateAsync(userCreateDto);
+        var result = await _service.CreateAsync(userCreateDto);
 
         // Assert
         Assert.NotNull(result);

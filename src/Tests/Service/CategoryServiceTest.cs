@@ -9,6 +9,7 @@ using Moq;
 using Xunit;
 using Domain.Mappers;
 using Domain.Services;
+using System.Threading.Tasks;
 
 namespace Tests.Service;
 
@@ -24,7 +25,7 @@ public class CategoryServiceTest : BaseServiceTest
 
     [Fact(DisplayName = "Create category")]
     [Trait("Service", "Category")]
-    public void ShouldCreateCategory()
+    public async Task ShouldCreateCategory()
     {
         // Arrange
         var mainCategoryGuid = Guid.NewGuid();
@@ -47,7 +48,7 @@ public class CategoryServiceTest : BaseServiceTest
         _repositoryMock.Setup(r => r.CreateAsync(category).Result).Returns(categoryResult);
         
         // Act
-        var result = _service.CreateAsync(categoryCreateDto, _userAdminId);
+        var result = await _service.CreateAsync(categoryCreateDto, _userAdminId);
 
         // Assert
         Assert.NotNull(result);

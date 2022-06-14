@@ -31,11 +31,11 @@ public class WalletTypeService : IWalletTypeService
         return result.MapperResultDto();
     }
 
-    public WalletTypeResultDto CreateAsync(WalletTypeCreateDto entityCreateDto)
+    public async Task<WalletTypeResultDto> CreateAsync(WalletTypeCreateDto entityCreateDto)
     {
         var entity = entityCreateDto.Mapper();
 
-        _ = _repository.CreateAsync(entity);
+        _ = await _repository.CreateAsync(entity);
 
         return entity.MapperResultDto();
     }
@@ -49,7 +49,7 @@ public class WalletTypeService : IWalletTypeService
 
         var entity = entityUpdateDto.Mapper();
 
-        _ = _repository.SaveChangesAsync();
+        _ = await _repository.SaveChangesAsync();
 
         return entity.MapperResultDto();
     }

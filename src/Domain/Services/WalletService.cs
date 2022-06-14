@@ -69,7 +69,7 @@ public class WalletService : IWalletService
     }
     #endregion
 
-    public WalletResultDto CreateAsync(WalletCreateDto walletCreateDto, Guid userId)
+    public async Task<WalletResultDto> CreateAsync(WalletCreateDto walletCreateDto, Guid userId)
     {
         if (walletCreateDto.WalletTypeId == Guid.Empty)
             return null;
@@ -81,7 +81,7 @@ public class WalletService : IWalletService
 
         entity.UserId = userId;
 
-        _ = _repository.CreateAsync(entity);
+        _ = await _repository.CreateAsync(entity);
 
         return entity.MapperResultDto();
     }

@@ -23,13 +23,13 @@ public class UserService : IUserService
         return result.MapperResultDto();
     }
 
-    public UserResultDto CreateAsync(UserCreateDto userCreateDto)
+    public async Task<UserResultDto> CreateAsync(UserCreateDto userCreateDto)
     {
         var user = userCreateDto.Mapper();
 
         //user.Password = EncryptHelper.HashField(user.Password);
 
-        _ = _repository.CreateAsync(user);
+        await _repository.CreateAsync(user);
 
         return user.MapperResultDto();
     }
@@ -46,7 +46,7 @@ public class UserService : IUserService
 
         var user = userUpdateDto.Mapper();
 
-        _ = _repository.SaveChangesAsync();
+        await _repository.SaveChangesAsync();
 
         return user.MapperResultDto();
     }

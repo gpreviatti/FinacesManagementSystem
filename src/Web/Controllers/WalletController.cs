@@ -27,7 +27,9 @@ namespace Web.Controllers
             try
             {
                 GetClaims();
+                
                 var wallets = await _service.FindAsyncWalletsUser(UserId);
+                
                 return View(wallets);
             }
             catch (Exception exception)
@@ -90,6 +92,7 @@ namespace Web.Controllers
                     Wallet = await _service.FindByIdUpdateAsync(id),
                     WalletTypes = await _walletTypeService.FindAllAsync()
                 };
+
                 return View(walletUpdateViewModel);
             }
             catch (Exception exception)
@@ -109,10 +112,12 @@ namespace Web.Controllers
                     return BadRequest(ModelState);
 
                 var result = await _service.UpdateAsync(walletUpdateViewModel.Wallet);
+                
                 if (result == null)
                     return BadRequest(ModelState);
 
                 LoggingWarning($"Wallet {result.Id} updated with success");
+                
                 return RedirectToAction("Index", "Wallet");
             }
             catch (Exception exception)
@@ -130,10 +135,12 @@ namespace Web.Controllers
                     return BadRequest(ModelState);
 
                 var result = await _service.DeleteAsync(id);
+                
                 if (result.Equals(null))
                     return BadRequest(ModelState);
 
                 LoggingWarning($"Wallet {id} deleted with success");
+                
                 return RedirectToAction("Index", "Wallet");
             }
             catch (Exception exception)
