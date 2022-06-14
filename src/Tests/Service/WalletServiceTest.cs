@@ -16,8 +16,8 @@ namespace Tests.Service;
 
 public class WalletServiceTest : BaseServiceTest
 {
-    private readonly IWalletService _service;
     private readonly Mock<IWalletRepository> _repository;
+    private readonly IWalletService _service;
 
     
     public WalletServiceTest()

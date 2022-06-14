@@ -18,6 +18,7 @@ public class EntranceServiceTest : BaseServiceTest
     private readonly Mock<IEntranceRepository> _repositoryMock;
     private readonly Mock<IWalletService> _walletServiceMock;
     private readonly Mock<ICategoryService> _categoryServiceMock;
+
     private readonly IEntranceService _service;
 
     public EntranceServiceTest()
@@ -196,16 +197,16 @@ public class EntranceServiceTest : BaseServiceTest
 
     //        var listEntranceResultDto = new List<EntranceResultDto>
     //        {
-    //            new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-    //            new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-    //            new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-    //            new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-    //            new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-    //            new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-    //            new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-    //            new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-    //            new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()},
-    //            new EntranceResultDto(){ Id = new Guid(), Description = Faker.Name.FullName()}
+    //            new () { Id = new (), Description = Faker.Name.FullName()},
+    //            new () { Id = new (), Description = Faker.Name.FullName()},
+    //            new () { Id = new (), Description = Faker.Name.FullName()},
+    //            new () { Id = new (), Description = Faker.Name.FullName()},
+    //            new () { Id = new (), Description = Faker.Name.FullName()},
+    //            new () { Id = new (), Description = Faker.Name.FullName()},
+    //            new () { Id = new (), Description = Faker.Name.FullName()},
+    //            new () { Id = new (), Description = Faker.Name.FullName()},
+    //            new () { Id = new (), Description = Faker.Name.FullName()},
+    //            new () { Id = new (), Description = Faker.Name.FullName()}
     //        }.AsQueryable();
 
     //        var datatablesTenRows = new DatatablesModel<EntranceResultDto> 

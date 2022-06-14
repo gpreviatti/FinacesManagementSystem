@@ -160,10 +160,10 @@ public class CategoryServiceTest : BaseServiceTest
     //        // Arrange
     //        var listCategoryResultDto = new List<Category>
     //        {
-    //            new Category { Id = new Guid(), Name = Faker.Name.FullName()},
-    //            new Category { Id = new Guid(), Name = Faker.Name.FullName()},
-    //            new Category { Id = new Guid(), Name = Faker.Name.FullName()},
-    //            new Category { Id = new Guid(), Name = Faker.Name.FullName()}
+    //            new { Id = new (), Name = Faker.Name.FullName()},
+    //            new { Id = new (), Name = Faker.Name.FullName()},
+    //            new { Id = new (), Name = Faker.Name.FullName()},
+    //            new { Id = new (), Name = Faker.Name.FullName()}
     //        }.AsQueryable();
 
     //        var datatablesModel = new DatatablesModel<CategoryResultDto>
@@ -177,10 +177,10 @@ public class CategoryServiceTest : BaseServiceTest
 
     //        var listCategoryResultDtoSearch = new List<Category>
     //        {
-    //            new Category { Id = new Guid(), Name = "Home"},
-    //            new Category { Id = new Guid(), Name = "Salary"},
-    //            new Category { Id = new Guid(), Name = "Gasoline"},
-    //            new Category { Id = new Guid(), Name = _fakerName}
+    //            new { Id = new (), Name = "Home"},
+    //            new { Id = new (), Name = "Salary"},
+    //            new { Id = new (), Name = "Gasoline"},
+    //            new { Id = new (), Name = _fakerName}
     //        }.AsQueryable();
 
     //        var datatablesModelSearch = new DatatablesModel<CategoryResultDto>
@@ -239,10 +239,10 @@ public class CategoryServiceTest : BaseServiceTest
 
     //        var listCategorySortName = new List<Category>
     //        {
-    //            new Category { Id = new Guid(), Name = "Food"},
-    //            new Category { Id = new Guid(), Name = "Salary"},
-    //            new Category { Id = new Guid(), Name = sortName},
-    //            new Category { Id = new Guid(), Name = "Groceries"}
+    //            new { Id = new (), Name = "Food"},
+    //            new { Id = new (), Name = "Salary"},
+    //            new { Id = new (), Name = sortName},
+    //            new { Id = new (), Name = "Groceries"}
     //        }.AsQueryable();
 
     //        // Arrange sort total
@@ -260,22 +260,22 @@ public class CategoryServiceTest : BaseServiceTest
     //        var listCategorySortTotal = new List<Category>
     //        {
     //            new Category {
-    //                Id = new Guid(),
+    //                Id = new (),
     //                Name = "Food",
     //                Entrances = new List<Entrance> { new Entrance { Value = 30 } }
     //            },
     //            new Category {
-    //                Id = new Guid(),
+    //                Id = new (),
     //                Name = "Salary",
     //                Entrances = new List<Entrance> { new Entrance { Value = 10 } }
     //            },
     //            new Category {
-    //                Id = new Guid(),
+    //                Id = new (),
     //                Name = "Education",
     //                Entrances = new List<Entrance> { new Entrance { Value = 10 } }
     //            },
     //            new Category {
-    //                Id = new Guid(),
+    //                Id = new (),
     //                Name = "Groceries",
     //                Entrances = new List<Entrance> { new Entrance { Value = 5 } }
     //            }
@@ -295,22 +295,22 @@ public class CategoryServiceTest : BaseServiceTest
     //        var listCategorySortCreatedAt = new List<Category>
     //        {
     //            new Category {
-    //                Id = new Guid(),
+    //                Id = new (),
     //                Name = "Food",
     //                CreatedAt = DateTime.Now.AddHours(1)
     //            },
     //            new Category {
-    //                Id = new Guid(),
+    //                Id = new (),
     //                Name = "Salary",
     //                CreatedAt = DateTime.Now.AddHours(2)
     //            },
     //            new Category {
-    //                Id = new Guid(),
+    //                Id = new (),
     //                Name = "Education",
     //                CreatedAt = createdAt
     //            },
     //            new Category {
-    //                Id = new Guid(),
+    //                Id = new (),
     //                Name = "Groceries",
     //                CreatedAt = DateTime.Now.AddHours(4)
     //            }
