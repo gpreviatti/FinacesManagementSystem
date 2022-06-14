@@ -10,6 +10,8 @@ namespace Data.Repositories
     {
         public UserRepository(MyContext context) : base(context) { }
 
-        public async Task<User> FindByLogin(string email) => await _dataset.FirstOrDefaultAsync(u => u.Email.Equals(email));
+        public async Task<User> FindByLogin(string email) => await _dataset
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Email.Equals(email));
     }
 }

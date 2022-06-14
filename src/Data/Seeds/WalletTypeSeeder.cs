@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Domain.Entities;
-using Helpers;
+using Domain.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Seeds

@@ -20,6 +20,7 @@ namespace Data.Repositories
             return await Task.Run(() =>
             {
                 return _dataset
+                    .AsNoTracking()
                     .Select(e => new EntranceResultDto
                     {
                         Id = e.Id,

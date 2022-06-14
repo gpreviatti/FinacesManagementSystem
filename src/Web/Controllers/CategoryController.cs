@@ -86,8 +86,10 @@ public class CategoryController : BaseController<CategoryController>
         try
         {
             GetClaims();
-            var categoryCreateViewModel = new CategoryCreateViewModel();
-            categoryCreateViewModel.Categories = await _service.FindAsyncAllCommonAndUserCategories(UserId);
+            var categoryCreateViewModel = new CategoryCreateViewModel
+            {
+                Categories = await _service.FindAsyncAllCommonAndUserCategories(UserId)
+            };
             return View(categoryCreateViewModel);
         }
         catch (Exception exception)
@@ -104,7 +106,7 @@ public class CategoryController : BaseController<CategoryController>
     /// <returns></returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Create(CategoryCreateViewModel categoryCreateViewModel)
+    public ActionResult Create(CategoryCreateViewModel categoryCreateViewModel)
     {
         try
         {
@@ -112,7 +114,9 @@ public class CategoryController : BaseController<CategoryController>
                 return BadRequest(ModelState);
 
             GetClaims();
-            var result = await _service.CreateAsync(categoryCreateViewModel.Category, UserId);
+            
+            var result = _service.CreateAsync(categoryCreateViewModel.Category, UserId);
+            
             if (result == null)
                 return BadRequest(ModelState);
 
@@ -158,10 +162,12 @@ public class CategoryController : BaseController<CategoryController>
                 return BadRequest(ModelState);
 
             var result = await _service.UpdateAsync(categoryUpdateView.Category);
+            
             if (result == null)
                 return BadRequest(ModelState);
 
             LoggingWarning($"Category {result.Id} updated with success");
+            
             return RedirectToAction("Index", "Category");
         }
         catch (Exception exception)
@@ -184,10 +190,12 @@ public class CategoryController : BaseController<CategoryController>
                 return BadRequest(ModelState);
 
             var result = await _service.DeleteAsync(id);
+            
             if (result.Equals(null))
                 return BadRequest(ModelState);
 
             LoggingWarning($"Category {id} deleted with success");
+            
             return RedirectToAction("Index", "Category");
         }
         catch (Exception exception)

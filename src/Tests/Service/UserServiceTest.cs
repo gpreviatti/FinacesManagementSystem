@@ -1,166 +1,150 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Domain.Dtos.User;
+using Domain.Entities;
+using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
+using Domain.Mappers;
 using Moq;
+using Service.Services;
 using Xunit;
 
-namespace Tests.Service
+namespace Tests.Service;
+
+public class UserServiceTest : BaseServiceTest
 {
-    public class UserServiceTest : BaseServiceTest
+    private readonly Mock<IUserRepository> _repositoryMock;
+
+    private readonly IUserService _service;
+
+    public UserServiceTest()
     {
-        private IUserService _service;
-        private Mock<IUserService> _serviceMock;
+        _repositoryMock = new Mock<IUserRepository>();
 
-        public UserServiceTest()
+        _service = new UserService(_repositoryMock.Object);
+    }
+
+    [Fact(DisplayName = "Create user")]
+    [Trait("Service", "User")]
+    public async Task ShouldCreateUser()
+    {
+        // Arrange
+        var name = Faker.Name.FullName();
+        var email = Faker.Internet.Email();
+        var password = "123456789";
+
+        var userCreateDto = new UserCreateDto()
         {
+            Email = email,
+            Name = name,
+            Password = password
+        };
 
-        }
+        _repositoryMock
+            .Setup(m => m.CreateAsync(It.IsAny<User>()))
+            .ReturnsAsync(It.IsAny<User>());
 
-        [Fact(DisplayName = "Create user")]
-        [Trait("Service", "User")]
-        public async void ShouldCreateUser()
+        // Act
+        var result = await _service.CreateAsync(userCreateDto);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(name, result.Name);
+        Assert.Equal(email, result.Email);
+
+        _repositoryMock.Verify(m => m.CreateAsync(It.IsAny<User>()), Times.Once);
+    }
+
+    [Fact(DisplayName = "List user by id")]
+    [Trait("Service", "User")]
+    public async void ShouldListUserById()
+    {
+        // Arrange
+        var user = new User()
         {
-            var name = Faker.Name.FullName();
-            var email = Faker.Internet.Email();
-            var password = "123456789";
+            Id = new Guid(),
+            Email = Faker.Internet.Email(),
+            Name = Faker.Name.FullName(),
+            CreatedAt = DateTime.Now,
+            UpdatedAt = DateTime.Now
+        };
 
-            UserCreateDto userCreateDto = new()
-            {
-                Email = email,
-                Name = name,
-                Password = password
-            };
+        _repositoryMock
+            .Setup(m => m.FindByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(user);
 
-            UserResultDto loginResultDto = new()
-            {
-                Id = Guid.NewGuid(),
-                Email = email,
-                Name = name,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
-            };
-            _serviceMock = new Mock<IUserService>();
-            _serviceMock.Setup(m => m.CreateAsync(userCreateDto)).ReturnsAsync(loginResultDto);
-            _service = _serviceMock.Object;
+        // Act
+        var result = await _service.FindByIdAsync(It.IsAny<Guid>());
 
-            var result = await _service.CreateAsync(userCreateDto);
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(user.Id, result.Id);
+        Assert.Equal(user.Email, result.Email);
+        Assert.Equal(user.CreatedAt, result.CreatedAt);
+        Assert.Equal(user.UpdatedAt, result.UpdatedAt);
+    }
 
-            Assert.NotNull(result);
-            Assert.False(result.Id.Equals(Guid.Empty));
-            Assert.Equal(name, result.Name);
-            Assert.Equal(email, result.Email);
-        }
+    [Fact(DisplayName = "Update user")]
+    [Trait("Service", "User")]
+    public async void ShouldUpdateUser()
+    {
+        // Arrange
+        var name = Faker.Name.FullName();
+        var email = Faker.Internet.Email();
+        var password = "123456789";
 
-        [Fact(DisplayName = "List users")]
-        [Trait("Service", "User")]
-        public async void ShouldListUser()
+        var userUpdateDto = new UserUpdateDto()
         {
-            IEnumerable<UserResultDto> listUserResultDto = new List<UserResultDto>
-            {
-                new UserResultDto(){ Id = new Guid(), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()},
-                new UserResultDto(){ Id = new Guid(), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()},
-                new UserResultDto(){ Id = new Guid(), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()},
-                new UserResultDto(){ Id = new Guid(), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()},
-                new UserResultDto(){ Id = new Guid(), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()},
-                new UserResultDto(){ Id = new Guid(), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()},
-                new UserResultDto(){ Id = new Guid(), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()},
-                new UserResultDto(){ Id = new Guid(), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()},
-                new UserResultDto(){ Id = new Guid(), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()},
-                new UserResultDto(){ Id = new Guid(), Email = Faker.Internet.Email(), Name = Faker.Name.FullName()}
-            };
-            _serviceMock = new Mock<IUserService>();
-            _serviceMock.Setup(m => m.FindAllAsync()).ReturnsAsync(listUserResultDto);
-            _service = _serviceMock.Object;
+            Email = email,
+            Name = name,
+            Password = password
+        };
 
-            var result = await _service.FindAllAsync();
+        var user = userUpdateDto.Mapper();
 
-            Assert.NotNull(result);
-            Assert.True(result.Count() == 10);
-        }
+        _repositoryMock
+            .Setup(m => m.FindByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(user);
 
-        [Fact(DisplayName = "List user by id")]
-        [Trait("Service", "User")]
-        public async void ShouldListUserById()
-        {
-            var userResultDto = new UserResultDto()
-            {
-                Id = new Guid(),
-                Email = Faker.Internet.Email(),
-                Name = Faker.Name.FullName(),
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
-            };
+        _repositoryMock.Setup(m => m.SaveChangesAsync())
+            .ReturnsAsync(1);
 
-            _serviceMock = new Mock<IUserService>();
-            _serviceMock.Setup(m => m.FindByIdAsync(It.IsAny<Guid>())).ReturnsAsync(userResultDto);
-            _service = _serviceMock.Object;
+        // Act
+        var result = await _service.UpdateAsync(userUpdateDto);
 
-            var result = await _service.FindByIdAsync(It.IsAny<Guid>());
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(name, result.Name);
+        Assert.Equal(email, result.Email);
 
-            Assert.NotNull(result);
-            Assert.Equal(userResultDto.Id, result.Id);
-            Assert.Equal(userResultDto.Email, result.Email);
-            Assert.Equal(userResultDto.CreatedAt, result.CreatedAt);
-            Assert.Equal(userResultDto.UpdatedAt, result.UpdatedAt);
-        }
+        _repositoryMock.Verify(m => m.SaveChangesAsync(), Times.Once);
+    }
 
-        [Fact(DisplayName = "Update user")]
-        [Trait("Service", "User")]
-        public async void ShouldUpdateUser()
-        {
-            var name = Faker.Name.FullName();
-            var email = Faker.Internet.Email();
-            var password = "123456789";
+    [Fact(DisplayName = "Delete user")]
+    [Trait("Service", "User")]
+    public async void ShouldDeleteUser()
+    {
+        // Arrange
+        _repositoryMock.Setup(m => m.DeleteAsync(It.IsAny<Guid>())).ReturnsAsync(true);
 
-            UserUpdateDto userUpdateDto = new()
-            {
-                Email = email,
-                Name = name,
-                Password = password
-            };
+        // Act
+        var result = await _service.DeleteAsync(Guid.NewGuid());
 
-            UserResultDto userResultDto = new()
-            {
-                Email = email,
-                Name = name,
-            };
-            _serviceMock = new Mock<IUserService>();
-            _serviceMock.Setup(m => m.UpdateAsync(userUpdateDto)).ReturnsAsync(userResultDto);
-            _service = _serviceMock.Object;
+        // Assert
+        Assert.True(result);
+    }
 
-            var result = await _service.UpdateAsync(userUpdateDto);
+    [Fact(DisplayName = "Not Delete user")]
+    [Trait("Service", "User")]
+    public async void ShouldNotDeleteUser()
+    {
+        // Arrange
+        _repositoryMock.Setup(m => m.DeleteAsync(It.IsAny<Guid>())).ReturnsAsync(false);
 
-            Assert.NotNull(result);
-            Assert.Equal(name, result.Name);
-            Assert.Equal(email, result.Email);
-        }
+        // Act
+        var result = await _service.DeleteAsync(Guid.NewGuid());
 
-        [Fact(DisplayName = "Delete user")]
-        [Trait("Service", "User")]
-        public async void ShouldDeleteUser()
-        {
-            _serviceMock = new Mock<IUserService>();
-            _serviceMock.Setup(m => m.DeleteAsync(It.IsAny<Guid>())).ReturnsAsync(true);
-            _service = _serviceMock.Object;
-
-            var result = await _service.DeleteAsync(Guid.NewGuid());
-
-            Assert.True(result);
-        }
-
-        [Fact(DisplayName = "Not Delete user")]
-        [Trait("Service", "User")]
-        public async void ShouldNotDeleteUser()
-        {
-            _serviceMock = new Mock<IUserService>();
-            _serviceMock.Setup(m => m.DeleteAsync(It.IsAny<Guid>())).ReturnsAsync(false);
-            _service = _serviceMock.Object;
-
-            var result = await _service.DeleteAsync(Guid.NewGuid());
-
-            Assert.False(result);
-        }
+        // Assert
+        Assert.False(result);
     }
 }

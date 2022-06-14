@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Data.Context;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories
 {
@@ -14,6 +15,7 @@ namespace Data.Repositories
         public IQueryable<Category> FindAsyncAllCommonAndUserCategories(Guid userId)
         {
             return _dataset
+                .AsNoTracking()
                 .Select(c => new Category
                 {
                     Id = c.Id,
@@ -33,6 +35,7 @@ namespace Data.Repositories
             return await Task.Run(() =>
             {
                 return _dataset
+                    .AsNoTracking()
                     .Select(c => new Category
                     {
                         Id = c.Id,

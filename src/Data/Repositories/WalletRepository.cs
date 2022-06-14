@@ -17,6 +17,7 @@ namespace Data.Repositories
         public async Task<IEnumerable<Wallet>> FindAsyncWalletsUser(Guid UserId)
         {
             return await _dataset
+                .AsNoTracking()
                 .Where(w => w.UserId == UserId)
                 .OrderBy(w => w.CreatedAt)
                 .ToListAsync();

@@ -1,182 +1,131 @@
 using System;
-using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using Data.Repositories;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Xunit;
 
-namespace Tests.Data
+namespace Tests.Data;
+
+public class CategoryDataTest : BaseDataTest
 {
-    public class CategoryDataTest : BaseDataTest
+    private readonly ICategoryRepository _repository;
+
+    public CategoryDataTest() => _repository = new CategoryRepository(_context);
+
+    public static Category CreateCategoryEntity() => new() { Name = Faker.Name.FullName() };
+
+    [Fact(DisplayName = "Create Category")]
+    [Trait("Data", "Category")]
+    public async Task ShouldCreateCategory()
     {
-        private readonly ICategoryRepository _repository;
+        // Arrange
+        var categoryEntity = CreateCategoryEntity();
 
-        public CategoryDataTest() => _repository = new CategoryRepository(_context);
+        // Act
+        var result = await _repository.CreateAsync(categoryEntity);
 
-        public static Category CreateCategoryEntity() => new() { Name = Faker.Name.FullName() };
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(categoryEntity.Name, result.Name);
+        Assert.False(result.Id == Guid.Empty);
+    }
 
-        [Fact(DisplayName = "Create Category")]
-        [Trait("Data", "Category")]
-        public async void ShouldCreateCategory()
-        {
-            try
-            {
-                // Arrange
-                var categoryEntity = CreateCategoryEntity();
+    [Fact(DisplayName = "List Categorys")]
+    [Trait("Data", "Category")]
+    public async Task ShouldListCategory()
+    {
+        // Arrange
+        var categoryEntity = CreateCategoryEntity();
 
-                // Act
-                var result = await _repository.CreateAsync(categoryEntity);
+        await _repository.CreateAsync(categoryEntity);
 
-                // Assert
-                Assert.NotNull(result);
-                Assert.Equal(categoryEntity.Name, result.Name);
-                Assert.False(result.Id == Guid.Empty);
-            }
-            catch (Exception e)
-            {
-                Assert.True(false);
-                Debug.WriteLine(e);
-            }
-        }
+        // Act
+        var result = await _repository.FindAllAsync();
 
-        [Fact(DisplayName = "List Categorys")]
-        [Trait("Data", "Category")]
-        public async void ShouldListCategory()
-        {
-            try
-            {
-                // Arrange
-                var categoryEntity = CreateCategoryEntity();
-                await _repository.CreateAsync(categoryEntity);
+        // Assert
+        Assert.NotNull(result);
+    }
 
-                // Act
-                var result = await _repository.FindAllAsync();
+    [Fact(DisplayName = "List Category by Id")]
+    [Trait("Data", "Category")]
+    public async Task ShouldListCategoryById()
+    {
+        // Arrange
+        var categoryEntity = CreateCategoryEntity();
 
-                // Assert
-                Assert.NotNull(result);
-            }
-            catch (Exception e)
-            {
-                Assert.True(false);
-                Debug.WriteLine(e);
-            }
-        }
+        await _repository.CreateAsync(categoryEntity);
 
-        [Fact(DisplayName = "List Category by Id")]
-        [Trait("Data", "Category")]
-        public async void ShouldListCategoryById()
-        {
-            try
-            {
-                // Arrange
-                var categoryEntity = CreateCategoryEntity();
-                await _repository.CreateAsync(categoryEntity);
+        // Act
+        var result = await _repository.FindByIdAsync(categoryEntity.Id);
 
-                // Act
-                var result = _repository.FindByIdAsync(categoryEntity.Id).Result;
+        // Assert
+        Assert.NotNull(result);
+        Assert.IsType<Category>(result);
+        Assert.Equal(categoryEntity.Id, result.Id);
+        Assert.Equal(categoryEntity.Name, result.Name);
+    }
 
-                // Assert
-                Assert.NotNull(result);
-                Assert.IsType<Category>(result);
-                Assert.Equal(categoryEntity.Id, result.Id);
-                Assert.Equal(categoryEntity.Name, result.Name);
-            }
-            catch (Exception e)
-            {
-                Assert.True(false);
-                Debug.WriteLine(e);
-            }
-        }
+    [Fact(DisplayName = "List Common User Categories for Datatables")]
+    [Trait("Data", "Category")]
+    public void ShouledFindAsyncAllCommonAndUserCategoriesDatatables()
+    {
+        // Arrange
 
-        [Fact(DisplayName = "List Common User Categories for Datatables")]
-        [Trait("Data", "Category")]
-        public void ShouledFindAsyncAllCommonAndUserCategoriesDatatables()
-        {
-            try
-            {
-                // Arrange
+        // Act
+        var result = _repository.FindAsyncAllCommonAndUserCategories(_testUser01Id);
 
-                // Act
-                var result = _repository.FindAsyncAllCommonAndUserCategories(_testUser01Id);
+        // Assert
+        Assert.NotNull(result);
+        Assert.True(result.Any());
+    }
 
-                // Assert
-            }
-            catch (Exception exception)
-            {
-                Assert.True(false);
-                Debug.WriteLine(exception);
-            }
-        }
+    [Fact(DisplayName = "List name and id User Categories")]
+    [Trait("Data", "Category")]
+    public async Task ShouledFindAsyncNameAndIdUserCategories()
+    {
+        // Arrange
 
-        [Fact(DisplayName = "List name and id User Categories")]
-        [Trait("Data", "Category")]
-        public async void ShouledFindAsyncNameAndIdUserCategories()
-        {
-            try
-            {
-                // Arrange
+        // Act
+        var result = await _repository.FindAsyncNameAndIdUserCategories(_testUser01Id);
 
-                // Act
-                var result = await _repository.FindAsyncNameAndIdUserCategories(_testUser01Id);
+        // Assert
+        Assert.NotNull(result);
+        Assert.True(result.Any());
+    }
 
-                // Assert
-                Assert.NotNull(result);
-                Assert.True(result.Any());
-            }
-            catch (Exception exception)
-            {
-                Assert.True(false);
-                Debug.WriteLine(exception);
-            }
-        }
+    [Fact(DisplayName = "Update Category")]
+    [Trait("Data", "Category")]
+    public async Task ShouldUpdateCategory()
+    {
+        // Arrange
+        var categoryEntity = CreateCategoryEntity();
+        
+        await _repository.CreateAsync(categoryEntity);
 
-        [Fact(DisplayName = "Update Category")]
-        [Trait("Data", "Category")]
-        public async void ShouldUpdateCategory()
-        {
-            try
-            {
-                // Arrange
-                var categoryEntity = CreateCategoryEntity();
-                await _repository.CreateAsync(categoryEntity);
+        // Act
+        categoryEntity.Name = Faker.Name.FullName();
+        var result = await _repository.SaveChangesAsync();
 
-                // Act
-                categoryEntity.Name = Faker.Name.FullName();
-                var result = await _repository.SaveChangesAsync();
+        // Assert
+        Assert.Equal(1, result);
 
-                // Assert
-                Assert.Equal(1, result);
-            }
-            catch (Exception e)
-            {
-                Assert.True(false);
-                Debug.WriteLine(e);
-            }
+    }
 
-        }
+    [Fact(DisplayName = "Delete Category")]
+    [Trait("Data", "Category")]
+    public async Task ShouldDeleteCategory()
+    {
+        // Arrange
+        var categoryEntity = CreateCategoryEntity();
 
-        [Fact(DisplayName = "Delete Category")]
-        [Trait("Data", "Category")]
-        public async void ShouldDeleteCategory()
-        {
-            try
-            {
-                // Arrange
-                var categoryEntity = CreateCategoryEntity();
-                await _repository.CreateAsync(categoryEntity);
+        await _repository.CreateAsync(categoryEntity);
 
-                // Act
-                var result = await _repository.DeleteAsync(categoryEntity.Id);
+        // Act
+        var result = await _repository.DeleteAsync(categoryEntity.Id);
 
-                // Assert
-                Assert.True(result);
-            }
-            catch (Exception e)
-            {
-                Assert.True(false);
-                Debug.WriteLine(e);
-            }
-        }
+        // Assert
+        Assert.True(result);
     }
 }

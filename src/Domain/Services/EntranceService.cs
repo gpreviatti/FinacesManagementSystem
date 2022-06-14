@@ -1,32 +1,29 @@
+﻿using Domain.Dtos.Entrance;
+using Domain.Dtos.EntranceTypeDto;
+using Domain.Enums;
+using Domain.Interfaces.Repositories;
+using Domain.Interfaces.Services;
+using Domain.Mappers;
+using Domain.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using Domain.Dtos.Entrance;
-using Domain.Dtos.EntranceTypeDto;
-using Domain.Entities;
-using Domain.Enums;
-using Domain.Interfaces.Repositories;
-using Domain.Interfaces.Services;
-using Domain.ViewModels;
 
-namespace Service.Services;
+namespace Domain.Services;
 
-public class EntranceService : BaseService, IEntranceService
+public class EntranceService : IEntranceService
 {
     private readonly IEntranceRepository _repository;
     private readonly IWalletService _walletService;
     private readonly ICategoryService _categoryService;
 
     public EntranceService(
-        IMapper mapper,
         IEntranceRepository repository,
         IWalletService walletService,
         ICategoryService categoryService
     )
     {
-        _mapper = mapper;
         _repository = repository;
         _walletService = walletService;
         _categoryService = categoryService;
@@ -36,17 +33,17 @@ public class EntranceService : BaseService, IEntranceService
     public async Task<EntranceResultDto> FindByIdAsync(Guid id)
     {
         var result = await _repository.FindByIdAsync(id);
-        return _mapper.Map<EntranceResultDto>(result);
+        return result.MapperToResultDto();
     }
 
     public async Task<EntranceUpdateDto> FindByIdUpdateAsync(Guid id)
     {
         var result = await _repository.FindByIdAsync(id);
-        return _mapper.Map<EntranceUpdateDto>(result);
+        return result.MapperToUpateDto();
     }
 
     public async Task<IEnumerable<EntranceResultDto>> FindAllWithCategory(
-        string currentSort,  
+        string currentSort,
         string searchString,
         Guid userId
     )
@@ -102,18 +99,19 @@ public class EntranceService : BaseService, IEntranceService
     public async Task<IEnumerable<EntranceResultDto>> FindAsyncLastFiveEntrancesWithCategories(Guid userId)
     {
         var userWalletsIds = await _walletService.FindAsyncWalletsUserIds(userId);
+
         var result = await _repository.FindAllAsyncWithCategory(userWalletsIds.ToList());
-        var lastFiveEntrances = result.Take(5);
-        return _mapper.Map<IEnumerable<EntranceResultDto>>(lastFiveEntrances);
+
+        return result.Take(5);
     }
 
     public List<EntranceTypeResultDto> FindEntranceTypes()
     {
         return new List<EntranceTypeResultDto>
         {
-            new EntranceTypeResultDto() { Value = (int) EntranceType.Income, Name = "Income"},
-            new EntranceTypeResultDto() { Value = (int) EntranceType.Expanse, Name = "Expanse"},
-            new EntranceTypeResultDto() { Value = (int) EntranceType.Transference, Name = "Transference"},
+            new () { Value = (int) EntranceType.Income, Name = "Income"},
+            new () { Value = (int) EntranceType.Expanse, Name = "Expanse"},
+            new () { Value = (int) EntranceType.Transference, Name = "Transference"},
         };
     }
     #endregion
@@ -123,30 +121,32 @@ public class EntranceService : BaseService, IEntranceService
     {
         var entraceCreateViewModel = new EntranceCreateViewModel
         {
-            Entrance = new EntranceCreateDto(),
+            Entrance = new (),
             Wallets = await _walletService.FindAsyncWalletsUser(userId)
         };
+        
         if (entraceCreateViewModel.Wallets == null || !entraceCreateViewModel.Wallets.Any())
             throw new ArgumentException("Any Wallet was found");
 
         entraceCreateViewModel.Categories = await _categoryService.FindAsyncNameAndIdUserCategories(userId);
+
         if (entraceCreateViewModel.Categories == null || !entraceCreateViewModel.Categories.Any())
             throw new ArgumentException("Any Category was found");
 
         entraceCreateViewModel.EntranceTypes = FindEntranceTypes();
+
         return entraceCreateViewModel;
     }
 
     public async Task<EntranceUpdateViewModel> SetupEntranceUpdateViewModel(Guid userId, Guid id)
     {
-        var entraceUpdateViewModel = new EntranceUpdateViewModel
+        return new ()
         {
             Entrance = await FindByIdUpdateAsync(id),
             Wallets = await _walletService.FindAsyncWalletsUser(userId),
             Categories = await _categoryService.FindAsyncAllCommonAndUserCategories(userId),
             EntranceTypes = FindEntranceTypes()
         };
-        return entraceUpdateViewModel;
     }
     #endregion
 
@@ -154,6 +154,7 @@ public class EntranceService : BaseService, IEntranceService
     {
         var updateWalletValue = await _walletService
             .UpdateWalletValue(entraceCreateDto.WalletId, entraceCreateDto.Type, entraceCreateDto.Value);
+        
         if (updateWalletValue == null)
             return null;
 
@@ -161,10 +162,11 @@ public class EntranceService : BaseService, IEntranceService
         if (category == null)
             return null;
 
-        var entrace = _mapper.Map<Entrance>(entraceCreateDto);
+        var entrance = entraceCreateDto.Mapper();
 
-        await _repository.CreateAsync(entrace);
-        return _mapper.Map<EntranceResultDto>(entrace);
+        _ = await _repository.CreateAsync(entrance);
+
+        return entrance.MapperToResultDto();
     }
 
     public async Task<EntranceResultDto> UpdateAsync(EntranceUpdateDto entraceUpdateDto)
@@ -175,6 +177,7 @@ public class EntranceService : BaseService, IEntranceService
             return null;
 
         var updateWalletValue = await _walletService
+
             .UpdateWalletValue(entraceUpdateDto.WalletId, entraceUpdateDto.Type, entraceUpdateDto.Value);
         if (updateWalletValue == null)
             return null;
@@ -182,13 +185,11 @@ public class EntranceService : BaseService, IEntranceService
         if (await _categoryService.FindByIdAsync(entraceUpdateDto.CategoryId) == null)
             return null;
 
-        var entrace = _mapper.Map(entraceUpdateDto, result);
-        var savedChanges = await _repository.SaveChangesAsync();
+        var entrace = entraceUpdateDto.Mapper();
 
-        if (savedChanges > 0)
-            return _mapper.Map<EntranceResultDto>(entrace);
+        _ = await _repository.SaveChangesAsync();
 
-        return null;
+        return entrace.MapperToResultDto();
     }
 
     public async Task<bool> DeleteAsync(Guid id) => await _repository.DeleteAsync(id);
