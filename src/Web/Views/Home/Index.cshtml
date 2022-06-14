@@ -45,19 +45,17 @@
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.Description)</td>
                         <td>
-                            @{
-                                switch (item.Type)
-                                {
-                                    case 1:
-                                        @Html.Label("", "Income", htmlAttributes: new { @class = "badge bg-success" });
-                                        break;
-                                    case 2:
-                                        @Html.Label("", "Expanse", htmlAttributes: new { @class = "badge bg-danger" });
-                                        break;
-                                    default:
-                                        @Html.Label("", "Unknown", htmlAttributes: new { @class = "badge bg-warning" });
-                                        break;
-                                }
+                            @switch (item.Type)
+                            {
+                                case 1:
+                                    @Html.Label("", "Income", htmlAttributes: new { @class = "badge bg-success" });
+                                    break;
+                                case 2:
+                                    @Html.Label("", "Expanse", htmlAttributes: new { @class = "badge bg-danger" });
+                                    break;
+                                default:
+                                    @Html.Label("", "Unknown", htmlAttributes: new { @class = "badge bg-warning" });
+                                    break;
                             }
                         </td>
                         <td>@Html.DisplayFor(modelItem => item.Value)</td>
@@ -76,5 +74,5 @@
 @section Scripts
 {
     @{await Html.RenderPartialAsync("_ChartJsScriptsPartial");}
-    <script src="~/js/Home.js"></script>
+    <script src="~/js/home.js"></script>
 }

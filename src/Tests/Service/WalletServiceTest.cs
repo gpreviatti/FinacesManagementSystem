@@ -149,7 +149,7 @@ public class WalletServiceTest : BaseServiceTest
         };
 
         _repository
-            .Setup(m => m.FindByIdAsync(It.IsAny<Guid>()).Result)
+            .Setup(m => m.FindByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>()).Result)
             .Returns(wallet);
 
         // Act
@@ -186,7 +186,7 @@ public class WalletServiceTest : BaseServiceTest
 
             // Act
             _repository
-            .Setup(m => m.FindByIdAsync(It.IsAny<Guid>()).Result)
+            .Setup(m => m.FindByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>()).Result)
             .Returns(wallet);
             var result = await _service.FindByIdUpdateAsync(It.IsAny<Guid>());
 
@@ -266,12 +266,12 @@ public class WalletServiceTest : BaseServiceTest
         };
 
         _repository
-        .Setup(m => m.FindByIdAsync(It.IsAny<Guid>()).Result);
+        .Setup(m => m.FindByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>()).Result);
 
         var resultWalletNotFound = await _service.UpdateWalletValue(id, (int) type, value);
 
         _repository
-        .Setup(m => m.FindByIdAsync(It.IsAny<Guid>()).Result)
+        .Setup(m => m.FindByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>()).Result)
         .Returns(wallet);
 
         _repository.Setup(r => r.SaveChangesAsync().Result).Returns(1);
@@ -283,7 +283,7 @@ public class WalletServiceTest : BaseServiceTest
         Assert.Null(resultWalletNotFound);
         Assert.NotNull(result);
         Assert.True(result.CurrentValue.Equals(expectedValue));
-        _repository.Verify(r => r.FindByIdAsync(id).Result, Times.Exactly(2));
+        _repository.Verify(r => r.FindByIdAsync(id, It.IsAny<bool>()).Result, Times.Exactly(2));
     }
 
     [Fact(DisplayName = "Update wallet type")]
@@ -304,7 +304,7 @@ public class WalletServiceTest : BaseServiceTest
         var walletUpdateDto = wallet.MapperUpdateDto();
 
         _repository
-            .Setup(m => m.FindByIdAsync(walletId).Result)
+            .Setup(m => m.FindByIdAsync(walletId, It.IsAny<bool>()).Result)
             .Returns(wallet);
 
         _repository

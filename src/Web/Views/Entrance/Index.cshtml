@@ -8,101 +8,100 @@
 
 @Html.ActionLink("Create Entrance", "Create", null, htmlAttributes: new { @class ="btn btn-primary btn-sm btn-block mt-2" })
 
+<div class="mt-3">
 
-@if (Model != null && Model.Count > 0 && Model.Any())
-{
-    <div class="mt-3">
+    <div class="row mt-3 mb-3">
+        @using (Html.BeginForm("Index", "Entrance", FormMethod.Get))
+        {
+            @Html.TextBox("SearchString", ViewBag.SearchString as string)
+            <input type="submit" value="Search" class="btn btn-sm btn-primary"/>
+        }
+    </div>
 
-        <div class="row mt-3 mb-3">
-            @using (Html.BeginForm("Index", "Entrance", FormMethod.Get))
-            {
-                @Html.TextBox("SearchString", ViewBag.SearchString as string)
-                <input type="submit" value="Search" class="btn btn-sm btn-primary"/>
-            }
-        </div>
-
+    @if (Model != null && Model.Count > 0 && Model.Any())
+    {
         <div class="col-lg-12">
 
-                <table class="table">
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.ActionLink("Created Date", "Index", new { currentSort = ViewBag.CreatedAtSort, searchString = ViewBag.SearchString, pageSize = ViewBag.PageSize  })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Description", "Index", new { currentSort = ViewBag.DescriptionSort, searchString = ViewBag.SearchString, pageSize = ViewBag.PageSize  })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Value", "Index", new { currentSort = ViewBag.ValueSort, searchString = ViewBag.SearchString, pageSize = ViewBag.PageSize  })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Category", "Index", new { currentSort = ViewBag.CategorySort, searchString = ViewBag.SearchString, pageSize = ViewBag.PageSize })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Type", "Index", new { currentSort = ViewBag.TypeSort, searchString = ViewBag.SearchString, pageSize = ViewBag.PageSize })
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var entrance in Model)
+                {
                     <tr>
-                        <th>
-                            @Html.ActionLink("Created Date", "Index", new { currentSort = ViewBag.CreatedAtSort, searchString = ViewBag.SearchString, pageSize = ViewBag.PageSize  })
-                        </th>
-                        <th>
-                            @Html.ActionLink("Description", "Index", new { currentSort = ViewBag.DescriptionSort, searchString = ViewBag.SearchString, pageSize = ViewBag.PageSize  })
-                        </th>
-                        <th>
-                            @Html.ActionLink("Value", "Index", new { currentSort = ViewBag.ValueSort, searchString = ViewBag.SearchString, pageSize = ViewBag.PageSize  })
-                        </th>
-                        <th>
-                            @Html.ActionLink("Category", "Index", new { currentSort = ViewBag.CategorySort, searchString = ViewBag.SearchString, pageSize = ViewBag.PageSize })
-                        </th>
-                        <th>
-                            @Html.ActionLink("Type", "Index", new { currentSort = ViewBag.TypeSort, searchString = ViewBag.SearchString, pageSize = ViewBag.PageSize })
-                        </th>
-                        <th></th>
+                        <td>
+                            @Html.DisplayFor(modelItem => entrance.CreatedAt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => entrance.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => entrance.Value)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => entrance.Category.Name)
+                        </td>
+                        <td>
+                            @switch (entrance.Type)
+                            {
+                                case 1:
+                                    <label class="badge bg-success">Income</label>
+                                break;
+                                case 2:
+                                    <label class="badge bg-danger">Expanse</label>
+                                break;
+                                default:
+                                    <label class="badge bg-warning">Unknown</label>
+                                break;
+                            }
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id=entrance.Id}, new { @class= "btn btn-sm btn-primary" })
+                            @Html.ActionLink("Delete", "Delete", new { id=entrance.Id }, new { @class= "btn btn-sm btn-danger" })
+                        </td>
                     </tr>
+                }
 
-                    @foreach (var entrance in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => entrance.CreatedAt)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => entrance.Description)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => entrance.Value)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => entrance.Category.Name)
-                            </td>
-                            <td>
-                                @switch (entrance.Type)
-                                {
-                                    case 1:
-                                        <label class="badge bg-success">Income</label>
-                                    break;
-                                    case 2:
-                                        <label class="badge bg-danger">Expanse</label>
-                                    break;
-                                    default:
-                                        <label class="badge bg-warning">Unknown</label>
-                                    break;
-                                }
-                            </td>
-                            <td>
-                                @Html.ActionLink("Edit", "Edit", new { id=entrance.Id}, new { @class= "btn btn-sm btn-primary" })
-                                @Html.ActionLink("Delete", "Delete", new { id=entrance.Id }, new { @class= "btn btn-sm btn-danger" })
-                            </td>
-                        </tr>
-                    }
+            </table>
 
-                </table>
+            <br/>
 
-                <br/>
-
-                @Html.Label("Showing " + (Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) + " to " + Model.PageCount + " of " + Model.TotalItemCount + " entries")
+            @Html.Label("Showing " + (Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) + " to " + Model.PageCount + " of " + Model.TotalItemCount + " entries")
             
-                <br/>
+            <br/>
 
-                @Html.PagedListPager(
-                    Model, 
-                    page => Url.Action(
-                        "Index",
-                        "Entrance", 
-                        new { page, searchString = ViewBag?.SearchString, pageSize = ViewBag.PageSize }
-                    ), 
-                    new PagedListRenderOptions {                       
-                        DisplayLinkToIndividualPages = true,
-                        DisplayPageCountAndCurrentLocation = false,
-                        MaximumPageNumbersToDisplay = 10,
-                        LiElementClasses = new string[] { "page-item" },
-                        PageClasses = new string[] { "page-link" },
-                    }
-                )
+            @Html.PagedListPager(
+                Model, 
+                page => Url.Action(
+                    "Index",
+                    "Entrance", 
+                    new { page, searchString = ViewBag?.SearchString, pageSize = ViewBag.PageSize }
+                ), 
+                new PagedListRenderOptions {                       
+                    DisplayLinkToIndividualPages = true,
+                    DisplayPageCountAndCurrentLocation = false,
+                    MaximumPageNumbersToDisplay = 10,
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link" },
+                }
+            )
         
         </div>
-    </div>
-}
+    }
+</div>

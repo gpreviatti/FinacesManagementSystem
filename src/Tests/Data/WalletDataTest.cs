@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Data.Repositories;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
@@ -100,6 +101,27 @@ public class WalletDataTest : BaseDataTest
 
         // Assert
         Assert.Equal(1, result);
+    }
+
+    [Theory(DisplayName = "Update Wallet value")]
+    [InlineData(100)]
+    [Trait("Data", "Wallet")]
+    public async Task ShouldUpdateWalletValue(int value)
+    {
+        // Arrange
+        var walletEntity = CreateWalletEntity();
+
+        await _repository.CreateAsync(walletEntity);
+
+        walletEntity.UpdateValue(1, value);
+
+        // Act
+        await _repository.SaveChangesAsync();
+
+        var wallet = await _repository.FindByIdAsync(walletEntity.Id);
+
+        // Assert
+        Assert.Equal(walletEntity.CurrentValue, wallet.CurrentValue);
     }
 
     [Fact(DisplayName = "Delete Wallet")]

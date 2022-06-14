@@ -98,7 +98,7 @@ namespace Tests.Service
             };
 
             _repositoryMock
-                .Setup(m => m.FindByIdAsync(It.IsAny<Guid>()))
+                .Setup(m => m.FindByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>()))
                 .ReturnsAsync(walletType);
 
             // Act
@@ -126,7 +126,7 @@ namespace Tests.Service
             var walletType = walletTypeUpdateDto.Mapper();
 
             _repositoryMock
-                .Setup(m => m.FindByIdAsync(It.IsAny<Guid>()))
+                .Setup(m => m.FindByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>()))
                 .ReturnsAsync(walletType);
 
             _repositoryMock

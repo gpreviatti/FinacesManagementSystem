@@ -70,7 +70,7 @@ public class UserServiceTest : BaseServiceTest
         };
 
         _repositoryMock
-            .Setup(m => m.FindByIdAsync(It.IsAny<Guid>()))
+            .Setup(m => m.FindByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>()))
             .ReturnsAsync(user);
 
         // Act
@@ -103,7 +103,7 @@ public class UserServiceTest : BaseServiceTest
         var user = userUpdateDto.Mapper();
 
         _repositoryMock
-            .Setup(m => m.FindByIdAsync(It.IsAny<Guid>()))
+            .Setup(m => m.FindByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>()))
             .ReturnsAsync(user);
 
         _repositoryMock.Setup(m => m.SaveChangesAsync())

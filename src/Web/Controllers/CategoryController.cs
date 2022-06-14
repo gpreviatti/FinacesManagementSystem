@@ -86,6 +86,7 @@ public class CategoryController : BaseController<CategoryController>
         try
         {
             GetClaims();
+
             var categoryCreateViewModel = new CategoryCreateViewModel
             {
                 Categories = await _service.FindAsyncAllCommonAndUserCategories(UserId)

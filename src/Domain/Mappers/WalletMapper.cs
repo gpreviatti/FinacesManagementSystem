@@ -62,6 +62,7 @@ public static class WalletMapper
             WalletTypeId = dto.WalletTypeId,
             Name = dto.Name,
             Description = dto.Description,
+            CurrentValue = dto.CurrentValue,
             CloseDate = dto.CloseDate,
             DueDate = dto.DueDate
         };
