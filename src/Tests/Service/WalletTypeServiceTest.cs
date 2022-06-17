@@ -130,7 +130,7 @@ namespace Tests.Service
                 .ReturnsAsync(walletType);
 
             _repositoryMock
-                .Setup(m => m.SaveChangesAsync())
+                .Setup(m => m.UpdateAsync(It.IsAny<WalletType>()))
                 .ReturnsAsync(1);
 
             // Act

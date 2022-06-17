@@ -308,8 +308,8 @@ public class WalletServiceTest : BaseServiceTest
             .Returns(wallet);
 
         _repository
-            .Setup(m => m.SaveChangesAsync().Result)
-            .Returns(1);
+            .Setup(m => m.UpdateAsync(It.IsAny<Wallet>()))
+            .ReturnsAsync(1);
         
         // Act
         var result = await _service.UpdateAsync(walletUpdateDto);

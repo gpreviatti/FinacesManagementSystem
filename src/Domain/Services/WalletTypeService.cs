@@ -49,7 +49,7 @@ public class WalletTypeService : IWalletTypeService
 
         var entity = entityUpdateDto.Mapper();
 
-        _ = await _repository.SaveChangesAsync();
+        _ = await _repository.UpdateAsync(entity);
 
         return entity.MapperResultDto();
     }

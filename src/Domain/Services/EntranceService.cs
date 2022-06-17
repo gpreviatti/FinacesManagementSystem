@@ -189,7 +189,7 @@ public class EntranceService : IEntranceService
 
         var entrace = entraceUpdateDto.Mapper();
 
-        _ = await _repository.SaveChangesAsync();
+        _ = await _repository.UpdateAsync(entrace);
 
         return entrace.MapperToResultDto();
     }

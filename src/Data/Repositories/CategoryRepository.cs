@@ -21,6 +21,7 @@ public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
                 Id = c.Id,
                 Name = c.Name,
                 UserId = c.UserId,
+                CategoryId = c.CategoryId,
                 CreatedAt = c.CreatedAt,
                 Entrances = c.Entrances
                     .Where(e => e.Wallet.UserId == userId)

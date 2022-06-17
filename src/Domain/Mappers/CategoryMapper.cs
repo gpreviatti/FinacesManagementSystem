@@ -32,12 +32,16 @@ public static class CategoryMapper
     }
 
 
-    public static IEnumerable<CategoryResultDto> MapperToResultDto(this IEnumerable<Category> entity)
+    public static IEnumerable<CategoryResultDto> MapperToResultDto(this IEnumerable<Category> entities)
     {
-        if (entity == null | !entity.Any())
-            return new List<CategoryResultDto>();
+        var resultDto = new List<CategoryResultDto>();
+        if (entities == null | !entities.Any())
+            return resultDto;
 
-        return entity.Select(e => e.MapperToResultDto());
+        foreach (var entity in entities)
+            resultDto.Add(entity.MapperToResultDto());
+
+        return resultDto;
     }
 
     public static CategoryUpdateDto MapperToUpdateDto(this Category entity)

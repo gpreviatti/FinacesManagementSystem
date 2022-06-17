@@ -95,7 +95,9 @@ public class WalletService : IWalletService
 
         var entity = walletUpdateDto.Mapper();
 
-        _ = await _repository.SaveChangesAsync();
+        entity.UserId = result.UserId;
+
+        _ = await _repository.UpdateAsync(entity);
 
         return entity.MapperResultDto();
     }

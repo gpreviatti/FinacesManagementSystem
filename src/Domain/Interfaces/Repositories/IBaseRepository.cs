@@ -8,6 +8,7 @@ namespace Domain.Interfaces.Repositories
     public interface IBaseRepository<T> where T : Entity
     {
         Task<T> CreateAsync(T entity);
+        Task<int> UpdateAsync(T entity);
         Task<bool> DeleteAsync(Guid id);
         Task<T> FindByIdAsync(Guid id, bool tracking = false);
         Task<IEnumerable<T>> FindAllAsync();
