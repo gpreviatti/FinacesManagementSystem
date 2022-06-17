@@ -12,13 +12,13 @@ public static class ConfigureService
     public static void ConfigureDependenciesService(IServiceCollection service)
     {   
         // Domain Services
-        service.AddTransient<IWalletTypeService, WalletTypeService>();
-        service.AddTransient<IWalletService, WalletService>();
-        service.AddTransient<ICategoryService, CategoryService>();
-        service.AddTransient<IEntranceService, EntranceService>();
+        service.AddScoped<IWalletTypeService, WalletTypeService>();
+        service.AddScoped<IWalletService, WalletService>();
+        service.AddScoped<ICategoryService, CategoryService>();
+        service.AddScoped<IEntranceService, EntranceService>();
 
         // Application Services
-        service.AddTransient<ILoginService, LoginService>();
-        service.AddTransient<IUserService, UserService>();
+        service.AddScoped<ILoginService, LoginService>();
+        service.AddScoped<IUserService, UserService>();
     }
 }

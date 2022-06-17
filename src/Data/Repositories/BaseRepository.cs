@@ -31,6 +31,15 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : Entity
         return entity;
     }
 
+    public async Task<int> UpdateAsync(T entity)
+    {
+        _context.ChangeTracker.Clear();
+
+        _ = _dataset.Update(entity);
+
+        return await SaveChangesAsync();
+    }
+
     public async Task<T> FindByIdAsync(Guid id, bool tracking = false) {
         var result = _dataset;
 
@@ -38,7 +47,7 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : Entity
             result.AsNoTracking();
 
         return await result
-            .SingleOrDefaultAsync(p => p.Id.Equals(id));
+            .FirstOrDefaultAsync(p => p.Id.Equals(id));
     }
 
 

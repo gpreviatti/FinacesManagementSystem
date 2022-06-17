@@ -48,7 +48,7 @@ public class CategoryController : BaseController<CategoryController>
 
         GetClaims();
 
-        var categories = _service.FindAllAndUserCategories(
+        var categories = _service.FindUserCategories(
             currentSort,
             searchString,
             UserId
@@ -70,7 +70,7 @@ public class CategoryController : BaseController<CategoryController>
         {
             GetClaims();
 
-            var categories = await _service.FindAllAndUserCategories("", "", UserId);
+            var categories = await _service.FindUserCategories("", "", UserId);
 
             return Ok(categories);
         }
@@ -107,7 +107,7 @@ public class CategoryController : BaseController<CategoryController>
     /// <returns></returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Create(CategoryCreateViewModel categoryCreateViewModel)
+    public async Task<ActionResult> Create(CategoryCreateViewModel categoryCreateViewModel)
     {
         try
         {
@@ -116,7 +116,7 @@ public class CategoryController : BaseController<CategoryController>
 
             GetClaims();
             
-            var result = _service.CreateAsync(categoryCreateViewModel.Category, UserId);
+            var result = await _service.CreateAsync(categoryCreateViewModel.Category, UserId);
             
             if (result == null)
                 return BadRequest(ModelState);
@@ -137,7 +137,9 @@ public class CategoryController : BaseController<CategoryController>
         try
         {
             GetClaims();
+
             var categoryUpdateViewModel = await _service.SetupCategoryUpdateViewModel(id, UserId);
+            
             return View(categoryUpdateViewModel);
         }
         catch (Exception exception)
@@ -150,12 +152,11 @@ public class CategoryController : BaseController<CategoryController>
     /// <summary>
     /// Update a category
     /// </summary>
-    /// <param name="id"></param>
     /// <param name="categoryUpdateView"></param>
     /// <returns></returns>
     [HttpPost("Categories/Edit/{id}")]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit(Guid id, CategoryUpdateViewModel categoryUpdateView)
+    public async Task<ActionResult> Edit(CategoryUpdateViewModel categoryUpdateView)
     {
         try
         {

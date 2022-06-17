@@ -24,12 +24,17 @@ public static class EntranceMapper
         };
     }
 
-    public static IEnumerable<EntranceResultDto> MapperToResultDto(this IEnumerable<Entrance> entity)
+    public static IEnumerable<EntranceResultDto> MapperToResultDto(this IEnumerable<Entrance> entities)
     {
-        if (entity == null || !entity.Any())
-            return new List<EntranceResultDto>();
+        var resultDto = new List<EntranceResultDto>();
+        
+        if (entities == null || !entities.Any())
+            return resultDto;
 
-        return entity.Select(x => x.MapperToResultDto());
+        foreach (var entity in entities)
+            resultDto.Add(entity.MapperToResultDto());
+
+        return resultDto;
     }
 
     public static EntranceUpdateDto MapperToUpateDto(this Entrance entity)

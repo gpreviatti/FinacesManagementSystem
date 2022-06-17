@@ -21,7 +21,7 @@ public class CategoryService : ICategoryService
 
     public async Task<CategoryResultDto> CreateAsync(CategoryCreateDto entityCreateDto, Guid userId)
     {
-        if (entityCreateDto.CategoryId == Guid.Empty || userId == default(Guid))
+        if (entityCreateDto.CategoryId == Guid.Empty || userId == default)
             throw new ArgumentException("Main Category or User not found");
 
         entityCreateDto.UserId = userId;
@@ -35,16 +35,14 @@ public class CategoryService : ICategoryService
 
     public async Task<CategoryResultDto> UpdateAsync(CategoryUpdateDto entityUpdateDto)
     {
-        var result = await _repository.FindByIdAsync(entityUpdateDto.Id);
-
-        if (result == null)
+        if (await _repository.FindByIdAsync(entityUpdateDto.Id, true) == null)
             return null;
 
-        entityUpdateDto.Mapper();
+        var entity = entityUpdateDto.Mapper();
 
-        _ = await _repository.SaveChangesAsync();
+        _ = await _repository.UpdateAsync(entity);
 
-        return result.MapperToResultDto();
+        return entity.MapperToResultDto();
     }
 
     public async Task<bool> DeleteAsync(Guid id) => await _repository.DeleteAsync(id);
@@ -94,7 +92,7 @@ public class CategoryService : ICategoryService
     /// Return common categories and users categories
     /// </summary>
     /// <returns></returns>
-    public async Task<IEnumerable<CategoryResultDto>> FindAllAndUserCategories(
+    public async Task<IEnumerable<CategoryResultDto>> FindUserCategories(
         string currentSort,
         string searchString,
         Guid userId
@@ -111,11 +109,11 @@ public class CategoryService : ICategoryService
 
         var categoriesData = categories.MapperToResultDto();
 
-        foreach (var category in categoriesData)
-            category.Total = category.Entrances.Select(c => c.Value).Sum();
-
         if (!string.IsNullOrEmpty(currentSort))
             categoriesData = SortCategories(currentSort, categoriesData);
+
+        foreach (var category in categoriesData)
+            category.Total = category.Entrances.Sum(e => e.Value);
 
         return categoriesData;
     }

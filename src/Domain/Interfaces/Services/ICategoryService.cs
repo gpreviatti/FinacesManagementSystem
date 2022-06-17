@@ -12,7 +12,7 @@ public interface ICategoryService : IBaseService
     Task<CategoryUpdateDto> FindByIdUpdateAsync(Guid id);
     Task<IEnumerable<CategoryResultDto>> FindAsyncNameAndIdUserCategories(Guid userId);
     Task<IEnumerable<CategoryResultDto>> FindAsyncAllCommonAndUserCategories(Guid userId);
-    Task<IEnumerable<CategoryResultDto>> FindAllAndUserCategories(string currentSort, string searchString, Guid userId);
+    Task<IEnumerable<CategoryResultDto>> FindUserCategories(string currentSort, string searchString, Guid userId);
     Task<CategoryUpdateViewModel> SetupCategoryUpdateViewModel(Guid id, Guid userId);
     Task<CategoryResultDto> CreateAsync(CategoryCreateDto entityCreateDto, Guid userId);
     Task<CategoryResultDto> UpdateAsync(CategoryUpdateDto entityUpdateDto);
