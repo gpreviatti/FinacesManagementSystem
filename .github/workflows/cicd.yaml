@@ -33,8 +33,7 @@ jobs:
 
           # Optional command arguments to 'dotnet test'
           dotnetTestArguments: |
-              --filter AutoMapper ${{ env.SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover &&
-                dotnet test --filter Controller ${{ env.SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover &&
+              --filter Controller ${{ env.SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover &&
                 dotnet test --filter Service ${{ env.SOLUTION_PATH }} --configuration Release --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
           # Optional extra command arguments the the SonarScanner 'begin' command
