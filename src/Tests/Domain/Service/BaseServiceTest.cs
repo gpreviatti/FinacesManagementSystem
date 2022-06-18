@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tests.Service;
+namespace Tests.Domain.Service;
 
 public abstract class BaseServiceTest : BaseTest
 {

@@ -11,7 +11,7 @@ using Domain.Mappers;
 using Domain.Services;
 using System.Threading.Tasks;
 
-namespace Tests.Service;
+namespace Tests.Domain.Service;
 
 public class CategoryServiceTest : BaseServiceTest
 {

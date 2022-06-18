@@ -12,7 +12,7 @@ using Domain.Services;
 using Moq;
 using Xunit;
 
-namespace Tests.Service;
+namespace Tests.Domain.Service;
 public class EntranceServiceTest : BaseServiceTest
 {
     private readonly Mock<IEntranceRepository> _repositoryMock;

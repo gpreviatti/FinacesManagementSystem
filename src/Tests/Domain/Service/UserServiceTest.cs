@@ -9,7 +9,7 @@ using Moq;
 using Service.Services;
 using Xunit;
 
-namespace Tests.Service;
+namespace Tests.Domain.Service;
 
 public class UserServiceTest : BaseServiceTest
 {
