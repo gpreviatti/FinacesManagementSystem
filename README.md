@@ -6,7 +6,6 @@
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=gpreviatti_FinancesManagementSystem&metric=bugs)](https://sonarcloud.io/dashboard?id=gpreviatti_FinancesManagementSystem)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=gpreviatti_FinancesManagementSystem&metric=code_smells)](https://sonarcloud.io/dashboard?id=gpreviatti_FinancesManagementSystem)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=gpreviatti_FinancesManagementSystem&metric=coverage)](https://sonarcloud.io/dashboard?id=gpreviatti_FinancesManagementSystem)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=gpreviatti_FinancesManagementSystem&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=gpreviatti_FinancesManagementSystem)
 
 This is a simple software to management your finances, I use concepts like:
 
