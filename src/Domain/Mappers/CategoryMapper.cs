@@ -27,7 +27,7 @@ public static class CategoryMapper
             CategoryId = entity.CategoryId,
             CreatedAt = entity.CreatedAt,
             UpdatedAt = entity.UpdatedAt,
-            Entrances = entity.Entrances.MapperToResultDto()
+            Total = entity.GetTotalValues()
         };
     }
 

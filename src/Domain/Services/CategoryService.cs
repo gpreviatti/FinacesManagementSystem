@@ -112,9 +112,6 @@ public class CategoryService : ICategoryService
         if (!string.IsNullOrEmpty(currentSort))
             categoriesData = SortCategories(currentSort, categoriesData);
 
-        foreach (var category in categoriesData)
-            category.Total = category.Entrances.Sum(e => e.Value);
-
         return categoriesData;
     }
 

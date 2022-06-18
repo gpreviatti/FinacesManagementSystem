@@ -15,4 +15,11 @@ public class Category : Entity
     public Category CustomCategory { get; set; }
 
     public IEnumerable<Entrance> Entrances { get; set; }
+
+    public double GetTotalValues() {
+        if (Entrances == null || !Entrances.Any())
+            return 0.0;
+
+        return Entrances.Sum(e => e.Value);
+    }
 }
