@@ -46,3 +46,15 @@ html {
   white-space: nowrap;
   line-height: 60px;
 }
+
+.form-control {
+    background-color: #404040 !important;
+    border-color: #404040 !important;
+    color: white !important;
+}
+
+.bg-primary, .btn-primary {
+    background-color: #000 !important;
+    border-color: #000 !important;
+    color: white !important;
+}
