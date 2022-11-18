@@ -11,7 +11,7 @@ public class MyContext : DbContext
     {   
         // Every time that had a new migration in the project,
         // this command will be updated your database
-        Database.Migrate();
+        // Database.Migrate();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

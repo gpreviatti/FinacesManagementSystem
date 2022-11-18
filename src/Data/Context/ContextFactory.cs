@@ -11,8 +11,7 @@ public class ContextFactory : IDesignTimeDbContextFactory<MyContext>
     {
         var builder = new DbContextOptionsBuilder<MyContext>();
         
-        builder
-            .UseNpgsql("Host=localhost;Port=5432;Database=FinancesManagementSystem;User ID=postgres;Password=admin");
+        builder.UseInMemoryDatabase("FinancesManagementSystem");
 
         return new MyContext(builder.Options);
     }
