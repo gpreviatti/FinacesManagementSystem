@@ -1,7 +1,6 @@
 # :moneybag: Finances Management System
 
 [![CI-CD](https://github.com/gpreviatti/FinancesManagementSystem/actions/workflows/cicd.yaml/badge.svg?branch=main)](https://github.com/gpreviatti/FinancesManagementSystem/actions/workflows/cicd.yaml)
-[![Heroku App Status](http://heroku-shields.herokuapp.com/finances-management-system)](https://finances-management-system.herokuapp.com)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gpreviatti_FinancesManagementSystem&metric=alert_status)](https://sonarcloud.io/dashboard?id=gpreviatti_FinancesManagementSystem)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=gpreviatti_FinancesManagementSystem&metric=coverage)](https://sonarcloud.io/dashboard?id=gpreviatti_FinancesManagementSystem)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=gpreviatti_FinancesManagementSystem&metric=code_smells)](https://sonarcloud.io/dashboard?id=gpreviatti_FinancesManagementSystem)
@@ -19,17 +18,10 @@ If you have any doubt or suggestion let me know or open an issue on project repo
 ## :computer: Technologies
 
 - Razor Pages
-
 - .Net (6.0.0)
-
 - Entity Framework Core
-
 - XUnit
-
 - AutoMapper
-
-- Postgres
-
 - Docker
 
 ## :runner: How to run locally
