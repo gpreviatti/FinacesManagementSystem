@@ -22,7 +22,7 @@ namespace CrossCutting.DependencyInjection
 
             // Connection Configs
             service.AddDbContext<MyContext>(
-                options => options.UseInMemoryDatabase("FinancesManagementSystem")
+                options => options.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION"))
             );
         }
     }

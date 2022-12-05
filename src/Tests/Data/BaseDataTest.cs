@@ -21,7 +21,7 @@ public abstract class BaseDataTest : BaseTest
         var serviceCollection = new ServiceCollection();
 
         serviceCollection.AddDbContext<MyContext>(
-            options => options.UseInMemoryDatabase("FinancesManagementSystem")
+             options => options.UseNpgsql("Host=localhost;Port=5432;Database=FinancesManagementSystem;User ID=postgres;Password=admin")
         );
 
         var serviceProvider = serviceCollection.BuildServiceProvider();
