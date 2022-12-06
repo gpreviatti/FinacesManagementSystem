@@ -17,9 +17,9 @@ public class WalletRepository : BaseRepository<Wallet>, IWalletRepository
     public async Task<IEnumerable<Wallet>> FindAsyncWalletsUser(Guid UserId)
     {
         return await _dataset
-            .AsNoTracking()
             .Where(w => w.UserId == UserId)
-            .OrderBy(w => w.CreatedAt)
+            .OrderByDescending(w => w.CurrentValue)
+            .AsNoTracking()
             .ToListAsync();
     }
 
@@ -35,6 +35,7 @@ public class WalletRepository : BaseRepository<Wallet>, IWalletRepository
                 TotalIncomes = w.Entrances.Where(e => e.Type.Equals(1)).Sum(e => e.Value),
                 TotalExpanses = w.Entrances.Where(e => e.Type.Equals(2)).Sum(e => e.Value),
             })
+            .OrderByDescending(w => w.CurrentValue)
             .AsNoTracking()
             .ToListAsync();
     }

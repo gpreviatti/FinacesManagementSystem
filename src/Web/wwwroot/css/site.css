@@ -4,11 +4,6 @@
   word-break: break-all;
 }
 
-a {
-  text-decoration: none!important;
-  color: #e5e5e5
-}
-
 html {
   font-size: 14px;
 }
@@ -16,13 +11,6 @@ html {
   html {
     font-size: 16px;
   }
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
@@ -45,10 +33,4 @@ html {
   width: 100%;
   white-space: nowrap;
   line-height: 60px;
-}
-
-.form-control {
-    background-color: #404040 !important;
-    border-color: #404040 !important;
-    color: white !important;
 }
